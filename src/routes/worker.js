@@ -347,6 +347,7 @@ module.exports.myDownloadHandler = (req, res) => {
     // 더블클릭 가능한 .cmd (Windows) — 같은 폴더의 xcipe-worker.js 실행
     const cmdContent = [
       '@echo off',
+      'chcp 65001 >nul',
       'REM xcipe-worker auto-start (' + row.email + ')',
       'REM 이 파일을 더블클릭하면 워커가 가동됩니다.',
       'title xcipe-worker - ' + row.email,
@@ -371,6 +372,7 @@ module.exports.myDownloadHandler = (req, res) => {
     //   admin 권한 불필요 — 사용자 본인 startup 폴더만 사용
     const installContent = [
       '@echo off',
+      'chcp 65001 >nul',
       'REM xcipe-worker 부팅 시 자동 실행 등록 (1회 실행)',
       'title xcipe-worker install',
       'echo ===================================================',
@@ -402,6 +404,7 @@ module.exports.myDownloadHandler = (req, res) => {
 
     const uninstallContent = [
       '@echo off',
+      'chcp 65001 >nul',
       'REM xcipe-worker 자동 실행 등록 해제',
       'set "DST=%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\xcipe-worker.cmd"',
       'if exist "%DST%" (',
