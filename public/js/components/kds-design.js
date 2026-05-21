@@ -263,9 +263,15 @@ const KdsDesignPage = {
   },
 
   openKdsPreview() {
-    // 새 탭으로 KDS preview 열기 (팝업 features 옵션 제거 — 브라우저가 새 탭 처리)
+    // v29: 클라우드 배포 환경에서는 /kds-bridge/preview 로 proxy (Railway 단일 PORT).
+    //   로컬 운영(npm start)에서는 그대로 localhost:3939 직접 접근.
+    //   현재 페이지가 클라우드이면 same-origin /kds-bridge/preview 사용.
     try {
-      const w = window.open('http://localhost:3939/preview', '_blank');
+      const isLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)/.test(window.location.origin);
+      const url = isLocalhost
+        ? 'http://localhost:3939/preview'
+        : `${window.location.origin}/kds-bridge/preview`;
+      const w = window.open(url, '_blank');
       if (w) w.focus();
     } catch {}
   },
