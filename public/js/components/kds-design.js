@@ -375,10 +375,24 @@ const KdsDesignPage = {
       const r = await API.post('/kds-design/chat', { sessionId: this._sessionId, message });
       this._sessionId = r.sessionId;
       if (r.sessionId) localStorage.setItem(this._LS_SESSION, r.sessionId);
-      thinkingEl.remove();
-      this._appendMessage('assistant', r.assistant || '(응답 없음)');
-      // 화면에 user + assistant 2개 추가됨. 백엔드 session.messages 도 동일하게 갱신됐을 것이므로
-      // 폴링이 같은 메시지를 중복 표시 하지 않도록 known count 즉시 동기화.
+
+      // v30: 비동기 응답 — invocationId 받으면 polling 으로 결과 대기
+      if (r.invocationId && r.status === 'pending') {
+        const result = await this._pollChatInvocation(r.invocationId, thinkingEl);
+        if (result && result.status === 'done') {
+          this._appendMessage('assistant', result.assistant || '(응답 없음)');
+        } else if (result && result.status === 'failed') {
+          this._appendMessage('assistant', `[오류] ${result.error || 'failed'}`);
+        } else if (result && result.status === 'cancelled') {
+          this._appendMessage('assistant', `[오류] 워커 응답 시간 초과 — 본인 PC 워커 polling 상태 확인 필요`);
+        }
+      } else {
+        // 동기 응답 (local 모드)
+        thinkingEl.remove();
+        this._appendMessage('assistant', r.assistant || '(응답 없음)');
+      }
+
+      // 백엔드 session.messages 동기화
       try {
         const s = await API.get(`/kds-design/session/${this._sessionId}`);
         this._knownMessageCount = (s && s.messages && s.messages.length) || 0;
@@ -395,6 +409,27 @@ const KdsDesignPage = {
       input.focus();
       this._inSend = false;  // 폴링 재개
     }
+  },
+
+  // v30: invocation 결과 polling — 2초 간격, 최대 10분
+  async _pollChatInvocation(invocationId, thinkingEl) {
+    const startedAt = Date.now();
+    const MAX_MS = 10 * 60 * 1000;  // 10분
+    const POLL_MS = 2000;
+    while (Date.now() - startedAt < MAX_MS) {
+      try {
+        const r = await API.get(`/kds-design/chat/poll/${invocationId}`);
+        if (r.status === 'done' || r.status === 'failed' || r.status === 'cancelled') {
+          if (thinkingEl) thinkingEl.remove();
+          return r;
+        }
+      } catch (e) {
+        // 일시적 오류는 재시도
+      }
+      await new Promise(r => setTimeout(r, POLL_MS));
+    }
+    if (thinkingEl) thinkingEl.remove();
+    return { status: 'cancelled', error: 'client polling timeout' };
   },
 
   _formatEvents(events, elapsed) {

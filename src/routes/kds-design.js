@@ -503,9 +503,37 @@ router.post('/chat', async (req, res) => {
   if (sess.generationJobId) {
     lastJob = jobs.get(sess.generationJobId) || loadJobFromDisk(sess.generationJobId);
   }
-  // chat 은 단순 대화 명확화 — KDS 폴더 cwd 의 .claude/CLAUDE.md(51KB) + kds-designer.md(38KB) 자동 로드는 응답 지연만 야기.
-  // 필요한 KDS 컨텍스트(to-figma 상태/직전 job/컴포넌트 카탈로그)는 buildChatPrompt 가 직접 주입함.
-  // 실제 화면 생성(generateDesign)만 KDS cwd 유지.
+
+  // v30: 비동기 패턴 — Railway HTTP proxy timeout(60s) 회피.
+  //   queue-only 모드에서는 invocation 등록 후 즉시 응답. 클라이언트가 /chat/poll/:invocationId 로 결과 polling.
+  //   chaining(researcher 자동 호출 등)은 poll endpoint 에서 done 시점에 처리.
+  const { getEffectiveWorkerMode } = require('../engine/model-bridge');
+  if (getEffectiveWorkerMode() === 'queue-only') {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ error: 'userId 필요 — 로그인 상태 확인' });
+    }
+    const { enqueueInvocation } = require('../engine/worker-invocation');
+    const enq = enqueueInvocation({
+      userId: req.user.id,
+      kind: 'kds-chat',
+      payload: { userPrompt: buildChatPrompt(sess.messages, { lastJob }) }
+    });
+    if (!enq.ok) {
+      sess.messages.push({ role: 'assistant', content: `[오류] ${enq.error}`, at: Date.now() });
+      return res.json({ sessionId: sess.id, assistant: `[오류] ${enq.error}`, error: enq.error });
+    }
+    // 세션에 pending invocation 기록 — poll 에서 sess 갱신 시 사용
+    sess.pendingInvocation = { id: enq.invocationId, kind: 'kds-chat', startedAt: Date.now() };
+    persistSession(sess);
+    return res.json({
+      sessionId: sess.id,
+      invocationId: enq.invocationId,
+      status: 'pending',
+      hint: '워커가 처리 중입니다. /api/kds-design/chat/poll/{id} 로 결과 polling.'
+    });
+  }
+
+  // local 모드 (npm start) — 기존 동기 경로 유지
   const r = await execClaudeShort(buildChatPrompt(sess.messages, { lastJob }), {
     userId: req.user && req.user.id,
     kind: 'kds-chat'
@@ -689,6 +717,66 @@ ${domain}
   }
 
   return res.json({ sessionId: sess.id, assistant: content, ready: false });
+});
+
+// GET /api/kds-design/chat/poll/:invocationId — 비동기 chat 결과 polling (v30)
+//   클라이언트가 2초 간격으로 호출. status=pending|running|done|failed|cancelled.
+//   done 시 sess.messages 에 assistant 응답 append + chaining(researcher 자동 호출 등) 처리.
+router.get('/chat/poll/:invocationId', async (req, res) => {
+  const id = parseInt(req.params.invocationId, 10);
+  if (!id) return res.status(400).json({ error: 'invalid invocation id' });
+  if (!req.user || !req.user.id) return res.status(401).json({ error: 'login required' });
+
+  const { getInvocationStatus } = require('../engine/worker-invocation');
+  const inv = getInvocationStatus({ id, userId: req.user.id });
+  if (!inv.ok) return res.status(404).json({ error: inv.error });
+
+  // 진행 중 — 그대로 반환
+  if (inv.status === 'pending' || inv.status === 'running') {
+    return res.json({ invocationId: id, status: inv.status });
+  }
+  if (inv.status === 'failed' || inv.status === 'cancelled') {
+    return res.json({
+      invocationId: id,
+      status: inv.status,
+      error: inv.error || 'cancelled'
+    });
+  }
+
+  // done — sess 에 응답 반영 (중복 방지: invocationId 처리됐는지 확인)
+  const content = (inv.result && inv.result.content) || '';
+  // 어떤 session 의 결과인지 찾기 — pendingInvocation.id 기준 매칭
+  let matchedSess = null;
+  for (const s of sessions.values()) {
+    if (s.pendingInvocation && s.pendingInvocation.id === id) {
+      matchedSess = s;
+      break;
+    }
+  }
+  if (matchedSess) {
+    // 이미 처리됐으면 (예: 이전 poll 응답에서 메시지 추가됨) skip
+    const alreadyAppended = matchedSess.messages.some(m =>
+      m.role === 'assistant' && m._invocationId === id
+    );
+    if (!alreadyAppended) {
+      matchedSess.messages.push({
+        role: 'assistant',
+        content,
+        at: Date.now(),
+        _invocationId: id
+      });
+      delete matchedSess.pendingInvocation;
+      persistSession(matchedSess);
+    }
+  }
+
+  res.json({
+    invocationId: id,
+    status: 'done',
+    sessionId: matchedSess && matchedSess.id,
+    assistant: content,
+    ready: false
+  });
 });
 
 // GET /api/kds-design/session/:id — 메시지 history (새로고침 복원용)
