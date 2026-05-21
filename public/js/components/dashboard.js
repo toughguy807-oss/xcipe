@@ -516,7 +516,7 @@ claude auth status    # 로그인 확인</pre>
             ? `<div style="color:#28a745;font-size:13px;padding-left:28px">완료 — 워커가 polling 중</div>`
             : `<div style="padding-left:28px;font-size:13px">
                 <p style="margin:4px 0">아래 버튼 클릭 → 본인 토큰 자동 발급 + 서버 URL 박힌 워커 파일 다운로드.</p>
-                <a class="btn-primary" href="/api/worker/my-download?access_token=${API.getToken ? API.getToken() : ''}" download="xcipe-worker.js" style="display:inline-block;padding:10px 18px;text-decoration:none;font-weight:600;margin:6px 0">📥 내 워커 다운로드</a>
+                <a class="btn-primary" href="/api/worker/my-download?access_token=${(API.getToken && API.getToken()) || ''}" download="xcipe-worker.js" style="display:inline-block;padding:10px 18px;text-decoration:none;font-weight:600;margin:6px 0">📥 내 워커 다운로드</a>
                 <p style="margin:8px 0 4px">다운받은 파일이 있는 폴더에서 실행:</p>
                 <pre style="background:#1a1a1a;color:#fff;padding:10px;border-radius:4px;font-size:12px;overflow:auto;margin:6px 0">node xcipe-worker.js</pre>
                 <p style="margin:8px 0 0;font-size:12px;color:#666">⚙️ 사용자가 환경변수 설정·토큰 복사할 필요 없음 (다운로드 파일 안에 자동 박힘). polling 시작 후 이 모달 새로고침하면 ✅ 표시.</p>
@@ -569,21 +569,23 @@ claude auth status    # 로그인 확인</pre>
       ? ` · 워커 토큰 <code>${aiState.worker_token_issued_count}개 발급</code>${aiState.active_worker_count > 0 ? ` · <strong>${aiState.active_worker_count}명 polling 중</strong>` : ' · <span class="text-muted">활성 워커 없음 — 본인 PC 에서 npm run worker 실행 필요</span>'}`
       : '';
 
-    const step1Body = !aiKnown
-      ? `<p>AI provider 설정은 <strong>관리자(admin)</strong>가 진행해야 합니다. 관리자에게 <code>설정 → AI 연결</code> 화면에서 provider 설정을 요청하세요.</p>
-         <p class="text-muted text-sm">현재 mock 모드면 실제 AI 호출 없이 더미 응답이 생성됩니다.</p>`
-      : distributedWorkerReady
-        ? `<p><strong>분산 워커 모드</strong> 연결됨${workerDetail}. 각 사용자가 본인 PC 에서 본인 Claude OAuth 로 처리합니다.</p>`
-      : aiReady
-        ? `<p><strong>${escapeHtml(provider)}</strong> 연결됨${aiState.model ? ` · 모델 <code>${escapeHtml(aiState.model)}</code>` : ''}${codeReadyDetail}. 다음 단계로 진행할 수 있습니다.</p>`
-        : provider === 'claude-code'
-          ? `<p>현재 <strong>claude-code</strong> 모드인데 OS 로그인이 필요합니다. 터미널에서 <code>claude /login</code> 을 실행한 뒤 새로고침 하세요.</p>
-             <button class="btn-primary mt-2" onclick="Router.navigate('/admin/settings')">설정으로 이동 →</button>`
-          : provider === 'claude-api'
-            ? `<p>현재 <strong>claude-api</strong> 모드인데 ANTHROPIC_API_KEY 가 없습니다. 키 발급 후 등록하거나 <strong>claude-code</strong> 모드로 전환하세요.</p>
-               <button class="btn-primary mt-2" onclick="Router.navigate('/admin/settings')">AI 설정으로 →</button>`
-            : `<p>현재 <strong>${escapeHtml(provider || '미설정')}</strong> 모드입니다. 실제 AI 산출물을 받으려면 claude-code(OS 로그인) 또는 claude-api(키 등록) 로 전환하세요.</p>
-               <button class="btn-primary mt-2" onclick="Router.navigate('/admin/settings')">AI 설정으로 →</button>`;
+    // v26: 모든 사용자(member 포함) 가 따라할 수 있는 단순화된 안내.
+    //   분산 워커 모드는 사용자 본인이 PC 에 워커 다운로드 + 실행하면 됨.
+    //   admin/settings 안내 제거 (일반 user 권한 없음).
+    const myToken = API.getToken ? API.getToken() : '';
+    const step1Body = distributedWorkerReady || aiReady
+      ? `<p>✅ <strong>연결됨</strong> — 본인 Claude 계정으로 작업이 처리됩니다. 다음 단계로 진행하세요.</p>`
+      : `<p>본인 PC 에서 <strong>워커</strong> 를 한 번만 띄우면 됩니다. 본인 Claude Max 구독으로 작업이 처리됩니다.</p>
+         <div style="background:#f8f9fa;border-radius:8px;padding:14px;margin:10px 0">
+           <div style="font-weight:600;margin-bottom:8px">1. 본인 PC 에 claude CLI 로그인 (1회)</div>
+           <pre style="background:#1a1a1a;color:#fff;padding:8px 10px;border-radius:4px;font-size:12px;margin:4px 0">npm install -g @anthropic-ai/claude-code
+claude /login</pre>
+           <div style="font-weight:600;margin:12px 0 8px">2. 본인 워커 다운로드 (토큰·서버 URL 자동 박힘)</div>
+           <a href="/api/worker/my-download?access_token=${myToken}" download="xcipe-worker.js" class="btn-primary" style="display:inline-block;padding:10px 18px;text-decoration:none;font-weight:600">📥 내 워커 다운로드</a>
+           <div style="font-weight:600;margin:12px 0 8px">3. 본인 PC 에서 한 줄 실행</div>
+           <pre style="background:#1a1a1a;color:#fff;padding:8px 10px;border-radius:4px;font-size:12px;margin:4px 0">node xcipe-worker.js</pre>
+           <p style="margin:8px 0 0;font-size:12px;color:#666">"polling 시작" 로그 출력 후 이 페이지 새로고침. ✅ 표시되면 끝.</p>
+         </div>`;
 
     const newProjectBtn = step1Done
       ? `<button class="btn-primary mt-2" onclick="DashboardPage.startNewProject()">프로젝트 시작하기 →</button>`

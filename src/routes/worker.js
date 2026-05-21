@@ -300,11 +300,11 @@ module.exports.downloadHandler = (req, res) => {
   }
 };
 
-// v26: 인증된 사용자 전용 — 본인 토큰 + 서버 URL 자동 박힌 워커 다운로드
-//   1. 본인 토큰 없으면 자동 발급 (서버에 저장)
-//   2. daemon.js 상단에 환경변수 자동 주입
-//   3. 사용자는 `node xcipe-worker.js` 한 줄로 실행
-//   server.js 에서 authMiddleware 적용 후 mount
+// v26: 인증된 사용자 전용 — 본인 토큰 + 서버 URL 자동 박힌 워커 다운로드 (zip)
+//   파일 2개 zip 으로 묶어 응답:
+//     - xcipe-worker.js  : 토큰·URL 박힌 daemon
+//     - xcipe-worker.cmd : 더블클릭만으로 가동되는 Windows 배치 파일
+//   사용자는 압축 풀고 .cmd 더블클릭 → 끝.
 module.exports.myDownloadHandler = (req, res) => {
   try {
     const path = require('path');
@@ -313,7 +313,6 @@ module.exports.myDownloadHandler = (req, res) => {
     const userId = req.user && req.user.id;
     if (!userId) return res.status(401).send('// unauthorized');
 
-    // 본인 토큰 조회 또는 자동 발급
     let row = db.prepare('SELECT worker_token, email FROM users WHERE id = ? AND deleted_at IS NULL').get(userId);
     if (!row) return res.status(404).send('// user not found');
     let token = row.worker_token;
@@ -323,30 +322,86 @@ module.exports.myDownloadHandler = (req, res) => {
     }
 
     const daemonPath = path.resolve(__dirname, '..', 'worker', 'daemon.js');
-    const content = fs.readFileSync(daemonPath, 'utf8');
-
-    // 서버 URL 자동 감지 (reverse proxy 헤더 고려)
+    const daemonContent = fs.readFileSync(daemonPath, 'utf8');
     const serverOrigin = req.headers['x-forwarded-host']
       ? `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['x-forwarded-host']}`
       : `${req.protocol}://${req.get('host')}`;
 
-    // daemon.js 상단에 환경변수 자동 주입 (사용자가 수동 설정 안 해도 됨)
-    const header = [
+    const jsHeader = [
       '#!/usr/bin/env node',
       '// xcipe-worker (auto-configured for ' + row.email + ')',
       '// 생성 시각: ' + new Date().toISOString(),
-      '// 실행: node xcipe-worker.js',
       'process.env.XCIPE_SERVER = process.env.XCIPE_SERVER || ' + JSON.stringify(serverOrigin) + ';',
       'process.env.XCIPE_WORKER_TOKEN = process.env.XCIPE_WORKER_TOKEN || ' + JSON.stringify(token) + ';',
       '',
       ''
     ].join('\n');
+    const finalJs = jsHeader + daemonContent;
 
-    const finalContent = header + content;
-    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-    res.setHeader('Content-Disposition', 'attachment; filename="xcipe-worker.js"');
-    res.send(finalContent);
+    // 더블클릭 가능한 .cmd (Windows) — 같은 폴더의 xcipe-worker.js 실행
+    const cmdContent = [
+      '@echo off',
+      'REM xcipe-worker auto-start (' + row.email + ')',
+      'REM 이 파일을 더블클릭하면 워커가 가동됩니다.',
+      'title xcipe-worker - ' + row.email,
+      'cd /d "%~dp0"',
+      'where node >nul 2>nul',
+      'if errorlevel 1 (',
+      '  echo [ERROR] Node.js 가 설치되지 않았습니다.',
+      '  echo Node.js 를 먼저 설치하세요: https://nodejs.org',
+      '  pause',
+      '  exit /b 1',
+      ')',
+      'where claude >nul 2>nul',
+      'if errorlevel 1 (',
+      '  echo [INFO] claude CLI 자동 설치 중...',
+      '  call npm install -g @anthropic-ai/claude-code',
+      ')',
+      'node "%~dp0xcipe-worker.js"',
+      'pause'
+    ].join('\r\n');
+
+    // 압축 (archiver 사용)
+    let archiver;
+    try { archiver = require('archiver'); }
+    catch { return res.status(500).send('archiver 미설치 — Dockerfile rebuild 필요'); }
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', 'attachment; filename="xcipe-worker.zip"');
+    const zip = archiver('zip', { zlib: { level: 9 } });
+    zip.on('error', (err) => { try { res.status(500).end(err.message); } catch {} });
+    zip.pipe(res);
+    zip.append(finalJs, { name: 'xcipe-worker.js' });
+    zip.append(cmdContent, { name: 'xcipe-worker.cmd' });
+    zip.append([
+      '# xcipe 워커 사용법',
+      '',
+      '계정: ' + row.email,
+      '서버: ' + serverOrigin,
+      '',
+      '## Windows (가장 단순)',
+      '',
+      '1. 압축 풀기',
+      '2. **xcipe-worker.cmd** 더블클릭',
+      '3. PowerShell 창이 열리고 워커 가동 → 그대로 두기',
+      '',
+      '## Mac / Linux',
+      '',
+      '```',
+      'node xcipe-worker.js',
+      '```',
+      '',
+      '## 처음 실행 시 자동 처리',
+      '',
+      '- Node.js 설치 확인 (없으면 안내)',
+      '- claude CLI 자동 설치 (없으면)',
+      '- ~/.claude OAuth 인증 (수동 — `claude /login`)',
+      '',
+      '## 종료',
+      '',
+      'PowerShell 창 닫기 또는 Ctrl+C'
+    ].join('\n'), { name: 'README.md' });
+    zip.finalize();
   } catch (e) {
-    res.status(500).send(`// download failed: ${e.message}`);
+    res.status(500).send(`download failed: ${e.message}`);
   }
 };
