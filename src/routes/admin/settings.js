@@ -122,22 +122,60 @@ router.put('/ai', async (req, res) => {
         });
       }
     } else if (provider === 'claude-code') {
-      // claude-code: OS 로그인 사전 점검 — 임시 provider 인스턴스로 checkSession 호출 (LLM 호출 0건)
-      try {
-        const ClaudeCodeProvider = require('../../engine/providers/claude-code-provider');
-        const tmp = new ClaudeCodeProvider({ command: 'claude', timeout: 8000 });
-        const session = await tmp.checkSession();
-        if (!session.ok || !session.loggedIn) {
+      // v26: claude-code 활성화 검증 — "어느 PC 의 로그인" 인지에 따라 분기.
+      //   local 모드(서버가 직접 호출): 서버 컨테이너 OAuth 확인
+      //   queue-only 모드(분산 워커): 요청한 admin 본인 PC 워커가 보고한 claude session 확인
+      const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
+      if (workerMode === 'queue-only') {
+        // 본인 워커가 polling 중이고 claude CLI 로그인 OK 여부 확인
+        const { db } = require('../../db');
+        const row = db.prepare('SELECT claude_session_info FROM users WHERE id = ?').get(req.user.id);
+        let myClaudeOk = false;
+        let sessionInfo = null;
+        if (row && row.claude_session_info) {
+          try {
+            sessionInfo = JSON.parse(row.claude_session_info);
+            myClaudeOk = !!sessionInfo.loggedIn;
+          } catch {}
+        }
+        const myWorkerActive = !!db.prepare(`
+          SELECT COUNT(*) AS n FROM pipeline_steps
+          WHERE worker_id IS NOT NULL AND user_id = ?
+            AND heartbeat_at > datetime('now', '-2 minutes')
+        `).get(req.user.id).n;
+
+        if (!myWorkerActive) {
           return res.status(400).json({
             error: 'ESYS-SET-011',
-            message: `claude-code 활성화 전에 OS 로그인 필요: ${session.hint || session.error || 'claude /login 실행'}. force:true 로 강제 저장 가능.`
+            message: '본인 PC 워커가 polling 중이 아닙니다. 본인 PC 에서 npm run worker (또는 xcipe-worker.js) 실행 후 다시 시도하세요. force:true 로 강제 저장 가능.',
+            hint: '대시보드 → 워커 설정 가이드 참고'
           });
         }
-      } catch (err) {
-        return res.status(400).json({
-          error: 'ESYS-SET-011',
-          message: `claude-code 세션 점검 실패: ${err.message}. force:true 로 강제 저장 가능.`
-        });
+        if (!myClaudeOk) {
+          return res.status(400).json({
+            error: 'ESYS-SET-011',
+            message: `본인 PC 의 claude CLI 로그인이 확인되지 않았습니다. 터미널에서 'claude /login' 실행 후 워커 재시작 필요. force:true 로 강제 저장 가능.`,
+            hint: sessionInfo ? `최근 보고: ${JSON.stringify(sessionInfo)}` : '워커가 아직 session 정보를 보고하지 않았습니다 (가동 후 수초 대기 필요)'
+          });
+        }
+      } else {
+        // local 모드: 서버가 직접 처리하므로 컨테이너 OAuth 필요
+        try {
+          const ClaudeCodeProvider = require('../../engine/providers/claude-code-provider');
+          const tmp = new ClaudeCodeProvider({ command: 'claude', timeout: 8000 });
+          const session = await tmp.checkSession();
+          if (!session.ok || !session.loggedIn) {
+            return res.status(400).json({
+              error: 'ESYS-SET-011',
+              message: `claude-code 활성화 전에 OS 로그인 필요: ${session.hint || session.error || 'claude /login 실행'}. force:true 로 강제 저장 가능.`
+            });
+          }
+        } catch (err) {
+          return res.status(400).json({
+            error: 'ESYS-SET-011',
+            message: `claude-code 세션 점검 실패: ${err.message}. force:true 로 강제 저장 가능.`
+          });
+        }
       }
     }
   }
