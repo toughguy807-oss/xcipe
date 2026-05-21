@@ -108,7 +108,7 @@ app.get('/api/worker/my-download', authMiddleware, workerRouter.myDownloadHandle
 app.use('/api/worker', workerRouter);
 app.use('/bridge', require('./routes/bridge'));    // KDS figma-change-tracker 플러그인 호환 endpoint (xcipe 내장)
 app.use('/kds-bridge', require('./routes/kds-bridge-proxy')); // v25 KDS bridge-server(3939) proxy (Railway 단일 PORT 호환)
-app.use('/api/kds-design', require('./routes/kds-design'));    // KDS 디자인 정식 메뉴 (파이프라인 무관 독립 기능)
+app.use('/api/kds-design', authMiddleware, require('./routes/kds-design'));    // KDS 디자인 정식 메뉴 (파이프라인 무관 독립 기능) — v28: 분산 워커 위임에 req.user.id 필요
 
 // SPA fallback — non-API routes serve index.html (static/output 제외)
 app.get('*', (req, res) => {

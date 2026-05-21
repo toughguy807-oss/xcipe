@@ -421,6 +421,40 @@ async function start() {
   log(`서버: ${SERVER}`);
   log(`워커 ID: ${WORKER_ID}`);
 
+  // v28+: self-update — 시작 시 서버 최신 daemon.js 와 비교, 다르면 교체 후 자동 재시작
+  //   매번 zip 새로 받지 않아도 됨. 환경변수 XCIPE_NO_UPDATE=1 로 비활성 가능.
+  if (process.env.XCIPE_NO_UPDATE !== '1' && require.main === module) {
+    try {
+      const selfPath = __filename;
+      const localBytes = fs.readFileSync(selfPath);
+      // 헤더(env 주입) 제거 후 body 만 비교 — token 등 unique 부분 제외
+      const localBody = localBytes.toString('utf8').replace(/^[\s\S]*?\n\/\/ 분산 워커 daemon/, '// 분산 워커 daemon');
+      const res = await fetch(`${SERVER}/api/worker/download/xcipe-worker.js`);
+      if (res.ok) {
+        const remote = await res.text();
+        if (remote && remote.length > 1000 && remote !== localBody) {
+          log('새 daemon 코드 감지 — 자동 업데이트 후 재시작');
+          // 기존 헤더(env 주입) 보존 + body 만 교체
+          const headerMatch = localBytes.toString('utf8').match(/^([\s\S]*?\n)\/\/ 분산 워커 daemon/);
+          const header = headerMatch ? headerMatch[1] : '';
+          fs.writeFileSync(selfPath, header + remote, 'utf8');
+          log('업데이트 완료. 5초 후 자동 재시작…');
+          setTimeout(() => {
+            const { spawn } = require('child_process');
+            const child = spawn(process.execPath, [selfPath], {
+              detached: true, stdio: 'inherit', env: process.env
+            });
+            child.unref();
+            process.exit(0);
+          }, 5000);
+          return;
+        }
+      }
+    } catch (e) {
+      warn(`self-update 시도 실패 (무시하고 계속): ${e.message}`);
+    }
+  }
+
   // claude CLI 인증 확인
   const cli = await checkClaudeCli();
   if (!cli.ok) {
