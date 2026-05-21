@@ -411,10 +411,10 @@ const KdsDesignPage = {
     }
   },
 
-  // v30: invocation 결과 polling — 2초 간격, 최대 10분
+  // v30: invocation 결과 polling — 2초 간격, 최대 30분 (KDS chat/designer 긴 작업 대응)
   async _pollChatInvocation(invocationId, thinkingEl) {
     const startedAt = Date.now();
-    const MAX_MS = 10 * 60 * 1000;  // 10분
+    const MAX_MS = 30 * 60 * 1000;  // 30분 — KDS 디자인 작업 최소치
     const POLL_MS = 2000;
     while (Date.now() - startedAt < MAX_MS) {
       try {
