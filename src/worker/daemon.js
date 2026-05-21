@@ -318,7 +318,12 @@ function spawnClaude(fullPrompt, opts = {}) {
       return resolve({ ok: false, error: `prompt 파일 쓰기 실패: ${e.message}` });
     }
 
-    const flags = '-p --effort high --output-format json --disable-slash-commands';
+    // v30: allowedTools 명시 — kind 에 따라 Write 권한 분기
+    //   kds-design: Read Write Edit Glob Grep Bash Skill (시안 생성에 Write 필수)
+    //   kds-chat   : Read Glob Grep (분석/대화만)
+    //   기본       : 모두 허용 (analyzePrompt/intake — 텍스트 응답만이라 무관)
+    const allowedTools = opts.allowedTools || 'Read Write Edit Glob Grep Bash Skill';
+    const flags = `-p --effort high --allowedTools "${allowedTools}" --exclude-dynamic-system-prompt-sections --output-format json --disable-slash-commands`;
     const cmd = process.platform === 'win32'
       ? `${CLAUDE_CMD} ${flags} < "${tmpFile}"`
       : `cat "${tmpFile}" | ${CLAUDE_CMD} ${flags}`;
