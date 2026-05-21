@@ -230,8 +230,11 @@ const KdsDesignPage = {
     this._sessionId = sessionId;
     localStorage.setItem(this._LS_SESSION, sessionId);
     localStorage.removeItem(this._LS_JOB);  // 새 세션 진입 — 이전 job 추적 정지. 아래 sync 가 다시 살림.
-    document.getElementById('kds-chat').innerHTML = '';
-    document.getElementById('kds-gen-status').innerHTML = '';
+    const _chatEl = document.getElementById('kds-chat');
+    const _statusEl = document.getElementById('kds-gen-status');
+    if (!_chatEl || !_statusEl) return;  // 페이지 전환 race 가드
+    _chatEl.innerHTML = '';
+    _statusEl.innerHTML = '';
     try {
       const s = await API.get(`/kds-design/session/${sessionId}`);
       if (s && Array.isArray(s.messages)) {
@@ -281,8 +284,10 @@ const KdsDesignPage = {
     localStorage.removeItem(this._LS_SESSION);
     localStorage.removeItem(this._LS_JOB);
     if (this._pollTimer) { clearInterval(this._pollTimer); this._pollTimer = null; }
-    document.getElementById('kds-chat').innerHTML = '';
-    document.getElementById('kds-gen-status').innerHTML = '';
+    const _chatEl = document.getElementById('kds-chat');
+    const _statusEl = document.getElementById('kds-gen-status');
+    if (_chatEl) _chatEl.innerHTML = '';
+    if (_statusEl) _statusEl.innerHTML = '';
     this._appendMessage('assistant', '새 대화를 시작합니다. 어떤 KDS 화면을 만들어 드릴까요?');
   },
 
