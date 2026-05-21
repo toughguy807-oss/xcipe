@@ -222,6 +222,19 @@ function resetProvider() {
 }
 
 async function testConnection(providerName = null) {
+  // v27: claude-code + OAuth 없는 환경(컨테이너) → 분산 워커 모드로 OK 응답
+  //   서버가 직접 spawn 시도하면 'Command failed: claude -p ...' 실패함
+  //   실제 호출은 사용자 PC 워커에서 처리되므로 서버측 testConnection 무의미
+  const target = providerName || getSetting('ai_provider') || 'mock';
+  if (target === 'claude-code' && getEffectiveWorkerMode() === 'queue-only') {
+    return {
+      ok: true,
+      provider: 'claude-code',
+      mode: 'distributed-worker',
+      message: '분산 워커 모드 — 서버 측 테스트 건너뜀. 실제 호출은 사용자 PC 워커에서 본인 OAuth 로 처리.',
+      hint: '본인 PC 에서 xcipe-worker 가 polling 중이면 정상 동작.'
+    };
+  }
   if (providerName) {
     try {
       const p = createProvider(providerName);
