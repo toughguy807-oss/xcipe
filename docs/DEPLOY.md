@@ -15,6 +15,7 @@
 | **Backend** | Railway 컨테이너 (Dockerfile) | 상주 서버, Playwright/claude CLI 그대로 동작 |
 | **인증** | 기존 JWT (src/auth.js) | RBAC 이미 구현 완료 |
 | **워커** | Railway 동일 컨테이너 | pipeline-worker.js → DB 직접 접근 |
+| **AI Provider** | Railway = `mock` / 로컬 PC = `claude-code` | OAuth 토큰(`~/.claude/credentials`) 컨테이너 마운트 불가 = 보안 위험. 클라우드는 UI/관리만, 실제 실행은 로컬에서 |
 
 ---
 
@@ -66,12 +67,16 @@ railway variables set \
   ADMIN_EMAIL=admin@eluocnc.com \
   ADMIN_PASSWORD='STRONG_PASSWORD_HERE' \
   CORS_ORIGIN='https://xcipe.vercel.app' \
-  TRUST_PROXY=1 \
-  ANTHROPIC_API_KEY='sk-ant-...'
+  TRUST_PROXY=1
 ```
 
 > **필수**: `JWT_SECRET`, `ADMIN_PASSWORD` 는 반드시 강력한 랜덤 값.
-> **`ANTHROPIC_API_KEY` 미수급 시**: 파이프라인 실행은 비활성, UI/관리 기능만 동작.
+>
+> **AI Provider 는 환경변수가 아닌 DB settings 로 관리**. 첫 부팅 시 `db.js:1256` 에서 `ai_provider='mock'` 자동 시드 → Railway 는 별도 설정 없이 mock 모드로 시작 (선택 A — 2026-05-21 결정).
+> - 클라우드 컨테이너는 UI/티켓/대시보드/관리·열람 게이트웨이로만 동작
+> - 실제 파이프라인 실행(plan-*, design-*, publish-*, qa-*)은 **사용자 로컬 PC(3747)** 에서 `claude-code` 모드로 진행
+> - `claude-code` 모드의 OAuth 토큰(`~/.claude/credentials`)을 컨테이너에 마운트하면 계정 탈취 위험 → 마운트 안 함
+> - `claude-api` 모드로 전환하려면 `ANTHROPIC_API_KEY` 발급 후 `railway variables set AI_PROVIDER=claude-api ANTHROPIC_API_KEY=sk-ant-...`
 
 #### 2-3. Persistent Volume 추가
 
@@ -164,15 +169,24 @@ railway variables set CORS_ORIGIN='https://xcipe.vercel.app,https://xcipe.eluocn
 
 ### Phase 1 잔존 이슈
 
-1. **`kds-bridge` 미배포**
-   - `ecosystem.config.js`의 두 번째 앱은 외부 PC 경로(`C:/Users/hj.moon/Downloads/...`) 의존
-   - Figma 플러그인 연동 필요 시 별도 Railway 서비스로 분리하거나 로컬 PC에서만 운영
+1. **`kds-bridge` (3939) 미배포 — 의도된 결정 (2026-05-21)**
+   - **이유 1**: `ecosystem.config.js`의 두 번째 앱은 사용자 PC `C:/Users/hj.moon/Downloads/AX_KDS_design system-v4/` 경로의 `bridge-server.js` 실행. **소스가 xcipe repo 밖**이라 컨테이너 빌드 시 COPY 할 코드 없음.
+   - **이유 2**: Figma 플러그인 manifest 의 `networkAccess.devAllowedDomains` 가 `http://localhost:3747` 로 고정. Railway 도메인을 호출하려면 manifest 변경 + 플러그인 재발행 필요.
+   - **사용자 결정 (2026-05-21)**: Figma 플러그인 연동은 **현재대로 로컬 PC PM2 운영 유지**. 클라우드 배포에서 분리.
+   - **알아둘 점**: `bridge` 핵심 API 자체는 `src/routes/bridge.js` 로 xcipe Express 안에 통합되어 있어, **xcipe `/bridge/*` 라우트는 Railway 에서도 동작**. 단 Figma 플러그인이 호출하지 못할 뿐.
 
-2. **Claude CLI 인증**
-   - 컨테이너 내 `claude` CLI는 `ANTHROPIC_API_KEY` 환경변수만 사용
-   - Claude Code 의 OAuth 토큰(`~/.claude/credentials`)은 컨테이너에 없음
-   - **API 키 미수급 상태면 파이프라인 실행 비활성**, UI/관리/티켓 기능만 사용 가능
-   - 메모리 참고: `project_anthropic_key_pending.md`
+2. **AI Provider 분리 운영 — 의도된 결정 (2026-05-21)**
+   - Railway: `AI_PROVIDER=mock` — UI/티켓/대시보드/관리/산출물 열람 게이트웨이
+   - 로컬 PC: `AI_PROVIDER=claude-code` — 실제 파이프라인 실행 (Claude Code 구독 활용)
+   - `claude-code` OAuth 토큰을 컨테이너에 마운트하지 않는 이유: 다른 사용자/시스템에 노출 시 Claude 계정 탈취 위험
+   - `claude-api` 모드로 전환은 ANTHROPIC_API_KEY 발급 후 `railway variables set AI_PROVIDER=claude-api ANTHROPIC_API_KEY=sk-ant-...`
+   - 메모리 참고: `project_anthropic_key_pending.md`, `project_model_bridge.md`
+
+3. **산출물 동기화 (Phase 2 예정)**
+   - 로컬 PC 파이프라인 실행 → `output/{PROJECT}/` 산출물 생성
+   - 클라우드(Railway)에 표시하려면 동기화 필요
+   - 방안: (a) 사용자 PC → Railway Volume rsync, (b) Supabase Storage 업로드 후 클라우드가 read, (c) git-based (output/ gitignore 해제 후 PR)
+   - 현재 Phase 1은 동기화 자동화 없음. 클라우드는 빈 상태로 시작.
 
 3. **`bundle-claude.js` 프리스타트 훅 미실행**
    - 컨테이너에는 `~/.claude`가 없음 → `npm start`의 prestart 가 fail
@@ -188,12 +202,32 @@ railway variables set CORS_ORIGIN='https://xcipe.vercel.app,https://xcipe.eluocn
    - 외부 클라이언트가 stdio로 호출해야 하므로 HTTP API 형태로 노출 불가
    - 컨테이너 내부 도구로만 사용
 
-### Phase 2 (향후 마이그레이션)
+### Phase 2 — 분산 워커 (2026-05-21 구현 완료)
+
+각 사용자가 본인 PC 에서 본인 Claude 계정 OAuth 로 파이프라인 실행. Railway 는 UI/큐만.
+
+**Railway 추가 환경변수**:
+```bash
+railway variables set WORKER_MODE=queue-only
+```
+→ 서버는 step 을 직접 처리하지 않고, 사용자 PC 의 `xcipe-worker` daemon 이 polling 으로 claim.
+
+**사용자 설치**: `docs/WORKER.md` 참조 (요약: git clone → claude /login → admin 에서 worker 토큰 발급 → `npm run worker`)
+
+**구현 산출물**:
+- DB: `pipeline_steps.worker_id/claim_token/claimed_at/heartbeat_at/user_id` + `users.worker_token` (v25 migration)
+- API: `POST /api/worker/jobs/{claim,heartbeat,result,fail}` + `/me`
+- Admin: `POST/DELETE /api/admin/users/:id/worker-token`
+- Daemon: `bin/xcipe-worker.js` (HTTP polling + claude CLI spawn + heartbeat)
+- pipeline-worker: `WORKER_MODE=queue-only` 분기 + heartbeat 60초 stale 회수
+
+### Phase 3 (향후 마이그레이션)
 
 - Supabase Postgres 전환 (better-sqlite3 → pg, 동기 → 비동기)
 - Supabase Storage 로 `output/` 이전 (Volume 비용 절감 + CDN)
 - Supabase Auth 또는 OAuth 통합
-- `pipeline-worker` 를 Inngest 또는 Trigger.dev 로 분리 (확장성)
+- reviewer/visual-verify/mockup-gen 워커 처리 (현재 서버 사이드)
+- 산출물 양방향 동기화 (워커 PC ↔ 서버)
 
 ---
 

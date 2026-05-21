@@ -1,0 +1,364 @@
+// 분산 워커 daemon (v25) — 사용자 PC에서 본인 ~/.claude OAuth 로 파이프라인 실행
+//
+// 사용:
+//   node bin/xcipe-worker.js
+//
+// 환경변수:
+//   XCIPE_SERVER         (필수)  예: https://xcipe-production.up.railway.app
+//   XCIPE_WORKER_TOKEN   (필수)  admin → POST /api/admin/users/:id/worker-token 로 발급
+//   XCIPE_WORKER_ID      (선택)  hostname:pid 기본. 사용자 식별용 명칭.
+//   XCIPE_POLL_INTERVAL  (선택)  기본 5000ms
+//   XCIPE_HEARTBEAT_INT  (선택)  기본 15000ms
+//   XCIPE_CLAUDE_CMD     (선택)  기본 'claude'. CLI 경로 override.
+//
+// 동작:
+//   1. /api/worker/me 로 인증 확인
+//   2. /api/worker/jobs/claim 로 작업 polling
+//   3. 작업 받으면:
+//      - heartbeat 인터벌 시작
+//      - prompt 빌드 (skill_content + project + previous_artifacts + replan_context)
+//      - claude CLI spawn → stdout 받음
+//      - /api/worker/jobs/:id/result 업로드 OR /api/worker/jobs/:id/fail 보고
+//   4. 다시 polling
+
+const os = require('os');
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+const { exec } = require('child_process');
+
+const SERVER         = (process.env.XCIPE_SERVER || '').replace(/\/+$/, '');
+const WORKER_TOKEN   = process.env.XCIPE_WORKER_TOKEN || '';
+const WORKER_ID      = process.env.XCIPE_WORKER_ID || `${os.hostname()}:${process.pid}`;
+const POLL_INTERVAL  = parseInt(process.env.XCIPE_POLL_INTERVAL || '5000', 10);
+const HEARTBEAT_INT  = parseInt(process.env.XCIPE_HEARTBEAT_INT || '15000', 10);
+const CLAUDE_CMD     = process.env.XCIPE_CLAUDE_CMD || 'claude';
+const CLAUDE_TIMEOUT = parseInt(process.env.XCIPE_CLAUDE_TIMEOUT || '900000', 10); // 15분
+
+let _stop = false;
+let _activeStep = null;
+let _heartbeatTimer = null;
+
+function log(...args) {
+  console.log(`[xcipe-worker ${new Date().toISOString()}]`, ...args);
+}
+function warn(...args) {
+  console.warn(`[xcipe-worker ${new Date().toISOString()}] WARN`, ...args);
+}
+function err(...args) {
+  console.error(`[xcipe-worker ${new Date().toISOString()}] ERR`, ...args);
+}
+
+async function httpJson(method, urlPath, { body = null, claimToken = null } = {}) {
+  const url = SERVER + urlPath;
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Worker-Token': WORKER_TOKEN
+  };
+  if (claimToken) headers['X-Claim-Token'] = claimToken;
+
+  const res = await fetch(url, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if (res.status === 204) return { ok: true, empty: true };
+  const text = await res.text();
+  let json = null;
+  try { json = text ? JSON.parse(text) : null; } catch { json = { raw: text }; }
+  if (!res.ok) {
+    return { ok: false, status: res.status, body: json };
+  }
+  return { ok: true, status: res.status, body: json };
+}
+
+async function verifyAuth() {
+  const r = await httpJson('GET', '/api/worker/me');
+  if (!r.ok) throw new Error(`인증 실패 (status=${r.status}): ${JSON.stringify(r.body)}`);
+  log(`인증 OK — user=${r.body.user.email} (role=${r.body.user.role})`);
+  return r.body.user;
+}
+
+async function claimNextJob() {
+  const r = await httpJson('POST', '/api/worker/jobs/claim', { body: { worker_id: WORKER_ID } });
+  if (r.empty) return null;
+  if (!r.ok) {
+    warn(`claim 실패 status=${r.status}`, r.body);
+    return null;
+  }
+  return r.body;
+}
+
+function startHeartbeat(stepId, claimToken) {
+  if (_heartbeatTimer) clearInterval(_heartbeatTimer);
+  _heartbeatTimer = setInterval(async () => {
+    try {
+      const r = await httpJson('POST', `/api/worker/jobs/${stepId}/heartbeat`, { claimToken });
+      if (!r.ok) warn(`heartbeat 실패 step=${stepId}`, r.body);
+    } catch (e) {
+      warn(`heartbeat 예외 step=${stepId}: ${e.message}`);
+    }
+  }, HEARTBEAT_INT);
+}
+
+function stopHeartbeat() {
+  if (_heartbeatTimer) { clearInterval(_heartbeatTimer); _heartbeatTimer = null; }
+}
+
+// MVP prompt 빌드 — server 의 model-bridge.executeSkill 와 동일한 형식으로 생성
+//   복잡한 케이스(design-system context, lessons, MANDATE 토큰 등)는 추후 보완.
+function buildPrompt({ skill_name, skill_content, project, previous_artifacts, replan_context }) {
+  const sections = [];
+
+  sections.push(`# 스킬 실행: ${skill_name}`);
+  sections.push('');
+  sections.push('당신은 ELUO XCIPE 디지털 에이전시 자동화 파이프라인의 ' + skill_name + ' 스킬을 실행합니다.');
+  sections.push('아래 SKILL.md 명세를 정확히 따르고, Self-Check 결과를 META 블록에 포함해 응답하세요.');
+  sections.push('');
+
+  if (skill_content) {
+    sections.push('## SKILL.md');
+    sections.push('```markdown');
+    // 너무 크면 앞뒤 발췌 (40KB 한도)
+    const MAX = 40 * 1024;
+    if (skill_content.length > MAX) {
+      const half = Math.floor(MAX / 2);
+      sections.push(skill_content.slice(0, half) + '\n\n... [중략] ...\n\n' + skill_content.slice(-half));
+    } else {
+      sections.push(skill_content);
+    }
+    sections.push('```');
+    sections.push('');
+  }
+
+  sections.push('## 프로젝트 정보');
+  sections.push(`- 이름: ${project.name}`);
+  sections.push(`- 코드: ${project.code}`);
+  sections.push(`- 유형: ${project.type || 'web'}`);
+  if (project.description) sections.push(`- 설명: ${project.description}`);
+  if (project.prompt) sections.push(`- 요구사항: ${project.prompt}`);
+  if (project.tech_stack) sections.push(`- 기술 스택: ${project.tech_stack}`);
+  if (project.framework) sections.push(`- 프레임워크: ${project.framework}`);
+  if (project.reference_url) sections.push(`- 레퍼런스 URL: ${project.reference_url}`);
+  if (project.reference_content) {
+    sections.push('');
+    sections.push('### 레퍼런스 콘텐츠');
+    sections.push(project.reference_content.slice(0, 8000));
+  }
+  sections.push('');
+
+  if (Array.isArray(previous_artifacts) && previous_artifacts.length > 0) {
+    sections.push('## 이전 단계 산출물 (컨텍스트)');
+    for (const a of previous_artifacts) {
+      sections.push(`### ${a.step} (${a.skill_name || ''})`);
+      sections.push((a.content || '').slice(0, 8000));
+      sections.push('');
+    }
+  }
+
+  if (replan_context) {
+    sections.push('## 재시도 컨텍스트');
+    sections.push(`- 시도 횟수: ${replan_context.attempt}`);
+    sections.push(`- 이전 실패 사유: ${replan_context.reason}`);
+    if (replan_context.previousContent) {
+      sections.push('### 이전 시도 콘텐츠 (개선 대상)');
+      sections.push(replan_context.previousContent.slice(0, 4000));
+    }
+    sections.push('');
+  }
+
+  sections.push('## 출력 형식');
+  sections.push('- 마크다운 (`.md`) 산출물.');
+  sections.push('- 응답 마지막에 META 블록 (HTML 주석) 포함:');
+  sections.push('```');
+  sections.push('<!--META');
+  sections.push('self_check: PASS | WARN | FAIL');
+  sections.push('self_check_reason: (간단한 사유)');
+  sections.push('-->');
+  sections.push('```');
+
+  return sections.join('\n');
+}
+
+function spawnClaude(fullPrompt) {
+  return new Promise((resolve) => {
+    const tmpFile = path.join(os.tmpdir(), `xcipe-worker-prompt-${crypto.randomBytes(8).toString('hex')}.txt`);
+    try {
+      fs.writeFileSync(tmpFile, fullPrompt, 'utf8');
+    } catch (e) {
+      return resolve({ ok: false, error: `prompt 파일 쓰기 실패: ${e.message}` });
+    }
+
+    const flags = '-p --effort high --output-format json --disable-slash-commands';
+    const cmd = process.platform === 'win32'
+      ? `${CLAUDE_CMD} ${flags} < "${tmpFile}"`
+      : `cat "${tmpFile}" | ${CLAUDE_CMD} ${flags}`;
+
+    exec(cmd, {
+      timeout: CLAUDE_TIMEOUT,
+      maxBuffer: 100 * 1024 * 1024,
+      encoding: 'utf8',
+      windowsHide: true
+    }, (e, stdout, stderr) => {
+      try { fs.unlinkSync(tmpFile); } catch {}
+      if (e) {
+        if (e.killed) return resolve({ ok: false, error: `claude timeout (${CLAUDE_TIMEOUT}ms)`, killed: true });
+        return resolve({ ok: false, error: stderr || e.message });
+      }
+      if (!stdout || !stdout.trim()) {
+        return resolve({ ok: false, error: stderr || 'empty response' });
+      }
+
+      // claude --output-format json 응답 파싱
+      try {
+        const envelope = JSON.parse(stdout);
+        const content = envelope.result || envelope.content || envelope.text || '';
+        const usage = envelope.usage || null;
+        return resolve({ ok: true, content, usage, raw: envelope });
+      } catch (parseErr) {
+        // JSON 파싱 실패 — content 가 직접 stdout인 경우 (legacy)
+        return resolve({ ok: true, content: stdout.trim(), usage: null });
+      }
+    });
+  });
+}
+
+async function processJob(job) {
+  const { step_id, claim_token, skill_name } = job;
+  log(`작업 받음 step=${step_id} skill=${skill_name}`);
+  _activeStep = { step_id, claim_token };
+
+  startHeartbeat(step_id, claim_token);
+  const t0 = Date.now();
+
+  try {
+    const fullPrompt = buildPrompt(job);
+    const r = await spawnClaude(fullPrompt);
+    const duration = Date.now() - t0;
+
+    if (!r.ok) {
+      log(`claude 실패 step=${step_id}: ${r.error}`);
+      await httpJson('POST', `/api/worker/jobs/${step_id}/fail`, {
+        claimToken: claim_token,
+        body: { error_message: r.error, retry: true }
+      });
+      return;
+    }
+
+    log(`claude 완료 step=${step_id} duration=${Math.round(duration / 1000)}s`);
+    const upload = await httpJson('POST', `/api/worker/jobs/${step_id}/result`, {
+      claimToken: claim_token,
+      body: {
+        content: r.content,
+        duration_ms: duration,
+        usage: r.usage,
+        generated_files: []
+      }
+    });
+    if (!upload.ok) {
+      warn(`result 업로드 실패 step=${step_id} status=${upload.status}`, upload.body);
+    } else {
+      log(`result 업로드 OK step=${step_id}`);
+    }
+  } catch (e) {
+    err(`processJob 예외 step=${step_id}: ${e.message}`);
+    try {
+      await httpJson('POST', `/api/worker/jobs/${step_id}/fail`, {
+        claimToken: claim_token,
+        body: { error_message: `워커 예외: ${e.message}`, retry: true }
+      });
+    } catch {}
+  } finally {
+    stopHeartbeat();
+    _activeStep = null;
+  }
+}
+
+async function pollLoop() {
+  while (!_stop) {
+    try {
+      const job = await claimNextJob();
+      if (job) {
+        await processJob(job);
+        // 작업 끝났으면 즉시 다음 claim 시도 (대기 없이)
+        continue;
+      }
+    } catch (e) {
+      err(`poll 예외: ${e.message}`);
+    }
+    await new Promise(r => setTimeout(r, POLL_INTERVAL));
+  }
+}
+
+async function checkClaudeCli() {
+  return new Promise((resolve) => {
+    exec(`${CLAUDE_CMD} auth status`, { timeout: 10000, windowsHide: true }, (e, stdout) => {
+      if (e) {
+        return resolve({ ok: false, error: `claude CLI 인증 안 됨 — \`${CLAUDE_CMD} /login\` 실행 후 재시도. 상세: ${e.message}` });
+      }
+      let info = {};
+      try { info = JSON.parse(stdout); } catch {}
+      resolve({ ok: true, loggedIn: info.loggedIn !== false, email: info.email, plan: info.subscriptionType });
+    });
+  });
+}
+
+async function start() {
+  if (!SERVER) {
+    err('XCIPE_SERVER 환경변수 필요 (예: https://xcipe-production.up.railway.app)');
+    process.exit(1);
+  }
+  if (!WORKER_TOKEN) {
+    err('XCIPE_WORKER_TOKEN 환경변수 필요 (admin → POST /api/admin/users/:id/worker-token)');
+    process.exit(1);
+  }
+
+  log(`서버: ${SERVER}`);
+  log(`워커 ID: ${WORKER_ID}`);
+
+  // claude CLI 인증 확인
+  const cli = await checkClaudeCli();
+  if (!cli.ok) {
+    err(cli.error);
+    process.exit(1);
+  }
+  log(`claude CLI OK — ${cli.email || 'anonymous'} (${cli.plan || 'unknown plan'})`);
+
+  // 서버 인증 확인
+  try {
+    await verifyAuth();
+  } catch (e) {
+    err(e.message);
+    process.exit(1);
+  }
+
+  log(`polling 시작 (${POLL_INTERVAL}ms 간격, heartbeat ${HEARTBEAT_INT}ms)`);
+
+  // 종료 처리
+  process.on('SIGINT',  () => shutdown('SIGINT'));
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+
+  await pollLoop();
+}
+
+async function shutdown(signal) {
+  log(`${signal} 수신 — 정리 중...`);
+  _stop = true;
+  stopHeartbeat();
+  if (_activeStep) {
+    log(`진행 중 작업 step=${_activeStep.step_id} 실패 보고 시도 (서버가 stale 회수 가능)`);
+    try {
+      await httpJson('POST', `/api/worker/jobs/${_activeStep.step_id}/fail`, {
+        claimToken: _activeStep.claim_token,
+        body: { error_message: `워커 종료 (${signal})`, retry: true }
+      });
+    } catch {}
+  }
+  process.exit(0);
+}
+
+if (require.main === module) {
+  start().catch(e => { err(e.stack || e.message); process.exit(1); });
+}
+
+module.exports = { start, buildPrompt };

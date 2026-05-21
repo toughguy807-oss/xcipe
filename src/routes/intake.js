@@ -139,10 +139,10 @@ router.post('/:id/commit', (req, res) => {
       ).run(projectId, stages[0].phase, proj.prompt || '');
       pipelineId = r.lastInsertRowid;
       const insertStep = db.prepare(`
-        INSERT INTO pipeline_steps (pipeline_id, phase, step, step_order, skill_name, status)
-        VALUES (?, ?, ?, ?, ?, 'pending')
+        INSERT INTO pipeline_steps (pipeline_id, phase, step, step_order, skill_name, status, user_id)
+        VALUES (?, ?, ?, ?, ?, 'pending', ?)
       `);
-      stages.forEach((s, idx) => insertStep.run(pipelineId, s.phase, s.step, idx, s.skill));
+      stages.forEach((s, idx) => insertStep.run(pipelineId, s.phase, s.step, idx, s.skill, req.user.id));
       logActivity('pipeline', pipelineId, 'started', `${proj.name} (Level ${proj.completion_level}, ${stages.length} steps, intake)`, req.user.id);
       // 파이프라인 시작 알림 메시지
       addMessage({

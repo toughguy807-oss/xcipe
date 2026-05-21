@@ -58,12 +58,15 @@ router.post('/', requireRole('admin', 'member'), (req, res) => {
   ).run(project_id, stages[0].phase, runPrompt);
   const pipelineId = result.lastInsertRowid;
 
+  // v25: pipeline_steps.user_id — 분산 워커가 본인 작업만 claim 하도록 필터
+  //   요청한 사용자(req.user.id)를 모든 step 에 주입. admin 이 다른 사람 프로젝트를 실행해도
+  //   그 step 은 admin 의 워커가 처리하게 됨 (admin role 워커는 모든 작업 claim 가능 — worker.js 의 admin 분기)
   const insertStep = db.prepare(`
-    INSERT INTO pipeline_steps (pipeline_id, phase, step, step_order, skill_name, status)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO pipeline_steps (pipeline_id, phase, step, step_order, skill_name, status, user_id)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
   stages.forEach((s, idx) => {
-    insertStep.run(pipelineId, s.phase, s.step, idx, s.skill, idx === 0 ? 'pending' : 'pending');
+    insertStep.run(pipelineId, s.phase, s.step, idx, s.skill, idx === 0 ? 'pending' : 'pending', req.user.id);
   });
 
   logActivity('pipeline', pipelineId, 'started', `${project.name} (Level ${level}, ${stages.length} steps)`, req.user.id);

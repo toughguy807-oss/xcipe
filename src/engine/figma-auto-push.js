@@ -198,17 +198,18 @@ function enqueueFigmaPushSteps({ parentStep, project, figmaPushReady, prepareSki
        WHERE pipeline_id = ? AND step_order > ?
     `).run(parentStep.pipeline_id, parentOrder);
 
+    // v25: user_id 를 parentStep 에서 상속 — 같은 사용자 워커가 후속 step 도 처리
     const prepRes = db.prepare(`
       INSERT INTO pipeline_steps
-        (pipeline_id, step, step_order, skill_name, status, meta_json, created_at)
-      VALUES (?, 'figma_push_prepare', ?, 'figma-push-prepare', 'pending', ?, datetime('now'))
-    `).run(parentStep.pipeline_id, parentOrder + 1, prepareMeta);
+        (pipeline_id, step, step_order, skill_name, status, meta_json, created_at, user_id)
+      VALUES (?, 'figma_push_prepare', ?, 'figma-push-prepare', 'pending', ?, datetime('now'), ?)
+    `).run(parentStep.pipeline_id, parentOrder + 1, prepareMeta, parentStep.user_id || null);
 
     const finRes = db.prepare(`
       INSERT INTO pipeline_steps
-        (pipeline_id, step, step_order, skill_name, status, meta_json, created_at)
-      VALUES (?, 'figma_push_finalize', ?, 'figma-push-finalize', 'pending', ?, datetime('now'))
-    `).run(parentStep.pipeline_id, parentOrder + 2, finalizeMeta);
+        (pipeline_id, step, step_order, skill_name, status, meta_json, created_at, user_id)
+      VALUES (?, 'figma_push_finalize', ?, 'figma-push-finalize', 'pending', ?, datetime('now'), ?)
+    `).run(parentStep.pipeline_id, parentOrder + 2, finalizeMeta, parentStep.user_id || null);
 
     return { prepareStepId: prepRes.lastInsertRowid, finalizeStepId: finRes.lastInsertRowid };
   });

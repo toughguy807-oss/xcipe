@@ -1224,6 +1224,44 @@ function migrateV24_artifactsSubFiles() {
 }
 migrateV24_artifactsSubFiles();
 
+// v25 migration: 분산 워커 모델 — 사용자 PC가 자기 ~/.claude OAuth로 파이프라인 실행
+//   users.worker_token TEXT — 사용자별 워커 인증 토큰 (admin 발급, UUID v4)
+//   pipeline_steps.worker_id TEXT — claim 한 워커 식별자 (hostname:pid 같은 자기소개)
+//   pipeline_steps.claim_token TEXT — claim 별 unique 토큰 (다른 워커가 result 위조 차단)
+//   pipeline_steps.claimed_at TEXT — claim 시각 (stale 판정 기준)
+//   pipeline_steps.heartbeat_at TEXT — 마지막 heartbeat 시각 (30s 미수신 = stale → 회수)
+//   pipeline_steps.user_id INTEGER — 작업 요청한 사용자 (워커 → 본인 작업만 claim 하도록 필터)
+function migrateV25_distributedWorker() {
+  const userVersion = db.pragma('user_version', { simple: true });
+  if (userVersion >= 24) return;
+  if (userVersion < 23) return;
+
+  // users.worker_token
+  const userCols = db.pragma('table_info(users)');
+  const userHas = (n) => userCols.some(c => c.name === n);
+  if (!userHas('worker_token')) {
+    db.exec(`ALTER TABLE users ADD COLUMN worker_token TEXT`);
+    db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_users_worker_token ON users(worker_token) WHERE worker_token IS NOT NULL`);
+  }
+
+  // pipeline_steps.worker_* + user_id
+  const stepCols = db.pragma('table_info(pipeline_steps)');
+  const stepHas = (n) => stepCols.some(c => c.name === n);
+  if (!stepHas('worker_id'))      db.exec(`ALTER TABLE pipeline_steps ADD COLUMN worker_id TEXT`);
+  if (!stepHas('claim_token'))    db.exec(`ALTER TABLE pipeline_steps ADD COLUMN claim_token TEXT`);
+  if (!stepHas('claimed_at'))     db.exec(`ALTER TABLE pipeline_steps ADD COLUMN claimed_at TEXT`);
+  if (!stepHas('heartbeat_at'))   db.exec(`ALTER TABLE pipeline_steps ADD COLUMN heartbeat_at TEXT`);
+  if (!stepHas('user_id'))        db.exec(`ALTER TABLE pipeline_steps ADD COLUMN user_id INTEGER REFERENCES users(id)`);
+
+  // 큐 polling 가속 — 사용자별 pending step + stale claim 회수용
+  db.exec(`CREATE INDEX IF NOT EXISTS idx_steps_claim ON pipeline_steps(status, user_id, claimed_at)`);
+  db.exec(`CREATE INDEX IF NOT EXISTS idx_steps_heartbeat ON pipeline_steps(status, heartbeat_at) WHERE status = 'running'`);
+
+  db.pragma('user_version = 24');
+  console.log('[DB] v25 migration applied (distributed worker: users.worker_token + pipeline_steps.worker_*)');
+}
+migrateV25_distributedWorker();
+
 function isAssetSyncReady() {
   try {
     const row = db.prepare(

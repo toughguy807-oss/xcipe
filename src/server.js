@@ -99,6 +99,7 @@ app.use('/api/admin/assets', require('./routes/admin/assets'));
 app.use('/api/admin/teams', require('./routes/admin/teams'));
 app.use('/api/design-systems', require('./routes/design-systems'));
 app.use('/api/figma', require('./routes/figma'));  // 인커밍 webhook + 플러그인 수신
+app.use('/api/worker', require('./routes/worker')); // v25 분산 워커 — 사용자 PC daemon (X-Worker-Token)
 app.use('/bridge', require('./routes/bridge'));    // KDS figma-change-tracker 플러그인 호환 endpoint
 app.use('/api/kds-design', require('./routes/kds-design'));    // KDS 디자인 정식 메뉴 (파이프라인 무관 독립 기능)
 

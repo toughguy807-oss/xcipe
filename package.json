@@ -3,10 +3,15 @@
   "version": "4.0.0",
   "description": "Web-based Digital Agency Automation Platform",
   "main": "src/server.js",
+  "bin": {
+    "xcipe-worker": "bin/xcipe-worker.js"
+  },
   "scripts": {
     "prestart": "node scripts/bundle-claude.js",
     "start": "node src/server.js",
     "start:strict": "node scripts/bundle-claude.js --check && node src/server.js",
+    "start:queue-only": "WORKER_MODE=queue-only node src/server.js",
+    "worker": "node bin/xcipe-worker.js",
     "dev": "ESYS_DEV=1 node --watch src/server.js",
     "dev:bundle": "node --watch src/server.js",
     "dev:nodemon": "nodemon --watch src --ext js,json --exec \"node src/server.js\"",

@@ -675,10 +675,25 @@ const CONCURRENCY = Math.max(1, parseInt(process.env.PIPELINE_WORKER_CONCURRENCY
 let _inflight = 0;
 
 // 워커 사이클: 가용 슬롯만큼 pending step 을 claim 해 병렬 실행
+// v25: WORKER_MODE 환경변수 — 분산 워커 분기
+//   'local'      (기본): 현재 동작. 서버가 직접 step 을 claim 해서 처리.
+//   'queue-only'      : 서버는 claim 안 함. 외부 워커(/api/worker/jobs/claim)가 처리.
+//                       단 stale 회수·pipeline status 갱신·다음 step enqueue 는 그대로 수행.
+const WORKER_MODE = (process.env.WORKER_MODE || 'local').toLowerCase();
+
 async function tick() {
   if (_running) return;
   _running = true;
   try {
+    // 모드 무관 — heartbeat 끊긴 워커 작업 회수 (queue-only/local 모두 필요)
+    recoverStaleClaims();
+
+    // queue-only 모드: 서버는 claim 하지 않음. 외부 워커 polling 대기.
+    //   단 awaiting_approval 갱신·pipeline status 변경은 worker-finalize 가 처리하므로 추가 작업 불필요.
+    if (WORKER_MODE === 'queue-only') {
+      return;
+    }
+
     while (_inflight < CONCURRENCY) {
       const step = _claimNextStep();
       if (!step) break;
@@ -699,6 +714,55 @@ async function tick() {
     console.error('[pipeline-worker] tick error:', err);
   } finally {
     _running = false;
+  }
+}
+
+// v25: heartbeat 끊긴 워커 작업 회수
+//   외부 워커가 죽거나 네트워크 단절 → status='running' 인 채 멈춤
+//   60초 heartbeat 미수신 시 status='pending'으로 되돌려 재claim 가능하게 함
+//   서버 사이드 worker_id (NULL) 와 외부 워커 작업 (worker_id NOT NULL) 모두 적용
+function recoverStaleClaims() {
+  try {
+    const STALE_TIMEOUT_SEC = parseInt(process.env.WORKER_STALE_SEC || '60', 10);
+    const cutoffIso = new Date(Date.now() - STALE_TIMEOUT_SEC * 1000).toISOString();
+    const stale = db.prepare(`
+      SELECT id, pipeline_id, worker_id, retry_count, claimed_at, heartbeat_at
+      FROM pipeline_steps
+      WHERE status = 'running' AND worker_id IS NOT NULL
+        AND COALESCE(heartbeat_at, claimed_at) < ?
+    `).all(cutoffIso);
+
+    if (stale.length === 0) return;
+
+    for (const s of stale) {
+      const retryCount = s.retry_count || 0;
+      const canRecover = retryCount < 3;
+      if (canRecover) {
+        db.prepare(`
+          UPDATE pipeline_steps
+          SET status='pending',
+              worker_id=NULL, claim_token=NULL, claimed_at=NULL, heartbeat_at=NULL,
+              retry_count=?,
+              error_message=?
+          WHERE id = ? AND status='running'
+        `).run(retryCount + 1, `[stale-claim] 워커 ${s.worker_id} heartbeat 단절 (${STALE_TIMEOUT_SEC}s)`, s.id);
+        logActivity && logActivity('pipeline_step', s.id, 'stale_recovered',
+          `worker=${s.worker_id} → pending (retry ${retryCount + 1}/3)`, null);
+      } else {
+        db.prepare(`
+          UPDATE pipeline_steps
+          SET status='failed',
+              error_message=?,
+              completed_at=datetime('now')
+          WHERE id = ? AND status='running'
+        `).run(`[stale-claim] 재시도 한도 초과: 워커 ${s.worker_id} heartbeat 단절`, s.id);
+        logActivity && logActivity('pipeline_step', s.id, 'stale_failed',
+          `worker=${s.worker_id} 재시도 한도 초과`, null);
+      }
+      updatePipelineStatus(s.pipeline_id);
+    }
+  } catch (err) {
+    console.warn('[pipeline-worker] recoverStaleClaims error:', err.message);
   }
 }
 
