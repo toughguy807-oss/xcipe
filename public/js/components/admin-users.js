@@ -35,6 +35,10 @@ const AdminUsersPage = {
         ? `<button class="btn-secondary-sm worker-rotate" data-user-id="${u.id}" data-email="${escapeHtml(u.email)}">재발급</button>
            <button class="btn-secondary-sm worker-revoke" data-user-id="${u.id}" data-email="${escapeHtml(u.email)}" style="margin-left:4px">회수</button>`
         : `<button class="btn-secondary-sm worker-issue" data-user-id="${u.id}" data-email="${escapeHtml(u.email)}">토큰 발급</button>`;
+      // v25: 사용자 삭제 (본인 제외 + 마지막 admin 보호는 서버에서)
+      const deleteCell = isMe
+        ? `<span class="text-muted text-sm">-</span>`
+        : `<button class="btn-secondary-sm user-delete" data-user-id="${u.id}" data-email="${escapeHtml(u.email)}" style="color:#c00">삭제</button>`;
       return `
         <tr>
           <td>${escapeHtml(u.email)}</td>
@@ -42,6 +46,7 @@ const AdminUsersPage = {
           <td><div class="role-cell">${roleSelect}</div></td>
           <td>${formatDate(u.created_at)}</td>
           <td>${workerCell}</td>
+          <td>${deleteCell}</td>
         </tr>
       `;
     }).join('');
@@ -68,9 +73,10 @@ const AdminUsersPage = {
               <th>역할</th>
               <th>가입일</th>
               <th>워커 토큰</th>
+              <th>삭제</th>
             </tr>
           </thead>
-          <tbody>${rows || '<tr><td colspan="5" class="text-muted" style="text-align:center;padding:24px">사용자가 없습니다</td></tr>'}</tbody>
+          <tbody>${rows || '<tr><td colspan="6" class="text-muted" style="text-align:center;padding:24px">사용자가 없습니다</td></tr>'}</tbody>
         </table>
       </div>
     `, 'admin-users');
@@ -119,6 +125,21 @@ const AdminUsersPage = {
           await this.load();
         } catch (err) {
           alert(`워커 토큰 회수 실패: ${err.message || err}`);
+        }
+      });
+    });
+
+    // v25: 사용자 soft delete
+    document.querySelectorAll('.user-delete').forEach(b => {
+      b.addEventListener('click', async (e) => {
+        const id = e.target.getAttribute('data-user-id');
+        const email = e.target.getAttribute('data-email');
+        if (!confirm(`${email} 사용자를 삭제합니다.\n\n주의:\n- soft delete (DB 보존, 로그인 차단)\n- 워커 토큰 함께 회수\n- 마지막 admin 은 삭제 불가\n\n계속할까요?`)) return;
+        try {
+          await API.del(`/admin/users/${id}`);
+          await this.load();
+        } catch (err) {
+          alert(`삭제 실패: ${err.message || err}`);
         }
       });
     });

@@ -7,14 +7,14 @@ const LoginPage = {
           <h1 class="font-eluo"><span class="accent">ELUO</span> XCIPE</h1>
           <p>웹 에이전시의 기획·디자인·퍼블리싱·QA 워크플로우를<br>자동화하는 플랫폼</p>
           <div id="login-alert"></div>
-          <form id="login-form">
+          <form id="login-form" autocomplete="off">
             <div class="form-group">
               <label>이메일</label>
-              <input type="email" id="email" required autofocus value="admin@eluo.kr">
+              <input type="email" id="email" required autofocus autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
             </div>
             <div class="form-group">
               <label>비밀번호</label>
-              <input type="password" id="password" required value="admin1234">
+              <input type="password" id="password" required autocomplete="new-password">
             </div>
             <button type="submit" class="btn-primary" id="login-btn">로그인</button>
           </form>

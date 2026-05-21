@@ -59,4 +59,26 @@ router.delete('/:id/worker-token', (req, res) => {
   res.json({ ok: true, message: '워커 토큰 회수됨' });
 });
 
+// v25: DELETE /api/admin/users/:id — 사용자 soft delete
+//   본인 삭제 차단 + admin 1명 이하 시 마지막 admin 삭제 차단
+router.delete('/:id', (req, res) => {
+  const targetId = parseInt(req.params.id, 10);
+  if (targetId === req.user.id) {
+    return res.status(400).json({ error: 'ESYS-USR-010', message: '본인 계정은 삭제할 수 없습니다' });
+  }
+  const target = db.prepare('SELECT id, email, role FROM users WHERE id = ? AND deleted_at IS NULL').get(targetId);
+  if (!target) return res.status(404).json({ error: 'ESYS-USR-011', message: 'User not found' });
+
+  // 마지막 admin 보호 — 시스템에 admin 0명 되는 것 차단
+  if (target.role === 'admin') {
+    const adminCount = db.prepare("SELECT COUNT(*) AS c FROM users WHERE role = 'admin' AND deleted_at IS NULL").get().c;
+    if (adminCount <= 1) {
+      return res.status(400).json({ error: 'ESYS-USR-012', message: '마지막 admin 은 삭제할 수 없습니다' });
+    }
+  }
+
+  db.prepare("UPDATE users SET deleted_at = datetime('now'), worker_token = NULL WHERE id = ?").run(targetId);
+  res.json({ ok: true, message: `${target.email} 삭제됨 (soft delete)` });
+});
+
 module.exports = router;
