@@ -108,6 +108,16 @@ app.get('/api/worker/my-download', authMiddleware, workerRouter.myDownloadHandle
 app.use('/api/worker', workerRouter);
 app.use('/bridge', require('./routes/bridge'));    // KDS figma-change-tracker 플러그인 호환 endpoint (xcipe 내장)
 app.use('/kds-bridge', require('./routes/kds-bridge-proxy')); // v25 KDS bridge-server(3939) proxy (Railway 단일 PORT 호환)
+
+// v30: bridge-server 를 같은 프로세스로 통합 (Dockerfile concurrently 의존 제거).
+//   require 시점에 listen(3939) 자동 호출됨. xcipe 프로세스 안 죽으면 bridge 도 살아있음.
+//   Dockerfile CMD 에 bridge-server.js 별도 spawn 이 남아있으면 EADDRINUSE 발생 — Dockerfile 도 같이 정리.
+try {
+  require(path.resolve(__dirname, '..', 'kds-v4', 'bridge-server.js'));
+  console.log('[xcipe] bridge-server 통합 로드 (port 3939)');
+} catch (e) {
+  console.error('[xcipe] bridge-server 로딩 실패:', e.message);
+}
 app.use('/api/kds-design', authMiddleware, require('./routes/kds-design'));    // KDS 디자인 정식 메뉴 (파이프라인 무관 독립 기능) — v28: 분산 워커 위임에 req.user.id 필요
 
 // SPA fallback — non-API routes serve index.html (static/output 제외)

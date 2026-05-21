@@ -250,11 +250,15 @@ function execClaudeShort(prompt, { cwd, timeout = 180000, userId = null, kind = 
       }
       try {
         const { invokeViaWorker } = require('../engine/worker-invocation');
+        // v30: Railway HTTP proxy timeout(~60s) 회피 — KDS chat 은 보통 5~25초.
+        //   180초까지 기다리면 Railway 가 먼저 502 끊음. 45초로 제한.
+        //   더 긴 작업(kds-design)은 별도 비동기 패턴 (다음 commit).
+        const effectiveTimeout = kind === 'kds-design' ? 7_200_000 : 45_000;
         const inv = await invokeViaWorker({
           userId,
           kind,
           payload: { userPrompt: prompt },
-          timeoutMs: Math.max(timeout, 180_000)
+          timeoutMs: effectiveTimeout
         });
         if (!inv.ok) return resolve({ ok: false, error: inv.error });
         return resolve({ ok: true, content: (inv.content || '').trim() });

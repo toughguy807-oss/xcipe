@@ -124,4 +124,44 @@ function completeInvocation({ id, userId, workerId, ok, result, error }) {
   `).run(String(error || 'unknown error').slice(0, 4000), id, userId, workerId).changes > 0;
 }
 
-module.exports = { invokeViaWorker, claimNextInvocation, completeInvocation };
+// v30: 비동기 패턴 — invocation 등록 후 즉시 ID 반환. 클라이언트가 status polling.
+//   Railway HTTP proxy timeout(60s) 회피. 긴 작업(KDS design 등)에 필수.
+function enqueueInvocation({ userId, kind, payload }) {
+  if (!userId) return { ok: false, error: 'userId 필수' };
+  if (!kind) return { ok: false, error: 'kind 필수' };
+  const ALLOWED_KINDS = ['analyze-prompt', 'intake-turn', 'kds-chat', 'kds-design'];
+  if (!ALLOWED_KINDS.includes(kind)) return { ok: false, error: `unknown kind: ${kind}` };
+  const insert = db.prepare(`
+    INSERT INTO worker_invocations (user_id, kind, payload_json, status)
+    VALUES (?, ?, ?, 'pending')
+  `).run(userId, kind, JSON.stringify(payload || {}));
+  return { ok: true, invocationId: insert.lastInsertRowid };
+}
+
+function getInvocationStatus({ id, userId }) {
+  const row = db.prepare(`
+    SELECT id, kind, status, result_json, error, created_at, claimed_at, completed_at
+    FROM worker_invocations
+    WHERE id = ? AND user_id = ?
+  `).get(id, userId);
+  if (!row) return { ok: false, error: 'not found' };
+  let result = null;
+  if (row.status === 'done' && row.result_json) {
+    try { result = JSON.parse(row.result_json); } catch {}
+  }
+  return {
+    ok: true,
+    invocationId: row.id,
+    kind: row.kind,
+    status: row.status,
+    result,
+    error: row.error,
+    timeline: {
+      created_at: row.created_at,
+      claimed_at: row.claimed_at,
+      completed_at: row.completed_at
+    }
+  };
+}
+
+module.exports = { invokeViaWorker, enqueueInvocation, getInvocationStatus, claimNextInvocation, completeInvocation };

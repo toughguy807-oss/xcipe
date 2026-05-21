@@ -74,8 +74,6 @@ EXPOSE 3747
 # Healthcheck — / 로 응답 확인 (xcipe Express). kds-bridge 는 /kds-bridge/health 로 확인 가능
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 CMD curl -fsS http://localhost:3747/ || exit 1
 
-# v25: 두 프로세스 동시 실행 — xcipe(3747) + kds-bridge(3939)
-#   - concurrently 가 SIGTERM 받으면 둘 다 정상 종료
-#   - kds-bridge 가 죽으면 xcipe 도 같이 죽어서 Railway 가 재배포 트리거
-#   - prestart bundle-claude.js 는 ~/.claude 의존이라 컨테이너에서 스킵 (.claude/ 빌드 시점 번들됨)
-CMD ["npx", "concurrently", "-k", "-n", "xcipe,kds-bridge", "-c", "blue,green", "node src/server.js", "node kds-v4/bridge-server.js"]
+# v30: xcipe 단일 프로세스 — bridge-server 는 src/server.js 에서 require 로 통합 (port 3939 같이 listen)
+#   concurrently 패턴 제거 (한쪽 죽으면 전체 죽는 -k 옵션이 502/Application failed to respond 의 한 원인)
+CMD ["node", "src/server.js"]
