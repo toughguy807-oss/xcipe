@@ -238,6 +238,19 @@ function newSession() {
 
 function execClaudeShort(prompt, { cwd, timeout = 180000 } = {}) {
   return new Promise((resolve) => {
+    // v26: 컨테이너 환경에서는 ~/.claude/credentials 없어 claude CLI 직접 호출 실패
+    //   분산 워커 모드 (WORKER_MODE=queue-only 또는 ESYS_DEV!=1) 면 친절 안내로 fallback
+    const isDevLocal = process.env.ESYS_DEV === '1';
+    const workerMode = (process.env.WORKER_MODE || '').toLowerCase();
+    if (!isDevLocal || workerMode === 'queue-only') {
+      return resolve({
+        ok: false,
+        error: '[KDS 채팅] 클라우드 환경에서는 claude CLI 직접 호출 불가 (OAuth 토큰 없음). 다음 중 하나로 대응 필요:\n' +
+               '  1. ANTHROPIC_API_KEY 발급 후 Variables 등록 + admin/settings 에서 claude-api 모드 전환\n' +
+               '  2. 본인 PC 에서 로컬 모드 (npm start, ESYS_DEV=1) 실행하여 KDS 사용\n' +
+               '  3. KDS 채팅을 워커 daemon 으로 위임하는 기능 추가 (Phase 3 예정)'
+      });
+    }
     const tmp = path.join(os.tmpdir(), `kdschat-${crypto.randomBytes(6).toString('hex')}.txt`);
     fs.writeFileSync(tmp, prompt, 'utf8');
     const flags = '-p --effort high --allowedTools "Read Glob Grep" --exclude-dynamic-system-prompt-sections --output-format json';

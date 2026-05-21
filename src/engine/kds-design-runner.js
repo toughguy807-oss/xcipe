@@ -31,6 +31,15 @@ function getKdsRoot() {
 
 function _execClaude(prompt, { cwd, timeout = 300000, command = 'claude' } = {}) {
   return new Promise((resolve) => {
+    // v26: 컨테이너 환경에서는 OAuth 토큰 없어 직접 호출 실패
+    const isDevLocal = process.env.ESYS_DEV === '1';
+    const workerMode = (process.env.WORKER_MODE || '').toLowerCase();
+    if (!isDevLocal || workerMode === 'queue-only') {
+      return resolve({
+        ok: false,
+        error: '[KDS 디자인 생성] 클라우드 환경에서는 claude CLI 호출 불가. ANTHROPIC_API_KEY 발급(claude-api) 또는 본인 PC 로컬 모드(npm start, ESYS_DEV=1) 필요.'
+      });
+    }
     const tmp = path.join(os.tmpdir(), `kdsdesign-${crypto.randomBytes(6).toString('hex')}.txt`);
     fs.writeFileSync(tmp, prompt, 'utf8');
     const flags = '-p --effort high --allowedTools "Read Write Edit Glob Grep Bash Skill" --exclude-dynamic-system-prompt-sections --output-format json';

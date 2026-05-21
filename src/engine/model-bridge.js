@@ -171,12 +171,16 @@ class FailingProvider {
 function getProvider() {
   let configured = getSetting('ai_provider') || 'mock';
   // v26: 분산 워커 모드 — 서버는 claude-code 호출 불가 (OAuth 없음).
-  //   ai_provider='claude-code' 면 워커가 파이프라인 실행을 처리하고,
-  //   서버 측 직접 호출(analyzePrompt, intake 등)은 mock 로 fallback.
-  //   ClaudeCodeProvider spawn 시도 자체를 차단해 'Command failed: claude -p ...' 에러 방지.
-  const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
-  if (workerMode === 'queue-only' && configured === 'claude-code') {
-    configured = 'mock';
+  //   ai_provider='claude-code' 시 컨테이너에 ~/.claude/credentials 없으면 무조건 mock fallback.
+  //   ESYS_DEV=1 (로컬 개발) + ~/.claude 존재할 때만 직접 호출 허용.
+  //   WORKER_MODE=queue-only 도 같은 효과 (명시 권장).
+  if (configured === 'claude-code') {
+    const workerMode = (process.env.WORKER_MODE || '').toLowerCase();
+    const isDevLocal = process.env.ESYS_DEV === '1';
+    if (workerMode === 'queue-only' || !isDevLocal) {
+      // 컨테이너 환경 = OAuth 없음 → mock fallback. 워커가 파이프라인 처리.
+      configured = 'mock';
+    }
   }
   if (_currentProviderName !== configured || !_currentProvider) {
     try {
