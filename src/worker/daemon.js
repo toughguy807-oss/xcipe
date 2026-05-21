@@ -180,7 +180,41 @@ function buildPrompt({ skill_name, skill_content, project, previous_artifacts, r
   return sections.join('\n');
 }
 
-function spawnClaude(fullPrompt) {
+// v28: KDS root 자동 탐색 — 워커 PC 의 kds-v4 폴더 위치를 추정
+//   1. env XCIPE_KDS_ROOT (사용자 명시)
+//   2. ~/d/SYS_v4/kds-v4, ~/SYS_v4/kds-v4, ./kds-v4, ../kds-v4 등 흔한 경로
+//   3. 못 찾으면 null — claude 가 cwd 에서 작업 (산출물이 워커 폴더에 떨어짐)
+let _cachedKdsRoot = undefined;
+function detectKdsRoot() {
+  if (_cachedKdsRoot !== undefined) return _cachedKdsRoot;
+  if (process.env.XCIPE_KDS_ROOT) {
+    _cachedKdsRoot = process.env.XCIPE_KDS_ROOT;
+    return _cachedKdsRoot;
+  }
+  const home = os.homedir();
+  const candidates = [
+    'd:/SYS_v4/kds-v4',
+    'D:/SYS_v4/kds-v4',
+    path.join(home, 'SYS_v4', 'kds-v4'),
+    path.join(home, 'Documents', 'SYS_v4', 'kds-v4'),
+    path.join(home, 'Downloads', 'SYS_v4', 'kds-v4'),
+    path.join(process.cwd(), '..', 'kds-v4'),
+    path.join(process.cwd(), 'kds-v4')
+  ];
+  for (const c of candidates) {
+    try {
+      if (fs.existsSync(path.join(c, 'kds-rules')) || fs.existsSync(path.join(c, 'kds', 'data'))) {
+        _cachedKdsRoot = c;
+        log(`KDS_V4_ROOT 자동 감지: ${c}`);
+        return _cachedKdsRoot;
+      }
+    } catch {}
+  }
+  _cachedKdsRoot = null;
+  return null;
+}
+
+function spawnClaude(fullPrompt, opts = {}) {
   return new Promise((resolve) => {
     const tmpFile = path.join(os.tmpdir(), `xcipe-worker-prompt-${crypto.randomBytes(8).toString('hex')}.txt`);
     try {
@@ -194,12 +228,17 @@ function spawnClaude(fullPrompt) {
       ? `${CLAUDE_CMD} ${flags} < "${tmpFile}"`
       : `cat "${tmpFile}" | ${CLAUDE_CMD} ${flags}`;
 
-    exec(cmd, {
-      timeout: CLAUDE_TIMEOUT,
+    const execOptions = {
+      timeout: opts.timeout || CLAUDE_TIMEOUT,
       maxBuffer: 100 * 1024 * 1024,
       encoding: 'utf8',
       windowsHide: true
-    }, (e, stdout, stderr) => {
+    };
+    if (opts.cwd) {
+      execOptions.cwd = opts.cwd;
+      log(`claude cwd=${opts.cwd}`);
+    }
+    exec(cmd, execOptions, (e, stdout, stderr) => {
       try { fs.unlinkSync(tmpFile); } catch {}
       if (e) {
         if (e.killed) return resolve({ ok: false, error: `claude timeout (${CLAUDE_TIMEOUT}ms)`, killed: true });
@@ -312,11 +351,11 @@ async function reportInvocationResult(id, ok, payload) {
 }
 
 // 짧은 호출용 claude 실행 — spawnClaude 와 동일하지만 systemPrompt 합쳐서 전송
-async function spawnClaudeShort({ systemPrompt, userPrompt }) {
+async function spawnClaudeShort({ systemPrompt, userPrompt }, opts = {}) {
   const combined = systemPrompt
     ? `${systemPrompt}\n\n---\n\n${userPrompt}`
     : userPrompt;
-  return spawnClaude(combined);
+  return spawnClaude(combined, opts);
 }
 
 async function processInvocation(inv) {
@@ -326,10 +365,22 @@ async function processInvocation(inv) {
   try {
     let r;
     if (kind === 'analyze-prompt' || kind === 'intake-turn' || kind === 'kds-chat' || kind === 'kds-design') {
+      // KDS 작업은 워커 PC 의 kds-v4 폴더가 cwd 가 되어야 to-figma/ 산출물 정상 저장
+      const opts = {};
+      if (kind === 'kds-chat' || kind === 'kds-design') {
+        const kdsRoot = detectKdsRoot();
+        if (kdsRoot) {
+          opts.cwd = kdsRoot;
+        } else {
+          warn(`KDS invocation ${id} 받았으나 워커 PC 에서 kds-v4 폴더를 못 찾음 — claude 가 zip 폴더에서 실행 (산출물 위치 부정확). env XCIPE_KDS_ROOT 또는 d:/SYS_v4/kds-v4 가 있어야 정상 처리.`);
+        }
+        // KDS 디자인은 7200초까지 가능 (긴 작업)
+        if (kind === 'kds-design') opts.timeout = 7_200_000;
+      }
       r = await spawnClaudeShort({
         systemPrompt: payload.systemPrompt || '',
         userPrompt: payload.userPrompt || payload.prompt || ''
-      });
+      }, opts);
     } else {
       await reportInvocationResult(id, false, `unknown kind: ${kind}`);
       return;

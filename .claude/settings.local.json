@@ -26,7 +26,9 @@
       "WebFetch(domain:docs.railway.com)",
       "Bash(gh auth *)",
       "Bash(mkdir -p d:/SYS_v4/kds-v4)",
-      "Bash(cp -r kds kds-rules scripts figma-change-tracker bridge-server.js CLAUDE.md README.md package.json package-lock.json d:/SYS_v4/kds-v4/)"
+      "Bash(cp -r kds kds-rules scripts figma-change-tracker bridge-server.js CLAUDE.md README.md package.json package-lock.json d:/SYS_v4/kds-v4/)",
+      "Bash(git rm *)",
+      "Bash(git ls-files *)"
     ]
   }
 }
