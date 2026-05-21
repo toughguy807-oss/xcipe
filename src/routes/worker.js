@@ -286,6 +286,110 @@ router.post('/jobs/:id/fail', (req, res) => {
   }
 });
 
+// ── /kds-snapshot — KDS 자원 zip 다운로드 (v29) ────────────────────────
+//   워커가 시작 시 / KDS invocation 처리 시 호출. 본인 PC 에 kds-v4 가 없거나
+//   서버 버전과 다르면 받아서 임시 폴더에 풀어 cwd 로 사용.
+//   포함: kds-rules/, .claude/, kds/data/(components|foundations|tokens), scripts/,
+//         CLAUDE.md, package.json
+//   제외: to-figma/, from-figma/ (사용자 산출물 — Volume 영속, 별도 endpoint)
+//         logs/, node_modules/, kds/data/ai-agent/ (이미지 무거움)
+router.get('/kds-snapshot', (req, res) => {
+  const fsLib = require('fs');
+  const pathLib = require('path');
+  const kdsRoot = process.env.KDS_V4_ROOT || pathLib.join(__dirname, '..', '..', 'kds-v4');
+  if (!fsLib.existsSync(kdsRoot)) {
+    return res.status(404).json({ error: 'ESYS-WRK-080', message: 'KDS_V4_ROOT 없음', path: kdsRoot });
+  }
+  let archiver;
+  try { archiver = require('archiver'); }
+  catch { return res.status(500).json({ error: 'ESYS-WRK-081', message: 'archiver 미설치' }); }
+
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', 'attachment; filename="kds-v4-snapshot.zip"');
+  const zip = archiver('zip', { zlib: { level: 6 } });
+  zip.on('error', (err) => { try { res.status(500).end(err.message); } catch {} });
+  zip.pipe(res);
+
+  // 핵심 텍스트 자원만 포함 (이미지 ai-agent/ 제외)
+  const include = [
+    'kds-rules', '.claude', 'scripts',
+    'CLAUDE.md', 'README.md', 'package.json'
+  ];
+  for (const rel of include) {
+    const abs = pathLib.join(kdsRoot, rel);
+    if (!fsLib.existsSync(abs)) continue;
+    const stat = fsLib.statSync(abs);
+    if (stat.isDirectory()) {
+      zip.directory(abs, rel);
+    } else {
+      zip.file(abs, { name: rel });
+    }
+  }
+  // kds/data 의 components/foundations/tokens 만 (ai-agent/ 등 이미지 폴더 제외)
+  const kdsDataDir = pathLib.join(kdsRoot, 'kds', 'data');
+  if (fsLib.existsSync(kdsDataDir)) {
+    for (const sub of ['components', 'foundations', 'tokens']) {
+      const abs = pathLib.join(kdsDataDir, sub);
+      if (fsLib.existsSync(abs)) zip.directory(abs, `kds/data/${sub}`);
+    }
+    // kds/ 직속 텍스트 파일 (CLAUDE.md 등)
+    try {
+      for (const f of fsLib.readdirSync(pathLib.join(kdsRoot, 'kds'))) {
+        const abs = pathLib.join(kdsRoot, 'kds', f);
+        if (fsLib.statSync(abs).isFile()) zip.file(abs, { name: `kds/${f}` });
+      }
+    } catch {}
+  }
+  zip.finalize();
+});
+
+// ── /kds-artifacts — 워커가 만든 to-figma/ 산출물 업로드 (v29) ───────────
+//   body: { files: [{ name, content_base64 }, ...] }
+//   서버는 /app/kds-v4/to-figma/{name} 에 저장 (Volume 영속).
+//   같은 이름은 덮어쓰기 (의도된 동작 — claude 가 기존 시안 보정 가능).
+router.post('/kds-artifacts', express.json({ limit: '50mb' }), (req, res) => {
+  const fsLib = require('fs');
+  const pathLib = require('path');
+  const files = Array.isArray(req.body && req.body.files) ? req.body.files : [];
+  if (!files.length) {
+    return res.status(400).json({ error: 'ESYS-WRK-090', message: 'files 배열 필요' });
+  }
+  const kdsRoot = process.env.KDS_V4_ROOT || pathLib.join(__dirname, '..', '..', 'kds-v4');
+  const toFigmaDir = pathLib.join(kdsRoot, 'to-figma');
+  fsLib.mkdirSync(toFigmaDir, { recursive: true });
+
+  const saved = [];
+  const skipped = [];
+  for (const f of files) {
+    if (!f.name || !f.content_base64) {
+      skipped.push({ name: f.name || '(no name)', reason: 'name/content_base64 누락' });
+      continue;
+    }
+    // 보안: 경로 traversal 차단 — 단순 파일명만 허용
+    const safeName = pathLib.basename(String(f.name)).replace(/[^a-zA-Z0-9가-힣._-]/g, '_');
+    if (!safeName || safeName === '.' || safeName === '..') {
+      skipped.push({ name: f.name, reason: 'invalid filename' });
+      continue;
+    }
+    try {
+      const buf = Buffer.from(f.content_base64, 'base64');
+      const target = pathLib.join(toFigmaDir, safeName);
+      fsLib.writeFileSync(target, buf);
+      saved.push({ name: safeName, size: buf.length });
+    } catch (e) {
+      skipped.push({ name: f.name, reason: e.message });
+    }
+  }
+
+  // 산출물 메타 로그 (DB 의 activity 에 기록)
+  try {
+    logActivity('worker', req.workerUser.id, 'kds_artifacts_uploaded',
+      `${saved.length}개 파일 (skipped ${skipped.length})`, req.workerUser.id);
+  } catch {}
+
+  res.json({ ok: true, saved, skipped, to_figma_dir: toFigmaDir });
+});
+
 // ── /invocations/claim — ad-hoc LLM 호출 큐 (v28) ────────────────────────
 //   pipeline_steps 와 별개. analyzePrompt/intake/KDS chat 등 짧은 호출.
 //   본인 user_id 의 pending invocation 1건 atomic claim.

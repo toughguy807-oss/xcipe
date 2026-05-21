@@ -180,17 +180,14 @@ function buildPrompt({ skill_name, skill_content, project, previous_artifacts, r
   return sections.join('\n');
 }
 
-// v28: KDS root 자동 탐색 — 워커 PC 의 kds-v4 폴더 위치를 추정
+// v29: KDS root 자동 탐색 + 서버 자동 sync — multi-device 워커풀 지원
 //   1. env XCIPE_KDS_ROOT (사용자 명시)
-//   2. ~/d/SYS_v4/kds-v4, ~/SYS_v4/kds-v4, ./kds-v4, ../kds-v4 등 흔한 경로
-//   3. 못 찾으면 null — claude 가 cwd 에서 작업 (산출물이 워커 폴더에 떨어짐)
+//   2. 본인 PC 의 흔한 경로 (d:/SYS_v4/kds-v4 등) — 이미 자원 있는 PC
+//   3. 캐시 폴더 (~/.xcipe/kds-v4) — 서버에서 자동 다운로드된 위치
+//   4. 없으면 서버에서 다운로드해서 캐시 폴더에 풀고 사용
 let _cachedKdsRoot = undefined;
-function detectKdsRoot() {
-  if (_cachedKdsRoot !== undefined) return _cachedKdsRoot;
-  if (process.env.XCIPE_KDS_ROOT) {
-    _cachedKdsRoot = process.env.XCIPE_KDS_ROOT;
-    return _cachedKdsRoot;
-  }
+function detectKdsRootLocal() {
+  if (process.env.XCIPE_KDS_ROOT) return process.env.XCIPE_KDS_ROOT;
   const home = os.homedir();
   const candidates = [
     'd:/SYS_v4/kds-v4',
@@ -204,14 +201,93 @@ function detectKdsRoot() {
   for (const c of candidates) {
     try {
       if (fs.existsSync(path.join(c, 'kds-rules')) || fs.existsSync(path.join(c, 'kds', 'data'))) {
-        _cachedKdsRoot = c;
-        log(`KDS_V4_ROOT 자동 감지: ${c}`);
-        return _cachedKdsRoot;
+        return c;
       }
     } catch {}
   }
-  _cachedKdsRoot = null;
   return null;
+}
+
+async function ensureKdsRoot() {
+  if (_cachedKdsRoot) return _cachedKdsRoot;
+  // 1차: 본인 PC 에 이미 있으면 그대로
+  const local = detectKdsRootLocal();
+  if (local) {
+    _cachedKdsRoot = local;
+    log(`KDS_V4_ROOT 로컬 감지: ${local}`);
+    return local;
+  }
+  // 2차: 캐시 폴더 확인 (이전에 서버에서 받아둔 적 있음)
+  const cacheRoot = path.join(os.homedir(), '.xcipe', 'kds-v4');
+  if (fs.existsSync(path.join(cacheRoot, 'kds-rules'))) {
+    _cachedKdsRoot = cacheRoot;
+    log(`KDS_V4_ROOT 캐시 사용: ${cacheRoot}`);
+    return cacheRoot;
+  }
+  // 3차: 서버에서 자동 다운로드
+  log('KDS 자원 못 찾음 — 서버에서 다운로드 중…');
+  try {
+    const res = await fetch(`${SERVER}/api/worker/kds-snapshot`, {
+      headers: { 'X-Worker-Token': WORKER_TOKEN }
+    });
+    if (!res.ok) {
+      err(`KDS snapshot 다운로드 실패: HTTP ${res.status}`);
+      _cachedKdsRoot = null;
+      return null;
+    }
+    const buf = Buffer.from(await res.arrayBuffer());
+    fs.mkdirSync(cacheRoot, { recursive: true });
+    const zipPath = path.join(os.homedir(), '.xcipe', 'kds-v4-snapshot.zip');
+    fs.writeFileSync(zipPath, buf);
+    log(`KDS snapshot 받음 (${(buf.length / 1024 / 1024).toFixed(1)} MB) — 압축 푸는 중…`);
+    // unzip — adm-zip 또는 node-stream-zip 사용. 없으면 PowerShell Expand-Archive 우회.
+    let unzipped = false;
+    try {
+      const AdmZip = require('adm-zip');
+      const zip = new AdmZip(zipPath);
+      zip.extractAllTo(cacheRoot, true);
+      unzipped = true;
+    } catch (e) {
+      // adm-zip 없으면 PowerShell 우회 (Windows)
+      if (process.platform === 'win32') {
+        const { execSync } = require('child_process');
+        try {
+          execSync(`powershell -NoProfile -Command "Expand-Archive -Path '${zipPath}' -DestinationPath '${cacheRoot}' -Force"`,
+            { stdio: 'pipe' });
+          unzipped = true;
+        } catch (pe) {
+          err(`PowerShell Expand-Archive 실패: ${pe.message}`);
+        }
+      } else {
+        // unix: unzip 명령
+        const { execSync } = require('child_process');
+        try {
+          execSync(`unzip -o "${zipPath}" -d "${cacheRoot}"`, { stdio: 'pipe' });
+          unzipped = true;
+        } catch (ue) {
+          err(`unzip 실패: ${ue.message}`);
+        }
+      }
+    }
+    if (!unzipped) {
+      _cachedKdsRoot = null;
+      return null;
+    }
+    try { fs.unlinkSync(zipPath); } catch {}
+    log(`KDS 자원 캐시 완료: ${cacheRoot}`);
+    _cachedKdsRoot = cacheRoot;
+    return cacheRoot;
+  } catch (e) {
+    err(`KDS snapshot 다운로드 예외: ${e.message}`);
+    _cachedKdsRoot = null;
+    return null;
+  }
+}
+
+// 호환성 — 기존 detectKdsRoot 동기 호출 유지 (자원 자동 다운로드는 안 함, 빠른 체크용)
+function detectKdsRoot() {
+  if (_cachedKdsRoot !== undefined) return _cachedKdsRoot;
+  return detectKdsRootLocal();
 }
 
 function spawnClaude(fullPrompt, opts = {}) {
@@ -364,23 +440,75 @@ async function processInvocation(inv) {
   const t0 = Date.now();
   try {
     let r;
+    let kdsRoot = null;
+    let beforeFiles = null;  // KDS 작업 전 to-figma/ 파일 set — diff 로 새 산출물 추출
     if (kind === 'analyze-prompt' || kind === 'intake-turn' || kind === 'kds-chat' || kind === 'kds-design') {
-      // KDS 작업은 워커 PC 의 kds-v4 폴더가 cwd 가 되어야 to-figma/ 산출물 정상 저장
       const opts = {};
       if (kind === 'kds-chat' || kind === 'kds-design') {
-        const kdsRoot = detectKdsRoot();
+        kdsRoot = await ensureKdsRoot();  // 자동 다운로드 포함
         if (kdsRoot) {
           opts.cwd = kdsRoot;
+          // 작업 전 to-figma/ 스냅샷 — 끝나면 새 파일만 서버로 업로드
+          const toFigmaDir = path.join(kdsRoot, 'to-figma');
+          try {
+            if (fs.existsSync(toFigmaDir)) {
+              beforeFiles = new Set(fs.readdirSync(toFigmaDir));
+            } else {
+              fs.mkdirSync(toFigmaDir, { recursive: true });
+              beforeFiles = new Set();
+            }
+          } catch {}
         } else {
-          warn(`KDS invocation ${id} 받았으나 워커 PC 에서 kds-v4 폴더를 못 찾음 — claude 가 zip 폴더에서 실행 (산출물 위치 부정확). env XCIPE_KDS_ROOT 또는 d:/SYS_v4/kds-v4 가 있어야 정상 처리.`);
+          warn(`KDS invocation ${id} — kds-v4 자원 확보 실패. 작업 진행은 하나 산출물 위치 부정확 가능.`);
         }
-        // KDS 디자인은 7200초까지 가능 (긴 작업)
         if (kind === 'kds-design') opts.timeout = 7_200_000;
       }
       r = await spawnClaudeShort({
         systemPrompt: payload.systemPrompt || '',
         userPrompt: payload.userPrompt || payload.prompt || ''
       }, opts);
+
+      // KDS 산출물 자동 회수 — claude 가 to-figma/ 에 만든 새 파일을 서버로 업로드
+      if (r && r.ok && kdsRoot && beforeFiles) {
+        try {
+          const toFigmaDir = path.join(kdsRoot, 'to-figma');
+          const afterFiles = fs.existsSync(toFigmaDir) ? fs.readdirSync(toFigmaDir) : [];
+          const newFiles = afterFiles.filter(f => !beforeFiles.has(f));
+          if (newFiles.length > 0) {
+            log(`KDS 산출물 ${newFiles.length}개 감지 — 서버로 업로드`);
+            const filesPayload = newFiles.map(name => {
+              try {
+                const abs = path.join(toFigmaDir, name);
+                const stat = fs.statSync(abs);
+                if (stat.size > 10 * 1024 * 1024) {
+                  warn(`${name} ${stat.size} bytes — 10MB 초과 skip`);
+                  return null;
+                }
+                return {
+                  name,
+                  content_base64: fs.readFileSync(abs).toString('base64')
+                };
+              } catch (e) {
+                warn(`산출물 읽기 실패 ${name}: ${e.message}`);
+                return null;
+              }
+            }).filter(Boolean);
+
+            if (filesPayload.length) {
+              const up = await httpJson('POST', '/api/worker/kds-artifacts', {
+                body: { files: filesPayload }
+              });
+              if (up.ok) {
+                log(`KDS 산출물 ${filesPayload.length}개 서버 업로드 OK`);
+              } else {
+                warn(`KDS 산출물 업로드 실패 status=${up.status}`, up.body);
+              }
+            }
+          }
+        } catch (e) {
+          warn(`KDS 산출물 회수 예외: ${e.message}`);
+        }
+      }
     } else {
       await reportInvocationResult(id, false, `unknown kind: ${kind}`);
       return;
