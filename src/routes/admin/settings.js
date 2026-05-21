@@ -3,7 +3,7 @@
 const router = require('express').Router();
 const { getSetting, setSetting } = require('../../db');
 const { authMiddleware, requireRole } = require('../../auth');
-const { resetProvider, testConnection, checkSession } = require('../../engine/model-bridge');
+const { resetProvider, testConnection, checkSession, getEffectiveWorkerMode } = require('../../engine/model-bridge');
 
 router.use(authMiddleware);
 router.use(requireRole('admin'));
@@ -13,7 +13,8 @@ router.use(requireRole('admin'));
 //           — shell.js AI pill 과 doctor 가 동일 데이터 공유
 router.get('/ai', async (req, res) => {
   const provider = getSetting('ai_provider') || 'claude-code';
-  const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
+  // v27: env 미설정 시 ~/.claude/credentials 자동 감지 (testConnection 과 동일 기준)
+  const workerMode = getEffectiveWorkerMode();
 
   // v25: 분산 워커 모드 — 서버에서 직접 claude 호출 안 함. active worker token 보유 사용자가 있으면 ready.
   const { db } = require('../../db');
@@ -125,7 +126,8 @@ router.put('/ai', async (req, res) => {
       // v26: claude-code 활성화 검증 — "어느 PC 의 로그인" 인지에 따라 분기.
       //   local 모드(서버가 직접 호출): 서버 컨테이너 OAuth 확인
       //   queue-only 모드(분산 워커): 요청한 admin 본인 PC 워커가 보고한 claude session 확인
-      const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
+      // v27: env 미설정 시 ~/.claude/credentials 자동 감지 (testConnection 과 동일 기준)
+      const workerMode = getEffectiveWorkerMode();
       if (workerMode === 'queue-only') {
         // 본인 워커가 polling 중이고 claude CLI 로그인 OK 여부 확인
         const { db } = require('../../db');
