@@ -168,14 +168,38 @@ class FailingProvider {
   }
 }
 
+// v26: WORKER_MODE 자동 감지 — ~/.claude/credentials 없으면 queue-only (분산 워커)
+//   본인 PC: 파일 있음 → 'local' → claude CLI 직접 호출 가능
+//   Railway 컨테이너: 파일 없음 → 'queue-only' → mock fallback + 워커가 처리
+//   사용자가 환경변수 명시하면 그 값 우선 (override 가능)
+let _cachedWorkerMode = null;
+function getEffectiveWorkerMode() {
+  if (process.env.WORKER_MODE) return process.env.WORKER_MODE.toLowerCase();
+  if (_cachedWorkerMode) return _cachedWorkerMode;
+  try {
+    const fs = require('fs');
+    const os = require('os');
+    const path = require('path');
+    // ~/.claude/credentials.json 또는 ~/.claude/credentials 확인
+    const home = os.homedir();
+    const candidates = [
+      path.join(home, '.claude', 'credentials.json'),
+      path.join(home, '.claude', '.credentials.json'),
+      path.join(home, '.claude', 'credentials')
+    ];
+    const hasOAuth = candidates.some(p => fs.existsSync(p));
+    _cachedWorkerMode = hasOAuth ? 'local' : 'queue-only';
+  } catch {
+    _cachedWorkerMode = 'queue-only';
+  }
+  return _cachedWorkerMode;
+}
+
 function getProvider() {
   let configured = getSetting('ai_provider') || 'mock';
-  // v26: 분산 워커 모드는 WORKER_MODE=queue-only 가 명시 설정된 경우만 적용.
-  //   본인 PC 에서 npm start (또는 npm run dev) 로 실행하는 기존 운영 패턴에는 영향 없음.
-  //   Railway 클라우드는 Variables 에 WORKER_MODE=queue-only 추가 → mock fallback.
+  // claude-code 인데 OAuth 없는 환경(Railway 등) → mock fallback
   if (configured === 'claude-code') {
-    const workerMode = (process.env.WORKER_MODE || '').toLowerCase();
-    if (workerMode === 'queue-only') {
+    if (getEffectiveWorkerMode() === 'queue-only') {
       configured = 'mock';
     }
   }
@@ -210,8 +234,8 @@ async function testConnection(providerName = null) {
 }
 
 async function analyzePrompt(prompt) {
-  // v26: WORKER_MODE=queue-only 명시 시에만 fallback. 본인 PC 로컬 운영에는 영향 없음.
-  const workerMode = (process.env.WORKER_MODE || '').toLowerCase();
+  // v26: 자동 감지된 worker mode 기반 fallback (~/.claude/credentials 없는 환경)
+  const workerMode = getEffectiveWorkerMode();
   const aiProvider = getSetting('ai_provider') || 'claude-code';
   if (workerMode === 'queue-only' && aiProvider === 'claude-code') {
     const text = String(prompt || '').trim();
@@ -1046,4 +1070,4 @@ function _debugLoadDS(designSystemId) {
   return loadDesignSystemContext(designSystemId);
 }
 
-module.exports = { getProvider, resetProvider, testConnection, checkSession, analyzePrompt, executeSkill, cancelInvocation, pickModel, pickTier, _debugLoadDS };
+module.exports = { getProvider, resetProvider, testConnection, checkSession, analyzePrompt, executeSkill, cancelInvocation, pickModel, pickTier, getEffectiveWorkerMode, _debugLoadDS };

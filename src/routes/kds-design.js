@@ -238,10 +238,10 @@ function newSession() {
 
 function execClaudeShort(prompt, { cwd, timeout = 180000 } = {}) {
   return new Promise((resolve) => {
-    // v26: WORKER_MODE=queue-only 가 명시 설정된 경우(분산 워커 운영)만 fallback.
+    // v26: 자동 감지 — ~/.claude/credentials 없는 환경(Railway 등)이면 fallback.
     //   본인 PC 로컬 운영(npm start)에서는 그대로 claude CLI 호출 → 본인 ~/.claude OAuth 사용.
-    const workerMode = (process.env.WORKER_MODE || '').toLowerCase();
-    if (workerMode === 'queue-only') {
+    const { getEffectiveWorkerMode } = require('../engine/model-bridge');
+    if (getEffectiveWorkerMode() === 'queue-only') {
       return resolve({
         ok: false,
         error: '[KDS 채팅] 분산 워커 모드는 KDS 채팅 미지원. 본인 PC 에서 npm start 로 로컬 실행 후 사용하거나 ANTHROPIC_API_KEY 발급 후 claude-api 모드 전환 필요.'

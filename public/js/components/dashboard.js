@@ -510,33 +510,16 @@ claude auth status    # 로그인 확인</pre>
           }
         </div>
 
-        <div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;${step2 ? 'opacity:0.6' : ''}">
-          <div style="display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px">${checkMark(step2)} 2단계: 워커 토큰 발급</div>
-          ${step2
-            ? `<div style="color:#28a745;font-size:13px;padding-left:28px">완료 — 토큰 보유 중 (분실 시 /admin/users 에서 재발급)</div>`
-            : ob.is_admin
-              ? `<div style="padding-left:28px;font-size:13px">
-                  <p style="margin:4px 0">본인 admin 권한으로 원클릭 발급 가능:</p>
-                  <button class="btn-primary" onclick="DashboardPage.issueMyWorkerToken()" style="width:auto;padding:8px 14px">🔑 내 워커 토큰 발급</button>
-                  <span style="color:#666;margin-left:8px">또는 <a href="#/admin/users" style="color:#007bff">/admin/users</a> 에서 발급</span>
-                </div>`
-              : `<div style="padding-left:28px;font-size:13px;color:#dc3545">
-                  관리자에게 워커 토큰 발급 요청 필요. 발급된 토큰을 받아 3단계 환경변수에 사용하세요.
-                </div>`
-          }
-        </div>
-
         <div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;${step3 ? 'opacity:0.6' : ''}">
-          <div style="display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px">${checkMark(step3)} 3단계: 워커 실행</div>
+          <div style="display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px">${checkMark(step3)} 2단계: 워커 다운로드 + 실행 (토큰 자동 발급)</div>
           ${step3
             ? `<div style="color:#28a745;font-size:13px;padding-left:28px">완료 — 워커가 polling 중</div>`
             : `<div style="padding-left:28px;font-size:13px">
-                <p style="margin:4px 0">본인 PC 빈 폴더에서 (git clone 불필요, 파일 1개로 동작):</p>
-                <pre style="background:#1a1a1a;color:#fff;padding:10px;border-radius:4px;font-size:12px;overflow:auto;margin:6px 0">curl -O ${ob.server_origin}${ob.worker_download_url}
-$env:XCIPE_SERVER = "${ob.server_origin}"
-$env:XCIPE_WORKER_TOKEN = "발급받은_64자_hex"
-node xcipe-worker.js</pre>
-                <p style="margin:8px 0 0;font-size:12px;color:#666">성공 시 "polling 시작" 로그 출력. 이 모달을 열어둔 채로 실행하면 자동으로 상태가 갱신됩니다.</p>
+                <p style="margin:4px 0">아래 버튼 클릭 → 본인 토큰 자동 발급 + 서버 URL 박힌 워커 파일 다운로드.</p>
+                <a class="btn-primary" href="/api/worker/my-download?access_token=${API.getToken ? API.getToken() : ''}" download="xcipe-worker.js" style="display:inline-block;padding:10px 18px;text-decoration:none;font-weight:600;margin:6px 0">📥 내 워커 다운로드</a>
+                <p style="margin:8px 0 4px">다운받은 파일이 있는 폴더에서 실행:</p>
+                <pre style="background:#1a1a1a;color:#fff;padding:10px;border-radius:4px;font-size:12px;overflow:auto;margin:6px 0">node xcipe-worker.js</pre>
+                <p style="margin:8px 0 0;font-size:12px;color:#666">⚙️ 사용자가 환경변수 설정·토큰 복사할 필요 없음 (다운로드 파일 안에 자동 박힘). polling 시작 후 이 모달 새로고침하면 ✅ 표시.</p>
               </div>`
           }
         </div>

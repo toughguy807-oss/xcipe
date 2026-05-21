@@ -31,9 +31,9 @@ function getKdsRoot() {
 
 function _execClaude(prompt, { cwd, timeout = 300000, command = 'claude' } = {}) {
   return new Promise((resolve) => {
-    // v26: WORKER_MODE=queue-only 가 명시 설정된 경우만 fallback. 본인 PC 로컬 운영은 그대로 동작.
-    const workerMode = (process.env.WORKER_MODE || '').toLowerCase();
-    if (workerMode === 'queue-only') {
+    // v26: 자동 감지 — ~/.claude/credentials 없으면 fallback. 본인 PC 로컬은 그대로 동작.
+    const { getEffectiveWorkerMode } = require('./model-bridge');
+    if (getEffectiveWorkerMode() === 'queue-only') {
       return resolve({
         ok: false,
         error: '[KDS 디자인 생성] 분산 워커 모드에서는 KDS 미지원. 본인 PC 로컬 모드(npm start) 또는 claude-api 모드 필요.'

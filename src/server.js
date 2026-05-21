@@ -100,9 +100,11 @@ app.use('/api/admin/teams', require('./routes/admin/teams'));
 app.use('/api/design-systems', require('./routes/design-systems'));
 app.use('/api/figma', require('./routes/figma'));  // 인커밍 webhook + 플러그인 수신
 // v25 분산 워커 — 사용자 PC daemon (X-Worker-Token 필요).
-//   단 /download/xcipe-worker.js 는 인증 없이 공개 (코드 자체는 비밀 아님, npm i 불필요한 single-file)
+//   /download/xcipe-worker.js  : 인증 X, 기본 템플릿
+//   /my-download (JWT 인증)    : 본인 토큰 + 서버 URL 자동 박힌 버전 — '한 번 다운로드 + 실행'
 const workerRouter = require('./routes/worker');
 app.get('/api/worker/download/xcipe-worker.js', workerRouter.downloadHandler);
+app.get('/api/worker/my-download', authMiddleware, workerRouter.myDownloadHandler);
 app.use('/api/worker', workerRouter);
 app.use('/bridge', require('./routes/bridge'));    // KDS figma-change-tracker 플러그인 호환 endpoint (xcipe 내장)
 app.use('/kds-bridge', require('./routes/kds-bridge-proxy')); // v25 KDS bridge-server(3939) proxy (Railway 단일 PORT 호환)

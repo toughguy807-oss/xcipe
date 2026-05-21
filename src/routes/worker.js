@@ -282,10 +282,7 @@ router.post('/jobs/:id/fail', (req, res) => {
 
 module.exports = router;
 
-// 워커 daemon 단일 파일 다운로드 (인증 X — 공개 endpoint)
-//   curl -O https://xcipe.../api/worker/download/xcipe-worker.js
-//   node xcipe-worker.js   # 외부 npm 의존성 0, Node 내장 모듈만 사용
-//   server.js 에서 router mount 전에 별도 등록 — requireWorkerAuth 우회.
+// 워커 daemon 단일 파일 다운로드 (인증 X — 공개 endpoint, 토큰 미주입 baseline)
 module.exports.downloadHandler = (req, res) => {
   try {
     const path = require('path');
@@ -298,6 +295,57 @@ module.exports.downloadHandler = (req, res) => {
     res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
     res.setHeader('Content-Disposition', 'attachment; filename="xcipe-worker.js"');
     res.send(content);
+  } catch (e) {
+    res.status(500).send(`// download failed: ${e.message}`);
+  }
+};
+
+// v26: 인증된 사용자 전용 — 본인 토큰 + 서버 URL 자동 박힌 워커 다운로드
+//   1. 본인 토큰 없으면 자동 발급 (서버에 저장)
+//   2. daemon.js 상단에 환경변수 자동 주입
+//   3. 사용자는 `node xcipe-worker.js` 한 줄로 실행
+//   server.js 에서 authMiddleware 적용 후 mount
+module.exports.myDownloadHandler = (req, res) => {
+  try {
+    const path = require('path');
+    const fs = require('fs');
+    const crypto = require('crypto');
+    const userId = req.user && req.user.id;
+    if (!userId) return res.status(401).send('// unauthorized');
+
+    // 본인 토큰 조회 또는 자동 발급
+    let row = db.prepare('SELECT worker_token, email FROM users WHERE id = ? AND deleted_at IS NULL').get(userId);
+    if (!row) return res.status(404).send('// user not found');
+    let token = row.worker_token;
+    if (!token) {
+      token = crypto.randomBytes(32).toString('hex');
+      db.prepare('UPDATE users SET worker_token = ? WHERE id = ?').run(token, userId);
+    }
+
+    const daemonPath = path.resolve(__dirname, '..', 'worker', 'daemon.js');
+    const content = fs.readFileSync(daemonPath, 'utf8');
+
+    // 서버 URL 자동 감지 (reverse proxy 헤더 고려)
+    const serverOrigin = req.headers['x-forwarded-host']
+      ? `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['x-forwarded-host']}`
+      : `${req.protocol}://${req.get('host')}`;
+
+    // daemon.js 상단에 환경변수 자동 주입 (사용자가 수동 설정 안 해도 됨)
+    const header = [
+      '#!/usr/bin/env node',
+      '// xcipe-worker (auto-configured for ' + row.email + ')',
+      '// 생성 시각: ' + new Date().toISOString(),
+      '// 실행: node xcipe-worker.js',
+      'process.env.XCIPE_SERVER = process.env.XCIPE_SERVER || ' + JSON.stringify(serverOrigin) + ';',
+      'process.env.XCIPE_WORKER_TOKEN = process.env.XCIPE_WORKER_TOKEN || ' + JSON.stringify(token) + ';',
+      '',
+      ''
+    ].join('\n');
+
+    const finalContent = header + content;
+    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="xcipe-worker.js"');
+    res.send(finalContent);
   } catch (e) {
     res.status(500).send(`// download failed: ${e.message}`);
   }
