@@ -301,10 +301,11 @@ const KdsDesignPage = {
 
   _appendMessage(role, content) {
     const el = document.getElementById('kds-chat');
+    if (!el) return;  // 페이지 전환 후 비동기 응답 도착 시 안전 가드
     const isUser = role === 'user';
     // 직전 메시지와 정확히 동일한 content 면 중복 출력 차단 — 폴링 무한루프/세션 푸시 중복 등 모든 원인 방어.
     const candidate = String(content || '').trim();
-    if (el && el.lastElementChild && candidate.length > 0) {
+    if (el.lastElementChild && candidate.length > 0) {
       const lastBubble = el.lastElementChild.firstElementChild;
       const lastText = (lastBubble && lastBubble.textContent || '').trim();
       if (lastText === candidate) return;
@@ -340,6 +341,7 @@ const KdsDesignPage = {
       document.head.appendChild(st);
     }
     const el = document.getElementById('kds-chat');
+    if (!el) return null;  // 페이지 전환 후 비동기 응답 도착 시 안전 가드
     const html = `
       <div data-thinking="1" style="margin-bottom:12px;display:flex">
         <div style="max-width:80%;padding:12px 16px;border-radius:10px;background:var(--bg-subtle, #f1f3f4);font-size:14px;line-height:1.55">
