@@ -246,11 +246,37 @@ async function testConnection(providerName = null) {
   return await getProvider().testConnection();
 }
 
-async function analyzePrompt(prompt) {
-  // v26: 자동 감지된 worker mode 기반 fallback (~/.claude/credentials 없는 환경)
+async function analyzePrompt(prompt, options = {}) {
+  // v28: queue-only + claude-code 면 분산 워커로 위임 — userId 필요
+  //   userId 미지정 시 mock fallback (이전 동작 유지)
   const workerMode = getEffectiveWorkerMode();
   const aiProvider = getSetting('ai_provider') || 'claude-code';
+  const systemPrompt = `You are a project analyzer. Extract structured metadata from a user prompt and return as JSON only.
+Schema: { "name": string (max 30 chars), "code": string (uppercase A-Z0-9_ max 12), "type": "web"|"ecommerce"|"booking"|"saas"|"tourism", "industry": string, "target": string, "estimated_days": number, "description": string }
+Return ONLY valid JSON, no markdown.`;
+
   if (workerMode === 'queue-only' && aiProvider === 'claude-code') {
+    if (options.userId) {
+      // 분산 워커 위임
+      const { invokeViaWorker } = require('./worker-invocation');
+      const inv = await invokeViaWorker({
+        userId: options.userId,
+        kind: 'analyze-prompt',
+        payload: { systemPrompt, userPrompt: prompt },
+        timeoutMs: 90_000
+      });
+      if (!inv.ok) {
+        return { ok: false, error: inv.error };
+      }
+      try {
+        const cleaned = String(inv.content || '').replace(/^```json\s*|\s*```$/g, '').trim();
+        const parsed = JSON.parse(cleaned);
+        return { ok: true, data: parsed, tokens: inv.usage || null, _via: 'worker' };
+      } catch (e) {
+        return { ok: false, error: '워커 응답 JSON 파싱 실패: ' + e.message, raw: inv.content };
+      }
+    }
+    // userId 미전달 → 정규식 기반 fallback (구 동작)
     const text = String(prompt || '').trim();
     const firstLine = text.split('\n')[0].slice(0, 30);
     const slug = firstLine.replace(/[^a-zA-Z0-9가-힯]+/g, '_').toUpperCase().slice(0, 12) || 'NEW_PROJECT';
@@ -266,14 +292,11 @@ async function analyzePrompt(prompt) {
         description: text.slice(0, 200)
       },
       tokens: null,
-      _fallback: 'queue-only-mode'
+      _fallback: 'queue-only-mode-no-userid'
     };
   }
 
   const provider = getProvider();
-  const systemPrompt = `You are a project analyzer. Extract structured metadata from a user prompt and return as JSON only.
-Schema: { "name": string (max 30 chars), "code": string (uppercase A-Z0-9_ max 12), "type": "web"|"ecommerce"|"booking"|"saas"|"tourism", "industry": string, "target": string, "estimated_days": number, "description": string }
-Return ONLY valid JSON, no markdown.`;
   const autoRouteEnabled = (getSetting('auto_model_routing') || '1') === '1';
   const selectedModel = autoRouteEnabled ? pickModel({ task: 'analyze-prompt' }) : null;
   const startedAt = Date.now();

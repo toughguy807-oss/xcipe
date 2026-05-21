@@ -286,6 +286,57 @@ router.post('/jobs/:id/fail', (req, res) => {
   }
 });
 
+// ── /invocations/claim — ad-hoc LLM 호출 큐 (v28) ────────────────────────
+//   pipeline_steps 와 별개. analyzePrompt/intake/KDS chat 등 짧은 호출.
+//   본인 user_id 의 pending invocation 1건 atomic claim.
+router.post('/invocations/claim', (req, res) => {
+  const workerId = String(req.body && req.body.worker_id || '').slice(0, 200);
+  if (!workerId) {
+    return res.status(400).json({ error: 'ESYS-WRK-070', message: 'worker_id 필요' });
+  }
+  const kinds = Array.isArray(req.body && req.body.kinds) ? req.body.kinds : null;
+  const { claimNextInvocation } = require('../engine/worker-invocation');
+  try {
+    const claimed = claimNextInvocation({
+      userId: req.workerUser.id,
+      workerId,
+      kinds
+    });
+    if (!claimed) return res.json({ ok: true, invocation: null });
+    res.json({ ok: true, invocation: claimed });
+  } catch (e) {
+    res.status(500).json({ error: 'ESYS-WRK-071', message: 'claim 실패', detail: e.message });
+  }
+});
+
+// ── /invocations/:id/result — 결과 보고 ───────────────────────────────────
+router.post('/invocations/:id/result', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (!id) return res.status(400).json({ error: 'ESYS-WRK-072', message: 'invalid id' });
+  const workerId = String(req.body && req.body.worker_id || '').slice(0, 200);
+  if (!workerId) return res.status(400).json({ error: 'ESYS-WRK-073', message: 'worker_id 필요' });
+
+  const body = req.body || {};
+  const { completeInvocation } = require('../engine/worker-invocation');
+  try {
+    const ok = !!body.ok;
+    const updated = completeInvocation({
+      id,
+      userId: req.workerUser.id,
+      workerId,
+      ok,
+      result: ok ? (body.result || {}) : null,
+      error: ok ? null : (body.error || 'unknown error')
+    });
+    if (!updated) {
+      return res.status(409).json({ error: 'ESYS-WRK-074', message: 'invocation 상태 불일치 (이미 완료/타임아웃 가능성)' });
+    }
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'ESYS-WRK-075', message: 'result 처리 실패', detail: e.message });
+  }
+});
+
 module.exports = router;
 
 // 워커 daemon 단일 파일 다운로드 (인증 X — 공개 endpoint, 토큰 미주입 baseline)

@@ -1296,6 +1296,41 @@ function migrateV27_workerPolling() {
 }
 migrateV27_workerPolling();
 
+// v28: worker_invocations 테이블 — ad-hoc LLM 호출 큐
+//   pipeline_steps 는 파이프라인 스킬 실행용. 짧은 LLM 호출(프롬프트 분석/intake/KDS)
+//   을 위한 별도 큐. 워커가 polling 으로 claim → 결과 반환.
+//   kind: 'analyze-prompt' | 'intake-turn' | 'kds-chat' | 'kds-design'
+//   status: 'pending' | 'running' | 'done' | 'failed' | 'cancelled'
+function migrateV28_workerInvocations() {
+  const userVersion = db.pragma('user_version', { simple: true });
+  if (userVersion >= 27) return;
+  if (userVersion < 26) return;
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS worker_invocations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      kind TEXT NOT NULL,
+      payload_json TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending'
+        CHECK (status IN ('pending','running','done','failed','cancelled')),
+      result_json TEXT,
+      error TEXT,
+      worker_id TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      claimed_at TEXT,
+      completed_at TEXT,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+    CREATE INDEX IF NOT EXISTS idx_worker_invocations_user_status
+      ON worker_invocations(user_id, status);
+    CREATE INDEX IF NOT EXISTS idx_worker_invocations_status_created
+      ON worker_invocations(status, created_at);
+  `);
+  db.pragma('user_version = 27');
+  console.log('[DB] v28 migration applied (worker_invocations)');
+}
+migrateV28_workerInvocations();
+
 function isAssetSyncReady() {
   try {
     const row = db.prepare(

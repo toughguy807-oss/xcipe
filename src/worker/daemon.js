@@ -290,6 +290,85 @@ async function pollLoop() {
   }
 }
 
+// v28: ad-hoc invocation polling — analyzePrompt/intake/KDS chat·design
+//   pipeline job 과 별개 큐. payload 에 prompt/systemPrompt 받아 claude 1회 호출.
+async function claimNextInvocation() {
+  const r = await httpJson('POST', '/api/worker/invocations/claim', {
+    body: { worker_id: WORKER_ID }
+  });
+  if (!r.ok) {
+    warn(`invocation claim 실패 status=${r.status}`, r.body && r.body.message);
+    return null;
+  }
+  return r.body && r.body.invocation;
+}
+
+async function reportInvocationResult(id, ok, payload) {
+  const body = ok
+    ? { worker_id: WORKER_ID, ok: true, result: payload }
+    : { worker_id: WORKER_ID, ok: false, error: payload };
+  const r = await httpJson('POST', `/api/worker/invocations/${id}/result`, { body });
+  if (!r.ok) warn(`invocation result 업로드 실패 id=${id} status=${r.status}`, r.body);
+}
+
+// 짧은 호출용 claude 실행 — spawnClaude 와 동일하지만 systemPrompt 합쳐서 전송
+async function spawnClaudeShort({ systemPrompt, userPrompt }) {
+  const combined = systemPrompt
+    ? `${systemPrompt}\n\n---\n\n${userPrompt}`
+    : userPrompt;
+  return spawnClaude(combined);
+}
+
+async function processInvocation(inv) {
+  const { id, kind, payload } = inv;
+  log(`invocation 시작 id=${id} kind=${kind}`);
+  const t0 = Date.now();
+  try {
+    let r;
+    if (kind === 'analyze-prompt' || kind === 'intake-turn' || kind === 'kds-chat' || kind === 'kds-design') {
+      r = await spawnClaudeShort({
+        systemPrompt: payload.systemPrompt || '',
+        userPrompt: payload.userPrompt || payload.prompt || ''
+      });
+    } else {
+      await reportInvocationResult(id, false, `unknown kind: ${kind}`);
+      return;
+    }
+
+    const duration = Date.now() - t0;
+    if (!r.ok) {
+      log(`invocation 실패 id=${id} ${r.error}`);
+      await reportInvocationResult(id, false, r.error || 'unknown error');
+      return;
+    }
+
+    log(`invocation 완료 id=${id} duration=${Math.round(duration / 1000)}s`);
+    await reportInvocationResult(id, true, {
+      content: r.content,
+      usage: r.usage,
+      duration_ms: duration
+    });
+  } catch (e) {
+    err(`invocation 예외 id=${id}: ${e.message}`);
+    try { await reportInvocationResult(id, false, `워커 예외: ${e.message}`); } catch {}
+  }
+}
+
+async function invocationLoop() {
+  while (!_stop) {
+    try {
+      const inv = await claimNextInvocation();
+      if (inv) {
+        await processInvocation(inv);
+        continue;
+      }
+    } catch (e) {
+      err(`invocation poll 예외: ${e.message}`);
+    }
+    await new Promise(r => setTimeout(r, POLL_INTERVAL));
+  }
+}
+
 async function checkClaudeCli() {
   return new Promise((resolve) => {
     exec(`${CLAUDE_CMD} auth status`, { timeout: 10000, windowsHide: true }, (e, stdout) => {
@@ -363,12 +442,14 @@ async function start() {
   log('claude session 정보 서버 보고 완료');
 
   log(`polling 시작 (${POLL_INTERVAL}ms 간격, heartbeat ${HEARTBEAT_INT}ms)`);
+  log(`invocation polling 시작 (analyze-prompt/intake/KDS chat·design)`);
 
   // 종료 처리
   process.on('SIGINT',  () => shutdown('SIGINT'));
   process.on('SIGTERM', () => shutdown('SIGTERM'));
 
-  await pollLoop();
+  // pipeline job + ad-hoc invocation 두 루프 병렬
+  await Promise.all([pollLoop(), invocationLoop()]);
 }
 
 async function shutdown(signal) {

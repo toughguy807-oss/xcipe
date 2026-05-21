@@ -134,7 +134,7 @@ router.post('/analyze', requireRole('admin', 'member'), async (req, res) => {
 
   try {
     const { analyzePrompt } = require('../engine/model-bridge');
-    const result = await analyzePrompt(prompt);
+    const result = await analyzePrompt(prompt, { userId: req.user && req.user.id });
     if (!result.ok) {
       return res.status(502).json({ error: 'ESYS-PRJ-011', message: result.error, suggestion: null });
     }
