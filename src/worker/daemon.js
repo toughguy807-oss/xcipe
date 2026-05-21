@@ -208,6 +208,22 @@ function detectKdsRootLocal() {
   return null;
 }
 
+function ensureKdsSubdirs(root) {
+  // KDS 작업에 필요한 빈 폴더 미리 생성 — claude Write tool 이 부모 디렉토리 누락 시
+  // 실패할 가능성 차단. to-figma/from-figma 둘 다 영구.
+  for (const sub of ['to-figma', 'from-figma']) {
+    try {
+      const p = path.join(root, sub);
+      if (!fs.existsSync(p)) {
+        fs.mkdirSync(p, { recursive: true });
+        log(`KDS subdir 생성: ${p}`);
+      }
+    } catch (e) {
+      warn(`KDS subdir 생성 실패 ${sub}: ${e.message}`);
+    }
+  }
+}
+
 async function ensureKdsRoot() {
   if (_cachedKdsRoot) return _cachedKdsRoot;
   // 1차: 본인 PC 에 이미 있으면 그대로
@@ -215,6 +231,7 @@ async function ensureKdsRoot() {
   if (local) {
     _cachedKdsRoot = local;
     log(`KDS_V4_ROOT 로컬 감지: ${local}`);
+    ensureKdsSubdirs(local);
     return local;
   }
   // 2차: 캐시 폴더 확인 (이전에 서버에서 받아둔 적 있음)
@@ -222,6 +239,7 @@ async function ensureKdsRoot() {
   if (fs.existsSync(path.join(cacheRoot, 'kds-rules'))) {
     _cachedKdsRoot = cacheRoot;
     log(`KDS_V4_ROOT 캐시 사용: ${cacheRoot}`);
+    ensureKdsSubdirs(cacheRoot);
     return cacheRoot;
   }
   // 3차: 서버에서 자동 다운로드
@@ -275,6 +293,7 @@ async function ensureKdsRoot() {
     }
     try { fs.unlinkSync(zipPath); } catch {}
     log(`KDS 자원 캐시 완료: ${cacheRoot}`);
+    ensureKdsSubdirs(cacheRoot);
     _cachedKdsRoot = cacheRoot;
     return cacheRoot;
   } catch (e) {
