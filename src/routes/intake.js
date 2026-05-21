@@ -63,7 +63,11 @@ router.post('/:id/turn', async (req, res) => {
   insertIntakeMsg.run(req.params.id, 'user', 'text', message.trim(), req.user.id);
 
   try {
-    const result = await intake.turn({ sessionId: req.params.id, userMessage: message.trim() });
+    const result = await intake.turn({
+      sessionId: req.params.id,
+      userMessage: message.trim(),
+      userId: req.user && req.user.id
+    });
     if (!result.ok) {
       return res.status(502).json({ error: 'ESYS-INTAKE-004', message: result.error || 'AI failed', raw: result.raw });
     }

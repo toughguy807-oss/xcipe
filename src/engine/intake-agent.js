@@ -124,11 +124,15 @@ function _missingOptional(slots) {
 }
 
 // 단일 턴 처리 — 사용자 메시지 받아 AI 응답 생성
-async function turn({ sessionId, userMessage }) {
+async function turn({ sessionId, userMessage, userId = null }) {
   const session = getSession(sessionId);
   if (!session) return { ok: false, error: 'session_not_found' };
 
   const provider = modelBridge.getProvider();
+  // v28: queue-only + claude-code → 사용자 PC 워커에 위임 (real LLM)
+  const useWorker = userId
+    && modelBridge.getEffectiveWorkerMode() === 'queue-only'
+    && (require('../db').getSetting('ai_provider') || 'claude-code') === 'claude-code';
   const history = _buildHistory(sessionId);
   let currentSlots = session.slots || {};
 
@@ -183,8 +187,9 @@ ${userMessage}
 - 정말 모호한 1가지(주로 이름/차별점)만 mode='ask'.
 - 사용자가 plan 에 OK 의사를 보이거나 모든 필수 슬롯이 채워졌으면 mode='confirm'.`;
 
-  // mock provider 처리 — 실제 AI 없이 진행 가능하도록
-  if (provider.getProviderName() === 'mock') {
+  // mock provider 처리 — 실제 AI 없이 진행 가능하도록.
+  // v28: queue-only + claude-code 면 워커로 위임하므로 mock fallback skip
+  if (provider.getProviderName() === 'mock' && !useWorker) {
     const mockResult = _mockTurn({ currentSlots, userMessage, missingReq, toolResults });
     if (mockResult.ok && mockResult.slots) updateSlots(sessionId, mockResult.slots);
     // mock에서도 유사 사례 추천 — UI/API 일관성
@@ -203,13 +208,29 @@ ${userMessage}
   }
 
   const intakeModel = pickModel({ task: 'analyze-prompt' });
-  const result = await provider.sendMessage({
-    task: 'intake-turn',
-    systemPrompt: SYSTEM_PROMPT,
-    userPrompt,
-    model: intakeModel,
-    tier: 'light'
-  });
+  let result;
+  if (useWorker) {
+    // v28: 워커로 위임 — Railway 컨테이너엔 OAuth 없으니 사용자 PC 워커가 claude 실행
+    const { invokeViaWorker } = require('./worker-invocation');
+    const inv = await invokeViaWorker({
+      userId,
+      kind: 'intake-turn',
+      payload: { systemPrompt: SYSTEM_PROMPT, userPrompt },
+      timeoutMs: 120_000
+    });
+    if (!inv.ok) {
+      return { ok: false, error: inv.error };
+    }
+    result = { ok: true, content: inv.content, tokens: inv.usage || null };
+  } else {
+    result = await provider.sendMessage({
+      task: 'intake-turn',
+      systemPrompt: SYSTEM_PROMPT,
+      userPrompt,
+      model: intakeModel,
+      tier: 'light'
+    });
+  }
 
   // 2026-05-13: intake-turn 토큰 사용량 로컬 적재 (provider/result 성공 여부와 무관, 토큰 있으면 기록)
   if (result.tokens && (result.tokens.input || result.tokens.output)) {

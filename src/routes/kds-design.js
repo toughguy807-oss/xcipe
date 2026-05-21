@@ -236,16 +236,31 @@ function newSession() {
   return sess;
 }
 
-function execClaudeShort(prompt, { cwd, timeout = 180000 } = {}) {
-  return new Promise((resolve) => {
-    // v26: 자동 감지 — ~/.claude/credentials 없는 환경(Railway 등)이면 fallback.
-    //   본인 PC 로컬 운영(npm start)에서는 그대로 claude CLI 호출 → 본인 ~/.claude OAuth 사용.
+function execClaudeShort(prompt, { cwd, timeout = 180000, userId = null, kind = 'kds-chat' } = {}) {
+  return new Promise(async (resolve) => {
+    // v28: queue-only + userId → 사용자 PC 워커에 위임 (분산 워커 KDS 지원)
+    //   v26 까지: 에러 반환. v28 부터: invokeViaWorker.
     const { getEffectiveWorkerMode } = require('../engine/model-bridge');
     if (getEffectiveWorkerMode() === 'queue-only') {
-      return resolve({
-        ok: false,
-        error: '[KDS 채팅] 분산 워커 모드는 KDS 채팅 미지원. 본인 PC 에서 npm start 로 로컬 실행 후 사용하거나 ANTHROPIC_API_KEY 발급 후 claude-api 모드 전환 필요.'
-      });
+      if (!userId) {
+        return resolve({
+          ok: false,
+          error: '[KDS 채팅] 워커 위임에 userId 필요 — 호출자가 req.user.id 를 전달해야 합니다.'
+        });
+      }
+      try {
+        const { invokeViaWorker } = require('../engine/worker-invocation');
+        const inv = await invokeViaWorker({
+          userId,
+          kind,
+          payload: { userPrompt: prompt },
+          timeoutMs: Math.max(timeout, 180_000)
+        });
+        if (!inv.ok) return resolve({ ok: false, error: inv.error });
+        return resolve({ ok: true, content: (inv.content || '').trim() });
+      } catch (e) {
+        return resolve({ ok: false, error: `워커 위임 실패: ${e.message}` });
+      }
     }
     const tmp = path.join(os.tmpdir(), `kdschat-${crypto.randomBytes(6).toString('hex')}.txt`);
     fs.writeFileSync(tmp, prompt, 'utf8');
@@ -487,7 +502,10 @@ router.post('/chat', async (req, res) => {
   // chat 은 단순 대화 명확화 — KDS 폴더 cwd 의 .claude/CLAUDE.md(51KB) + kds-designer.md(38KB) 자동 로드는 응답 지연만 야기.
   // 필요한 KDS 컨텍스트(to-figma 상태/직전 job/컴포넌트 카탈로그)는 buildChatPrompt 가 직접 주입함.
   // 실제 화면 생성(generateDesign)만 KDS cwd 유지.
-  const r = await execClaudeShort(buildChatPrompt(sess.messages, { lastJob }));
+  const r = await execClaudeShort(buildChatPrompt(sess.messages, { lastJob }), {
+    userId: req.user && req.user.id,
+    kind: 'kds-chat'
+  });
   if (!r.ok) {
     sess.messages.push({ role: 'assistant', content: `[오류] ${r.error}`, at: Date.now() });
     return res.json({ sessionId: sess.id, assistant: `[오류] ${r.error}`, error: r.error });
@@ -531,7 +549,7 @@ router.post('/chat', async (req, res) => {
           persistSession(sess);
           startJobWatcher(job);
           try {
-            const dr = await generateDesign({ requirement: job.requirement, viewports: job.viewports, conversationHistory: sess.messages });
+            const dr = await generateDesign({ requirement: job.requirement, viewports: job.viewports, conversationHistory: sess.messages, userId: req.user && req.user.id });
             job.finished_at = Date.now();
             if (!dr.ok) {
               job.status = 'failed'; job.error = dr.error;
@@ -574,7 +592,12 @@ ${domain}
 { "brandMd": "research/brands/${domain}/brand.md", "areas": ["..."] }
 \`\`\`
 `;
-          const r2 = await execClaudeShort(researcherPrompt, { cwd: getKdsRoot(), timeout: 600000 });
+          const r2 = await execClaudeShort(researcherPrompt, {
+            cwd: getKdsRoot(),
+            timeout: 600000,
+            userId: req.user && req.user.id,
+            kind: 'kds-chat'
+          });
           if (!r2.ok) {
             sess.messages.push({ role: 'assistant', content: `❌ researcher 실패: ${r2.error}. 시안 작업 중단됨. 채팅에 다시 요청해주세요.`, at: Date.now() });
             persistSession(sess);
@@ -592,7 +615,7 @@ ${domain}
           startJobWatcher(job);
           (async () => {
             try {
-              const dr = await generateDesign({ requirement: job.requirement, viewports: job.viewports, conversationHistory: sess.messages });
+              const dr = await generateDesign({ requirement: job.requirement, viewports: job.viewports, conversationHistory: sess.messages, userId: req.user && req.user.id });
               job.finished_at = Date.now();
               if (!dr.ok) {
                 job.status = 'failed'; job.error = dr.error;
@@ -633,7 +656,7 @@ ${domain}
     startJobWatcher(job);
     (async () => {
       try {
-        const r2 = await generateDesign({ requirement: req2, viewports, name, conversationHistory: sess.messages });
+        const r2 = await generateDesign({ requirement: req2, viewports, name, conversationHistory: sess.messages, userId: req.user && req.user.id });
         job.finished_at = Date.now();
         if (!r2.ok) {
           job.status = 'failed'; job.error = r2.error; job.raw_excerpt = (r2.raw || '').slice(0, 800);
@@ -872,7 +895,7 @@ router.post('/generate', async (req, res) => {
   // fire-and-forget
   (async () => {
     try {
-      const r = await generateDesign({ requirement: job.requirement, viewports: job.viewports, name });
+      const r = await generateDesign({ requirement: job.requirement, viewports: job.viewports, name, userId: req.user && req.user.id });
       job.finished_at = Date.now();
       if (!r.ok) {
         job.status = 'failed';

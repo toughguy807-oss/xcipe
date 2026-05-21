@@ -29,15 +29,31 @@ function getKdsRoot() {
   return 'C:/Users/hj.moon/Downloads/AX_KDS_design system-v4/AX_KDS_design system-v4';
 }
 
-function _execClaude(prompt, { cwd, timeout = 300000, command = 'claude' } = {}) {
-  return new Promise((resolve) => {
-    // v26: 자동 감지 — ~/.claude/credentials 없으면 fallback. 본인 PC 로컬은 그대로 동작.
+function _execClaude(prompt, { cwd, timeout = 300000, command = 'claude', userId = null } = {}) {
+  return new Promise(async (resolve) => {
+    // v28: queue-only + userId → 사용자 PC 워커에 위임. cwd 는 워커 PC 의 KDS 위치가 따라야 함.
+    //   v26 까지: 에러 반환. v28 부터: invokeViaWorker(kind='kds-design').
     const { getEffectiveWorkerMode } = require('./model-bridge');
     if (getEffectiveWorkerMode() === 'queue-only') {
-      return resolve({
-        ok: false,
-        error: '[KDS 디자인 생성] 분산 워커 모드에서는 KDS 미지원. 본인 PC 로컬 모드(npm start) 또는 claude-api 모드 필요.'
-      });
+      if (!userId) {
+        return resolve({
+          ok: false,
+          error: '[KDS 디자인 생성] 워커 위임에 userId 필요 — 호출자가 userId 를 전달해야 합니다.'
+        });
+      }
+      try {
+        const { invokeViaWorker } = require('./worker-invocation');
+        const inv = await invokeViaWorker({
+          userId,
+          kind: 'kds-design',
+          payload: { userPrompt: prompt },
+          timeoutMs: Math.max(timeout, 600_000)  // 최소 10분
+        });
+        if (!inv.ok) return resolve({ ok: false, error: inv.error });
+        return resolve({ ok: true, content: (inv.content || '').trim(), raw: inv.content });
+      } catch (e) {
+        return resolve({ ok: false, error: `워커 위임 실패: ${e.message}` });
+      }
     }
     const tmp = path.join(os.tmpdir(), `kdsdesign-${crypto.randomBytes(6).toString('hex')}.txt`);
     fs.writeFileSync(tmp, prompt, 'utf8');
@@ -68,7 +84,7 @@ function _slug(s) {
     .slice(0, 40) || 'screen';
 }
 
-async function generateDesign({ requirement, name, viewports, conversationHistory }) {
+async function generateDesign({ requirement, name, viewports, conversationHistory, userId = null }) {
   if (!requirement || !String(requirement).trim()) {
     return { ok: false, error: '요구사항(requirement) 입력 필요' };
   }
@@ -165,7 +181,7 @@ ${componentCatalog || '(컴포넌트 디렉토리 읽기 실패 — kds/data/com
 \`\`\`
 `;
 
-  const r = await _execClaude(prompt, { cwd: kdsRoot, timeout: 7200000 }); // 2시간 — KDS 가이드 100% 준수 + lint 통과까지 재시도 시 필요
+  const r = await _execClaude(prompt, { cwd: kdsRoot, timeout: 7200000, userId }); // 2시간 — KDS 가이드 100% 준수 + lint 통과까지 재시도 시 필요
   if (!r.ok) {
     // timeout 등 실패해도 to-figma/ 에 부분 결과가 남아있으면 살린다.
     try {

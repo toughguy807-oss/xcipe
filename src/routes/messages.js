@@ -91,7 +91,7 @@ router.post('/', requireRole('admin', 'member'), async (req, res) => {
     (async () => {
       try {
         const { generateDesign } = require('../engine/kds-design-runner');
-        const r = await generateDesign({ requirement, viewports: ['mobile', 'desktop'] });
+        const r = await generateDesign({ requirement, viewports: ['mobile', 'desktop'], userId: req.user && req.user.id });
         if (!r.ok) {
           addMessage({ projectId: +id, role: 'system', kind: 'error',
             content: `KDS 디자인 생성 실패: ${r.error}\n${(r.raw || '').slice(0, 400)}` });
