@@ -85,11 +85,15 @@ router.get('/ai', async (req, res) => {
     } else {
       hintMsg = '워커 토큰 ' + tokenIssued + '개 발급됨, 폴링 워커 없음 (각자 PC 에서 npm run worker 실행)';
     }
+    // v27: 본인 워커가 보고한 claude_session_info 가 있으면 그 정보를 surface
+    //   shell.js AI pill 이 session.plan 을 보고 표시 ('pro' 하드코딩 디폴트 회피)
     payload.session = {
-      ok: tokenIssued > 0,
-      loggedIn: tokenIssued > 0,
+      ok: tokenIssued > 0 && !!(myClaudeSession && myClaudeSession.loggedIn),
+      loggedIn: !!(myClaudeSession && myClaudeSession.loggedIn) || tokenIssued > 0,
       authMethod: 'distributed-worker',
-      email: null,
+      email: myClaudeSession ? (myClaudeSession.email || null) : null,
+      orgName: myClaudeSession ? (myClaudeSession.orgName || null) : null,
+      plan: myClaudeSession ? (myClaudeSession.plan || null) : null,
       hint: hintMsg,
       error: null
     };

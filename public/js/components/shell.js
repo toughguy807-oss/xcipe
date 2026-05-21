@@ -140,7 +140,7 @@ const Shell = {
       else if (needsKey) label = `${provider} · 키없음`;
       else if (codeNotLogged) label = `${provider} · 미로그인`;
       else if (provider === 'claude-code' && session && session.loggedIn) {
-        label = `${provider} · ${session.plan || 'pro'}`;
+        label = session.plan ? `${provider} · ${session.plan}` : provider;
       } else {
         label = provider;
       }
