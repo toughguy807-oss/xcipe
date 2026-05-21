@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Button 카탈로그</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 24px; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; background: #fff; max-width: 360px; word-break: keep-all; overflow-wrap: break-word; }
+  h1 { margin: 0 0 16px; font-size: 22px; line-height: 32px; font-weight: 700; color: #191A1B; letter-spacing: -0.44px; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 312px; height: 48px; border-radius: 8px; padding: 12px 20px; font-size: 15px; font-weight: 700; line-height: 22px; letter-spacing: -0.3px; margin-bottom: 16px; border: 0; }
+  .btn--primary   { background: #191A1B; color: #FFFFFF; }
+  .btn--secondary { background: #E9EAEE; color: #191A1B; }
+  .btn--tertiary  { background: transparent; color: #191A1B; border: 1px solid #191A1B; }
+</style>
+</head>
+<body>
+  <h1 data-kds-id="title">Button 카탈로그</h1>
+  <div class="btn btn--primary"   data-kds-id="btn-primary"><span>Primary Button</span></div>
+  <div class="btn btn--secondary" data-kds-id="btn-secondary"><span>Secondary Button</span></div>
+  <div class="btn btn--tertiary"  data-kds-id="btn-tertiary"><span>Tertiary Button</span></div>
+</body>
+</html>

@@ -1,0 +1,234 @@
+/* ══════════════════════════════════════
+   CSS Custom Properties 골격
+   publish-style 스킬 참조용 스타터
+   STYLE 가이드 토큰을 여기에 대입합니다.
+   ══════════════════════════════════════ */
+
+/* ── 1. 디자인 토큰 (:root) ── */
+:root {
+  /* Color — Primary (STYLE 가이드에서 대입) */
+  --color-primary-50:  #EFF6FF;
+  --color-primary-100: #DBEAFE;
+  --color-primary-200: #BFDBFE;
+  --color-primary-300: #93C5FD;
+  --color-primary-400: #60A5FA;
+  --color-primary-500: #3B82F6;
+  --color-primary-600: #2563EB;
+  --color-primary-700: #1D4ED8;
+  --color-primary-800: #1E40AF;
+  --color-primary-900: #1E3A8A;
+
+  /* Color — Secondary */
+  --color-secondary-500: #F59E0B;
+  --color-secondary-600: #D97706;
+
+  /* Color — Neutral */
+  --color-gray-50:  #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-300: #D1D5DB;
+  --color-gray-400: #9CA3AF;
+  --color-gray-500: #6B7280;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1F2937;
+  --color-gray-900: #111827;
+
+  /* Color — Semantic */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error:   #EF4444;
+  --color-info:    #3B82F6;
+
+  /* Typography — Font Family */
+  --font-family-heading: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  --font-family-body:    'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+
+  /* Typography — Size */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-xl:  1.25rem;   /* 20px */
+  --font-size-lg:  1.125rem;  /* 18px */
+  --font-size-md:  1rem;      /* 16px */
+  --font-size-sm:  0.875rem;  /* 14px */
+  --font-size-xs:  0.75rem;   /* 12px */
+
+  /* Typography — Weight */
+  --font-weight-bold:     700;
+  --font-weight-semibold: 600;
+  --font-weight-medium:   500;
+  --font-weight-regular:  400;
+
+  /* Typography — Line Height */
+  --line-height-tight:   1.2;
+  --line-height-normal:  1.5;
+  --line-height-relaxed: 1.8;
+
+  /* Spacing */
+  --spacing-xs:   0.25rem;  /*  4px */
+  --spacing-sm:   0.5rem;   /*  8px */
+  --spacing-md:   0.75rem;  /* 12px */
+  --spacing-base: 1rem;     /* 16px */
+  --spacing-lg:   1.5rem;   /* 24px */
+  --spacing-xl:   2rem;     /* 32px */
+  --spacing-2xl:  3rem;     /* 48px */
+  --spacing-3xl:  4rem;     /* 64px */
+  --spacing-4xl:  6rem;     /* 96px */
+
+  /* Border Radius */
+  --radius-sm:   0.25rem;   /*  4px */
+  --radius-md:   0.5rem;    /*  8px */
+  --radius-lg:   0.75rem;   /* 12px */
+  --radius-xl:   1rem;      /* 16px */
+  --radius-full: 9999px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+               0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+               0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  /* Transition */
+  --transition-fast:   150ms ease-out;
+  --transition-normal: 300ms ease-out;
+  --transition-slow:   500ms ease-out;
+
+  /* Container */
+  --container-max: 1280px;
+  --container-padding: var(--spacing-base);
+}
+
+
+/* ── 2. CSS Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%; /* 16px base */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  color: var(--color-gray-800);
+  background-color: #FFFFFF;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+
+/* ── 3. 접근성 유틸리티 ── */
+
+/* 스크린리더 전용 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 본문 바로가기 링크 */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: var(--spacing-sm) var(--spacing-base);
+  background: var(--color-primary-600);
+  color: #FFFFFF;
+  font-weight: var(--font-weight-semibold);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* 포커스 링 */
+*:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+
+/* ── 4. 레이아웃 ── */
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* 카드 그리드 — 모바일 퍼스트 */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+}
+
+/* 태블릿 (769px~) */
+@media (min-width: 769px) {
+  :root {
+    --container-padding: var(--spacing-lg);
+  }
+
+  .card-grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid--3 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* 데스크톱 (1025px~) */
+@media (min-width: 1025px) {
+  :root {
+    --container-padding: var(--spacing-xl);
+  }
+
+  .card-grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid--4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+
+/* ── 5. 컴포넌트 (프로젝트별 작성) ── */
+
+/* 여기부터 프로젝트별 컴포넌트 스타일을 작성합니다.
+   각 블록 시작에 대응 UI-### ID를 주석으로 표기합니다.
+   모든 값은 var(--token) 참조, 하드코딩 금지. */
+
+/* UI-001: 히어로 */
+/* UI-002: 카드 그리드 */
+/* UI-003: CTA 배너 */

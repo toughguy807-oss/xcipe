@@ -1,0 +1,204 @@
+{
+  "version": "1.0",
+  "introduced": "2026-04-30",
+  "policy": "lib/rules/dkb-policy.md",
+
+  "thresholds": {
+    "tier_1_min": 145,
+    "tier_2_min": 110,
+    "archive_max": 109,
+    "design_replicate_pass": 145,
+    "design_replicate_conditional": 130,
+    "max_score": 180
+  },
+
+  "automation": {
+    "dkb_harvest": "disabled",
+    "dkb_analyze": "manual_trigger",
+    "trend_radar": "manual_trigger",
+    "dkb_search": "auto"
+  },
+
+  "vision_llm": {
+    "model": "claude-sonnet-4-6",
+    "max_tokens_per_site": 12000,
+    "screenshots_per_site": 2,
+    "breakpoints": [375, 1440],
+    "cache_system_prompt": true,
+    "rationale": "Gemini 금지, Claude-only 정책 (lib/rules/dkb-policy.md §4)"
+  },
+
+  "rubric": {
+    "version": "v1",
+    "axes_count": 18,
+    "rubric_path": "dkb/aesthetic-rubric-v1.md",
+    "korean_b2b_axes": ["L2-3", "L3-4", "L3-5", "L3-6"],
+    "award_axes": ["L3-7", "L3-8"]
+  },
+
+  "korean_b2b_weight_multiplier": 1.5,
+  "ccd_user_gate_threshold_attempts": 3,
+
+  "regeneration": {
+    "max_attempts": 3,
+    "first_retry": "different_references",
+    "second_retry": "weakest_axis_strengthen",
+    "third_retry": "user_escalation"
+  },
+
+  "industries": {
+    "industrial-ai": {
+      "tier_priority": ["tier-2"],
+      "examples": ["augury.com", "scale.com", "landing.ai", "c3.ai"]
+    },
+    "frontier-ai": {
+      "tier_priority": ["tier-1"],
+      "examples": ["anthropic.com", "openai.com", "cohere.com"]
+    },
+    "b2b-saas": {
+      "tier_priority": ["tier-1"],
+      "examples": ["linear.app", "vercel.com", "stripe.com", "notion.so"]
+    },
+    "korea-b2b": {
+      "tier_priority": ["tier-3"],
+      "examples": ["toss.tech", "line.me", "woowahan.com"]
+    },
+    "manufacturing-korea": {
+      "tier_priority": ["tier-3", "tier-2"],
+      "examples": ["makinarocks.ai", "augury.com"]
+    }
+  },
+
+  "tone_mapping": {
+    "_comment": "Tone 11종 -> references 매칭. dkb-search 정적 매칭 시 사용. 2026-05-04 추가.",
+    "brutally-minimal": {
+      "primary": ["makinarocks.ai", "linear.app"],
+      "secondary": ["superb-ai.com"],
+      "domain_fit": ["dev tools", "manufacturing AI", "Korean B2B"]
+    },
+    "maximalist-chaos": {
+      "primary": [],
+      "secondary": [],
+      "note": "references 부재 - dkb-analyze로 신규 등재 필요"
+    },
+    "retro-futuristic": {
+      "primary": ["vercel.com", "stripe.com"],
+      "secondary": ["scale.com"],
+      "domain_fit": ["dev tools", "Frontier infrastructure", "AI", "B2B SaaS Fintech"],
+      "note": "stripe 거대 그라디언트 메쉬 + scale 3D 그라디언트 일러스트 (2026-05-04 보강)"
+    },
+    "organic-natural": {
+      "primary": ["landing.ai"],
+      "secondary": [],
+      "domain_fit": ["Vertical AI", "nature-inspired B2B"],
+      "note": "landing.ai forest green + lime + Italic Serif 믹스 (2026-05-04 보강 — Andrew Ng 권위 톤)"
+    },
+    "luxury-refined": {
+      "primary": [],
+      "secondary": ["anthropic.com"],
+      "note": "anthropic은 editorial-magazine 1순위, luxury는 2순위"
+    },
+    "playful-toy": {
+      "primary": ["toss.tech", "family.co"],
+      "secondary": ["huggingface.co"],
+      "domain_fit": ["B2C", "fintech 친근", "Korean B2C", "어워드 cute trend", "AI 커뮤니티"],
+      "note": "family.co 9 mascot 어워드 톤 / huggingface 🤗 mascot (2026-05-04 보강)"
+    },
+    "editorial-magazine": {
+      "primary": ["anthropic.com"],
+      "secondary": [],
+      "domain_fit": ["editorial", "hospitality", "portfolio"],
+      "warning": "default house style 가족 - manufacturing AI/B2B/dev tool 부적합 (cf. ref/anthropic-frontend-design.md)"
+    },
+    "brutalist-raw": {
+      "primary": ["augury.com"],
+      "secondary": ["linear.app"],
+      "note": "augury 다크 네이비 KPI / linear KPI Dark + sharp edge"
+    },
+    "art-deco-geometric": {
+      "primary": [],
+      "secondary": [],
+      "note": "references 부재 - 신규 등재 필요"
+    },
+    "soft-pastel": {
+      "primary": ["toss.tech", "lgcns.com"],
+      "secondary": [],
+      "domain_fit": ["B2C beauty", "Korean B2C", "Korean SI 친근 권위"],
+      "note": "lgcns mint pastel + 한영 듀얼 H1 (2026-05-04 보강 — Korean SI 시각 시그니처 톱)"
+    },
+    "industrial-utilitarian": {
+      "primary": ["augury.com", "linear.app", "scale.com", "palantir.com", "c3.ai"],
+      "secondary": ["vercel.com", "superb-ai.com", "makinarocks.ai", "naverlabs.com", "databricks.com"],
+      "domain_fit": ["Industrial AI", "manufacturing", "dev tools", "Korean B2B", "정부/방산", "Frontier AI"],
+      "note": "manufacturing AI/B2B 1순위. 2026-05-04 11건 보강 — primary 5 / secondary 5."
+    }
+  },
+
+  "archetype_mapping": {
+    "_comment": "interaction_archetype 4사분면 × industry 매칭. dkb-search Step 3에서 archetype 일치 시 +1.0 가중. 2026-05-15 v1.1 신설.",
+    "_axes": "정보 밀도 × 인터랙션 깊이",
+    "showcase": {
+      "definition": "정보 밀도 高 × 인터랙션 깊이 얕음",
+      "examples_local": ["anthropic.com", "linear.app", "augury.com"],
+      "industry_fit": ["frontier-ai", "industrial-ai", "b2b-saas", "korea-b2b"],
+      "page_types": ["브랜드 홈", "랜딩", "포트폴리오", "마케팅 사이트"]
+    },
+    "explorer": {
+      "definition": "정보 밀도 高 × 인터랙션 깊이 깊음",
+      "examples_local": ["stripe.com", "vercel.com"],
+      "industry_fit": ["b2b-saas", "frontier-ai"],
+      "page_types": ["대시보드", "검색 결과", "문서", "카탈로그"]
+    },
+    "converter": {
+      "definition": "정보 밀도 低 × 인터랙션 깊이 얕음",
+      "examples_local": [],
+      "industry_fit": ["b2b-saas", "korea-b2b"],
+      "page_types": ["결제", "가입", "이벤트 LP", "1-step CTA"],
+      "note": "현재 references 풀에 converter 0건 — dkb-analyze 추가 등재 필요"
+    },
+    "tool": {
+      "definition": "정보 밀도 低 × 인터랙션 깊이 깊음",
+      "examples_local": [],
+      "industry_fit": ["b2b-saas", "dev tools"],
+      "page_types": ["에디터", "계산기", "설정", "워크플로 앱"],
+      "note": "현재 references 풀에 tool 0건 — dkb-analyze 추가 등재 필요"
+    }
+  },
+
+  "tone_default_block": {
+    "_comment": "Default house style + cute trend + luxury Editorial 회귀 차단 토큰. PostToolUse hook이 grep 검출. 2026-05-04 v1.1 보강 — family.co cute / kinfolk·monocle luxury Editorial 추가.",
+    "domains": ["dashboards", "dev tools", "fintech", "healthcare", "enterprise", "manufacturing", "Industrial AI"],
+    "blocked_bg_hex": ["#F4F1EA", "#FAFAF7", "#F5F2EA", "#FAFAF5", "#F8F6F0"],
+    "blocked_accent_hex": [
+      "#CC7856", "#A8412A", "#E07856", "#D67856", "#C16E4A",
+      "#FF8095"
+    ],
+    "_blocked_accent_hex_note": "#FF8095 = Monocle 핑크 배너 (luxury Editorial 시그니처). Industrial AI에 사용 시 톤 붕괴.",
+    "blocked_fonts": [
+      "Newsreader", "Tiempos", "Crimson", "Editorial New", "Söhne",
+      "Plantin"
+    ],
+    "_blocked_fonts_note": "Plantin 추가 (monocle 추정 폰트). Tiempos는 kinfolk 추정 — 이미 차단됨.",
+    "blocked_signature": [
+      "Italic em + underline 강조 단어",
+      "Serif Display + Italic word-accents",
+      "cute mascot 다중 컬러 일러스트 (family.co — 9 mascot 패턴)",
+      "Pure white + Serif Display wordmark + 거대 여백 (kinfolk/monocle luxury Editorial)",
+      "다채 mascot 비비드 팔레트 (시안+노랑+빨강+그린+오렌지+핑크+블루 동시 사용)"
+    ],
+    "blocked_palette_patterns": [
+      {
+        "name": "cute 어워드 다채 mascot",
+        "source": "family.co",
+        "trigger": "5색+ 비비드 팔레트 동시 사용 (mascot/일러스트 컨텍스트)",
+        "domains_blocked": ["Industrial AI", "manufacturing", "B2B", "dev tools", "enterprise"]
+      },
+      {
+        "name": "luxury Editorial 절제",
+        "source": "kinfolk.com / monocle.com",
+        "trigger": "Pure white + Serif Display wordmark + 60vh+ 여백",
+        "domains_blocked": ["Industrial AI", "dashboards", "fintech 본 시안"]
+      }
+    ]
+  }
+}

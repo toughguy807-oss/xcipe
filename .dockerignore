@@ -1,0 +1,38 @@
+node_modules
+.git
+.gitignore
+.dockerignore
+.vercel
+.railway
+.env
+.env.local
+
+# Runtime (컨테이너 시작 시 Volume에서 마운트)
+data
+output
+tmp
+backups
+logs
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.log
+
+# Dev only
+test
+tests
+.vscode
+.idea
+docs
+*.md
+!README.md
+!PROJECT.md
+
+# Claude integrations (외부 경로 의존)
+.claude/integrations
+.claude/agent-memory
+
+# OS
+.DS_Store
+Thumbs.db

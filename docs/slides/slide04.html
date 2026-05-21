@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #FFFFFF; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+  background: #FFFFFF;
+}
+.header-bar {
+  width: 720pt; height: 3pt; background: #2E86AB;
+}
+.title-area {
+  margin: 24pt 0 0 40pt;
+}
+.slide-num {
+  color: #2E86AB; font-size: 10pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.slide-title {
+  color: #1C2833; font-size: 26pt; font-weight: bold;
+  margin: 0 0 16pt 0;
+}
+.comp-grid {
+  display: flex; margin: 0 40pt; gap: 12pt;
+}
+.comp-card {
+  flex: 1; background: #F8F9FA; border-radius: 6pt; padding: 14pt;
+  text-align: center;
+}
+.comp-name {
+  color: #1C2833; font-size: 11pt; font-weight: bold;
+  margin: 0 0 6pt 0;
+}
+.comp-bar-bg {
+  width: 100%; height: 8pt; background: #E0E0E0; border-radius: 4pt;
+}
+.comp-bar-fill-85 {
+  width: 85%; height: 8pt; background: #888888; border-radius: 4pt;
+}
+.comp-bar-fill-75 {
+  width: 75%; height: 8pt; background: #888888; border-radius: 4pt;
+}
+.comp-bar-fill-55 {
+  width: 55%; height: 8pt; background: #888888; border-radius: 4pt;
+}
+.comp-bar-fill-45 {
+  width: 45%; height: 8pt; background: #888888; border-radius: 4pt;
+}
+.comp-pct {
+  color: #666666; font-size: 9pt;
+  margin: 4pt 0 4pt 0;
+}
+.comp-desc {
+  color: #888888; font-size: 8pt;
+  margin: 0;
+}
+.diff-section {
+  margin: 16pt 40pt 0 40pt;
+  background: #1C2833; border-radius: 6pt; padding: 16pt 20pt;
+}
+.diff-title {
+  color: #2E86AB; font-size: 12pt; font-weight: bold;
+  margin: 0 0 8pt 0;
+}
+.diff-grid {
+  display: flex; gap: 16pt;
+}
+.diff-item {
+  flex: 1;
+}
+.diff-label {
+  color: #AABBCC; font-size: 8pt;
+  margin: 0 0 2pt 0;
+}
+.diff-value {
+  color: #FFFFFF; font-size: 10pt; font-weight: bold;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header-bar"></div>
+<div class="title-area">
+  <p class="slide-num">03</p>
+  <h1 class="slide-title">Competitive Landscape</h1>
+</div>
+<div class="comp-grid">
+  <div class="comp-card">
+    <p class="comp-name">CCPM</p>
+    <div class="comp-bar-bg"><div class="comp-bar-fill-85"></div></div>
+    <p class="comp-pct">Similarity 85%</p>
+    <p class="comp-desc">Code deployment focus. No planning pipeline.</p>
+  </div>
+  <div class="comp-card">
+    <p class="comp-name">agency-agents</p>
+    <div class="comp-bar-bg"><div class="comp-bar-fill-75"></div></div>
+    <p class="comp-pct">Similarity 75% | 54K Stars</p>
+    <p class="comp-desc">Role catalog only. No pipeline linkage.</p>
+  </div>
+  <div class="comp-card">
+    <p class="comp-name">CrewAI</p>
+    <div class="comp-bar-bg"><div class="comp-bar-fill-55"></div></div>
+    <p class="comp-pct">Similarity 55% | 45K Stars</p>
+    <p class="comp-desc">Generic multi-agent. Not agency-specific.</p>
+  </div>
+  <div class="comp-card">
+    <p class="comp-name">PwC Agent OS</p>
+    <div class="comp-bar-bg"><div class="comp-bar-fill-45"></div></div>
+    <p class="comp-pct">Similarity 45%</p>
+    <p class="comp-desc">Enterprise OS. Different target market.</p>
+  </div>
+</div>
+<div class="diff-section">
+  <p class="diff-title">Our Differentiator: What No One Has</p>
+  <div class="diff-grid">
+    <div class="diff-item">
+      <p class="diff-label">Planning Pipeline</p>
+      <p class="diff-value">QST > REQ > FN > IA > WBS > SB</p>
+    </div>
+    <div class="diff-item">
+      <p class="diff-label">ID Traceability</p>
+      <p class="diff-value">FR > FN > UI > TC chain</p>
+    </div>
+    <div class="diff-item">
+      <p class="diff-label">Self-Check + DA</p>
+      <p class="diff-value">Built-in quality assurance per skill</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

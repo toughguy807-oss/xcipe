@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #FFFFFF; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+  background: #FFFFFF;
+}
+.header-bar {
+  width: 720pt; height: 3pt; background: #2E86AB;
+}
+.title-area {
+  margin: 18pt 0 0 40pt;
+}
+.slide-num {
+  color: #2E86AB; font-size: 10pt; font-weight: bold;
+  margin: 0 0 2pt 0;
+}
+.slide-title {
+  color: #1C2833; font-size: 24pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.slide-sub {
+  color: #666666; font-size: 10pt;
+  margin: 0 0 10pt 0;
+}
+.two-col {
+  display: flex; margin: 0 40pt; gap: 16pt;
+}
+.left-col {
+  flex: 1.2;
+}
+.right-col {
+  flex: 0.8;
+  display: flex; flex-direction: column; gap: 6pt;
+}
+.source-card {
+  background: #F8F9FA; border-radius: 4pt; padding: 7pt 12pt;
+}
+.source-label {
+  color: #2E86AB; font-size: 7pt; font-weight: bold;
+  margin: 0 0 2pt 0;
+}
+.source-quote {
+  color: #1C2833; font-size: 8pt; line-height: 1.3;
+  margin: 0;
+}
+.big-stat-row {
+  display: flex; gap: 10pt; margin: 8pt 40pt 0 40pt;
+}
+.big-stat {
+  flex: 1; text-align: center; background: #1C2833; border-radius: 4pt; padding: 8pt;
+}
+.big-num {
+  color: #2E86AB; font-size: 18pt; font-weight: bold;
+  margin: 0;
+}
+.big-label {
+  color: #AABBCC; font-size: 7pt;
+  margin: 2pt 0 0 0;
+}
+</style>
+</head>
+<body>
+<div class="header-bar"></div>
+<div class="title-area">
+  <p class="slide-num">02</p>
+  <h1 class="slide-title">Market Trend: AI Agent Era</h1>
+  <p class="slide-sub">AI Agent market projected $52.6B by 2030 (CAGR 46.3%)</p>
+</div>
+<div class="two-col">
+  <div class="left-col">
+    <div id="market-chart" class="placeholder" style="width: 270pt; height: 180pt;"></div>
+  </div>
+  <div class="right-col">
+    <div class="source-card">
+      <p class="source-label">TechCrunch</p>
+      <p class="source-quote">"SaaSpocalypse" - SaaS replaced by Agents as a Service</p>
+    </div>
+    <div class="source-card">
+      <p class="source-label">Deloitte</p>
+      <p class="source-quote">Redesign workflows for agent-compatible architecture</p>
+    </div>
+    <div class="source-card">
+      <p class="source-label">Google Cloud</p>
+      <p class="source-quote">Every employee becomes a "human supervisor" of AI agents</p>
+    </div>
+    <div class="source-card">
+      <p class="source-label">CIO Magazine</p>
+      <p class="source-quote">38% organizations will operate AI agents as team members by 2028</p>
+    </div>
+  </div>
+</div>
+<div class="big-stat-row">
+  <div class="big-stat">
+    <p class="big-num">$52.6B</p>
+    <p class="big-label">Market Size 2030</p>
+  </div>
+  <div class="big-stat">
+    <p class="big-num">46.3%</p>
+    <p class="big-label">CAGR</p>
+  </div>
+  <div class="big-stat">
+    <p class="big-num">38%</p>
+    <p class="big-label">AI as Team by 2028</p>
+  </div>
+</div>
+</body>
+</html>

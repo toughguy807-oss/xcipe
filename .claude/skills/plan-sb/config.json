@@ -1,0 +1,12 @@
+{
+  "defaults": {
+    "project": {
+      "company": { "name": "ELUO" },
+      "writer": "ELUO"
+    },
+    "theme": {
+      "preset": "default",
+      "pageFormat": "16:9-landscape"
+    }
+  }
+}

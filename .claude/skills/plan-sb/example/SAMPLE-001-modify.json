@@ -1,0 +1,84 @@
+{
+  "_comment": "참고용 예시 — 운영 수정 시나리오 (Mode B: 현행 캡쳐 + 마커). 실제 사용 시 값들을 모두 교체하세요. 이 파일의 jiraNo·title·writer·companyName 등을 SB에 그대로 사용 금지.",
+  "project": {
+    "jiraNo": "PROJECT-001",
+    "srNo": "REQ-2025-XXXX",
+    "title": "[샘플 서비스] 메인 영역 일부 영역 수정",
+    "serviceName": "샘플 서비스",
+    "version": "0.1",
+    "date": "2026-04-27",
+    "writer": "{작성자}",
+    "companyName": "{고객사명}",
+    "requestor": "{요청 부서}<br>{담당자 직급}"
+  },
+  "history": [
+    {
+      "version": "ver 0.1",
+      "date": "2026-04-27",
+      "detail": "[PROJECT-001] 샘플 서비스 일부 영역 수정 — 초기 작성",
+      "page": "-",
+      "writer": "{작성자}",
+      "remarkers": "출처: 요청 메일 또는 회의록"
+    }
+  ],
+  "assignment": {
+    "detail": "#요청사항<br>{변경 사유 한 줄 요약}",
+    "dividerSub": "Assignment Definition for Operational",
+    "dividerMain": "01. Assignment Properties",
+    "dividerBullets": ["Assignment Detail", "Target Interface"]
+  },
+  "interfaces": [
+    {
+      "office": "Front Office",
+      "channel": "PC/MO",
+      "depth1": "{1차 메뉴}",
+      "depth2": "{2차 메뉴}",
+      "depth3": "{대상 페이지}",
+      "depth4": "-",
+      "interfaceType": "Page",
+      "workType": "수정",
+      "pageId": "(None)"
+    }
+  ],
+  "screens": [
+    {
+      "viewportType": "Mobile",
+      "interfaceName": "{대상 페이지명}",
+      "interfaceId": "(None)",
+      "location": "{1차 메뉴} → {2차 메뉴} → {대상 페이지}",
+      "pageName": "",
+      "uiImagePath": "",
+      "hasDivider": true,
+      "divider": {
+        "sub": "Assignment Definition for Operational",
+        "main": "02. Assignment Execute / Planning",
+        "bullets": ["{대상 페이지명} (Mo/PC)"]
+      },
+      "descriptions": [
+        {
+          "marker": 1,
+          "label": "{변경 영역 명칭}",
+          "before": "{변경 전 상태 설명}",
+          "after": "{변경 후 상태 설명}"
+        }
+      ]
+    },
+    {
+      "viewportType": "PC",
+      "interfaceName": "{대상 페이지명}",
+      "interfaceId": "(None)",
+      "location": "{1차 메뉴} → {2차 메뉴} → {대상 페이지}",
+      "pageName": "",
+      "uiImagePath": "",
+      "hasDivider": false,
+      "descriptions": [
+        {
+          "marker": 1,
+          "label": "{변경 영역 명칭}",
+          "before": "{변경 전 상태 설명}",
+          "after": "{변경 후 상태 설명}"
+        }
+      ]
+    }
+  ]
+}

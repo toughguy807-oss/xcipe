@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3939\" -UseBasicParsing -TimeoutSec 5; \"HTTP $\\($r.StatusCode\\) — $\\($r.Headers['Content-Type']\\) — $\\($r.RawContentLength\\) bytes\" } catch { \"ERROR: $\\($_.Exception.Message\\)\" })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3939/preview/ktmyr-usim-self-main-compare-desktop.html\" -UseBasicParsing -TimeoutSec 5; \"HTTP $\\($r.StatusCode\\) — $\\($r.Headers['Content-Type']\\) — $\\($r.RawContentLength\\) bytes\" } catch { \"ERROR: $\\($_.Exception.Message\\)\" })",
+      "PowerShell($p = Get-CimInstance Win32_Process -Filter \"ProcessId=33748\"; \"EXE: $\\($p.ExecutablePath\\)\"; \"CWD: $\\($p.CommandLine\\)\"; \"\"; \"--- working dir from handle ---\"; try { \\(Get-Process -Id 33748\\).Path } catch {})",
+      "PowerShell($h = \\(Get-NetTCPConnection -LocalPort 3939 -State Listen | Select-Object -First 1\\).OwningProcess; Get-Process -Id $h | Format-List Path,StartTime,MainModule; \"--- env via wmic ---\"; \\(Get-CimInstance Win32_Process -Filter \"ProcessId=$h\"\\).CommandLine)",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://localhost:3939/preview/ktmyr-usim-self-main-compare-desktop.html\" -UseBasicParsing -TimeoutSec 5; \"--- HEADERS ---\"; $r.Headers | Format-Table -AutoSize | Out-String; \"--- TOP 600 chars ---\"; $r.Content.Substring\\(0, [Math]::Min\\(600, $r.Content.Length\\)\\))",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3939/\" -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop; $r.Content.Substring\\(0,[Math]::Min\\(800,$r.Content.Length\\)\\) } catch { \"ROOT: $\\($_.Exception.Message\\)\" }; \"\"; \"--- try /api/info ---\"; try { \\(Invoke-WebRequest -Uri \"http://localhost:3939/api/info\" -UseBasicParsing -TimeoutSec 3 -ErrorAction Stop\\).Content } catch { $_.Exception.Message })",
+      "PowerShell(node c:\\\\tmp\\\\build-selfcontained.js)",
+      "PowerShell(node c:\\\\tmp\\\\build-individual.js)",
+      "Bash(stat -c '%y %n' \"/c/Users/hj.moon/Downloads/AX_KDS_design system-v4/AX_KDS_design system-v4/to-figma/\"*compare* 2>/dev/null | sort | head -20)",
+      "Read(//d/SYS_v4/**)",
+      "PowerShell($env:ESYS_DEV='1'; npm start)",
+      "PowerShell(Get-NetTCPConnection -LocalPort 3747 -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force }; Start-Sleep -Seconds 2; netstat -ano | Select-String ':3747' | Select-Object -First 2)",
+      "PowerShell(Start-Process powershell.exe -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File','D:\\\\SYS_v4\\\\scripts\\\\supervisor.ps1' -WindowStyle Hidden; Start-Sleep -Seconds 10; netstat -ano | Select-String ':\\(3747|3939\\) ' | Select-Object -First 6)",
+      "PowerShell(pm2 save 2>&1)",
+      "PowerShell(pm2-startup install 2>&1)",
+      "Bash(tasklist /FI \"IMAGENAME eq python.exe\" /FO CSV)",
+      "Bash(tasklist /FI \"IMAGENAME eq node.exe\" /FO CSV)",
+      "Bash(findstr -v \"DESKTOP\")",
+      "Bash(git init *)",
+      "Bash(git config *)"
+    ]
+  }
+}

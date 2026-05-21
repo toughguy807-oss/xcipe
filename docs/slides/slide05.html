@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #FFFFFF; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+  background: #FFFFFF;
+}
+.header-bar {
+  width: 720pt; height: 3pt; background: #2E86AB;
+}
+.title-area {
+  margin: 24pt 0 0 40pt;
+}
+.slide-num {
+  color: #2E86AB; font-size: 10pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.slide-title {
+  color: #1C2833; font-size: 26pt; font-weight: bold;
+  margin: 0 0 6pt 0;
+}
+.slide-sub {
+  color: #666666; font-size: 11pt;
+  margin: 0 0 14pt 0;
+}
+.arch-container {
+  margin: 0 40pt;
+  display: flex; flex-direction: column; gap: 6pt;
+}
+.layer-row {
+  display: flex; align-items: center; gap: 8pt;
+}
+.layer-num {
+  width: 18pt; height: 18pt; background: #2E86AB; border-radius: 50%;
+  text-align: center; line-height: 18pt;
+}
+.layer-num-text {
+  color: #FFFFFF; font-size: 9pt; font-weight: bold;
+  margin: 0;
+}
+.layer-bar {
+  flex: 1; border-radius: 4pt; padding: 10pt 14pt;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.layer-1 { background: #1C2833; }
+.layer-2 { background: #233240; }
+.layer-3 { background: #2A3D4E; }
+.layer-4 { background: #31485C; }
+.layer-5 { background: #38536A; }
+.layer-6 { background: #3F5E78; }
+.layer-name {
+  color: #FFFFFF; font-size: 11pt; font-weight: bold;
+  margin: 0;
+}
+.layer-desc {
+  color: #AABBCC; font-size: 9pt;
+  margin: 0;
+}
+.arch-note {
+  margin: 10pt 40pt 0 40pt;
+  display: flex; gap: 12pt;
+}
+.note-card {
+  flex: 1; background: #F8F9FA; border-radius: 4pt; padding: 10pt 12pt;
+  border-top: 2pt solid #2E86AB;
+}
+.note-title {
+  color: #1C2833; font-size: 9pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.note-text {
+  color: #666666; font-size: 8pt; line-height: 1.4;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header-bar"></div>
+<div class="title-area">
+  <p class="slide-num">04</p>
+  <h1 class="slide-title">Solution: 6-Layer Architecture</h1>
+  <p class="slide-sub">ELUO SYS platform designed as layered, modular system</p>
+</div>
+<div class="arch-container">
+  <div class="layer-row">
+    <div class="layer-num"><p class="layer-num-text">1</p></div>
+    <div class="layer-bar layer-1">
+      <p class="layer-name">Scheduling Layer</p>
+      <p class="layer-desc">Cron jobs, pipeline orchestration, task queue</p>
+    </div>
+  </div>
+  <div class="layer-row">
+    <div class="layer-num"><p class="layer-num-text">2</p></div>
+    <div class="layer-bar layer-2">
+      <p class="layer-name">Interface Layer</p>
+      <p class="layer-desc">Web dashboard, API endpoints, CLI bridge</p>
+    </div>
+  </div>
+  <div class="layer-row">
+    <div class="layer-num"><p class="layer-num-text">3</p></div>
+    <div class="layer-bar layer-3">
+      <p class="layer-name">State Layer</p>
+      <p class="layer-desc">SQLite WAL, JSON config, session management</p>
+    </div>
+  </div>
+  <div class="layer-row">
+    <div class="layer-num"><p class="layer-num-text">4</p></div>
+    <div class="layer-bar layer-4">
+      <p class="layer-name">Execution Layer</p>
+      <p class="layer-desc">Claude API, MCP servers, skill runtime</p>
+    </div>
+  </div>
+  <div class="layer-row">
+    <div class="layer-num"><p class="layer-num-text">5</p></div>
+    <div class="layer-bar layer-5">
+      <p class="layer-name">Knowledge Layer</p>
+      <p class="layer-desc">Project memory, design principles, traceability DB</p>
+    </div>
+  </div>
+  <div class="layer-row">
+    <div class="layer-num"><p class="layer-num-text">6</p></div>
+    <div class="layer-bar layer-6">
+      <p class="layer-name">Foundation Layer</p>
+      <p class="layer-desc">Node.js runtime, file system, Git version control</p>
+    </div>
+  </div>
+</div>
+<div class="arch-note">
+  <div class="note-card">
+    <p class="note-title">On-Premise First</p>
+    <p class="note-text">Data sovereignty. Client strategies, specs, competitor analysis stored locally.</p>
+  </div>
+  <div class="note-card">
+    <p class="note-title">JSON Interface</p>
+    <p class="note-text">Agents communicate via JSON files. Schema validation ensures zero parse failures.</p>
+  </div>
+  <div class="note-card">
+    <p class="note-title">Production != Review</p>
+    <p class="note-text">Separate models: opus for creation, sonnet for review. Eliminates self-review bias.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "_comment": "참고용 테마 예시 — 색상·로고 구조 학습용. 실제 사용 시 모두 교체하세요.",
+  "primaryColor": "#3366CC",
+  "accentColor": "#CC3333",
+  "neutralColor": "#666666",
+  "logo": { "type": "text", "html": "{프로젝트 로고 또는 회사명}" },
+  "fonts": { "primary": "'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" },
+  "frame": { "width": 1920, "height": 1080, "borderWidth": 2 }
+}

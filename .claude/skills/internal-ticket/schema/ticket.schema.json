@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://eluo.kr/sys-v4/schema/ticket.schema.json",
+  "title": "Ticket",
+  "description": "SYS_v4 internal-ticket. 외부 도구 종속 없는 자체 모델. ID 체계는 FR/FN/IA/TC와 일관.",
+  "type": "object",
+  "required": ["id", "title", "status", "type", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "TKT-{YYYY}-{4자리 일련번호}",
+      "pattern": "^TKT-[0-9]{4}-[0-9]{4}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "description": "본문 요약. 상세는 동명 .md 파일의 body 참조"
+    },
+    "project_code": {
+      "type": ["string", "null"],
+      "description": "projects/_index.json의 code (NULL 가능 — 횡단 티켓)"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["bug", "feature", "change", "question", "chore"],
+      "description": "소프트웨어 표준 분류"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "in-progress", "review", "blocked", "done", "archived"],
+      "description": "영문 표준 6단계"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2", "P3"],
+      "description": "P0=긴급/장애, P1=높음, P2=보통, P3=낮음 (SYS_v4 표준)"
+    },
+    "pipeline_stage": {
+      "type": ["string", "null"],
+      "enum": ["planning", "design", "publish", "dev", "qa", "ops", null],
+      "description": "SYS_v4 6 패키지 중 어느 단계의 작업인지"
+    },
+    "labels": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "assignee": {
+      "type": ["string", "null"],
+      "description": "담당자 식별자 (이메일 또는 GitHub handle)"
+    },
+    "requester": {
+      "type": ["string", "null"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "due_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "subtasks": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/subtask"},
+      "description": "체크리스트 단위 하위 작업"
+    },
+    "related_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(FR|NFR|FN|IA-[PNC]|UI|TC-[FAPRVB]|BM|SEC|DEF|Q)-[0-9A-Z-]+$"
+      },
+      "description": "SYS_v4 ID 체계와 연결 (FR-001, FN-012, TC-F-003 등)"
+    },
+    "comments": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/comment"}
+    }
+  },
+  "definitions": {
+    "subtask": {
+      "type": "object",
+      "required": ["no", "title", "done"],
+      "additionalProperties": false,
+      "properties": {
+        "no": {"type": "integer", "minimum": 1},
+        "title": {"type": "string", "minLength": 1},
+        "done": {"type": "boolean"},
+        "owner": {"type": ["string", "null"]},
+        "completed_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "comment": {
+      "type": "object",
+      "required": ["author", "body", "created_at"],
+      "additionalProperties": false,
+      "properties": {
+        "author": {"type": "string"},
+        "body": {"type": "string"},
+        "created_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "name": "KDS Button Catalog",
+  "root": {
+    "type": "FRAME",
+    "name": "button-catalog",
+    "kdsId": "screen-button-catalog",
+    "x": 0,
+    "y": 0,
+    "width": 360,
+    "height": 360,
+    "fills": [{ "type": "SOLID", "color": "#FFFFFF" }],
+    "layout": {
+      "mode": "VERTICAL",
+      "paddingTop": 32,
+      "paddingBottom": 32,
+      "paddingLeft": 24,
+      "paddingRight": 24,
+      "itemSpacing": 16,
+      "primaryAxisAlign": "MIN",
+      "counterAxisAlign": "MIN",
+      "primaryAxisSizing": "AUTO",
+      "counterAxisSizing": "FIXED"
+    },
+    "children": [
+      {
+        "type": "TEXT",
+        "name": "title",
+        "kdsId": "title",
+        "characters": "Button 카탈로그",
+        "fontSize": 22,
+        "fontName": { "family": "Pretendard Variable", "style": "Bold" },
+        "lineHeight": { "unit": "PIXELS", "value": 32 },
+        "letterSpacing": -0.44,
+        "fills": [{ "type": "SOLID", "color": "#191A1B" }],
+        "textAutoResize": "HEIGHT",
+        "width": 312
+      },
+      {
+        "type": "FRAME",
+        "name": "btn-primary",
+        "kdsId": "btn-primary",
+        "width": 312,
+        "height": 48,
+        "fills": [{ "type": "SOLID", "color": "#191A1B" }],
+        "cornerRadius": 8,
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 12,
+          "paddingBottom": 12,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 8,
+          "primaryAxisAlign": "CENTER",
+          "counterAxisAlign": "CENTER",
+          "primaryAxisSizing": "FIXED",
+          "counterAxisSizing": "FIXED"
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "btn-primary-label",
+            "kdsId": "btn-primary-label",
+            "characters": "Primary Button",
+            "fontSize": 15,
+            "fontName": { "family": "Pretendard Variable", "style": "Bold" },
+            "lineHeight": { "unit": "PIXELS", "value": 22 },
+            "letterSpacing": -0.3,
+            "fills": [{ "type": "SOLID", "color": "#FFFFFF" }],
+            "textAutoResize": "WIDTH_AND_HEIGHT"
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "btn-secondary",
+        "kdsId": "btn-secondary",
+        "width": 312,
+        "height": 48,
+        "fills": [{ "type": "SOLID", "color": "#E9EAEE" }],
+        "cornerRadius": 8,
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 12,
+          "paddingBottom": 12,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 8,
+          "primaryAxisAlign": "CENTER",
+          "counterAxisAlign": "CENTER",
+          "primaryAxisSizing": "FIXED",
+          "counterAxisSizing": "FIXED"
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "btn-secondary-label",
+            "kdsId": "btn-secondary-label",
+            "characters": "Secondary Button",
+            "fontSize": 15,
+            "fontName": { "family": "Pretendard Variable", "style": "Bold" },
+            "lineHeight": { "unit": "PIXELS", "value": 22 },
+            "letterSpacing": -0.3,
+            "fills": [{ "type": "SOLID", "color": "#191A1B" }],
+            "textAutoResize": "WIDTH_AND_HEIGHT"
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "btn-tertiary",
+        "kdsId": "btn-tertiary",
+        "width": 312,
+        "height": 48,
+        "fills": [{ "type": "SOLID", "color": "#FFFFFF" }],
+        "strokes": [{ "type": "SOLID", "color": "#191A1B" }],
+        "strokeWeight": 1,
+        "strokeAlign": "INSIDE",
+        "cornerRadius": 8,
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 12,
+          "paddingBottom": 12,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 8,
+          "primaryAxisAlign": "CENTER",
+          "counterAxisAlign": "CENTER",
+          "primaryAxisSizing": "FIXED",
+          "counterAxisSizing": "FIXED"
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "btn-tertiary-label",
+            "kdsId": "btn-tertiary-label",
+            "characters": "Tertiary Button",
+            "fontSize": 15,
+            "fontName": { "family": "Pretendard Variable", "style": "Bold" },
+            "lineHeight": { "unit": "PIXELS", "value": 22 },
+            "letterSpacing": -0.3,
+            "fills": [{ "type": "SOLID", "color": "#191A1B" }],
+            "textAutoResize": "WIDTH_AND_HEIGHT"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,148 @@
+# Aesthetic Contract
+#
+# 역할: 프로젝트의 미학적 축을 한 번 선언하고 파이프라인 전 구간이 이를 준수.
+# 저장 위치: output/{프로젝트명}/{YYYYMMDD}/aesthetic-contract.yaml
+# 작성 주체: design-knowledge (벤치마크 확정 직후) 또는 project 초기 단계.
+# 참조자: publish-style / publish-markup / publish-visual-verify / reviewer
+#
+# Iron Rule 2 — "시스템 선언" 의 실체. 이 파일이 없으면 Phase 1 FAIL.
+
+project: "{프로젝트명}"
+version: "v1"
+created: "{YYYY-MM-DD}"
+
+# ───────────────────────────────────────
+# 1. 미학적 방향
+# ───────────────────────────────────────
+aesthetic_direction:
+  purpose: "무엇을 해결하는가 (1문장)"
+  tone: "luxury | refined | editorial | magazine | brutalist | raw | organic | natural | retro-futuristic | playful | brand-safe"
+  # Tone 추천 엔진(Top 3) 결과 — design-orchestrator Step 0-D.2 자동 동기화
+  tone_engine:
+    top3: ["refined", "editorial", "brand-safe"]      # R5 정렬 결과
+    selected: "refined"                                # 사용자 commit
+    selection_source: "user_choice"                    # user_choice | orchestrator_default | mandate_override
+    matrix_score: 8                                    # 도메인×Tone 매트릭스 점수 (0~3 합산)
+    keyword_signals: ["+editorial(매거진)", "-brutalist(공공)"]
+  differentiation: "경쟁사와 다른 한 가지 (1문장)"
+  reference_brand: "like {브랜드명}"
+  banned_associations:
+    - "generic SaaS dashboard"
+    - "AI-slop gradient landing"
+
+# ───────────────────────────────────────
+# 1-B. MANDATE 도메인 양성 토큰 프리셋 (2026-05-04 신설 · design-knowledge MANDATE 자동 동기화)
+# ───────────────────────────────────────
+mandate:
+  domain: "medical"            # 공공/기관 | 의료/헬스케어 | 금융/핀테크 | 이커머스 | 관광/문화 | 에듀/키즈 | B2B SaaS | 게임/엔터 | 미디어/뉴스 | 스타트업 | 부동산/공간 | none
+  strength: "full"             # full | signal-only | skip (Tone에 따라 자동 결정)
+  applied_tokens:              # design-knowledge MANDATE 섹션에서 주입된 토큰 시드
+    - "primary_color"
+    - "body_font"
+    - "min_contrast_ratio"
+    - "trust_signals"
+  source_section: "design-knowledge SKILL.md §MANDATE"
+
+# ───────────────────────────────────────
+# 1-C. DKB References 동기화 (2026-05-04 신설 · dkb-search 결과 자동 동기화)
+# ───────────────────────────────────────
+dkb_sync:
+  matched_references: ["tier-1/anthropic.com", "tier-2/scale.com"]
+  matched_section_packs: []
+  matched_patterns: ["hero/kpi-dark-monogrid"]
+  reject_penalty_applied: {}    # dkb-search Step 5 reject_penalty_applied 그대로 복사
+  feedback_alert: []            # dkb-search Step 5 feedback_alert 그대로 복사
+
+# ───────────────────────────────────────
+# 2. 3-Dial (DESIGN_VARIANCE / MOTION_INTENSITY / VISUAL_DENSITY)
+#    각 0~10. publish-visual-verify Phase 2 가 실측값과 ±2 이내 확인.
+# ───────────────────────────────────────
+dials:
+  design_variance: 7        # Bento/Editorial/Subgrid 등 비정형 레이아웃 빈도
+  motion_intensity: 5       # scroll-driven/Lenis/GSAP 사용 강도
+  visual_density: 6         # 섹션당 요소 수 / 여백 비율
+
+# ───────────────────────────────────────
+# 3. 색상 축 (OKLCH 3-tier 강제)
+# ───────────────────────────────────────
+color:
+  space: "oklch"
+  primary: "oklch(0.67 0.19 240)"       # 예: accent
+  neutral_base: "oklch(0.98 0.01 240)"  # 배경
+  ink: "oklch(0.18 0.02 240)"           # 본문 — pure black 금지
+  accent_tiers: 3                       # light / mid / deep
+  shadow_strategy: "tinted — color-mix(in oklch, var(--ink) 20%, transparent)"
+  banned:
+    - "#000000"
+    - "#6366F1"
+    - "rgb(0, 0, 0)"
+    - "퍼플 그라디언트"
+
+# ───────────────────────────────────────
+# 4. 타이포 축
+# ───────────────────────────────────────
+typography:
+  display: "Pretendard Variable | Geist | Neue Haas Grotesk Display"
+  body: "Pretendard Variable | Geist"
+  mono: "JetBrains Mono | Geist Mono"
+  weight_contrast: [300, 800]           # 극단 대비 권장
+  fluid_scale: true                     # clamp() 본문 16~18px
+  text_wrap: "pretty"                   # 지원 브라우저에서 pretty
+  banned:
+    - "Inter"
+    - "Roboto"
+    - "Arial"
+    - "system-ui single"
+
+# ───────────────────────────────────────
+# 5. 레이아웃 축
+# ───────────────────────────────────────
+layout:
+  required_patterns:
+    - "bento_grid"          # 최소 1섹션
+    - "editorial_asymmetric"  # 최소 1섹션
+  required_techniques:
+    - ":has()"
+    - "@container"
+    - "subgrid"
+    - "@layer cascade"
+  container_queries: true
+  banned:
+    - "3-col 동일 카드 그리드 반복 (3회+)"
+    - "100vh 풀스크린 남용"
+
+# ───────────────────────────────────────
+# 6. 모션 축
+# ───────────────────────────────────────
+motion:
+  primary_stack: "native"   # native | motion_one | gsap
+  native_features:
+    - "View Transitions API"
+    - "animation-timeline: scroll()"
+  libraries: []             # 필요 시 ["gsap", "lenis"] 등
+  reduced_motion: true      # @media (prefers-reduced-motion: reduce) 필수
+  banned:
+    - "hover:scale(1.05) 일괄"
+    - "transition: all"
+    - "top/left/width/height 트랜지션"
+
+# ───────────────────────────────────────
+# 7. 콘텐츠 축 — 진짜 카피 강제
+# ───────────────────────────────────────
+content:
+  source_of_truth: "input/{원본 자료}"   # PPT/Brand sheet 경로
+  allow_placeholders: false
+  banned:
+    - "Lorem ipsum"
+    - "John Doe"
+    - "Acme"
+    - "Elevate / Seamless / Unleash / Empower / Next-Gen"
+
+# ───────────────────────────────────────
+# 8. 검증 후크
+# ───────────────────────────────────────
+verification:
+  phase_1_must_pass: true
+  phase_2_threshold: 7.5
+  phase_3_breakpoints: [375, 768, 1440]
+  variant_coverage_min: 0.86

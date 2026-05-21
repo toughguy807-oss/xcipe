@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>화면설계서 - v2.1 Test Service</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; background: #fff; }
+
+  /* 화면용: 가로 나열 */
+  @media screen {
+    body { background: #4a4a4a; display: flex; flex-wrap: wrap; gap: 40px; padding: 40px; overflow-x: auto; }
+  }
+
+  /* 인쇄/PDF용: 16:9 landscape */
+  @page {
+    size: 1280px 720px landscape;
+    margin: 0;
+  }
+  @media print {
+    body { display: block; padding: 0; background: #fff; margin: 0; }
+    .slide { page-break-after: always; border: none !important; }
+    .slide:last-child { page-break-after: auto; }
+  }
+
+  /* 슬라이드 컨테이너: 1280×720 고정 */
+  .slide {
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    border: 2px solid #3366CC;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  /* 슬라이드 헤더: 36px */
+  .slide-header {
+    background: #3366CC;
+    color: #fff;
+    padding: 0 16px;
+    height: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    font-size: 11px;
+  }
+  .slide-header .hd-left { display: flex; align-items: center; gap: 10px; }
+  .slide-header .hd-id { font-weight: 700; font-size: 12px; letter-spacing: 0.5px; }
+  .slide-header .hd-sep { opacity: 0.5; }
+  .slide-header .hd-name { opacity: 0.9; }
+  .slide-header .hd-right { opacity: 0.8; font-size: 10px; }
+
+  /* 슬라이드 본문: 남은 영역 전부 */
+  .slide-body {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  /* 슬라이드 푸터: 24px */
+  .slide-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+    padding: 0 16px;
+    height: 24px;
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #999;
+    flex-shrink: 0;
+  }
+  .slide-footer .footer-left { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .slide-footer .footer-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .slide-footer .footer-writer { color: #999; }
+  .slide-footer .slide-num {
+    font-weight: 700; color: #555; letter-spacing: 0.5px;
+    padding: 2px 8px; background: #fff; border: 1px solid #ddd; border-radius: 10px;
+    min-width: 38px; text-align: center; flex-shrink: 0;
+  }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: #f5f5f5; font-weight: 600; padding: 8px 10px; border: 1px solid #ddd; text-align: center; }
+  td { padding: 8px 10px; border: 1px solid #ddd; vertical-align: top; }
+  .section-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #333; }
+
+  /* Cover */
+  .cover-body { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; gap: 8px; }
+  .cover-logo { font-size: 18px; font-weight: 700; color: #666; letter-spacing: 2px; margin-bottom: 16px; }
+  .cover-logo-img { max-height: 64px; margin-bottom: 16px; }
+  .cover-title { font-size: 28px; font-weight: 700; color: #1a1a2e; text-align: center; }
+  .cover-version { font-size: 13px; color: #888; }
+  .cover-meta { width: 60%; max-width: 520px; border-collapse: collapse; margin-top: 24px; font-size: 11px; }
+  .cover-meta th { background: #f0f0f0; font-weight: 600; padding: 5px 8px; border: 1px solid #ddd; text-align: center; width: 80px; }
+  .cover-meta td { padding: 5px 8px; border: 1px solid #ddd; text-align: center; }
+
+  /* Design 레이아웃: 좌 60% / 우 40% */
+  .design-layout { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+  .wireframe-area { flex: 0 0 60%; overflow: hidden; border-right: 1px solid #ddd; position: relative; }
+  .description-panel { flex: 0 0 40%; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; }
+
+  /* Description */
+  .desc-table { width: 100%; border-collapse: collapse; font-size: 11px; line-height: 1.6; }
+  .desc-table th { background: #f5f5f5; font-weight: 600; padding: 5px 7px; border: 1px solid #ddd; text-align: center; font-size: 11px; }
+  .desc-table td { padding: 5px 7px; border: 1px solid #ddd; vertical-align: top; font-size: 11px; }
+  .desc-table .desc-num-cell { width: 44px; text-align: center; font-weight: 700; color: #333; }
+  .desc-table .desc-content-cell { color: #333; }
+  .desc-table .desc-common-row td { background: #fafafa; }
+  .desc-indent-1 { }
+  .desc-indent-2 { padding-left: 14px; }
+  .desc-indent-3 { padding-left: 28px; }
+  .desc-indent-4 { padding-left: 42px; }
+  .desc-var { color: #e67700; font-weight: 600; }
+  .desc-important { color: #c00000; font-weight: 600; }
+  .desc-continuation { font-size: 10px; color: #999; font-style: italic; text-align: center; padding: 5px 0; border-top: 1px dashed #ddd; }
+  .desc-change-tag { display: inline-block; font-size: 8px; font-weight: 700; padding: 1px 4px; border-radius: 2px; margin-left: 3px; vertical-align: middle; }
+  .desc-change-tag--modify { background: #fff3f3; color: #c00; border: 1px solid #c00; }
+  .desc-change-tag--add { background: #f0f7ff; color: #0070c0; border: 1px solid #0070c0; }
+  .desc-change-tag--delete { background: #f5f5f5; color: #666; border: 1px solid #999; text-decoration: line-through; }
+  .desc-label { font-size: 9px; font-weight: 700; color: #888; margin: 2px 0; }
+  .desc-before { background: #fff3f3; padding: 5px 7px; margin: 3px 0; border-left: 2px solid #CC3333; font-size: 10px; }
+  .desc-after { background: #f0fff0; padding: 5px 7px; margin: 3px 0; border-left: 2px solid #2e8b57; font-size: 10px; }
+
+  /* fnRef 섹션 */
+  .fn-ref-section { margin-top: auto; padding-top: 8px; border-top: 1px dashed #ddd; }
+  .fn-ref-title { font-size: 10px; font-weight: 700; color: #888; margin-bottom: 4px; }
+  .fn-ref-list { font-size: 10px; color: #3366CC; font-family: monospace; line-height: 1.6; }
+
+  /* Wireframe 영역 */
+  .wf-container { height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+  .wf-scroll { flex: 1; overflow-y: auto; overflow-x: clip; padding: 8px 10px 8px 32px; }
+  .wf-el { border: 1px dashed #ccc; background: #fafafa; padding: 8px 10px; margin: 0 0 5px 0; font-size: 10px; color: #666; position: relative; display: flex; flex-direction: column; }
+  .wf-el:last-child { margin-bottom: 0; }
+  .wf-el--header { background: #e8e8e8; border: 1px solid #bbb; min-height: 36px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #555; }
+  .wf-el--nav { background: #f0f0f0; border: 1px solid #ccc; min-height: 30px; display: flex; align-items: center; gap: 12px; padding: 0 12px; }
+  .wf-el--nav span { font-size: 10px; color: #888; }
+  .wf-el--text { background: #fff; border: 1px dashed #ddd; padding: 8px 10px; }
+  .wf-el--text .wf-content { color: #333; font-size: 11px; margin-top: 3px; }
+  .wf-el--input { background: #fff; border: 1px solid #ccc; border-radius: 3px; min-height: 30px; display: flex; align-items: center; padding: 0 8px; color: #aaa; font-size: 11px; }
+  .wf-el--button { display: inline-flex; align-items: center; justify-content: center; min-height: 30px; padding: 0 16px; border-radius: 3px; font-size: 11px; font-weight: 600; border: 1px solid #999; background: #f5f5f5; color: #333; cursor: default; }
+  .wf-el--button-primary { background: #333; color: #fff; border-color: #333; }
+  .wf-el--button-outline { background: transparent; border: 1px solid #999; color: #666; }
+  .wf-el--card { background: #fff; border: 1px solid #ddd; border-radius: 5px; padding: 10px; }
+  .wf-el--image { background: #f0f0f0; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #aaa; min-height: 60px; }
+  .wf-el--image::before { content: '\1F5BC'; font-size: 16px; margin-right: 5px; }
+  .wf-el--list { background: #fff; border: 1px dashed #ddd; padding: 6px 10px 6px 24px; }
+  .wf-el--list li { font-size: 10px; color: #555; margin-bottom: 3px; list-style: disc; }
+  .wf-el--banner { background: linear-gradient(135deg, #e8e8e8, #f5f5f5); border: 1px solid #ccc; min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #888; font-weight: 600; }
+  .wf-el--divider { border: none; border-top: 1px solid #ddd; margin: 6px 0; padding: 0; min-height: 0; background: transparent; }
+  .wf-el--group { border: 1px dashed #bbb; background: #fcfcfc; padding: 6px; gap: 5px; }
+  .wf-el--group--horizontal { flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
+  .wf-el--group--horizontal > .wf-el { flex: 1; min-width: 0; margin: 0 3px 3px 0; }
+
+  /* group layout: popup */
+  .wf-el--group--popup { position: relative; background: #fff; border: 2px solid #aaa !important; border-radius: 6px; padding: 0; gap: 0; }
+  .wf-grp-close { position: absolute; top: 6px; right: 8px; display: flex; align-items: center; gap: 3px; z-index: 3; }
+  .wf-grp-close-btn { width: 22px; height: 22px; background: rgba(0,0,0,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; font-weight: 700; flex-shrink: 0; }
+  .wf-grp-image { min-height: 90px; background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #999; position: relative; flex: 1; }
+  .wf-grp-image::before { content: '\1F5BC'; font-size: 18px; margin-right: 5px; }
+  .wf-grp-nav { display: flex; align-items: center; justify-content: space-between; padding: 4px 10px; border-top: 1px solid #eee; position: relative; }
+  .wf-grp-footer { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-top: 1px solid #eee; background: #fafafa; position: relative; }
+  .wf-grp-footer > .wf-el { flex: 1; }
+  .wf-marker-inline { display: inline-flex; width: 16px; height: 16px; background: #CC3333; color: #fff; border-radius: 50%; font-size: 8px; font-weight: 700; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  /* popup */
+  .wf-el--popup { background: #fff; border: 2px solid #aaa; border-radius: 6px; padding: 0; overflow: hidden; position: relative; min-height: 180px; gap: 0; }
+  .wf-popup-close { position: absolute; top: 6px; right: 8px; width: 22px; height: 22px; background: rgba(0,0,0,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; z-index: 2; font-weight: 700; }
+  .wf-popup-image { background: #e0e0e0; min-height: 110px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #aaa; }
+  .wf-popup-image::before { content: '\1F5BC'; font-size: 20px; margin-right: 6px; }
+  .wf-popup-nav { display: flex; align-items: center; justify-content: space-between; padding: 4px 10px; }
+  .wf-popup-nav-btn { width: 22px; height: 22px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #666; background: #fff; }
+  .wf-popup-dots { display: flex; gap: 5px; align-items: center; }
+  .wf-popup-dots span { width: 7px; height: 7px; border-radius: 50%; background: #ccc; display: inline-block; }
+  .wf-popup-dots span.active { background: #555; }
+  .wf-popup-actions { display: flex; gap: 6px; padding: 6px 10px; border-top: 1px solid #eee; background: #fafafa; }
+  .wf-popup-actions > * { flex: 1; }
+
+  /* card with thumbnail */
+  .wf-el--card { background: #fff; border: 1px solid #ddd; border-radius: 5px; padding: 0; overflow: hidden; }
+  .wf-card-thumb { background: #e8e8e8; min-height: 70px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa; border-bottom: 1px solid #ddd; }
+  .wf-card-thumb::before { content: '\1F5BC'; font-size: 16px; margin-right: 4px; }
+  .wf-card-body { padding: 8px 10px; }
+  .wf-el--table { background: #fff; }
+  .wf-el--table table { width: 100%; border-collapse: collapse; font-size: 9px; }
+  .wf-el--table th { background: #f0f0f0; padding: 3px 5px; border: 1px solid #ddd; font-size: 9px; }
+  .wf-el--table td { padding: 3px 5px; border: 1px solid #ddd; font-size: 9px; }
+  .wf-label { font-size: 9px; color: #999; font-weight: 600; text-transform: uppercase; margin-bottom: 2px; }
+  .wf-marker { position: absolute; top: 50%; left: -22px; transform: translateY(-50%); width: 18px; height: 18px; background: #CC3333; color: #fff; border-radius: 50%; text-align: center; line-height: 18px; font-size: 9px; font-weight: 700; z-index: 2; }
+  .wf-el--marked { border: 2px dashed #CC3333 !important; background: rgba(204, 51, 51, 0.03); }
+  .wf-viewport { padding: 0; }
+
+  /* 이미지 UI 캡처 */
+  .ui-capture { flex: 1; background: #f9f9f9; border-right: 1px solid #ddd; display: flex; align-items: center; justify-content: center; color: #999; font-size: 13px; overflow: hidden; }
+  .ui-capture-inner { position: relative; display: inline-block; max-width: 100%; max-height: 100%; }
+  .ui-capture-inner img { display: block; max-width: 100%; max-height: 640px; }
+  .marker-overlay { position: absolute; border: 2px dashed #CC3333; pointer-events: none; z-index: 1; }
+  .marker-number { position: absolute; top: -10px; left: -10px; width: 20px; height: 20px; background: #CC3333; color: #fff; border-radius: 50%; text-align: center; line-height: 20px; font-size: 10px; font-weight: 700; z-index: 2; }
+
+  /* Persistent */
+  .wf-persistent-header { background: #e0e0e0; border-bottom: 2px solid #bbb; padding: 5px 12px; min-height: 36px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .wf-persistent-header .site-logo { font-weight: 700; font-size: 11px; color: #333; }
+  .wf-persistent-gnb { display: flex; gap: 14px; }
+  .wf-persistent-gnb span { font-size: 10px; color: #666; }
+  .wf-persistent-breadcrumb { font-size: 9px; color: #999; padding: 4px 12px; background: #fafafa; border-bottom: 1px solid #eee; flex-shrink: 0; }
+  .wf-persistent-lnb { width: 130px; background: #f7f7f7; border-right: 1px solid #ddd; padding: 8px 0; font-size: 10px; flex-shrink: 0; }
+  .wf-persistent-lnb ul { list-style: none; padding: 0; margin: 0; }
+  .wf-persistent-lnb li { padding: 6px 12px; color: #666; }
+  .wf-persistent-lnb li.active { color: #333; font-weight: 700; background: #e8e8e8; }
+  .wf-persistent-footer { background: #e0e0e0; border-top: 2px solid #bbb; padding: 8px 12px; min-height: 36px; font-size: 9px; color: #888; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .wf-with-lnb { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+  .wf-main-content { flex: 1; overflow-y: auto; }
+
+  /* Divider 슬라이드 */
+  .divider-section-no { font-size: 56px; font-weight: 900; color: rgba(255,255,255,0.15); margin-bottom: 8px; }
+  .divider-toc { list-style: none; padding: 0; margin-top: 20px; text-align: left; display: inline-block; }
+  .divider-toc li { font-size: 12px; color: #bbb; margin-bottom: 6px; display: flex; gap: 10px; align-items: baseline; }
+  .divider-toc .toc-id { color: #777; font-size: 10px; min-width: 80px; font-family: monospace; }
+  .divider-toc .toc-name { color: #ddd; }
+
+  /* MSG Case table */
+  .msg-case-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
+  .msg-case-table th { background: #f5f5f5; font-weight: 600; padding: 5px 7px; border: 1px solid #ddd; text-align: center; font-size: 11px; }
+  .msg-case-table td { padding: 5px 7px; border: 1px solid #ddd; vertical-align: top; font-size: 11px; }
+  .msg-type-error { color: #c00000; font-weight: 600; }
+  .msg-type-process { color: #0070c0; font-weight: 600; }
+  .msg-type-positive { color: #2e8b57; font-weight: 600; }
+  .msg-type-negative { color: #e67700; font-weight: 600; }
+
+  /* Component guide */
+  .comp-guide-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
+  .comp-guide-table th { background: #f5f5f5; font-weight: 600; padding: 5px 7px; border: 1px solid #ddd; text-align: center; font-size: 11px; }
+  .comp-guide-table td { padding: 5px 7px; border: 1px solid #ddd; vertical-align: top; font-size: 11px; }
+  .comp-state-label { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 600; margin-right: 3px; }
+  .comp-state-default { background: #e8f5e9; color: #2e7d32; }
+  .comp-state-focus { background: #e3f2fd; color: #1565c0; }
+  .comp-state-error { background: #ffebee; color: #c62828; }
+  .comp-state-disabled { background: #f5f5f5; color: #9e9e9e; }
+
+  /* Modified marker + Version stamp */
+  .modified-marker { position: absolute; top: 8px; right: 10px; background: #fff3f3; color: #c00; font-size: 8px; font-weight: 700; padding: 2px 6px; border: 1px solid #c00; border-radius: 2px; z-index: 3; }
+  .version-stamp { font-size: 9px; color: #999; }
+
+  /* PM Comments */
+  .pm-comment-section { margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e0a030; }
+  .pm-comment-section h5 { font-size: 10px; font-weight: 700; color: #b07800; margin-bottom: 6px; }
+  .pm-comment { background: #fffbf0; border-left: 3px solid #e0a030; padding: 6px 8px; margin-bottom: 6px; font-size: 10px; line-height: 1.5; }
+  .pm-badge { display: inline-block; font-size: 8px; font-weight: 700; padding: 1px 4px; border-radius: 3px; margin-right: 4px; vertical-align: middle; }
+  .pm-badge--risk { background: #ffdddd; color: #c00; }
+  .pm-badge--question { background: #fff3cd; color: #856404; }
+  .pm-badge--suggestion { background: #d4edda; color: #155724; }
+  .pm-badge--reject { background: #e0e0e0; color: #333; }
+  .pm-author { font-size: 9px; color: #999; margin-left: 3px; }
+
+  /* 일반 콘텐츠 패딩 */
+  .slide-content { padding: 16px 20px; overflow-y: auto; flex: 1; }
+  </style>
+</head>
+<body>
+
+<div class="slide" data-slide-type="cover">
+  <div class="slide-header" style="background: #3366CC;">
+    <div class="hd-left"><span class="hd-id">화면설계서</span></div>
+    <div class="hd-right">TestCo | 테스터</div>
+  </div>
+  <div class="slide-body cover-body">
+    <div class="cover-logo">TestCo</div>
+    <div class="cover-title">v2.1 Test Service</div>
+    <div class="cover-version">Ver 2.1 &nbsp;|&nbsp; 2026-03-03</div>
+    
+    
+  <table class="cover-meta">
+    <thead><tr><th></th><th>작성</th><th>검토</th><th>승인</th></tr></thead>
+    <tbody>
+      <tr>
+        <th>일자</th>
+        <td>2026-03-03</td>
+        <td>2026-03-04</td>
+        <td>2026-03-05</td>
+      </tr>
+      <tr>
+        <th>담당</th>
+        <td>테스터</td>
+        <td>검토자A, 검토자B</td>
+        <td>승인자A</td>
+      </tr>
+      <tr><th>서명</th><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="slide-footer"><span>TestCo</span><span>2026-03-03</span></div>
+</div>
+
+<div class="slide" data-slide-type="history">
+  <div class="slide-header">
+  <div class="hd-left"><span class="hd-id">History</span></div>
+  <div class="hd-right">TestCo | 테스터 | 2026-03-03</div>
+</div>
+  <div class="slide-body slide-content">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:70px">Version</th>
+          <th style="width:100px">Update Date</th>
+          <th>Update Detail</th>
+          <th style="width:50px">page</th>
+          <th style="width:60px">Writer</th>
+          <th>Remarkers</th>
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td style="text-align:center">0.1</td>
+      <td style="text-align:center">2026-03-01</td>
+      <td>초안 작성</td>
+      <td style="text-align:center">-</td>
+      <td style="text-align:center">테스터</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td style="text-align:center">0.2</td>
+      <td style="text-align:center">2026-03-03</td>
+      <td>v2.1 필드 추가</td>
+      <td style="text-align:center">전체</td>
+      <td style="text-align:center">테스터</td>
+      <td>PM확인</td>
+    </tr></tbody>
+    </table>
+  </div>
+  <div class="slide-footer">
+  <span>TestCo</span>
+  <span>테스터</span>
+</div>
+</div>
+
+<div class="slide" data-slide-type="overview">
+  <div class="slide-header">
+  <div class="hd-left"><span class="hd-id">v2.1 기능 검증 개요</span></div>
+  <div class="hd-right">TestCo | 테스터 | 2026-03-03</div>
+</div>
+  <div class="slide-body slide-content">
+    <table style="width:100%; border-collapse:collapse; margin-bottom:16px;"><tr><td style="width:100px; padding:6px 10px; font-weight:600; color:#555; background:#f8f9fa; border:1px solid #e0e0e0; font-size:11px;">프로젝트명</td><td style="padding:6px 10px; border:1px solid #e0e0e0; font-size:11px; color:#333;">v2.1 Test Service</td></tr><tr><td style="width:100px; padding:6px 10px; font-weight:600; color:#555; background:#f8f9fa; border:1px solid #e0e0e0; font-size:11px;">버전</td><td style="padding:6px 10px; border:1px solid #e0e0e0; font-size:11px; color:#333;">Ver 2.1</td></tr><tr><td style="width:100px; padding:6px 10px; font-weight:600; color:#555; background:#f8f9fa; border:1px solid #e0e0e0; font-size:11px;">작성일</td><td style="padding:6px 10px; border:1px solid #e0e0e0; font-size:11px; color:#333;">2026-03-03</td></tr><tr><td style="width:100px; padding:6px 10px; font-weight:600; color:#555; background:#f8f9fa; border:1px solid #e0e0e0; font-size:11px;">작성자</td><td style="padding:6px 10px; border:1px solid #e0e0e0; font-size:11px; color:#333;">테스터</td></tr></table>
+    <div style="font-size:12px; line-height:1.8; color:#333; padding:10px 14px; background:#f8f9fa; border-left:3px solid #1a1a1a;">
+      P0~P2 전체 보강 기능 E2E 검증용 데이터입니다. Description v2, Divider v2, Persistent, Cover Meta, MSG Case, Component Guide, Description Only, End 프레임을 테스트합니다.
+    </div>
+  </div>
+  <div class="slide-footer">
+  <span>TestCo</span>
+  <span>테스터</span>
+</div>
+</div>
+
+<div class="slide" data-slide-type="msgCase" style="position:relative;">
+  <div class="slide-header">
+  <div class="hd-left">
+    <span class="hd-id">MSG-001</span>
+    <span class="hd-sep">|</span><span class="hd-name">전역 MSG Case</span>
+    <span class="hd-sep">|</span><span>MSG/Dialog Case 정의</span>
+  </div>
+  <div class="hd-right">TestCo | 테스터 | 2026-03-03</div>
+</div>
+  
+  <div class="slide-body slide-content">
+        <table class="msg-case-table">
+      <thead><tr>
+        <th style="width:55px">Type</th><th style="width:45px"></th><th style="width:36px">No</th>
+        <th>Situation Case</th><th style="width:55px">Title</th><th>Message</th>
+        <th style="width:70px">확인 Action</th><th style="width:70px">취소 Action</th>
+      </tr></thead>
+      <tbody><tr>
+        <td class="msg-type-error">Error</td>
+        <td style="text-align:center">안내</td>
+        <td style="text-align:center">E-01</td>
+        <td>네트워크 오류 발생 시</td>
+        <td>오류</td>
+        <td>네트워크 연결을 확인해주세요.</td>
+        <td>새로고침</td>
+        <td>닫기</td>
+      </tr><tr>
+        <td class="msg-type-positive">긍정형</td>
+        <td style="text-align:center">선택</td>
+        <td style="text-align:center">P-01</td>
+        <td>주문 완료 시</td>
+        <td>완료</td>
+        <td>주문이 완료되었습니다.</td>
+        <td>주문 내역으로 이동</td>
+        <td>홈으로</td>
+      </tr><tr>
+        <td class="msg-type-negative">부정형</td>
+        <td style="text-align:center">안내</td>
+        <td style="text-align:center">N-01</td>
+        <td>탈퇴 확인 시</td>
+        <td>경고</td>
+        <td>정말 탈퇴하시겠습니까? 데이터가 삭제됩니다.</td>
+        <td>탈퇴 진행</td>
+        <td>취소</td>
+      </tr></tbody>
+    </table>
+      </div>
+  <div class="slide-footer">
+  <span>TestCo</span>
+  <span>테스터</span>
+</div>
+</div>
+
+<div class="slide" data-slide-type="component" style="position:relative;">
+  <div class="slide-header">
+  <div class="hd-left">
+    <span class="hd-id">COMP-001</span>
+    <span class="hd-sep">|</span><span class="hd-name">UI 컴포넌트 가이드</span>
+    <span class="hd-sep">|</span><span>Component Guide</span>
+  </div>
+  <div class="hd-right">TestCo | 테스터 | 2026-03-03</div>
+</div>
+  
+  <div class="slide-body slide-content">
+        <table class="comp-guide-table">
+    <thead><tr><th style="width:90px">Phase</th><th style="width:70px">Sub</th><th style="width:120px">Guide UI</th><th>Guide Description</th></tr></thead>
+    <tbody><tr>
+      <td style="font-weight:600">Button</td>
+      <td>Process Button</td>
+      <td style="text-align:center"><span style="color:#bbb; font-size:10px;">[이미지]</span></td>
+      <td>업무 프로세스 진행/확인 버튼. 활성화/비활성화 상태 존재.<br><span class="comp-state-label comp-state-default">Default</span><span class="comp-state-label comp-state-focus">Focus</span><span class="comp-state-label comp-state-disabled">Disabled</span></td>
+    </tr><tr>
+      <td style="font-weight:600">Input</td>
+      <td>Text Input</td>
+      <td style="text-align:center"><span style="color:#bbb; font-size:10px;">[이미지]</span></td>
+      <td>일반 텍스트 입력 필드. placeholder 표시.<br><span class="comp-state-label comp-state-default">Default</span><span class="comp-state-label comp-state-focus">Focus</span><span class="comp-state-label comp-state-error">Error</span></td>
+    </tr><tr>
+      <td style="font-weight:600">Table</td>
+      <td>Data Table</td>
+      <td style="text-align:center"><span style="color:#bbb; font-size:10px;">[이미지]</span></td>
+      <td>데이터 목록 표시 테이블. 정렬/페이징 지원.<br><span class="comp-state-label comp-state-default">Default</span></td>
+    </tr></tbody>
+  </table>
+      </div>
+  <div class="slide-footer">
+  <span>TestCo</span>
+  <span>테스터</span>
+</div>
+</div>
+
+<div class="slide" data-slide-type="description" style="position:relative;">
+  <div class="slide-header">
+  <div class="hd-left">
+    <span class="hd-id">DESC-001</span>
+    <span class="hd-sep">|</span><span class="hd-name">공통 설계 규칙</span>
+    <span class="hd-sep">|</span><span>설계 규칙 설명</span>
+  </div>
+  <div class="hd-right">TestCo | 테스터 | 2026-03-03</div>
+</div>
+  
+  <div class="slide-body slide-content">
+        
+  <table class="desc-table">
+    <thead><tr><th colspan="2">Description</th></tr></thead>
+    <tbody><tr>
+      <td class="desc-num-cell">1</td>
+      <td class="desc-content-cell"><div style="font-weight:700; margin-bottom:3px;">반응형 기준</div><div class="desc-indent-1">- 1) PC: 1200px 이상</div><div class="desc-indent-1">- 2) Tablet: 768px ~ 1199px</div><div class="desc-indent-1">- 3) Mobile: 767px 이하</div></td>
+    </tr><tr>
+      <td class="desc-num-cell">2</td>
+      <td class="desc-content-cell"><div style="font-weight:700; margin-bottom:3px;">네이밍 규칙</div><div class="desc-indent-1">- 1) BEM 방법론 적용</div><div class="desc-indent-2">1-1) Block: 컴포넌트 단위</div><div class="desc-indent-2">1-2) Element: 하위 요소</div><div class="desc-indent-2">1-3) Modifier: 상태/변형</div></td>
+    </tr></tbody>
+  </table>
+  
+        
+      </div>
+  <div class="slide-footer">
+  <span>TestCo</span>
+  <span>테스터</span>
+</div>
+</div>
+
+<div class="slide" data-slide-type="divider" style="background:#1a1a1a; color:#fff;">
+  <div class="slide-header" style="background:#111; color:#fff; border-bottom:1px solid #333;">
+    <div class="hd-left"><span class="hd-id" style="color:#fff;">Section</span></div>
+    <div class="hd-right" style="color:#888;">TestCo</div>
+  </div>
+  <div class="slide-body cover-body">
+    <div class="divider-section-no">01</div><div style="font-size:13px; color:#aaa; margin-bottom:10px;">Section 01</div><div style="font-size:26px; font-weight:700; margin-bottom:20px;">메인 영역 설계</div><ul class="divider-toc"><li><span class="toc-id">UI-001</span><span class="toc-name">메인 페이지</span></li><li><span class="toc-id">UI-002</span><span class="toc-name">서브 페이지</span></li></ul>
+  </div>
+  <div class="slide-footer" style="background:#111; border-top:1px solid #333; color:#666;">
+    <span>TestCo</span><span>테스터</span>
+  </div>
+</div>
+
+<div class="slide" data-slide-type="design" style="position:relative;">
+  <div class="slide-header">
+  <div class="hd-left">
+    <span class="hd-id">UI-001</span>
+    <span class="hd-sep">|</span><span class="hd-name">메인 화면</span>
+    <span class="hd-sep">|</span><span>메인 페이지</span>
+  </div>
+  <div class="hd-right">TestCo | 테스터 | 2026-03-03</div>
+</div>
+  <div class="modified-marker">수정일: 2026-03-03</div>
+  <div class="slide-body">
+        <div class="design-layout">
+  <div class="wireframe-area"><div class="wf-container">
+      <div class="wf-persistent-header">
+  <div class="site-logo">TestCo</div>
+  <div class="wf-persistent-gnb"><span>홈</span><span>서비스</span><span>고객센터</span><span>마이페이지</span></div>
+</div><div class="wf-persistent-breadcrumb">Home > 메인</div><div class="wf-scroll"><div class="wf-viewport" style="max-width:100%;"><div class="wf-el wf-el--banner wf-el--marked" style="min-height:120px;"><span class="wf-marker">1</span>메인 배너 슬라이드</div><div class="wf-el wf-el--text wf-el--marked" style=""><span class="wf-marker">2</span><span class="wf-label">공지사항</span><div class="wf-content">공지사항 영역</div></div><div class="wf-el wf-el--group wf-el--marked" style=""><span class="wf-marker">3</span><div class="wf-el wf-el--card" style=""><div class="wf-card-thumb">썸네일</div><div class="wf-card-body"><span class="wf-label">카드 1</span><div class="wf-el wf-el--text" style=""><span class="wf-label">카드 제목</span></div></div></div><div class="wf-el wf-el--card" style=""><div class="wf-card-thumb">썸네일</div><div class="wf-card-body"><span class="wf-label">카드 2</span><div class="wf-el wf-el--text" style=""><span class="wf-label">카드 제목</span></div></div></div></div></div></div><div class="wf-persistent-footer">© 2026 TestCo. All rights reserved.</div>
+    </div></div>
+  <div class="description-panel">
+    
+  <table class="desc-table">
+    <thead><tr><th colspan="2">Description</th></tr></thead>
+    <tbody><tr class="desc-common-row">
+      <td class="desc-num-cell" style="font-weight:600;">공통</td>
+      <td class="desc-content-cell">- 전체 화면에 공통 적용: 반응형 breakpoint 1200/768/375px</td>
+    </tr><tr>
+      <td class="desc-num-cell">1<span class="desc-change-tag desc-change-tag--modify">변경</span></td>
+      <td class="desc-content-cell"><div style="font-weight:700; margin-bottom:3px;">메인 배너</div><div class="desc-indent-1">- 1) 메인 배너 자동 슬라이드 (5초 간격)</div><div class="desc-indent-2">1-1) 좌/우 화살표 네비게이션</div><div class="desc-indent-2">1-2) 하단 인디케이터 도트</div><div class="desc-indent-3"><span class="desc-important">■ 배너 이미지 최소 해상도 1920x600</span></div><div class="desc-indent-3"><span class="desc-var">■ CMS에서 배너 이미지/링크 관리</span></div></td>
+    </tr><tr>
+      <td class="desc-num-cell">2<span class="desc-change-tag desc-change-tag--add">추가</span></td>
+      <td class="desc-content-cell"><div style="font-weight:700; margin-bottom:3px;">공지사항 영역</div><div class="desc-indent-1">- 2) 최근 5건 노출 (제목 + 날짜)</div><div class="desc-indent-2">2-1) 제목 클릭 시 상세 페이지 이동</div></td>
+    </tr><tr>
+      <td class="desc-num-cell">3<span class="desc-change-tag desc-change-tag--delete">삭제</span></td>
+      <td class="desc-content-cell"><div style="font-weight:700; margin-bottom:3px;">카드 그리드</div><div class="desc-indent-1">- 3) 카드 레이아웃 4열 (PC), 2열 (Tablet), 1열 (Mobile)</div><div class="desc-indent-2">3-1) 호버 시 그림자 효과 + scale(1.02)</div><div class="desc-continuation">▶ 다음 슬라이드에 계속됨</div></td>
+    </tr></tbody>
+  </table>
+  <div class="pm-comment-section"><h5>PM Comments</h5><div class="pm-comment">
+      <span class="pm-badge pm-badge--question">질문</span><span class="pm-author">PM</span>
+      <div style="margin-top:3px;">배너 자동 슬라이드 속도 조정 가능해야 하는지 확인 필요</div>
+    </div><div class="pm-comment">
+      <span class="pm-badge pm-badge--suggestion">제안</span><span class="pm-author">PM</span>
+      <div style="margin-top:3px;">카드 4열 → 3열로 변경 검토</div>
+    </div></div>
+    
+  </div>
+</div>
+      </div>
+  <div class="slide-footer">
+  <span>TestCo</span>
+  <span>테스터 <span class="version-stamp">v2.1</span></span>
+</div>
+</div>
+
+<div class="slide" data-slide-type="design" style="position:relative;">
+  <div class="slide-header">
+  <div class="hd-left">
+    <span class="hd-id">UI-002</span>
+    <span class="hd-sep">|</span><span class="hd-name">서브 페이지</span>
+    <span class="hd-sep">|</span><span>서브 페이지</span>
+  </div>
+  <div class="hd-right">TestCo | 테스터 | 2026-03-03</div>
+</div>
+  
+  <div class="slide-body">
+        <div class="design-layout">
+  <div class="wireframe-area"><div class="wf-container">
+      <div class="wf-persistent-header">
+  <div class="site-logo">TestCo</div>
+  <div class="wf-persistent-gnb"><span>홈</span><span>서비스</span><span>고객센터</span><span>마이페이지</span></div>
+</div><div class="wf-persistent-breadcrumb">Home > 서비스 > 서브 페이지</div><div class="wf-with-lnb">
+        <div class="wf-persistent-lnb"><ul><li>서비스 개요</li><li class="active">서비스 상세</li><li>요금 안내</li><li>FAQ</li></ul></div>
+        <div class="wf-main-content">
+          <div class="wf-viewport" style="max-width:100%;"><div class="wf-el wf-el--text wf-el--marked" style=""><span class="wf-marker">1</span><span class="wf-label">페이지 제목</span><div class="wf-content">서비스 상세</div></div><div class="wf-el wf-el--table wf-el--marked" style=""><span class="wf-marker">2</span><span class="wf-label">서비스 비교 테이블</span><table><thead><tr><th>항목</th><th>기본형</th><th>프리미엄</th></tr></thead><tbody><tr><td>저장공간</td><td>10GB</td><td>100GB</td></tr><tr><td>사용자 수</td><td>5명</td><td>무제한</td></tr></tbody></table></div><div class="wf-el wf-el--group wf-el--marked" style=""><span class="wf-marker">3</span><div class="wf-el wf-el--button wf-el--button-primary" style="">가입하기</div><div class="wf-el wf-el--button wf-el--button-outline" style="">자세히 보기</div></div></div>
+        </div>
+      </div><div class="wf-persistent-footer">Footer</div>
+    </div></div>
+  <div class="description-panel">
+    
+  <table class="desc-table">
+    <thead><tr><th colspan="2">Description</th></tr></thead>
+    <tbody><tr>
+      <td class="desc-num-cell">1</td>
+      <td class="desc-content-cell"><div style="font-weight:700; margin-bottom:3px;">페이지 제목</div><div class="desc-indent-1">- 1) H1 태그, 32px, bold</div><div class="desc-continuation">◀ 이전 슬라이드에서 이어짐</div></td>
+    </tr><tr>
+      <td class="desc-num-cell">2</td>
+      <td class="desc-content-cell"><div style="font-weight:700; margin-bottom:3px;">서비스 비교 테이블</div><div class="desc-indent-1">- 3열 비교 테이블 (기본/프리미엄)</div><div class="desc-indent-1">- 반응형 시 가로 스크롤</div><div style="margin-top:5px;"><div class="desc-label">수정 전</div><div class="desc-before">2열 테이블</div><div class="desc-label">수정 후</div><div class="desc-after">3열 비교 테이블로 확장</div></div></td>
+    </tr><tr>
+      <td class="desc-num-cell">3</td>
+      <td class="desc-content-cell"><div style="font-weight:700; margin-bottom:3px;">CTA 버튼</div><div class="desc-indent-1">- 3) Primary 버튼: 가입 페이지 이동</div><div class="desc-indent-2">3-1) Outline 버튼: 상세 설명 앵커 이동</div></td>
+    </tr></tbody>
+  </table>
+  
+    
+  </div>
+</div>
+      </div>
+  <div class="slide-footer">
+  <span>TestCo</span>
+  <span>테스터 <span class="version-stamp">v1.0</span></span>
+</div>
+</div>
+
+<div class="slide" data-slide-type="msgCase">
+  <div class="slide-header">
+  <div class="hd-left">
+    <span class="hd-id">UI-002</span>
+    <span class="hd-sep">|</span><span class="hd-name">서브 페이지 - MSG Case</span>
+    <span class="hd-sep">|</span><span>서브 페이지</span>
+  </div>
+  <div class="hd-right">TestCo | 테스터 | 2026-03-03</div>
+</div>
+  <div class="slide-body slide-content">
+    <table class="msg-case-table">
+    <thead><tr><th style="width:55px">Type</th><th style="width:36px">No</th><th>Situation Case</th><th>Message</th></tr></thead>
+    <tbody><tr>
+      <td class="msg-type-error">Error</td>
+      <td style="text-align:center">1-1</td>
+      <td>미로그인 상태에서 가입 버튼 클릭</td>
+      <td>로그인이 필요한 서비스입니다.</td>
+    </tr><tr>
+      <td class="msg-type-process">Process</td>
+      <td style="text-align:center">2-1</td>
+      <td>가입 완료 시</td>
+      <td>서비스 가입이 완료되었습니다.</td>
+    </tr></tbody>
+  </table>
+  </div>
+  <div class="slide-footer">
+  <span>TestCo</span>
+  <span>테스터 <span class="version-stamp">v1.0</span></span>
+</div>
+</div>
+
+<div class="slide" data-slide-type="end">
+  <div class="slide-header">
+  <div class="hd-left"><span class="hd-id">END</span></div>
+  <div class="hd-right">TestCo | 테스터 | 2026-03-03</div>
+</div>
+  <div class="slide-body cover-body">
+    <div style="font-size:32px; font-weight:700; color:#999; margin-bottom:10px;">END</div>
+    <div style="font-size:13px; color:#bbb;">감사합니다</div>
+  </div>
+  <div class="slide-footer">
+  <span>TestCo</span>
+  <span>테스터</span>
+</div>
+</div>
+</body>
+</html>

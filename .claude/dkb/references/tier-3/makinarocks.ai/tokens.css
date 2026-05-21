@@ -1,0 +1,102 @@
+/* makinarocks.ai — 디자인 토큰 (WebFetch + 추정)
+   생성일: 2026-04-30
+*/
+
+:root {
+  /* 컬러 — 한국 B2B 보수 */
+  --color-bg: #FFFFFF;
+  --color-bg-alt: #F9FAFB;
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-accent: #000000;        /* 검정 시그니처 */
+  --color-border: #E5E7EB;
+
+  /* 폰트 — 한영 듀얼 */
+  --font-kr: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-en: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+
+  /* 사이즈 */
+  --fs-h1: clamp(2rem, 4vw, 3.5rem);
+  --fs-h2: clamp(1.5rem, 3vw, 2.25rem);
+  --fs-body: 1rem;
+  --fs-body-sm: 0.875rem;
+
+  /* Weight */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* 간격 */
+  --space-section: clamp(64px, 10vw, 120px);
+  --container-max: 1280px;
+
+  /* 모션 */
+  --motion-fast: 200ms ease-out;
+}
+
+/* 한글 타이포 — keep-all + word-break */
+.korean-text {
+  font-family: var(--font-kr);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+}
+
+/* 한영 듀얼 Hero */
+.hero-dual {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hero-dual .en-primary {
+  font-family: var(--font-en);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.02em;
+}
+
+.hero-dual .kr-secondary {
+  font-family: var(--font-kr);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: var(--fw-regular);
+  word-break: keep-all;
+  color: var(--color-text-secondary);
+}
+
+/* 한국 대기업 로고 그리드 — Trust 시그니처 */
+.kr-enterprise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 32px;
+  align-items: center;
+  padding: var(--space-section) 0;
+}
+
+.kr-enterprise-grid img {
+  height: 28px;
+  width: auto;
+  filter: grayscale(1) opacity(0.7);
+  transition: filter var(--motion-fast);
+}
+
+.kr-enterprise-grid img:hover {
+  filter: grayscale(0) opacity(1);
+}
+
+/* 인증 배지 묶음 */
+.cert-badges {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cert-badge {
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  color: var(--color-text-secondary);
+  font-weight: var(--fw-medium);
+}

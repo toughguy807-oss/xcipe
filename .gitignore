@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+.server.log
+
+# Runtime data (Railway Volume에서 영구 저장)
+data/
+output/
+tmp/
+backups/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Build / IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+dist/build/
+.next/
+.vercel/
+.railway/
+
+# Test / temp
+coverage/
+.nyc_output/
+test/results/
+test/screenshots/
+
+# Claude integrations (외부 PC 경로 의존 — 컨테이너 제외)
+.claude/integrations/
+
+# Bundled Claude (~/.claude → .claude/ 동기화본) — 포함
+# 단 agent-memory 는 PC별 상태라 제외
+.claude/agent-memory/
+
+# 민감 정보
+*.pem
+*.key
+secrets/

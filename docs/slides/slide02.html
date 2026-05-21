@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #FFFFFF; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+  background: #FFFFFF;
+}
+.header-bar {
+  width: 720pt; height: 3pt; background: #2E86AB;
+}
+.title-area {
+  margin: 24pt 0 0 40pt;
+}
+.slide-num {
+  color: #2E86AB; font-size: 10pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.slide-title {
+  color: #1C2833; font-size: 26pt; font-weight: bold;
+  margin: 0 0 20pt 0;
+}
+.content-area {
+  margin: 0 40pt;
+  display: flex; gap: 16pt;
+}
+.pain-card {
+  flex: 1;
+  background: #F8F9FA;
+  border-radius: 6pt;
+  padding: 18pt;
+  border-left: 4pt solid #2E86AB;
+}
+.pain-icon {
+  color: #2E86AB; font-size: 28pt; font-weight: bold;
+  margin: 0 0 8pt 0;
+}
+.pain-title {
+  color: #1C2833; font-size: 13pt; font-weight: bold;
+  margin: 0 0 8pt 0;
+}
+.pain-desc {
+  color: #555555; font-size: 10pt; line-height: 1.5;
+  margin: 0;
+}
+.bottom-stat {
+  margin: 16pt 40pt 0 40pt;
+  background: #1C2833;
+  border-radius: 4pt;
+  padding: 12pt 20pt;
+  display: flex; justify-content: space-around;
+}
+.stat-item {
+  text-align: center;
+}
+.stat-num {
+  color: #2E86AB; font-size: 18pt; font-weight: bold;
+  margin: 0;
+}
+.stat-label {
+  color: #AABBCC; font-size: 9pt;
+  margin: 2pt 0 0 0;
+}
+</style>
+</head>
+<body>
+<div class="header-bar"></div>
+<div class="title-area">
+  <p class="slide-num">01</p>
+  <h1 class="slide-title">Problem: Agency Operation Inefficiency</h1>
+</div>
+<div class="content-area">
+  <div class="pain-card">
+    <p class="pain-icon">5+</p>
+    <p class="pain-title">Tool Fragmentation</p>
+    <p class="pain-desc">Notion + Slack + Jira + Drive + Figma scattered across 5+ SaaS tools. Context switching wastes 2+ hours daily.</p>
+  </div>
+  <div class="pain-card">
+    <p class="pain-icon">1~2w</p>
+    <p class="pain-title">Manual Processes</p>
+    <p class="pain-desc">Planning phase takes 1~2 weeks per project. Requirements, IA, WBS all created manually with inconsistent quality.</p>
+  </div>
+  <div class="pain-card">
+    <p class="pain-icon">0%</p>
+    <p class="pain-title">Knowledge Disconnect</p>
+    <p class="pain-desc">Project knowledge stays in individual heads. No traceability from requirements to test cases. Onboarding takes weeks.</p>
+  </div>
+</div>
+<div class="bottom-stat">
+  <div class="stat-item">
+    <p class="stat-num">5+ SaaS</p>
+    <p class="stat-label">Tools per project</p>
+  </div>
+  <div class="stat-item">
+    <p class="stat-num">$300+/mo</p>
+    <p class="stat-label">SaaS costs (5 users)</p>
+  </div>
+  <div class="stat-item">
+    <p class="stat-num">1~2 weeks</p>
+    <p class="stat-label">Planning duration</p>
+  </div>
+  <div class="stat-item">
+    <p class="stat-num">0 traceability</p>
+    <p class="stat-label">FR to TC tracking</p>
+  </div>
+</div>
+</body>
+</html>

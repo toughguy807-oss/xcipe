@@ -1,0 +1,84 @@
+/* vercel.com — 디자인 토큰 (추정, Vision 미검증)
+   생성일: 2026-04-30
+*/
+
+:root {
+  /* 컬러 — Bento + 네온 시그니처 */
+  --color-bg: #000000;
+  --color-bg-alt: #0A0A0A;
+  --color-bg-card: #111111;
+  --color-bg-elevated: #1A1A1A;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #A1A1A1;
+  --color-text-tertiary: #6F6F6F;
+
+  /* 네온 액센트 — Vercel 시그니처 */
+  --color-cyan: #00DFD8;
+  --color-magenta: #FF0080;
+  --color-amber: #F5A623;
+  --color-blue: #0070F3;
+
+  --gradient-cyan-magenta: linear-gradient(120deg, #00DFD8, #FF0080);
+  --gradient-blue-purple: linear-gradient(120deg, #0070F3, #8B5CF6);
+  --color-border: #1F1F1F;
+
+  /* 폰트 — Geist */
+  --font-sans: 'Geist Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+
+  /* 사이즈 */
+  --fs-h1: clamp(2.5rem, 5vw, 5rem);
+  --fs-h2: clamp(1.75rem, 3vw, 3rem);
+  --fs-body: 1rem;
+  --fs-body-sm: 0.875rem;
+
+  /* Bento Grid */
+  --bento-gap: clamp(16px, 1.5vw, 24px);
+  --bento-radius: 12px;
+
+  /* 간격 */
+  --space-section: clamp(80px, 12vw, 160px);
+  --container-max: 1280px;
+  --container-padding: clamp(24px, 5vw, 48px);
+
+  /* 모션 */
+  --motion-fast: 150ms ease-out;
+  --motion-medium: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-glow: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 시그니처 패턴 — Bento Card */
+.bento-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--bento-radius);
+  padding: clamp(24px, 3vw, 48px);
+  transition: border-color var(--motion-medium);
+}
+
+.bento-card:hover {
+  border-color: var(--color-cyan);
+}
+
+/* 네온 글로우 텍스트 */
+.h1-neon {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--fs-h1);
+  letter-spacing: -0.04em;
+  background: var(--gradient-cyan-magenta);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Bento Grid 레이아웃 */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--bento-gap);
+}
+
+.bento-grid > .span-large { grid-column: span 8; }
+.bento-grid > .span-medium { grid-column: span 6; }
+.bento-grid > .span-small { grid-column: span 4; }

@@ -1,0 +1,18 @@
+{
+  "id": 1,
+  "name": "Korea Design System",
+  "slug": "kds",
+  "version": "1.0.0",
+  "source": "https://kds.kr",
+  "baseline_json": "{\"color\":{\"primary\":{\"500\":\"#0071e3\"}},\"typography\":{\"sans\":\"Pretendard\"}}",
+  "tokens_css": ":root{--primary:#0071e3;--font:Pretendard}",
+  "stats": "{\"total\":null,\"version\":null,\"source\":null,\"font_family\":null,\"breakpoints\":null,\"keys\":[]}",
+  "created_by": "admin@eluo.kr",
+  "created_at": "2026-05-11 07:39:42",
+  "updated_at": "2026-05-11 08:31:40",
+  "figma_file_key": "abc123XYZ",
+  "figma_node_id": "1:23",
+  "last_synced_at": null,
+  "last_sync_direction": null,
+  "sync_meta": null
+}

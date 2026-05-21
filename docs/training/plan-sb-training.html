@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>plan-sb 교육 자료 — 화면설계서 자동 생성 + Figma 연동</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-side: #f7f7f9;
+    --bg-code: #f3f4f6;
+    --bg-callout: #eff6ff;
+    --bg-warn: #fef3c7;
+    --bg-danger: #fee2e2;
+    --bg-ok: #d1fae5;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --primary: #1f2937;
+    --accent: #2563eb;
+    --accent-danger: #dc2626;
+    --accent-warn: #d97706;
+    --accent-ok: #059669;
+    --mono: "JetBrains Mono", "D2Coding", "Consolas", monospace;
+    --sans: "Pretendard", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--bg);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .layout { display: flex; min-height: 100vh; }
+  aside {
+    width: 260px;
+    background: var(--bg-side);
+    border-right: 1px solid var(--border);
+    padding: 24px 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  aside h2 {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 16px 0 8px;
+    letter-spacing: 0.5px;
+  }
+  aside h2:first-child { margin-top: 0; }
+  aside nav a {
+    display: block;
+    color: var(--text);
+    text-decoration: none;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  aside nav a:hover { background: var(--bg); }
+  aside nav a.section { font-weight: 600; }
+  aside nav a.sub { padding-left: 20px; color: var(--text-muted); font-size: 12px; }
+  main {
+    flex: 1;
+    max-width: 1080px;
+    padding: 40px 56px 80px;
+  }
+  header.cover {
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  header.cover h1 {
+    font-size: 32px;
+    margin: 0 0 8px;
+    letter-spacing: -0.5px;
+  }
+  header.cover .meta {
+    color: var(--text-muted);
+    font-size: 13px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  h2 {
+    font-size: 22px;
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  h2:first-of-type { margin-top: 0; }
+  h3 {
+    font-size: 17px;
+    margin: 28px 0 12px;
+    color: var(--primary);
+  }
+  h4 {
+    font-size: 14px;
+    margin: 20px 0 8px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  p { margin: 0 0 12px; }
+  ul, ol { margin: 0 0 12px; padding-left: 24px; }
+  li { margin: 4px 0; }
+  code {
+    font-family: var(--mono);
+    background: var(--bg-code);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12.5px;
+  }
+  pre {
+    font-family: var(--mono);
+    background: var(--primary);
+    color: #e5e7eb;
+    padding: 16px 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin: 12px 0;
+  }
+  pre code { background: transparent; padding: 0; color: inherit; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 13px;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid var(--border-strong);
+    vertical-align: top;
+  }
+  th {
+    background: var(--bg-side);
+    font-weight: 600;
+    font-size: 12.5px;
+  }
+  tr:nth-child(even) td { background: #fafafa; }
+  .callout {
+    background: var(--bg-callout);
+    border-left: 4px solid var(--accent);
+    padding: 12px 16px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+  }
+  .callout.warn { background: var(--bg-warn); border-left-color: var(--accent-warn); }
+  .callout.danger { background: var(--bg-danger); border-left-color: var(--accent-danger); }
+  .callout.ok { background: var(--bg-ok); border-left-color: var(--accent-ok); }
+  .callout strong { color: var(--primary); }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--bg-side);
+    color: var(--text);
+    margin-right: 4px;
+  }
+  .badge.A { background: #dbeafe; color: #1e40af; }
+  .badge.B { background: #fee2e2; color: #991b1b; }
+  .badge.C { background: #fef3c7; color: #92400e; }
+  .badge.ok { background: var(--bg-ok); color: var(--accent-ok); }
+  .badge.new { background: #ede9fe; color: #5b21b6; }
+  .step-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    background: #fafbfc;
+  }
+  .step-card h3 {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .step-num {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .mode-card {
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 16px 20px;
+  }
+  .mode-card h4 { margin-top: 0; font-size: 14px; color: var(--text); text-transform: none; letter-spacing: normal; font-weight: 600; }
+  .flow-arrow {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 0 4px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .toc-grid a {
+    display: block;
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--bg-side);
+  }
+  .toc-grid a:hover { background: white; border-color: var(--accent); }
+  .toc-grid .num { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 2px; }
+  .toc-grid .title { font-weight: 600; font-size: 14px; }
+  @media print {
+    aside { display: none; }
+    main { max-width: 100%; padding: 20px; }
+    .step-card { break-inside: avoid; }
+    table { break-inside: avoid; }
+    h2 { break-before: page; }
+    h2:first-of-type { break-before: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside>
+  <h2>목차</h2>
+  <nav>
+    <a href="#overview" class="section">1. plan-sb 개요</a>
+    <a href="#pipeline" class="section">2. 실행 흐름 전체도</a>
+    <a href="#mode-routing" class="section">3. 입력 감지 + 모드</a>
+    <a href="#mode-routing-welcome" class="sub">3.1 Welcome 4 옵션</a>
+    <a href="#mode-routing-auto" class="sub">3.2 Mode 자동 분류</a>
+    <a href="#mode-routing-link" class="sub">3.3 연계/독립</a>
+    <a href="#mode-routing-matrix" class="sub">3.4 조합 매트릭스</a>
+    <a href="#steps" class="section">4. Step별 상세</a>
+    <a href="#steps-init" class="sub">4.1 Step 0-Init</a>
+    <a href="#steps-pre" class="sub">4.2 Step 0-Pre</a>
+    <a href="#steps-input" class="sub">4.3 Step 0 입력</a>
+    <a href="#steps-gate" class="sub">4.4 Step 0.5 기획 게이트</a>
+    <a href="#steps-mockup" class="sub">4.5 Step 1~1.7 목업</a>
+    <a href="#steps-generate" class="sub">4.6 Step 2 generate</a>
+    <a href="#steps-verify" class="sub">4.7 Step 3 verify</a>
+    <a href="#figma" class="section">5. Figma 연동 F1~F7</a>
+    <a href="#figma-context" class="sub">5.1 전환 배경</a>
+    <a href="#figma-steps" class="sub">5.2 F1~F7 절차</a>
+    <a href="#figma-fallback" class="sub">5.3 Fallback</a>
+    <a href="#figma-limits" class="sub">5.4 알려진 한계</a>
+    <a href="#files" class="section">6. 핵심 파일 매트릭스</a>
+    <a href="#quickstart" class="section">7. Quick Start</a>
+    <a href="#trouble" class="section">8. 트러블슈팅</a>
+    <a href="#changelog" class="section">9. 4~5월 변경 이력</a>
+  </nav>
+</aside>
+
+<main>
+
+<header class="cover">
+  <h1>plan-sb 교육 자료</h1>
+  <p style="font-size:16px; color:var(--text-muted); margin: 0 0 12px;">
+    화면설계서(Screen Blueprint) 자동 생성 + Figma 공식 MCP 연동
+  </p>
+  <div class="meta">
+    <span>📅 2026-05-11</span>
+    <span>📦 SYS v4 · eluo-hub_v4/dist/plan-sb</span>
+    <span>🔗 Master ↔ Dist Sync 완료</span>
+    <span>🎯 대상: 기획자 · 디자이너 · PM</span>
+  </div>
+</header>
+
+<div class="toc-grid">
+  <a href="#overview"><span class="num">01</span><span class="title">plan-sb 개요</span></a>
+  <a href="#pipeline"><span class="num">02</span><span class="title">실행 흐름 전체도</span></a>
+  <a href="#mode-routing"><span class="num">03</span><span class="title">입력 감지 + 모드 자동 분류</span></a>
+  <a href="#steps"><span class="num">04</span><span class="title">Step별 상세 절차</span></a>
+  <a href="#figma"><span class="num">05</span><span class="title">Figma 연동 F1~F7</span></a>
+  <a href="#files"><span class="num">06</span><span class="title">핵심 파일 매트릭스</span></a>
+  <a href="#quickstart"><span class="num">07</span><span class="title">Quick Start (3 시나리오)</span></a>
+  <a href="#trouble"><span class="num">08</span><span class="title">트러블슈팅</span></a>
+</div>
+
+<!-- ===== 1. 개요 ===== -->
+<h2 id="overview">1. plan-sb 개요</h2>
+
+<p>
+  <strong>plan-sb</strong>는 SYS v4 기획 패키지의 화면설계서(SB) 자동 생성 스킬입니다.
+  JSON 데이터로부터 HTML/PDF 화면설계서를 생성하고, 선택적으로 Figma 공식 Remote MCP를 통해 Figma 디자인 파일까지 자동 변환합니다.
+</p>
+
+<h3>핵심 가치</h3>
+<table>
+  <thead><tr><th width="22%">항목</th><th>설명</th></tr></thead>
+  <tbody>
+    <tr><td>입력 자동 감지</td><td>FN 산출물 또는 URL/캡쳐/자연어 발화 → 모드 자동 결정 (Mode A/B/C, 연계/독립 분기)</td></tr>
+    <tr><td>다중 프레임 타입</td><td>Design · Description · MSG Case · Component Guide 4종 지원</td></tr>
+    <tr><td>테마 시스템</td><td>default · CAFE_ONEPAGE · STOCK · TEST-V21 · VALIDATE_L2 등 5종 프리셋</td></tr>
+    <tr><td>스키마 v2.1</td><td>containerType + appearance 속성 + msgCase groupDescription/groupFlow</td></tr>
+    <tr><td>Figma Export</td><td>F1~F7 플레이북 — 공식 Remote MCP 기반 (plugin 불필요)</td></tr>
+  </tbody>
+</table>
+
+<h3>입출력</h3>
+<div class="grid-2">
+  <div class="mode-card">
+    <h4>입력</h4>
+    <ul style="margin-bottom:0;">
+      <li><code>FN_*.md</code> 산출물 (연계 모드)</li>
+      <li>URL / 도메인 (Mode B)</li>
+      <li><code>input/*.png</code> 캡쳐 (Mode B/C)</li>
+      <li><code>input/*.json</code> 기존 SB (Mode C)</li>
+      <li>자연어 발화 (Mode A)</li>
+    </ul>
+  </div>
+  <div class="mode-card">
+    <h4>출력</h4>
+    <ul style="margin-bottom:0;">
+      <li><code>output/{name}/{date}/{prefix}.html</code></li>
+      <li><code>output/{name}/{date}/{prefix}.pdf</code></li>
+      <li>(선택) <code>_figma/{prefix}-figma.html</code></li>
+      <li>(선택) Figma 파일 (1920×1080 슬라이드)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 2. 전체 흐름 ===== -->
+<h2 id="pipeline">2. 실행 흐름 전체도</h2>
+
+<pre>
+[사용자 발화]
+   │
+   ▼
+[Step 0-Init Welcome] ──────────► 단독 패키지 첫 실행 시 4 옵션 안내
+   │
+   ▼
+[Step 0-Init Preflight] ────────► 환경 점검 (Node18+/SKILL.md/playwright/chromium/visit.js)
+   │
+   ▼
+[Mode 자동 분류] ─────────────► Mode A / B / C 결정 (5 우선순위)
+   │
+   ├─ Mode B/C ─► [Step 0-Pre] visit.js 셋업 게이트 (실패 시 추정 SB 절대 금지)
+   │
+   ▼
+[Step 0] 입력 감지 ──────────► FN 연계 vs 독립
+   │
+   ▼
+[Step 0.5] 기획 확정 게이트 ──► JSON 생성 전 사용자 합의
+   │
+   ▼
+[Step 1~1.7] HTML 목업 작성 ──► 마커+점선 스타일, 7대 룰, 비율 원칙
+   │
+   ▼
+[Step 2] generate.js ──────────► data.json + theme + template → HTML + PDF
+   │
+   ▼
+[Step 3] verify.js + pdf-capture ► Self-Check 25 항목, 1920×1080 검증
+   │
+   ▼ (선택)
+[Step 4] Figma Export F1~F7 ──► figma-prep.js → MCP → detach → 검증
+</pre>
+
+<!-- ===== 3. 입력 감지 + 모드 ===== -->
+<h2 id="mode-routing">3. 입력 감지 + 모드 자동 분류</h2>
+
+<h3 id="mode-routing-welcome">3.1 Step 0-Init Welcome — 단독 패키지 첫 실행 4 옵션</h3>
+<p>input/output/JSON 모두 비어있을 때 자동 안내. 사용자가 옵션을 선택하지 않아도 자연어 발화로 모드가 자동 결정됨.</p>
+<table>
+  <thead><tr><th>옵션</th><th>모드</th><th>트리거</th><th>첫 사용자 응답 예시</th></tr></thead>
+  <tbody>
+    <tr><td><span class="badge A">A</span> 신규 화면 설계</td><td>Mode A</td><td>HTML 목업 → SB</td><td>"쇼핑몰 상품상세 새로 만들어줘"</td></tr>
+    <tr><td><span class="badge B">B</span> 운영 수정</td><td>Mode B</td><td>현행 사이트 캡쳐 + 변경 마커</td><td>"https://example.com 메인 배너 위치 변경"</td></tr>
+    <tr><td><span class="badge C">C</span> 기존 SB JSON 수정</td><td>Mode C</td><td><code>input/*.json</code> 발견 시 자동</td><td>"input/old-sb.json 슬라이드 3 수정"</td></tr>
+    <tr><td><span class="badge new">D</span> PDF/PPT 포맷 참고</td><td>Mode A/C</td><td><code>input/*.pdf</code> 분석 → 테마 자동 생성</td><td>"이 포맷대로 신규 SB 만들어줘"</td></tr>
+  </tbody>
+</table>
+
+<h3 id="mode-routing-auto">3.2 Mode 자동 분류 — 우선순위 5단계</h3>
+<p>사용자 발화 + 입력 자원을 분석해 모드를 즉시 결정. 조건 명확 시 사용자 확인 생략.</p>
+<table>
+  <thead><tr><th width="6%">#</th><th width="32%">조건</th><th width="20%">자동 결정</th><th width="20%">사용자 확인</th><th>마커 출력</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>URL/도메인 포함</td><td><span class="badge B">Mode B</span> + visit.js 자동</td><td>생략</td><td><code>[모드 자동 결정] Mode B (근거: URL제공)</code></td></tr>
+    <tr><td>2</td><td><code>input/*.png</code> 캡쳐 존재</td><td><span class="badge B">Mode B</span></td><td>생략</td><td><code>[모드 자동 결정] Mode B (근거: 캡쳐존재)</code></td></tr>
+    <tr><td>3</td><td>"수정/변경/운영/현행/추가/as-is/to-be" 매칭 + 캡쳐 없음</td><td><span class="badge B">Mode B 강제</span> + URL 1회 질의</td><td>URL 미제공 시만</td><td><code>[모드 자동 결정] Mode B (근거: 키워드)</code></td></tr>
+    <tr><td>4</td><td>"신규/새로/만들어/구축" 매칭 + 캡쳐 없음</td><td><span class="badge A">Mode A</span> (HTML 목업)</td><td>생략</td><td><code>[모드 자동 결정] Mode A (근거: 키워드)</code></td></tr>
+    <tr><td>5</td><td><strong>모호</strong> (리뉴얼/개편/혼합/충돌)</td><td><span class="badge C">Mode C 추정</span> 자동 진행</td><td>묻되 자동 진행</td><td><code>[모드 자동 추정 — 모호] Mode C</code></td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <strong>핵심 정책</strong>: 모호 케이스에서도 <strong>사용자 응답 대기 없이 즉시 다음 Step 진행</strong>. 도중 "Mode X로" 입력 시 영향받는 산출물만 재생성.
+</div>
+
+<h4>분류 로직 (의사코드)</h4>
+<pre>hasUrl    = 발화에 http/https/도메인 패턴
+hasCapture = input/*.{png,jpg,jpeg} 존재
+isOps     = "수정|변경|운영|현행|추가|as-is|to-be" 매칭
+isNew     = "신규|새로|만들어|구축" 매칭
+isMixed   = "리뉴얼|개편" or (isOps && isNew)
+
+if (hasUrl)              → Mode B 자동 + visit.js
+elif (hasCapture)         → Mode B 자동
+elif (isOps && !hasCapture) → Mode B 강제 + URL 1회 질의
+elif (isNew && !hasCapture) → Mode A 자동
+elif (isMixed)            → Mode C 추정 자동 진행
+else                      → Mode A 추정 (가장 보수적 기본값)</pre>
+
+<h3 id="mode-routing-link">3.3 연계 vs 독립 모드 (FN 입력 감지)</h3>
+<p>Mode A/B/C와 <strong>직교(orthogonal)</strong>된 별도 축. FN 파일 존재 여부로 분기.</p>
+<table>
+  <thead><tr><th>모드</th><th>조건</th><th>동작</th><th>fnRef</th><th>추적성</th></tr></thead>
+  <tbody>
+    <tr><td><span class="badge ok">연계 모드</span></td><td><code>output/{name}/*/FN_*.md</code> 존재</td><td>FN 기반 screens 자동 구성, AC가 Description에 자동 반영</td><td>✅ 매핑</td><td>FR→FN→SB ID 체인 유지</td></tr>
+    <tr><td><span class="badge">독립 모드</span></td><td>FN 미존재, 프롬프트/이미지/URL만 입력</td><td>프롬프트 기반 직접 구성</td><td>❌ 생략</td><td>역참조 없음, 프로토타이핑 적합</td></tr>
+  </tbody>
+</table>
+
+<h3 id="mode-routing-matrix">3.4 모드 조합 매트릭스 (Mode × FN — 6 케이스)</h3>
+<table>
+  <thead><tr><th width="20%"></th><th><span class="badge A">Mode A</span> 신규</th><th><span class="badge B">Mode B</span> 운영</th><th><span class="badge C">Mode C</span> 혼합</th></tr></thead>
+  <tbody>
+    <tr><td><strong>연계</strong> (FN 있음)</td><td>FN → 신규 SB</td><td>FN → 현행 비교 SB</td><td>FN → 리뉴얼 SB</td></tr>
+    <tr><td><strong>독립</strong> (FN 없음)</td><td>프롬프트 → SB</td><td>URL → 캡쳐 SB</td><td>URL + 프롬프트 → 혼합 SB</td></tr>
+  </tbody>
+</table>
+
+<h4>판정 출력 예시</h4>
+<pre>[입력 감지] FN: 3건 발견 → 연계 모드
+[모드 자동 결정] Mode A (근거: "새로 만들어줘" 키워드 + 캡쳐 없음) — 사용자 확인 생략
+[Step 0-Init 환경 점검] 1234 ms — 5/5 통과
+→ Step 0.5 기획 확정 게이트로 진행</pre>
+
+<!-- ===== 4. Step별 ===== -->
+<h2 id="steps">4. Step별 상세</h2>
+
+<div class="step-card">
+  <h3 id="steps-init"><span class="step-num">0i</span>Step 0-Init: Welcome + 환경 점검</h3>
+  <p>SB 스킬 트리거 즉시 <code>preflight.js</code>를 1회 실행하여 환경을 빠르게 진단.</p>
+  <h4>5개 검사 항목 (각 1.5초 timeout)</h4>
+  <table>
+    <thead><tr><th>#</th><th>항목</th><th>통과 조건</th><th>실패 시 영향</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>node-version</td><td>Node 18+</td><td>전체 실행 불가</td></tr>
+      <tr><td>2</td><td>skill-md</td><td>SKILL.md 존재 + ≥1KB</td><td>플러그인 미설치</td></tr>
+      <tr><td>3</td><td>playwright-pkg</td><td>node_modules 또는 글로벌</td><td>Mode B 불가</td></tr>
+      <tr><td>4</td><td>chromium-binary</td><td>ms-playwright 캐시 폴더 존재</td><td>Mode B 캡쳐 불가</td></tr>
+      <tr><td>5</td><td>visit-js</td><td><code>scripts/visit.js</code> syntax OK</td><td>자동 캡쳐 불가</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <strong>처리 정책</strong>: exit 0 → 정상 진입 / exit 2 → 가이드 출력 + 사용자 응답 대기 / 5초 초과 → "플러그인 미정상 로드" 안내.
+  </div>
+</div>
+
+<div class="step-card">
+  <h3 id="steps-pre"><span class="step-num">0p</span>Step 0-Pre: visit.js 셋업 게이트 <span class="badge B">Mode B/C 필수</span></h3>
+  <p>현행 사이트 URL 제공 시 <code>visit.js</code> 실행 결과를 반드시 검증. 실패 시 추정 진행 차단.</p>
+  <h4>게이트 절차</h4>
+  <ol>
+    <li><code>node scripts/visit.js {URL}</code> 실행 → exit code = 0 검증</li>
+    <li>exit code 2 (<code>SETUP_FAIL</code>) → playwright/chromium 미설치 또는 사내망 차단</li>
+    <li><code>input/screenshot.png</code> 존재 + 크기 &gt; 10KB</li>
+    <li><code>input/structure.json</code> 존재 + parseable</li>
+  </ol>
+  <div class="callout danger">
+    <strong>금지 사항</strong>: visit.js 실패 후 "사이트 구조 추정 SB 작성" 절대 금지. exit code 0 아니면 후속 Step 진입 차단.
+  </div>
+</div>
+
+<div class="step-card">
+  <h3 id="steps-input"><span class="step-num">0</span>Step 0: 입력 감지 (FN 연계 / 독립)</h3>
+  <p>모든 모드 공통. FN 파일 자동 스캔으로 연계/독립 결정.</p>
+  <h4>출력 마커</h4>
+  <pre>[입력 감지] FN: 3건 발견 → 연계 모드
+[입력 감지] FN: 미발견 → 독립 모드</pre>
+</div>
+
+<div class="step-card">
+  <h3 id="steps-gate"><span class="step-num">0.5</span>Step 0.5: 기획 확정 게이트</h3>
+  <p>JSON 생성 전 화면 구성/페르소나/콘셉트 사용자 합의 필수. "확정?" 사용자 응답 필요.</p>
+  <h4>합의 항목</h4>
+  <ul>
+    <li>대상 페이지/화면 목록 (전체 슬라이드 수)</li>
+    <li>페르소나/타겟 유저</li>
+    <li>핵심 콘셉트/톤앤매너</li>
+    <li>참고 사이트/이미지 (있다면)</li>
+    <li>특이사항/제약 조건</li>
+  </ul>
+</div>
+
+<div class="step-card">
+  <h3 id="steps-mockup"><span class="step-num">1</span>Step 1~1.7: HTML 목업 작성</h3>
+  <p>Mode A/C 필수, Mode B는 변경 화면만 작성.</p>
+  <h4>HTML 목업 7대 룰 (2026-04-27 격리 테스트 결함 학습)</h4>
+  <ol>
+    <li>마커+점선 스타일 적용 (wireframe 마크업)</li>
+    <li>UI 비율 원칙 준수 (와이어프레임다운 비율)</li>
+    <li>레이아웃 구성 규칙 (Header/Hero/Content/Footer)</li>
+    <li>팝업/모달/바텀시트 구성 패턴</li>
+    <li>일반 페이지 레이아웃 예시 준수</li>
+    <li>오버레이 좌표 지정 가이드 (<code>uiImagePath + overlay</code>)</li>
+    <li>Description 오버플로우 → 슬라이드 분할</li>
+  </ol>
+  <h4>Step 1.7: 화면 표현 방식 결정</h4>
+  <ul>
+    <li>비정상 상태(MSG Case) 정의 기준</li>
+    <li>containerType (v2.1) — 슬라이드/팝업/모달/바텀시트</li>
+    <li>appearance 속성 (v2.1) — 색상/사이즈 등 시각 속성</li>
+  </ul>
+</div>
+
+<div class="step-card">
+  <h3><span class="step-num">D</span>Description 작성 — 기능 동작 명세 (5종 + 조건부 UI 분기) <span class="badge new">2026-05-11 보강</span></h3>
+  <p><code>descriptions[].items[]</code>는 <strong>UI 스펙(색상/px)이 아닌 기능 구현 내용</strong> (동작·조건 분기·상태 변화) 중심. 동적 콘텐츠 영역은 5종 필수 항목.</p>
+
+  <h4>동적 콘텐츠 영역 5종 필수 항목</h4>
+  <table>
+    <thead><tr><th width="5%">#</th><th width="25%">항목</th><th>작성 예시</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>데이터 출처</td><td><code>GET /api/main/banner</code> 또는 BO 큐레이션 슬롯 / 정적 assets</td></tr>
+      <tr><td>2</td><td>정렬 우선순위</td><td>① 추천 가중치 → ② 매칭 점수 → ③ 인기</td></tr>
+      <tr><td>3</td><td>노출 개수/조건</td><td>PC 4종 / Mobile 3종 + 종료일/비공개 제외</td></tr>
+      <tr><td>4</td><td>Fallback 동작</td><td>API 실패 시 정적 fallback.jpg 노출</td></tr>
+      <tr><td>5</td><td><strong>컴포넌트 조건부 UI 분기 (NEW)</strong></td><td>슬라이드 1개 → arrow/indicator 미노출 + autoplay off / 2개+ → 노출 + autoplay 5s</td></tr>
+    </tbody>
+  </table>
+
+  <h4>#5 조건부 분기 차원 (해당하는 것만)</h4>
+  <table>
+    <thead><tr><th>차원</th><th>트리거</th><th>예시</th></tr></thead>
+    <tbody>
+      <tr><td>수량 분기</td><td>데이터 개수</td><td>배너 1개 → 화살표/인디케이터 미노출 / 2개+ → 노출</td></tr>
+      <tr><td>상태 분기</td><td>로딩/에러/빈</td><td>msgCases로 위임 (본 항목 X)</td></tr>
+      <tr><td>권한 분기</td><td>로그인/등급</td><td>비로그인 → "로그인 후 이용" / VIP → 특가 뱃지</td></tr>
+      <tr><td>디바이스 분기</td><td>PC/Tablet/Mobile</td><td>PC 4열 가로 / Mobile 세로 스택 + 더보기</td></tr>
+      <tr><td>인터랙션 분기</td><td>클릭/호버/스와이프</td><td>Hover → 툴팁 / Click → 모달 / Swipe(mobile) → 다음 슬라이드</td></tr>
+      <tr><td>시간 분기</td><td>autoplay/딜레이</td><td>autoplay 5s / 사용자 인터랙션 후 10s 일시정지 후 재개</td></tr>
+    </tbody>
+  </table>
+
+  <h4>items[].category 7종 (2026-05-11 신설)</h4>
+  <p>items[]에 <code>category</code> 키를 추가해 기능 동작 의미를 분류. CTA/액션 요소는 verify.js가 누락 자동 감지.</p>
+  <table>
+    <thead><tr><th width="5%">#</th><th width="18%">category</th><th width="22%">용도</th><th>예시</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>trigger</code></td><td>발동 조건 (디바이스별 차이 포함)</td><td>Click (PC) / Tap (Mobile) / Enter 키</td></tr>
+      <tr><td>2</td><td><code>enable_cond</code></td><td>활성/비활성 조건</td><td>필수 필드 입력 + 약관 동의 시 활성, 그 외 disabled</td></tr>
+      <tr><td>3</td><td><code>action</code></td><td>실행 동작 (API/이동/모달)</td><td>POST /api/order/checkout</td></tr>
+      <tr><td>4</td><td><code>success</code></td><td>성공 처리</td><td>/order/complete 이동 + 토스트</td></tr>
+      <tr><td>5</td><td><code>failure</code></td><td>실패 처리 (4xx/5xx/network)</td><td>4xx 인라인 / 5xx 모달 / 401 → /login</td></tr>
+      <tr><td>6</td><td><code>state</code></td><td>수량/조건 상태 분기</td><td>1개일 때 화살표 미노출 / 2개+ 노출</td></tr>
+      <tr><td>7</td><td><code>permission</code></td><td>권한 분기</td><td>비로그인 → /login / VIP → 특가 뱃지</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <strong>제외 영역 (시각 = plan-sb 책임 X)</strong>:
+    픽셀값(1920×600) / 그리드 컬럼 수 / spacing 토큰 / 색상 / 폰트 크기 →
+    <code>design-layout</code> + <code>publish-style</code> + <code>design-knowledge</code> 영역
+  </div>
+
+  <h4>verify.js 자동 감지 (Phase 3.3)</h4>
+  <ul>
+    <li>액션 키워드(<code>버튼/CTA/결제/로그인/제출/구매/검색</code> 등 25종) 매칭 + items[] category 0건 → <code>WARN-PRE</code></li>
+    <li>핵심 4종(trigger + action + success + failure) 일부 누락 → <code>WARN-PRE</code></li>
+    <li>무효 enum (오타) → <code>WARN-PRE</code></li>
+    <li>호환성: category 키 없는 기존 items[] 그대로 작동 (자유 텍스트)</li>
+  </ul>
+
+  <h4>작성 형식 (CTA 표준 6항목)</h4>
+  <pre>{
+  "marker": 3,
+  "label": "결제하기 CTA 버튼",
+  "items": [
+    { "category": "trigger",     "text": "Click (PC) / Tap (Mobile) / Enter 키" },
+    { "category": "enable_cond", "text": "필수 필드 + 약관 동의 시 활성" },
+    { "category": "action",      "text": "POST /api/order/checkout — 응답 대기 중 spinner" },
+    { "category": "success",     "text": "/order/complete 이동 + 토스트 '결제 완료'" },
+    { "category": "failure",     "text": "4xx → 인라인 / 5xx → 재시도 모달 / 401 → /login" },
+    { "category": "permission",  "text": "VIP → 5% 즉시 할인 / 일반 → 표준 결제" }
+  ]
+}</pre>
+
+  <h4>컴포넌트별 적용 체크리스트 (사용 시 #5 작성 의무)</h4>
+  <ul>
+    <li>캐러셀/슬라이더 — 1개일 때 컨트롤 동작</li>
+    <li>탭 — 1개 탭일 때 탭바 미노출 여부</li>
+    <li>필터 칩 — 0개 선택 / N개 선택 시 초기화 버튼</li>
+    <li>검색 결과 정렬 드롭다운 — 결과 0건 시 미노출</li>
+    <li>페이지네이션 — 1페이지일 때 미노출 / prev/next 비활성</li>
+    <li>무한 스크롤 — 더 가져올 데이터 없을 때 sentinel/스켈레톤 미노출</li>
+  </ul>
+
+  <div class="callout warn">
+    <strong>금지 패턴</strong>: 캐러셀 "좌우 화살표로 이동"만 작성 — 1개일 때 동작 누락 / autoplay 여부·속도 누락 / 수량 분기를 msgCase로 작성 (msgCase는 비정상 상태 전용)
+  </div>
+</div>
+
+<div class="step-card">
+  <h3 id="steps-generate"><span class="step-num">2</span>Step 2: generate.js 실행</h3>
+  <p>data.json + theme + template.html을 결합하여 HTML/PDF 생성.</p>
+  <pre>node .claude/skills/plan-sb/scripts/generate.js \
+  --data path/to/data.json \
+  --theme themes/default.json \
+  --output output/{name}/{date}/{prefix}.html</pre>
+  <h4>처리 흐름</h4>
+  <ol>
+    <li>schema.json v2.1 으로 data.json 정규화 (v1→v2 자동)</li>
+    <li>theme.json 컬러/폰트/사이즈 토큰 주입</li>
+    <li>template.html 슬라이드별 렌더링</li>
+    <li>pdf-capture.js로 PDF 캡쳐 (1920×1080 뷰포트)</li>
+  </ol>
+</div>
+
+<div class="step-card">
+  <h3 id="steps-verify"><span class="step-num">3</span>Step 3: verify.js + Self-Check</h3>
+  <p>1920×1080 뷰포트로 출력 검증. description 분할 검증 강화.</p>
+  <h4>Self-Check 25 항목 (주요 5개)</h4>
+  <ul>
+    <li>슬라이드 카운트 일치</li>
+    <li>각 슬라이드 1920×1080 정확</li>
+    <li>imageFills 보존 (data-slide-type=design)</li>
+    <li>description 오버플로우 없음</li>
+    <li>pmComments 디폴트 필수</li>
+  </ul>
+</div>
+
+<!-- ===== 5. Figma 연동 ===== -->
+<h2 id="figma">5. Figma 연동 F1~F7 (Step 4 선택)</h2>
+
+<h3 id="figma-context">5.1 전환 배경</h3>
+<div class="callout warn">
+  <strong>2026-04-27 변경</strong>: 기존 <code>figma-bridge</code> 커스텀 plugin 방식 <strong>폐기</strong>. <strong>Figma 공식 Remote MCP</strong> + <code>figma-prep.js</code> + F2~F7 플레이북으로 통합.
+  Figma 데스크탑 plugin import 불필요.
+</div>
+
+<h4>사용자 사전 작업 (1회)</h4>
+<pre>claude mcp add --scope user --transport http figma https://mcp.figma.com/mcp
+# 그 후 /mcp → figma → Authenticate (OAuth)</pre>
+
+<h3 id="figma-steps">5.2 F1~F7 절차 (~30초, 11슬라이드 기준)</h3>
+<table>
+  <thead><tr><th>Step</th><th>동작</th><th>도구</th><th>출력</th></tr></thead>
+  <tbody>
+    <tr><td><strong>F1</strong></td><td>HTML 변환 (가로 flex + pseudo-element DOM화 + capture.js 주입)</td><td><code>figma-prep.js &lt;html경로&gt;</code></td><td><code>_figma/{prefix}-figma.html</code> + <code>figma-meta.json</code></td></tr>
+    <tr><td><strong>F2</strong></td><td>Output Mode 결정 (newFile/existingFile/clipboard)</td><td><code>AskUserQuestion</code> MCP</td><td>사용자 선택값</td></tr>
+    <tr><td><strong>F3</strong></td><td>captureId 발급</td><td><code>mcp__figma__generate_figma_design</code></td><td>captureId</td></tr>
+    <tr><td><strong>F4</strong></td><td>body 전체 1회 캡처 (Chrome 1920×1080 + DPI 1)</td><td>로컬 HTTP 서버 + Chrome 명령행</td><td>Figma 마스터 frame</td></tr>
+    <tr><td><strong>F5</strong></td><td>폴링 (5초 간격 → <code>completed</code>)</td><td><code>mcp__figma__generate_figma_design(captureId)</code></td><td>fileKey / nodeId</td></tr>
+    <tr><td><strong>F6</strong></td><td>자식 detach + 가로 정렬 + 리네임 + orphan 정리</td><td><code>mcp__figma__use_figma</code> JS</td><td>슬라이드별 frame N개</td></tr>
+    <tr><td><strong>F7</strong></td><td>정확도 7항목 검증 (1920×1080 / textCount / imageCount / pseudo / 정렬 / 명명 / orphan)</td><td>시각 검증</td><td>완료 마커 출력</td></tr>
+  </tbody>
+</table>
+
+<h4>F4 Chrome 캡처 명령</h4>
+<pre>$chrome = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+$id = "&lt;captureId&gt;"
+$base = "http://localhost:&lt;port&gt;/output/&lt;name&gt;/&lt;date&gt;/_figma/&lt;prefix&gt;-figma.html"
+$endpoint = [System.Uri]::EscapeDataString("https://mcp.figma.com/mcp/capture/$id/submit")
+&amp; $chrome --window-size=1920,1080 --force-device-scale-factor=1 `
+  --disable-background-timer-throttling `
+  --user-data-dir="$env:TEMP\figma-capture-profile" `
+  "$base#figmacapture=$id&amp;figmaendpoint=$endpoint&amp;figmadelay=4000"</pre>
+
+<h4>F6 detach JavaScript (use_figma)</h4>
+<pre>const master = await figma.getNodeByIdAsync(MASTER_ID);
+const body = master.children[0];
+const slides = body.children.slice();
+const TARGET_W = 1920, GAP = 40;
+const page = body.parent.parent;
+
+for (let i = 0; i &lt; slides.length; i++) {
+  const s = slides[i];
+  page.appendChild(s);
+  if (Math.abs(s.width - TARGET_W) &gt; 1) s.rescale(TARGET_W / s.width);
+  s.x = i * (TARGET_W + GAP);
+  s.y = 0;
+  s.name = `Slide ${i + 1} - ${slideTypes[i] || ""}`;
+}
+if (body.children.length === 0) body.remove();
+if (master.children.length === 0) master.remove();</pre>
+
+<h3 id="figma-fallback">5.3 Fallback — split-html-by-slide.js</h3>
+<p><code>mcp__figma__use_figma</code> detach 실패 시 (API 변경/권한 제한):</p>
+<pre>node scripts/split-html-by-slide.js output/{name}/{date}/{prefix}.html
+# → split/{basename}-slide001.html ~ slideNNN.html
+# → split/{basename}-manifest.json (인덱스·type·title)
+
+# 각 partial을 generate_figma_design에 push (N회 호출)</pre>
+
+<h3 id="figma-limits">5.4 알려진 한계</h3>
+<table>
+  <thead><tr><th>항목</th><th>이슈</th><th>완화</th></tr></thead>
+  <tbody>
+    <tr><td>폰트</td><td>Malgun Gothic 등 OS 폰트 의존 → 웹/Mac 폴백</td><td>Pretendard / Noto Sans KR 권장</td></tr>
+    <tr><td>auto-layout</td><td>캡처가 VERTICAL 기본 적용</td><td>use_figma 후처리로 HORIZONTAL 변환</td></tr>
+    <tr><td>Figma 데스크톱</td><td>실행 필수 (브라우저-MCP 핸드셰이크)</td><td>F4 캡처 전 Figma 실행 확인</td></tr>
+    <tr><td>로컬 서버</td><td>file:// 직접은 MCP 거부 가능</td><td>python -m http.server 또는 node http</td></tr>
+  </tbody>
+</table>
+
+<!-- ===== 6. 핵심 파일 ===== -->
+<h2 id="files">6. 핵심 파일 매트릭스 (2026-05-11 기준)</h2>
+
+<h3>설정/스키마</h3>
+<table>
+  <thead><tr><th>파일</th><th>역할</th><th>줄 수/특이</th></tr></thead>
+  <tbody>
+    <tr><td><code>SKILL.md</code></td><td>전체 절차 명세 (Step 0-Init ~ Step 4)</td><td>1212줄</td></tr>
+    <tr><td><code>schema.json</code></td><td>data.json v2 스키마</td><td>msgCase <code>groupDescription</code>/<code>groupFlow</code> 추가 (Apr 27)</td></tr>
+    <tr><td><code>template.html</code></td><td>HTML 슬라이드 출력 템플릿</td><td>footer 레이아웃 8줄 추가 (Apr 27)</td></tr>
+    <tr><td><code>config.json</code></td><td>실행 설정 (output 경로, viewport 등)</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h3>themes/ (5종)</h3>
+<table>
+  <thead><tr><th>테마</th><th>도메인</th><th>주요 컬러</th></tr></thead>
+  <tbody>
+    <tr><td><code>default.json</code></td><td>기본</td><td>중립 톤</td></tr>
+    <tr><td><code>STOCK.json</code> <span class="badge new">신규</span></td><td>STOCK 도메인</td><td>primary #3366CC / accent #CC3333</td></tr>
+    <tr><td><code>CAFE_ONEPAGE.json</code></td><td>카페 원페이지</td><td>—</td></tr>
+    <tr><td><code>TEST-V21.json</code></td><td>스키마 v2.1 테스트</td><td>—</td></tr>
+    <tr><td><code>VALIDATE_L2.json</code></td><td>레벨 2 검증</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h3>scripts/ — 메인 빌더 + 모듈 분해 (5월 분리)</h3>
+<table>
+  <thead><tr><th>스크립트</th><th>역할</th></tr></thead>
+  <tbody>
+    <tr><td><code>generate.js</code></td><td>메인 빌더 — data.json → HTML + PDF</td></tr>
+    <tr><td><code>verify.js</code></td><td>1920×1080 뷰포트 검증, description 분할</td></tr>
+    <tr><td><code>visit.js</code></td><td>현행 사이트 playwright 캡쳐</td></tr>
+    <tr><td><code>pdf-capture.js</code></td><td>PDF 변환 통일 절차</td></tr>
+    <tr><td><code>preflight.js</code></td><td>환경 5항목 진단 (2초 timeout)</td></tr>
+    <tr><td><code>post-process.js</code> <span class="badge new">신규</span></td><td>SYS v4 pipeline-worker 어댑터</td></tr>
+    <tr><td><code>mockup-capture.js</code></td><td>HTML 목업 → PNG 캡쳐</td></tr>
+    <tr><td><code>mockup-template.js</code> <span class="badge new">신규</span></td><td>HTML 목업 템플릿 모듈</td></tr>
+    <tr><td><code>overlay-helper.js</code> <span class="badge new">신규</span></td><td>오버레이 좌표 헬퍼</td></tr>
+    <tr><td><code>template.js</code></td><td>슬라이드 템플릿 처리</td></tr>
+    <tr><td><code>lib/schema.js</code>, <code>lib/styles.js</code></td><td>스키마/스타일 라이브러리</td></tr>
+    <tr><td><strong>Figma 연동</strong></td><td></td></tr>
+    <tr><td><code>figma-prep.js</code></td><td>HTML → Figma 캡처용 변환 (125줄)</td></tr>
+    <tr><td><code>split-html-by-slide.js</code> <span class="badge new">신규</span></td><td>Fallback: 슬라이드 partial 분리</td></tr>
+  </tbody>
+</table>
+
+<h3>commands/ (5월 신규)</h3>
+<table>
+  <thead><tr><th>커맨드</th><th>역할</th></tr></thead>
+  <tbody>
+    <tr><td><code>/figma-push</code></td><td>HTML 산출물 → Figma 전송 (F2~F7 플레이북 실행)</td></tr>
+    <tr><td><code>/figma-pull</code></td><td>Figma Variables/노드 → 코드 동기화 + baseline 비교</td></tr>
+  </tbody>
+</table>
+
+<!-- ===== 7. Quick Start ===== -->
+<h2 id="quickstart">7. Quick Start (3 시나리오)</h2>
+
+<h3>시나리오 1 — 신규 화면 설계 (Mode A · 독립)</h3>
+<pre># 1. plan-sb 트리거
+"쇼핑몰 상품상세 화면 새로 만들어줘"
+
+# 2. 자동 진행
+[모드 자동 결정] Mode A (근거: "새로 만들어줘" 키워드)
+[Step 0-Init 환경 점검] 5/5 통과
+[Step 0.5] 기획 확정 게이트 → 사용자 합의
+[Step 1~1.7] HTML 목업 작성 (7대 룰)
+[Step 2] generate.js → output/.../.html + .pdf
+[Step 3] verify.js → Self-Check 통과
+
+# 산출물
+output/&lt;프로젝트&gt;/&lt;date&gt;/SB_&lt;프로젝트&gt;_v1.html
+output/&lt;프로젝트&gt;/&lt;date&gt;/SB_&lt;프로젝트&gt;_v1.pdf</pre>
+
+<h3>시나리오 2 — 현행 운영 수정 (Mode B · 연계)</h3>
+<pre># 1. plan-sb 트리거
+"https://example.com 메인 배너 위치 변경"
+
+# 2. 자동 진행
+[입력 감지] FN: 5건 발견 → 연계 모드
+[모드 자동 결정] Mode B (근거: URL제공) + visit.js 자동
+[Step 0-Pre] visit.js 셋업 게이트 → input/screenshot.png 생성
+[Step 0.5] 기획 게이트 → 변경 마커 위치/방식 합의
+[Step 1] 현행 캡쳐 위에 마커 오버레이 작성
+[Step 2~3] generate + verify
+
+# 산출물 + 변경 마커 SB</pre>
+
+<h3>시나리오 3 — Figma 변환 추가</h3>
+<pre># Step 4 트리거 (Step 3 완료 후)
+"Figma로 보내줘"
+
+# F1~F7 자동 진행
+[F1] figma-prep.js → _figma/{prefix}-figma.html
+[F2] AskUserQuestion → newFile + 내부 Plan
+[F3] mcp__figma__generate_figma_design → captureId 발급
+[F4] Chrome 1회 캡처 (body 전체)
+[F5] 폴링 (5초 간격) → completed
+[F6] use_figma → 11 슬라이드 detach + 가로 정렬 + 리네임
+[F7] 검증 7항목 통과
+
+# 산출물
+https://www.figma.com/design/&lt;fileKey&gt;</pre>
+
+<!-- ===== 8. 트러블슈팅 ===== -->
+<h2 id="trouble">8. 트러블슈팅</h2>
+
+<h3>preflight 실패 (Step 0-Init)</h3>
+<table>
+  <thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead>
+  <tbody>
+    <tr><td>chromium-binary FAIL</td><td>playwright chromium 미설치</td><td><code>cd .claude/skills/plan-sb && npx playwright install chromium</code></td></tr>
+    <tr><td>playwright-pkg FAIL</td><td>node_modules 누락</td><td><code>cd .claude/skills/plan-sb && npm install playwright</code></td></tr>
+    <tr><td>응답 5초 초과</td><td>plan-sb 스킬 미로드 또는 cwd 불일치</td><td>dist 패키지 폴더 안에서 <code>claude</code> 실행 확인</td></tr>
+  </tbody>
+</table>
+
+<h3>visit.js 실패 (Mode B/C)</h3>
+<table>
+  <thead><tr><th>exit code</th><th>의미</th><th>해결</th></tr></thead>
+  <tbody>
+    <tr><td>2 (SETUP_FAIL)</td><td>playwright/chromium 미설치 또는 사내망 차단</td><td>IT팀에 npm registry + storage.googleapis.com 도메인 허용 요청</td></tr>
+    <tr><td>3 (LAUNCH_FAIL)</td><td>chromium 기동 실패</td><td>30초 후 자동으로 Mode A 전환됨</td></tr>
+    <tr><td>3 (NAVIGATE_FAIL)</td><td>URL 접근 실패</td><td>URL 재확인 또는 직접 캡쳐를 <code>input/screenshot.png</code> 로 제공</td></tr>
+  </tbody>
+</table>
+
+<h3>Overlay 좌표 — 테두리 포커스 안 맞음 <span class="badge new">2026-05-11 보강</span></h3>
+<table>
+  <thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead>
+  <tbody>
+    <tr><td>verify.js ⑧ WARN: "너무 작음 (20px 미만)"</td><td>좌표 미세 추정 — 픽셀 측정 없이 감으로 입력</td><td><code>overlay-helper.js</code>로 실측 후 % 환산값 그대로 사용</td></tr>
+    <tr><td>verify.js ⑧ WARN: "wireframe-area 85% 초과"</td><td>좌표 과도 확대</td><td>해당 UI 요소 경계 다시 측정 + 1~10px 여유만 적용</td></tr>
+    <tr><td>verify.js ⑧ WARN: "50%+ 겹침"</td><td>인접 overlay 좌표 중복 추정</td><td>각 marker가 다른 UI 요소를 가리키도록 좌표 재분리</td></tr>
+    <tr><td>verify.js ⑧ ERROR: "경계 오버플로우"</td><td>top+height &gt; 100% 또는 letterbox 여백 미보정</td><td>이미지 비율 확인 후 wireframe-area boundingRect 안으로 조정</td></tr>
+    <tr><td>verify.js PASS인데 시각적으로 어긋남</td><td>수치 검증 통과 + 의미 정합성 실패 (label과 marker 영역 불일치)</td><td><strong>Step 3.5 Claude Vision 후처리</strong> — Read로 verify/*.png 직접 분석</td></tr>
+  </tbody>
+</table>
+
+<div class="callout ok">
+  <strong>2026-05-11 신규 가드</strong>: verify.js ⑧ overlay 좌표 검증 (4 항목) + SKILL.md Step 3.5 Claude Vision 위치 정합성 후처리 (4 체크: V1 영역일치 / V2 여백 / V3 번호위치 / V4 중복회피). 외부 LLM API 의존 0.
+</div>
+
+<h3>Figma F4 캡처 실패</h3>
+<table>
+  <thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead>
+  <tbody>
+    <tr><td>capture 시간 초과 (&gt;5분)</td><td>Chrome 백그라운드 throttling 또는 슬라이드별 N회 캡처</td><td>body 전체 1회 캡처 + use_figma detach (표준 절차)</td></tr>
+    <tr><td>file:// MCP 거부</td><td>로컬 서버 미실행</td><td><code>python -m http.server &lt;port&gt;</code></td></tr>
+    <tr><td>F6 detach 실패</td><td>use_figma API 변경 또는 권한</td><td>Fallback — split-html-by-slide.js + N회 push</td></tr>
+    <tr><td>폰트 폴백</td><td>OS 폰트 의존</td><td>Pretendard/Noto Sans KR 적용</td></tr>
+  </tbody>
+</table>
+
+<!-- ===== 9. 변경 이력 ===== -->
+<h2 id="changelog">9. 4~5월 변경 이력</h2>
+
+<table>
+  <thead><tr><th>날짜</th><th>변경</th><th>commit</th></tr></thead>
+  <tbody>
+    <tr><td>2026-04-10</td><td>themes/STOCK.json + CAFE_ONEPAGE/TEST-V21/VALIDATE_L2 신규</td><td>abf0e67</td></tr>
+    <tr><td>2026-04-13</td><td>plan-* 6패키지 sync (마지막 정기 sync)</td><td>4643bee</td></tr>
+    <tr><td>2026-04-15</td><td>plan-sb 최종 정합성 점검 — 경로 용어 통일</td><td>9e44a4d</td></tr>
+    <tr><td>2026-04-17</td><td><code>post-process.js</code> 신규 (pipeline-worker 어댑터)</td><td>abf0e67</td></tr>
+    <tr><td>2026-04-27</td><td>figma-bridge plugin 폐기 → Figma 공식 Remote MCP 전환</td><td>abf0e67</td></tr>
+    <tr><td>2026-04-27</td><td>schema.json msgCase 필드 + template.html footer 스타일</td><td>1e243c0</td></tr>
+    <tr><td>2026-04-30</td><td><code>legacy/figma-bridge/</code> archive (전역만)</td><td>—</td></tr>
+    <tr><td>2026-05-04</td><td><code>/figma-push</code> + <code>/figma-pull</code> 커맨드 작성</td><td>abf0e67</td></tr>
+    <tr><td>2026-05-11</td><td>plan-fn/plan-ia decisions[] 필드 추가 (Decision Log)</td><td>1e243c0</td></tr>
+    <tr><td>2026-05-11</td><td>master ↔ dist 4 분리 commit 정합화</td><td>cd09fe7 외</td></tr>
+  </tbody>
+</table>
+
+<div class="callout ok">
+  <strong>현재 상태 (2026-05-11)</strong>: master ↔ dist sync clean. plan-sb는 1212줄 SKILL.md + 12 scripts 모듈 + 5 themes + figma 연동 완비.
+</div>
+
+<hr style="margin: 60px 0 24px; border: 0; border-top: 1px solid var(--border);">
+<p style="text-align:center; color:var(--text-muted); font-size:12px;">
+  SYS v4 · plan-sb · 2026-05-11 ·
+  <a href="https://github.com/eluoaxjun/eluohub" style="color:inherit;">eluoaxjun/eluohub</a>
+</p>
+
+</main>
+</div>
+</body>
+</html>

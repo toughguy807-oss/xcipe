@@ -1,0 +1,9 @@
+{
+  "name": "plan-sb-render",
+  "version": "1.0.0",
+  "description": "화면설계서 JSON → HTML → PDF 렌더러",
+  "private": true,
+  "dependencies": {
+    "playwright": "^1.52.0"
+  }
+}

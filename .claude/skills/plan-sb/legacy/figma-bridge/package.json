@@ -1,0 +1,14 @@
+{
+  "name": "plan-sb-figma-bridge",
+  "version": "1.0.0",
+  "description": "plan-sb HTML SB → Figma push bridge (push-only daemon + plugin polling)",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "daemon": "node src/daemon.js",
+    "push": "node scripts/push-html.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

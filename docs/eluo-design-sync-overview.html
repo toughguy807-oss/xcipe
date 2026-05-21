@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELUO Design Sync — 이해하기 쉬운 구조 설명</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard',-apple-system,'Segoe UI',sans-serif;background:#F8F9FA;color:#1A1A2E;line-height:1.7}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:1px solid #E5E7EB;z-index:100;padding:10px 24px;display:flex;align-items:center;gap:16px}
+nav .logo{font-weight:800;font-size:14px;color:#6366F1;white-space:nowrap}
+nav .links{display:flex;gap:2px;overflow-x:auto}
+nav .links a{padding:5px 10px;border-radius:6px;text-decoration:none;color:#6B7280;font-size:11px;font-weight:600;white-space:nowrap;transition:all .2s}
+nav .links a:hover,nav .links a.active{background:#EEF2FF;color:#4F46E5}
+
+main{max-width:980px;margin:0 auto;padding:68px 24px 80px}
+section{margin-bottom:56px;scroll-margin-top:60px}
+h2{font-size:22px;font-weight:800;margin-bottom:4px}
+h2 span{color:#6366F1;margin-right:6px}
+.sub{font-size:13px;color:#6B7280;margin-bottom:24px}
+h3{font-size:15px;font-weight:700;margin:24px 0 10px;color:#374151}
+
+/* Hero */
+.hero{text-align:center;padding:36px 0 28px}
+.hero h1{font-size:32px;font-weight:900;margin-bottom:8px;background:linear-gradient(135deg,#6366F1,#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:15px;color:#6B7280;max-width:580px;margin:0 auto 20px}
+
+/* Card */
+.c{background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:16px}
+.c.hl{border-color:#C7D2FE;background:linear-gradient(135deg,#FAFAFE,#F5F3FF)}
+.c.warn{border-color:#FCD34D;background:#FFFEF5}
+.c.dark{background:#0F172A;border-color:#1E293B;color:#E2E8F0}
+
+/* Analogy box */
+.analogy{background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:13px}
+.analogy strong{color:#92400E}
+
+/* Big flow diagram */
+.bigflow{display:flex;align-items:stretch;gap:0;justify-content:center;flex-wrap:wrap;padding:16px 0}
+.bf-item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:100px;max-width:140px}
+.bf-box{padding:14px 12px;border-radius:10px;font-size:11px;font-weight:700;text-align:center;width:100%;line-height:1.4}
+.bf-box small{font-weight:500;display:block;margin-top:2px;opacity:.7;font-size:10px}
+.bf-label{font-size:9px;color:#9CA3AF;font-weight:600;text-align:center}
+.bf-arrow{display:flex;align-items:center;padding:0 4px;font-size:20px;color:#D1D5DB}
+.bf-arrow.bi{color:#6366F1;font-weight:800}
+
+.bg-code{background:#DBEAFE;color:#1E40AF;border:2px solid #93C5FD}
+.bg-fig{background:#FCE7F3;color:#9D174D;border:2px solid #F9A8D4}
+.bg-cli{background:#E0E7FF;color:#3730A3;border:2px solid #A5B4FC}
+.bg-out{background:#D1FAE5;color:#065F46;border:2px solid #6EE7B7}
+.bg-tok{background:#FEF3C7;color:#92400E;border:2px solid #FCD34D}
+.bg-human{background:#FDE68A;color:#78350F;border:2px solid #F59E0B}
+
+/* Simple table */
+.t{width:100%;border-collapse:separate;border-spacing:0;font-size:12px;border-radius:8px;overflow:hidden;border:1px solid #E5E7EB;margin-bottom:12px}
+.t th{background:#F3F4F6;padding:8px 12px;text-align:left;font-weight:700;color:#374151;border-bottom:1px solid #E5E7EB}
+.t td{padding:8px 12px;border-bottom:1px solid #F3F4F6;color:#4B5563}
+.t tr:last-child td{border-bottom:none}
+.ck{color:#059669;font-weight:700}
+.cr{color:#DC2626;font-weight:700}
+.pt{color:#D97706;font-weight:700}
+
+/* Steps */
+.steps{counter-reset:s}
+.st{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+.st::before{counter-increment:s;content:counter(s);width:28px;height:28px;background:#6366F1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.st .sc{flex:1}
+.st .sc strong{display:block;font-size:13px;margin-bottom:1px}
+.st .sc span{font-size:12px;color:#6B7280}
+.who{display:inline-block;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700;margin-left:4px}
+.w-auto{background:#DBEAFE;color:#1E40AF}
+.w-human{background:#FDE68A;color:#78350F}
+
+/* Terminal */
+.term{background:#0F172A;border-radius:10px;overflow:hidden;font-family:'Fira Code','Consolas',monospace;font-size:11px;line-height:1.8;margin:12px 0}
+.term .bar{background:#1E293B;padding:6px 12px;display:flex;align-items:center;gap:5px}
+.term .bar .d{width:7px;height:7px;border-radius:50%}
+.term .bar .r{background:#EF4444}.term .bar .y{background:#F59E0B}.term .bar .g{background:#22C55E}
+.term .bar span{color:#64748B;font-size:10px;margin-left:6px}
+.term pre{padding:14px;margin:0;color:#E2E8F0;overflow-x:auto}
+.tc{color:#38BDF8}.to{color:#4ADE80}.tw{color:#FBBF24}.ti{color:#A5B4FC}.td{color:#64748B}.tv{color:#F472B6}
+
+/* Diff */
+.df{display:flex;gap:8px;padding:8px 12px;border-radius:6px;margin-bottom:6px;font-size:11px;align-items:center;font-family:monospace}
+.df.ch{background:#FEF3C7}
+.df.ad{background:#D1FAE5}
+.df.rm{background:#FEE2E2}
+.df-prop{font-weight:700;min-width:140px}
+.df-old{color:#DC2626;text-decoration:line-through;min-width:80px}
+.df-new{color:#059669;font-weight:600;min-width:80px}
+.df-tag{font-size:9px;font-weight:800;padding:2px 6px;border-radius:3px}
+.dt-ch{background:#FEF3C7;color:#92400E}
+.dt-ad{background:#D1FAE5;color:#065F46}
+.dt-rm{background:#FEE2E2;color:#991B1B}
+
+/* Progress */
+.pg{margin-bottom:8px}
+.pg-l{display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px}
+.pg-b{height:6px;background:#E5E7EB;border-radius:3px;overflow:hidden}
+.pg-f{height:100%;border-radius:3px}
+
+/* QA box */
+.qa{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:16px 20px;margin:12px 0}
+.qa strong{color:#065F46}
+.qa-bad{background:#FEF2F2;border-color:#FECACA}
+.qa-bad strong{color:#991B1B}
+
+@media(max-width:768px){
+  .bigflow{flex-direction:column;align-items:center}
+  .bf-arrow{transform:rotate(90deg)}
+  .arch-grid{grid-template-columns:1fr!important}
+  nav .links{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="logo">ELUO Design Sync</div>
+<div class="links">
+  <a href="#what">이게 뭔지</a>
+  <a href="#how">어떻게 되는지</a>
+  <a href="#push">Push</a>
+  <a href="#pull">Pull</a>
+  <a href="#detect">변경 감지</a>
+  <a href="#scenario">실제 시나리오</a>
+  <a href="#limits">한계</a>
+  <a href="#spec">스펙</a>
+</div>
+</nav>
+
+<main>
+
+<!-- ====== HERO ====== -->
+<section class="hero" id="top">
+<h1>ELUO Design Sync</h1>
+<p>Claude Code에서 만든 디자인을 Figma로 보내고, 디자이너가 수정한 걸 다시 코드로 가져오는 구조.</p>
+</section>
+
+<!-- ====== 01 이게 뭔지 ====== -->
+<section id="what">
+<h2><span>01</span> 이게 뭔지</h2>
+<p class="sub">한 줄 요약: Claude Code ↔ Figma를 연결해서 디자인 토큰 + 레이아웃을 양방향으로 동기화하는 것.</p>
+
+<div class="c hl">
+<div class="bigflow">
+  <div class="bf-item"><div class="bf-box bg-code">Claude Code<small>코드 생성</small></div><div class="bf-label">HTML/CSS 만듦</div></div>
+  <div class="bf-arrow bi">&harr;</div>
+  <div class="bf-item"><div class="bf-box bg-cli">CLI (CDP)<small>figma-use</small></div><div class="bf-label">자동 연결</div></div>
+  <div class="bf-arrow bi">&harr;</div>
+  <div class="bf-item"><div class="bf-box bg-fig">Figma Desktop<small>디자이너 작업</small></div><div class="bf-label">디자인 수정</div></div>
+</div>
+</div>
+
+<div class="analogy">
+<strong>비유:</strong> Google Docs처럼 코드와 Figma가 같은 디자인 시스템을 공유합니다. 한쪽이 바꾸면 다른 쪽에서 가져올 수 있습니다. 단, 실시간 동기화는 아니고 "가져와줘"라고 하면 동기화됩니다.
+</div>
+
+<h3>왜 필요한지</h3>
+<table class="t">
+<thead><tr><th>지금 (연결 없음)</th><th>연결 후</th></tr></thead>
+<tbody>
+<tr><td>Claude Code가 HTML 만듦 → 디자이너한테 캡처 보내줌 → 디자이너가 Figma에서 처음부터 다시 그림</td><td>Claude Code가 HTML 만듦 → <strong>Figma에 자동으로 프레임 생성</strong> → 디자이너가 보정만</td></tr>
+<tr><td>디자이너가 수정함 → 개발자한테 구두로 "색상 바꿨어요" → 수동 반영</td><td>디자이너가 수정함 → <strong>"가져와줘" 한마디</strong> → 변경 자동 감지 + 코드 반영</td></tr>
+<tr><td>토큰(색상/폰트/간격)이 코드와 Figma에서 따로 관리 → 불일치</td><td><strong>하나의 토큰 JSON</strong>이 양쪽을 지배 → 항상 일치</td></tr>
+</tbody>
+</table>
+
+<h3>핵심 도구 4개</h3>
+<table class="t">
+<thead><tr><th>도구</th><th>역할</th><th>비유</th></tr></thead>
+<tbody>
+<tr><td><strong>Figma 공식 MCP</strong> (권장)</td><td>Claude Code → Figma 양방향 통신. 노드 CRUD, Variables, 컴포넌트, Auto Layout 모두 지원</td><td>Figma의 공식 리모컨</td></tr>
+<tr><td><strong>figma-cli (fallback)</strong></td><td>MCP가 안 되는 경우 보조. Variables 대량 import 등</td><td>예비 리모컨</td></tr>
+<tr><td><strong>design-knowledge (스킬)</strong></td><td>외부 디자인 시스템(KDS 등)의 토큰을 파이프라인에 주입</td><td>재료 주입기</td></tr>
+<tr><td><strong>changelog + baseline</strong></td><td>변경 이력 추적 + diff 비교 기준 (우리만의 차별점)</td><td>변경 일지</td></tr>
+</tbody>
+</table>
+<p style="font-size:13px;color:#4B5563;margin-top:12px;"><strong>전환 결정 (2026.4):</strong> figma-cli + eval bridge → Figma 공식 MCP로 전환. 2026.3.24 Figma가 공식 MCP 베타 출시. Claude Code 네이티브 지원.</p>
+</div>
+</section>
+
+<!-- ====== 02 어떻게 되는지 ====== -->
+<section id="how">
+<h2><span>02</span> 어떻게 되는지</h2>
+<p class="sub">CLI가 Figma Desktop에 직접 연결하는 원리. Plugin 설치 없이 동작.</p>
+
+<div class="c">
+<h3>연결 원리 (MCP 기반)</h3>
+<p style="font-size:13px;color:#4B5563;margin-bottom:16px;">Figma Desktop이 내장 MCP 서버(localhost:3845)를 노출합니다. Claude Code가 MCP 프로토콜로 직접 통신합니다. 별도 플러그인 설치 불필요.</p>
+
+<div class="term">
+<div class="bar"><div class="d r"></div><div class="d y"></div><div class="d g"></div><span>동작 원리</span></div>
+<pre>
+<span class="td">Claude Code가 사용자 요청 받음 ("이 토큰 Figma에 푸시")</span>
+       │
+       ▼
+<span class="tc">MCP 프로토콜로 Figma Desktop 호출 (http://127.0.0.1:3845/mcp)</span>
+       │
+       ▼
+<span class="ti">Figma가 use_figma 도구 실행 (Variables 생성, 노드 CRUD)</span>
+       │
+       ▼
+<span class="to">결과 + 노드 ID/속성 응답</span>
+       │
+       ▼
+<span class="tv">baseline.json 갱신 + changelog.json 자동 기록</span>
+</pre>
+</div>
+
+<div class="analogy">
+<strong>비유:</strong> 이전(figma-cli)이 카페 주방에 직접 들어가서 음식 만드는 거였다면, MCP는 정식 주문 창구로 시키는 것. 안전하고 표준화됨.
+</div>
+
+<h3 style="margin-top:24px;">설정 방법</h3>
+<ol style="font-size:13px;color:#4B5563;line-height:1.8;">
+<li>Figma Desktop 최신 버전 → 디자인 파일 열기</li>
+<li><kbd>Shift+D</kbd> → Dev Mode 전환</li>
+<li>Inspect 패널 → <strong>Enable desktop MCP server</strong> 클릭</li>
+<li>~/.claude.json 프로젝트 섹션의 <code>mcpServers</code>에 figma-desktop 추가</li>
+<li>Claude Code 재시작 → <code>/mcp</code>로 연결 확인</li>
+</ol>
+</div>
+
+<div class="c">
+<h3>역할 분담: 누가 뭘 하는지</h3>
+<table class="t">
+<thead><tr><th>하는 일</th><th>담당</th><th>왜 이걸로</th></tr></thead>
+<tbody>
+<tr><td>토큰을 Figma에 쓰기 (Push)</td><td><strong>CLI</strong></td><td>Figma에 쓰기는 CLI만 가능 (MCP는 읽기만)</td></tr>
+<tr><td>레이아웃을 Figma에 생성 (Push)</td><td><strong>CLI</strong></td><td>Frame, Text, Image 생성 = CLI</td></tr>
+<tr><td>토큰 현재값 읽기 (Pull)</td><td><strong>CLI</strong></td><td>Variables는 MCP로 못 읽음 (Pro 플랜)</td></tr>
+<tr><td>노드 구조 읽기 (Pull)</td><td><strong>MCP</strong></td><td>이미 설치됨, URL 주면 바로 읽기</td></tr>
+<tr><td>텍스트/이미지 읽기 (Pull)</td><td><strong>MCP</strong></td><td>위와 동일</td></tr>
+<tr><td>HTML/CSS 코드 생성</td><td><strong>Claude Code 스킬</strong></td><td>publish-markup, publish-style</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ====== 03 Push ====== -->
+<section id="push">
+<h2><span>03</span> Push — 코드 → Figma로 보내기</h2>
+<p class="sub">Claude Code가 만든 것을 Figma에 자동 생성. 사용자 액션 0.</p>
+
+<div class="c">
+<h3>보낼 수 있는 것</h3>
+<table class="t">
+<thead><tr><th>항목</th><th>가능</th><th>예시</th></tr></thead>
+<tbody>
+<tr><td>색상 토큰</td><td class="ck">O</td><td>primary-500: #EF151E → Figma Variable</td></tr>
+<tr><td>폰트 스타일</td><td class="ck">O</td><td>Pretendard 24px Bold → Figma Text Style</td></tr>
+<tr><td>간격/radius</td><td class="ck">O</td><td>spacing-md: 16, radius-sm: 4 → Figma Variable</td></tr>
+<tr><td>그림자</td><td class="ck">O</td><td>elevation-1 → Figma Effect Style</td></tr>
+<tr><td>프레임 구조 (Flex)</td><td class="ck">O</td><td>div.flex-row → Frame auto-layout</td></tr>
+<tr><td>프레임 구조 (Grid)</td><td class="ck">O</td><td>div.grid-3cols → Frame grid layout</td></tr>
+<tr><td>텍스트</td><td class="ck">O</td><td>"로그인" → Text 노드</td></tr>
+<tr><td>아이콘 (표준)</td><td class="ck">O</td><td>15만개 Iconify (lucide, mdi 등)</td></tr>
+<tr><td>커스텀 SVG</td><td class="ck">O</td><td>Vector path로 생성</td></tr>
+<tr><td>이미지</td><td class="ck">O</td><td>URL 참조로 Image Fill</td></tr>
+<tr><td>절대 위치</td><td class="ck">O</td><td>x, y 좌표 지정</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="c">
+<h3>Push 실제 동작</h3>
+<div class="term">
+<div class="bar"><div class="d r"></div><div class="d y"></div><div class="d g"></div><span>사용자: "KDS로 로그인 페이지 만들어서 Figma에 넣어줘"</span></div>
+<pre>
+<span class="td"># Claude Code가 자동 실행하는 것들:</span>
+
+<span class="td"># 1. 토큰으로 HTML/CSS 먼저 생성</span>
+<span class="to">✓ login.html + login.css 생성 완료</span>
+
+<span class="td"># 2. Figma 연결</span>
+<span class="tc">$ figma-use connect</span>
+<span class="to">✓ Figma Desktop 연결됨</span>
+
+<span class="td"># 3. 토큰을 Figma Variables로 생성</span>
+<span class="to">✓ color/primary-500: #EF151E</span>
+<span class="to">✓ color/gray-900: #191A1B</span>
+<span class="to">✓ spacing/md: 16</span>
+<span class="to">✓ ... (19개 토큰)</span>
+
+<span class="td"># 4. HTML 구조를 Figma 프레임으로 변환</span>
+<span class="tc">$ figma-use render login.jsx</span>
+<span class="to">✓ Frame "LoginCard" (400x auto, flex-column, gap:16)</span>
+<span class="to">✓   Text "로그인" (24px, Pretendard SemiBold)</span>
+<span class="to">✓   Frame "EmailInput" (fill x 44, bg:gray-50, radius:4)</span>
+<span class="to">✓   Frame "PasswordInput" (fill x 44, bg:gray-50, radius:4)</span>
+<span class="to">✓   Frame "LoginButton" (fill x 44, bg:primary-500, radius:4)</span>
+<span class="to">✓     Text "로그인" (16px, white)</span>
+
+<span class="td"># 5. baseline 스냅샷 저장</span>
+<span class="ti">→ .figma-sync/baseline.json (19 tokens + 6 nodes)</span>
+<span class="ti">→ 디자이너에게 "Figma에 세팅 완료" 알림</span>
+</pre>
+</div>
+
+<div class="analogy">
+<strong>결과:</strong> 디자이너가 Figma를 열면 로그인 화면의 프레임 구조 + 토큰이 이미 잡혀있음. 처음부터 그리는 게 아니라 <strong>보정만</strong> 하면 됩니다.
+</div>
+</div>
+</section>
+
+<!-- ====== 04 Pull ====== -->
+<section id="pull">
+<h2><span>04</span> Pull — Figma에서 코드로 가져오기</h2>
+<p class="sub">"가져와줘" 한마디면 뭐가 바뀌었는지 감지하고 코드에 반영.</p>
+
+<div class="c">
+<h3>가져올 수 있는 것</h3>
+<table class="t">
+<thead><tr><th>항목</th><th>감지</th><th>자동 반영</th></tr></thead>
+<tbody>
+<tr><td>색상 변경 (#EF151E → #E50914)</td><td class="ck">O</td><td class="ck">O — CSS Variable 자동 업데이트</td></tr>
+<tr><td>폰트 변경 (24px → 28px, weight 변경)</td><td class="ck">O</td><td class="ck">O</td></tr>
+<tr><td>간격/패딩 변경 (16px → 24px)</td><td class="ck">O</td><td class="ck">O</td></tr>
+<tr><td>radius 변경 (4px → 8px)</td><td class="ck">O</td><td class="ck">O</td></tr>
+<tr><td>그림자 변경</td><td class="ck">O</td><td class="ck">O</td></tr>
+<tr><td>텍스트 내용 변경 ("로그인" → "Sign In")</td><td class="ck">O</td><td class="ck">O</td></tr>
+<tr><td>위치/크기 변경</td><td class="ck">O</td><td class="ck">O</td></tr>
+<tr><td>노드 추가 (소셜 로그인 버튼 등)</td><td class="ck">O</td><td class="pt">80-90% — HTML 태그 추론</td></tr>
+<tr><td>노드 삭제</td><td class="ck">O</td><td class="ck">O — 해당 코드 제거</td></tr>
+<tr><td>구조 대폭 변경 (레이아웃 리디자인)</td><td class="ck">O</td><td class="pt">재생성 필요</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="c">
+<h3>Pull 실제 동작</h3>
+<div class="term">
+<div class="bar"><div class="d r"></div><div class="d y"></div><div class="d g"></div><span>사용자: "피그마에서 수정된 거 가져와줘"</span></div>
+<pre>
+<span class="td"># Claude Code가 자동 실행:</span>
+
+<span class="td"># 1. CLI로 현재 토큰값 전수 읽기</span>
+<span class="tc">$ figma-use export variables --json</span>
+<span class="ti">→ 19개 토큰 읽기 완료</span>
+
+<span class="td"># 2. baseline과 비교 (diff)</span>
+<span class="tw">⚠ 토큰 변경 3건 감지:</span>
+<span class="tv">  color/primary-500:  #EF151E → #E50914</span>
+<span class="tv">  radius/sm:          4 → 8</span>
+<span class="tv">  shadow/card:        0 2px 8px → 0 4px 16px</span>
+
+<span class="td"># 3. MCP로 노드 구조 읽기</span>
+<span class="tc">→ figma_get_file_nodes</span>
+<span class="tw">⚠ 구조 변경 1건 감지:</span>
+<span class="tv">  + SocialGroup (children: KakaoBtn, NaverBtn, GoogleBtn)</span>
+
+<span class="td"># 4. 속성 변경 읽기</span>
+<span class="tw">⚠ 속성 변경 2건:</span>
+<span class="tv">  Title: font-size 24→28, weight 600→700</span>
+<span class="tv">  Input: padding 8px→12px</span>
+
+<span class="td"># 5. 코드 반영</span>
+<span class="to">✓ CSS Variables 3건 업데이트</span>
+<span class="to">✓ 속성 변경 2건 반영</span>
+<span class="ti">→ 구조 변경 1건: HTML 추가 제안 (확인 필요)</span>
+<span class="to">✓ baseline 갱신 완료</span>
+</pre>
+</div>
+</div>
+
+<div class="c">
+<h3>추가된 객체는 어떻게 변환하는지</h3>
+
+<div style="display:grid;grid-template-columns:1fr 24px 1fr;gap:8px;align-items:start;margin:12px 0">
+<div class="c" style="margin:0;padding:16px;font-size:11px;font-family:monospace;background:#FFF5F9">
+<strong style="font-size:12px;color:#9D174D;">Figma에서 읽힌 것</strong><br><br>
+FRAME "SocialGroup"<br>
+&nbsp; width: fill<br>
+&nbsp; layout: VERTICAL, gap: 8<br>
+&nbsp; children:<br>
+&nbsp;&nbsp; INSTANCE "KakaoBtn"<br>
+&nbsp;&nbsp;&nbsp; fill: #FEE500<br>
+&nbsp;&nbsp;&nbsp; text: "카카오 로그인"<br>
+&nbsp;&nbsp; INSTANCE "NaverBtn"<br>
+&nbsp;&nbsp;&nbsp; fill: #03C75A<br>
+&nbsp;&nbsp;&nbsp; text: "네이버 로그인"<br>
+&nbsp;&nbsp; INSTANCE "GoogleBtn"<br>
+&nbsp;&nbsp;&nbsp; fill: #FFFFFF<br>
+&nbsp;&nbsp;&nbsp; text: "Google 로그인"
+</div>
+<div style="text-align:center;padding-top:40px;color:#6366F1;font-weight:800;font-size:18px">&rarr;</div>
+<div class="c" style="margin:0;padding:16px;font-size:11px;font-family:monospace;background:#F0FDF4">
+<strong style="font-size:12px;color:#065F46;">Claude Code가 생성한 코드</strong><br><br>
+&lt;div class="login__social"&gt;<br>
+&nbsp; &lt;button class="btn--kakao"<br>
+&nbsp;&nbsp; style="background:#FEE500"&gt;<br>
+&nbsp;&nbsp; 카카오 로그인<br>
+&nbsp; &lt;/button&gt;<br>
+&nbsp; &lt;button class="btn--naver"<br>
+&nbsp;&nbsp; style="background:#03C75A"&gt;<br>
+&nbsp;&nbsp; 네이버 로그인<br>
+&nbsp; &lt;/button&gt;<br>
+&nbsp; &lt;button class="btn--google"<br>
+&nbsp;&nbsp; style="background:#FFF"&gt;<br>
+&nbsp;&nbsp; Google 로그인<br>
+&nbsp; &lt;/button&gt;<br>
+&lt;/div&gt;
+</div>
+</div>
+
+<div class="analogy">
+<strong>추론 근거:</strong> 이름("KakaoBtn") + 구조(INSTANCE) + 내부 텍스트("카카오 로그인") + 색상(#FEE500) → <strong>카카오 로그인 버튼</strong>이라고 추론. 디자이너가 노드 이름을 잘 지으면 추론 정확도 90%.
+</div>
+</div>
+</section>
+
+<!-- ====== 05 변경 감지 ====== -->
+<section id="detect">
+<h2><span>05</span> 변경 감지 방식</h2>
+<p class="sub">기준은 "Push 시점의 스냅샷". 실시간 알림은 안 됨.</p>
+
+<div class="c">
+<h3>원리</h3>
+<div style="display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr;gap:0;align-items:center;text-align:center;margin:16px 0">
+<div class="c" style="margin:0;padding:12px;background:#EEF2FF"><strong style="font-size:11px">Push 시점<br>스냅샷 저장</strong><br><span style="font-size:10px;color:#6B7280">baseline.json</span></div>
+<div style="font-size:14px;color:#6366F1;font-weight:800">&rarr;</div>
+<div class="c" style="margin:0;padding:12px;background:#FDE68A"><strong style="font-size:11px">디자이너<br>Figma 수정</strong><br><span style="font-size:10px;color:#6B7280">(며칠~몇 주)</span></div>
+<div style="font-size:14px;color:#6366F1;font-weight:800">&rarr;</div>
+<div class="c" style="margin:0;padding:12px;background:#D1FAE5"><strong style="font-size:11px">Pull 시<br>현재 읽기 + diff</strong><br><span style="font-size:10px;color:#6B7280">뭐가 바뀌었는지</span></div>
+</div>
+
+<div class="analogy">
+<strong>비유:</strong> 사진을 찍어두고(baseline), 나중에 다시 사진 찍어서(현재) 두 사진을 비교하는 것. 차이점이 "변경사항"입니다. 실시간 CCTV(Hook)는 안 됩니다.
+</div>
+</div>
+
+<div class="c">
+<h3>변경 정도별 대응</h3>
+<table class="t">
+<thead><tr><th>변경 정도</th><th>예시</th><th>대응</th><th>기존 코드</th></tr></thead>
+<tbody>
+<tr><td class="ck">10-30% (소)</td><td>색상, 폰트, 간격 조정</td><td>diff → 자동 반영</td><td>유지</td></tr>
+<tr><td class="pt">30-60% (중)</td><td>노드 추가/삭제, 순서 변경</td><td>자동 반영 + 일부 수동</td><td>대부분 유지</td></tr>
+<tr><td class="cr">60%+ (대)</td><td>레이아웃 완전 변경</td><td>Figma 현재 상태로 재생성</td><td>폐기 후 새로 생성</td></tr>
+</tbody>
+</table>
+
+<div class="qa-bad">
+<strong>60%+ 변경 시:</strong> diff가 무의미해지므로, Figma의 현재 상태를 "새 원본"으로 삼아 코드를 처음부터 다시 생성합니다. 단, 디자이너 시안이 이미 있으니 처음보다 빠르고 정확합니다.
+</div>
+</div>
+
+<div class="c">
+<h3>변경 리포트 예시</h3>
+<div class="df ch"><span class="df-tag dt-ch">변경</span><span class="df-prop">color/primary-500</span><span class="df-old">#EF151E</span><span class="df-new">#E50914</span></div>
+<div class="df ch"><span class="df-tag dt-ch">변경</span><span class="df-prop">radius/sm</span><span class="df-old">4px</span><span class="df-new">8px</span></div>
+<div class="df ch"><span class="df-tag dt-ch">변경</span><span class="df-prop">Title > font-size</span><span class="df-old">24px</span><span class="df-new">28px</span></div>
+<div class="df ch"><span class="df-tag dt-ch">변경</span><span class="df-prop">Input > padding</span><span class="df-old">8px 16px</span><span class="df-new">12px 16px</span></div>
+<div class="df ad"><span class="df-tag dt-ad">추가</span><span class="df-prop">SocialGroup</span><span class="df-old">—</span><span class="df-new">children: 3 (Kakao/Naver/Google)</span></div>
+<div class="df rm"><span class="df-tag dt-rm">삭제</span><span class="df-prop">Links > 아이디 찾기</span><span class="df-old">있었음</span><span class="df-new">—</span></div>
+</div>
+</section>
+
+<!-- ====== 06 시나리오 ====== -->
+<section id="scenario">
+<h2><span>06</span> 실제 시나리오: KDS로 로그인 페이지</h2>
+<p class="sub">처음부터 끝까지 전체 흐름</p>
+
+<div class="c">
+<div class="steps">
+  <div class="st"><div class="sc"><strong>KDS 토큰 준비 <span class="who w-human">수동 1회</span></strong><span>KT 디자인 시스템에서 토큰값(색상, 폰트, 간격) 추출 → JSON 파일 작성</span></div></div>
+  <div class="st"><div class="sc"><strong>토큰 주입 + 1차 코드 생성 <span class="who w-auto">자동</span></strong><span>design-knowledge에 KDS 토큰 주입 → publish 스킬로 login.html + login.css 자동 생성</span></div></div>
+  <div class="st"><div class="sc"><strong>Figma에 Push <span class="who w-auto">자동</span></strong><span>CLI가 Figma Desktop에 연결 → 토큰을 Variables로, HTML 구조를 프레임으로 자동 생성 → baseline 저장</span></div></div>
+  <div class="st"><div class="sc"><strong>디자이너 작업 <span class="who w-human">디자이너</span></strong><span>Figma에서 로그인 화면 보정: 색상 미세 조정, radius 변경, 소셜 로그인 버튼 추가, 폰트 크기 변경 등</span></div></div>
+  <div class="st"><div class="sc"><strong>Pull — 변경 감지 <span class="who w-auto">자동</span></strong><span>"가져와줘" → CLI로 토큰 읽기 + MCP로 구조 읽기 → baseline과 비교 → 변경 리포트 출력</span></div></div>
+  <div class="st"><div class="sc"><strong>코드 반영 <span class="who w-auto">자동 + 수동</span></strong><span>토큰/속성 변경 → CSS Variables 자동 업데이트. 구조 추가 → HTML 자동 제안 + 사람 확인</span></div></div>
+  <div class="st"><div class="sc"><strong>baseline 갱신 <span class="who w-auto">자동</span></strong><span>새 baseline 저장 → Git commit "sync: Figma 디자이너 피드백 반영"</span></div></div>
+</div>
+</div>
+
+<div class="c">
+<h3>자동화율</h3>
+<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+<div style="min-width:140px">
+<div style="font-size:40px;font-weight:900;color:#059669">70-80%</div>
+<div style="font-size:12px;color:#6B7280">전체 자동화</div>
+</div>
+<div style="flex:1;min-width:260px">
+<div class="pg"><div class="pg-l"><span>토큰 동기화 (색상/폰트/간격)</span><span style="font-weight:700;color:#059669">95%</span></div><div class="pg-b"><div class="pg-f" style="width:95%;background:#059669"></div></div></div>
+<div class="pg"><div class="pg-l"><span>속성 변경 (위치/크기/패딩)</span><span style="font-weight:700;color:#059669">90%</span></div><div class="pg-b"><div class="pg-f" style="width:90%;background:#059669"></div></div></div>
+<div class="pg"><div class="pg-l"><span>구조 변경 (노드 추가/삭제)</span><span style="font-weight:700;color:#D97706">80-90%</span></div><div class="pg-b"><div class="pg-f" style="width:85%;background:#D97706"></div></div></div>
+<div class="pg"><div class="pg-l"><span>레이아웃 대폭 변경</span><span style="font-weight:700;color:#DC2626">재생성</span></div><div class="pg-b"><div class="pg-f" style="width:40%;background:#DC2626"></div></div></div>
+<div class="pg"><div class="pg-l"><span>반응형 / 인터랙션</span><span style="font-weight:700;color:#DC2626">코드 영역</span></div><div class="pg-b"><div class="pg-f" style="width:0%;background:#DC2626"></div></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ====== 07 한계 ====== -->
+<section id="limits">
+<h2><span>07</span> 할 수 없는 것</h2>
+<p class="sub">솔직한 한계. 이건 어떤 도구를 써도 동일.</p>
+
+<div class="c warn">
+<table class="t">
+<thead><tr><th>항목</th><th>왜 안 되는지</th><th>대신 어떻게</th></tr></thead>
+<tbody>
+<tr>
+  <td><strong>실시간 알림</strong><br><span style="font-size:11px;color:#6B7280">디자이너가 바꾸는 순간 알림</span></td>
+  <td>Figma가 외부에 변경 이벤트를 안 보냄</td>
+  <td>"가져와줘"라고 하면 그때 비교</td>
+</tr>
+<tr>
+  <td><strong>반응형 코드 추출</strong><br><span style="font-size:11px;color:#6B7280">모바일/데스크톱 분기</span></td>
+  <td>Figma는 고정 크기 프레임만 있음. "화면 줄이면 이렇게 바뀐다"는 정보 자체가 없음</td>
+  <td>코드에서 직접 반응형 작성 (이건 원래 코드 영역)</td>
+</tr>
+<tr>
+  <td><strong>인터랙션 / 애니메이션</strong><br><span style="font-size:11px;color:#6B7280">hover, 클릭, 전환 효과</span></td>
+  <td>Figma 프로토타입 ≠ CSS/JS. 데이터 구조가 다름</td>
+  <td>코드에서 직접 작성 (이건 원래 코드 영역)</td>
+</tr>
+<tr>
+  <td><strong>비즈니스 로직</strong><br><span style="font-size:11px;color:#6B7280">OAuth URL, API 호출 등</span></td>
+  <td>Figma에 이 정보가 없음. 디자인과 무관</td>
+  <td>사람이 알려줘야 함</td>
+</tr>
+</tbody>
+</table>
+
+<div class="analogy">
+<strong>요약:</strong> Figma에 있는 "보이는 것"(색상, 구조, 텍스트)은 전부 가져옵니다. Figma에 없는 "동작하는 것"(반응형, 인터랙션, API)은 코드에서 합니다. 이건 Figma의 근본적 성격이라 어떤 도구를 써도 동일합니다.
+</div>
+</div>
+</section>
+
+<!-- ====== 08 스펙 ====== -->
+<section id="spec">
+<h2><span>08</span> 기술 스펙</h2>
+<p class="sub">선행 조건, 개발 소요, 확정 결정사항</p>
+
+<div class="c">
+<h3>필요한 것</h3>
+<table class="t">
+<thead><tr><th>항목</th><th>상태</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>Node.js 18+</td><td>확인 필요</td><td>CLI 실행 환경</td></tr>
+<tr><td>Figma Desktop 앱</td><td>필수</td><td>웹 버전 안 됨 (CDP 연결 필요)</td></tr>
+<tr><td>figma-use 설치</td><td>git clone + npm install</td><td>1회</td></tr>
+<tr><td>Figma MCP</td><td>설치됨</td><td>API 키 세팅 필요</td></tr>
+<tr><td>design-knowledge 주입 모드</td><td>미구현</td><td>SKILL.md 수정 필요</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="c">
+<h3>개발 소요</h3>
+<table class="t">
+<thead><tr><th>작업</th><th>소요</th></tr></thead>
+<tbody>
+<tr><td>design-knowledge 주입 모드 추가</td><td>반나절</td></tr>
+<tr><td>figma-use 설치 + 연결 테스트</td><td>반나절</td></tr>
+<tr><td>Push 스킬 (STYLE → CLI 명령어 변환 + baseline 저장)</td><td>1일</td></tr>
+<tr><td>Pull 스킬 (CLI 읽기 + MCP 읽기 + diff)</td><td>1일</td></tr>
+<tr><td>통합 테스트 (Push → Figma 수정 → Pull 풀 사이클)</td><td>1일</td></tr>
+<tr style="background:#EEF2FF;font-weight:700"><td>합계</td><td>3~4일</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="c">
+<h3>확정 결정사항</h3>
+<table class="t">
+<thead><tr><th>항목</th><th>결정</th></tr></thead>
+<tbody>
+<tr><td>Figma 플랜</td><td>Pro (Enterprise 아님)</td></tr>
+<tr><td>제어 방식</td><td>CLI (Chrome DevTools Protocol) — Plugin 안 만듦</td></tr>
+<tr><td>Push 도구</td><td>figma-use CLI (토큰 + 레이아웃 + 이미지 + 아이콘)</td></tr>
+<tr><td>Pull 도구</td><td>CLI (토큰) + MCP (구조)</td></tr>
+<tr><td>변경 감지</td><td>Pull 시점에 baseline 비교 (실시간 훅 불가)</td></tr>
+<tr><td>토큰 포맷</td><td>W3C DTCG (Style Dictionary 호환)</td></tr>
+<tr><td>외부 DS 지원</td><td>design-knowledge 주입 모드 (KDS 등)</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+</main>
+
+<script>
+const ss=document.querySelectorAll('section[id]'),ls=document.querySelectorAll('nav a');
+window.addEventListener('scroll',()=>{let c='';ss.forEach(s=>{if(scrollY>=s.offsetTop-80)c=s.id});ls.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+c))});
+</script>
+</body>
+</html>

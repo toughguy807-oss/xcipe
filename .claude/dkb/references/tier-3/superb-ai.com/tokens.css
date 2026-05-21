@@ -1,0 +1,129 @@
+/* superb-ai.com — 디자인 토큰 (WebFetch + 추정)
+   생성일: 2026-04-30
+*/
+
+:root {
+  /* 컬러 — 한국 출신 글로벌 B2B */
+  --color-bg: #FFFFFF;
+  --color-bg-dark: #0A0A0A;
+  --color-text-primary: #000000;
+  --color-text-secondary: #6B7280;
+  --color-text-on-dark: #FFFFFF;
+  --color-accent: #000000;
+  --color-border: #E5E7EB;
+
+  /* 폰트 — 다국어 (한/영/일) */
+  --font-multilingual: 'Pretendard', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  /* 사이즈 */
+  --fs-h1: clamp(2rem, 4vw, 3.5rem);
+  --fs-h2: clamp(1.5rem, 3vw, 2.25rem);
+  --fs-kpi: clamp(2.5rem, 5vw, 4rem);
+  --fs-body: 1rem;
+
+  /* Weight */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* 간격 */
+  --space-section: clamp(64px, 10vw, 120px);
+  --container-max: 1280px;
+
+  /* 모션 */
+  --motion-fast: 200ms ease-out;
+  --motion-medium: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 다국어 텍스트 (한/영/일) */
+.multilingual-text {
+  font-family: var(--font-multilingual);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+}
+
+/* 산업별 KPI 카드 (4종 시그니처) */
+.industry-kpi-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 32px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.industry-kpi-card .kpi-value {
+  font-size: var(--fs-kpi);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.industry-kpi-card .kpi-label {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.industry-kpi-card .kpi-industry {
+  font-size: 1rem;
+  font-weight: var(--fw-medium);
+}
+
+/* 인증 배지 묶음 (NVIDIA + AWS + K-AI) */
+.cert-badge-group {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 24px 0;
+}
+
+.cert-badge-group .badge-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: var(--fw-medium);
+}
+
+/* Horizontal logo slider — 글로벌 + 한국 혼합 */
+.global-kr-logo-slider {
+  display: flex;
+  gap: 48px;
+  overflow: hidden;
+  animation: scroll-x 30s linear infinite;
+}
+
+@keyframes scroll-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.global-kr-logo-slider img {
+  height: 32px;
+  filter: grayscale(1) opacity(0.7);
+}
+
+/* 비디오 컴포넌트 다크 오버레이 */
+.industry-video {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.industry-video::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none;
+  z-index: 1;
+}

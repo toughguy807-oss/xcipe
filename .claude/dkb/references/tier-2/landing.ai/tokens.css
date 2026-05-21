@@ -1,0 +1,44 @@
+/* landing.ai — 정확 토큰 (Vision 추정 v1.0, 2026-05-04)
+ * 후속: DevTools 실측으로 forest green/lime hex 확정 권고
+ */
+
+:root {
+  /* ── Color ── */
+  --color-bg: #FFFFFF;                    /* Light base */
+  --color-bg-alt: #F5F4ED;                /* Cream off-white 섹션 */
+  --color-bg-nav: #3A4A3F;                /* Forest green dark — nav 시그니처 */
+  --color-bg-banner: #E5F0D5;             /* Lime pastel — 상단 알림 */
+  --color-bg-quote: #2C3A30;              /* Forest green deeper — 인용 카드 */
+  --color-text-primary: #1A1815;          /* H1/H2/Body strong */
+  --color-text-secondary: #5C5C5C;        /* Body weak */
+  --color-text-on-dark: #FFFFFF;
+
+  /* ── Accent — nature-inspired 시그니처 ── */
+  --color-accent-lime: #C5E370;           /* Lime green CTA */
+  --color-accent-forest: #3A4A3F;         /* Forest green */
+
+  /* ── Typography ── */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  --font-serif-italic: 'Newsreader', 'Crimson Pro', serif;  /* 추정 */
+  --font-size-h1: clamp(2.5rem, 5vw, 4.5rem);
+  --font-size-h2: clamp(2rem, 3.5vw, 3rem);
+  --font-size-body: 1rem;
+  --font-weight-h1: 700;
+  --font-weight-h1-italic: 400;
+  --font-weight-body: 400;
+  --line-height-h1: 1.1;
+  --line-height-body: 1.6;
+
+  /* ── Spacing ── */
+  --space-section: 100px;
+  --space-container: 1280px;
+  --space-card-gap: 24px;
+
+  /* ── Motion ── */
+  --transition-hover: 150ms ease;
+  --transition-fade: 300ms ease;
+
+  /* ── Shape ── */
+  --radius-pill: 9999px;                  /* 알약 CTA */
+  --radius-card: 16px;
+}

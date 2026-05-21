@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "화면설계서 데이터 v2",
+  "description": "화면설계서(SB) 생성을 위한 JSON 스키마. v1 데이터는 lib/schema.js normalizeV1()으로 자동 정규화.",
+  "type": "object",
+  "required": ["project", "screens"],
+  "properties": {
+    "$schema": { "type": "string", "const": "screen-design-schema-v2" },
+    "project": {
+      "type": "object",
+      "required": ["id", "title", "serviceName", "version", "date", "writer"],
+      "properties": {
+        "id": { "type": "string", "description": "프로젝트 코드" },
+        "title": { "type": "string", "description": "과제명" },
+        "serviceName": { "type": "string", "description": "서비스명" },
+        "version": { "type": "string", "description": "버전" },
+        "date": { "type": "string", "description": "작성일 (YYYY-MM-DD)" },
+        "writer": { "type": "string", "description": "작성자" },
+        "company": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "description": "회사명" }
+          }
+        },
+        "requestor": { "type": "string", "description": "요청자" },
+        "outputPrefix": { "type": "string", "description": "출력 파일 접두사" },
+        "jiraNo": { "type": "string" },
+        "srNo": { "type": "string" }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "properties": {
+        "preset": { "type": "string", "description": "테마 프리셋명 (themes/{preset}.json)" },
+        "primaryColor": { "type": "string" },
+        "accentColor": { "type": "string" },
+        "logo": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string", "enum": ["none", "text", "image"] },
+            "html": { "type": "string" },
+            "imagePath": { "type": "string" }
+          }
+        }
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["version", "date", "detail", "writer"],
+        "properties": {
+          "version": { "type": "string" },
+          "date": { "type": "string" },
+          "detail": { "type": "string" },
+          "page": { "type": "string" },
+          "writer": { "type": "string" },
+          "remarkers": { "type": "string" }
+        }
+      }
+    },
+    "overview": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["assignment", "sitemap", "summary"] },
+        "title": { "type": "string" },
+        "content": { "type": "object" },
+        "divider": { "type": "object" },
+        "interfaces": { "type": "array" }
+      }
+    },
+    "screens": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["screenType", "viewportType", "interfaceName"],
+        "properties": {
+          "screenType": { "type": "string", "enum": ["design", "description", "msgCase", "component"] },
+          "viewportType": { "type": "string", "enum": ["Mobile", "PC", "Tablet"] },
+          "interfaceName": { "type": "string" },
+          "interfaceId": { "type": "string" },
+          "location": { "type": "string" },
+          "pageName": { "type": "string" },
+          "groupDescription": { "type": "string", "description": "msgCase 그룹 설명 (선택)" },
+          "groupFlow": { "type": "string", "description": "msgCase 그룹 흐름 (선택)" },
+          "uiImagePath": { "type": "string" },
+          "hasDivider": { "type": "boolean" },
+          "divider": { "type": "object" },
+          "containerType": { "type": "string", "enum": ["page", "chatbot-panel", "modal", "floating-panel"] },
+          "containerSize": { "type": "object" },
+          "wireframe": { "type": "array", "description": "와이어프레임 요소 배열 (Option A)" },
+          "wfHtml": { "type": "string", "description": "직접 작성 HTML (Option B, deprecated)" },
+          "descriptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["marker", "label"],
+              "properties": {
+                "marker": { "type": "integer", "minimum": 1 },
+                "label": { "type": "string" },
+                "changeType": { "type": "string", "enum": ["수정", "추가", "삭제"] },
+                "before": { "type": "string" },
+                "after": { "type": "string" },
+                "items": { "type": "array" },
+                "fnRef": { "type": "array", "items": { "type": "string" } },
+                "overlay": { "type": "object" },
+                "continuation": { "type": "string", "enum": ["prev", "next"] }
+              }
+            }
+          },
+          "msgCases": { "type": "array" },
+          "pmComments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type", "comment"],
+              "properties": {
+                "marker": { "type": "integer" },
+                "type": { "type": "string", "enum": ["question", "suggestion", "risk", "reject"] },
+                "author": { "type": "string" },
+                "comment": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

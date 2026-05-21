@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>plan-sb Figma Push</title>
+<style>
+  :root {
+    --bg: #1e1e1e;
+    --panel: #252525;
+    --panel2: #2d2d2d;
+    --border: #3a3a3a;
+    --fg: #e5e5e5;
+    --muted: #8a8a8a;
+    --accent: #18a0fb;
+    --ok: #2ecc71;
+    --warn: #f39c12;
+    --err: #e74c3c;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: var(--bg); color: var(--fg);
+    font: 12px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  }
+  body { display: flex; flex-direction: column; }
+  header {
+    padding: 10px 12px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--panel);
+  }
+  h1 { margin: 0; font-size: 13px; font-weight: 600; }
+  .build { font-size: 10px; color: var(--muted); }
+
+  .status-row {
+    padding: 10px 12px; border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    background: var(--panel2);
+  }
+  .chip {
+    padding: 6px 8px; border-radius: 4px; background: var(--panel);
+    border: 1px solid var(--border);
+    font-size: 11px; color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+  .chip.on .dot { background: var(--ok); }
+  .chip.off .dot { background: var(--err); }
+  .chip.warn .dot { background: var(--warn); }
+  .chip b { color: var(--fg); font-weight: 600; }
+
+  .progress-wrap { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .progress-meta {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--muted); margin-bottom: 4px;
+  }
+  .progress-meta b { color: var(--fg); font-weight: 600; }
+  .bar { height: 6px; background: var(--panel2); border-radius: 3px; overflow: hidden; }
+  .bar > div {
+    height: 100%; width: 0; background: var(--accent);
+    transition: width .25s ease;
+  }
+  .stat {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    margin-top: 8px;
+  }
+  .stat div {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
+    padding: 6px; text-align: center;
+  }
+  .stat span { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .stat b { display: block; font-size: 13px; margin-top: 2px; color: var(--fg); font-weight: 600; }
+
+  .logpane {
+    flex: 1; min-height: 0; padding: 8px 12px;
+    overflow-y: auto; font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px; line-height: 1.5;
+  }
+  .logpane > div { padding: 1px 0; }
+  .l-ok { color: var(--ok); }
+  .l-err { color: var(--err); }
+  .l-warn { color: var(--warn); }
+  .l-muted { color: var(--muted); }
+  .l-time { color: var(--muted); margin-right: 6px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>plan-sb Figma Push</h1>
+    <span class="build" id="build">build: pending</span>
+  </header>
+
+  <div class="status-row">
+    <div class="chip" id="daemonChip"><span class="dot"></span><b>daemon:</b>&nbsp;<span id="daemonState">checking…</span></div>
+    <div class="chip" id="jobChip"><span class="dot"></span><b>job:</b>&nbsp;<span id="jobState">idle</span></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="phase">phase: idle</span>
+      <span><b id="done">0</b> / <span id="total">0</span></span>
+    </div>
+    <div class="bar"><div id="barFill"></div></div>
+    <div class="stat">
+      <div><span>Created</span><b id="s-created">0</b></div>
+      <div><span>Failed</span><b id="s-failed">0</b></div>
+      <div><span>Verified</span><b id="s-verified">0</b></div>
+    </div>
+  </div>
+
+  <div class="logpane" id="log"></div>
+
+<script>
+  var BUILD_TAG = 'plan-sb-2026-04-27';
+  document.getElementById('build').textContent = 'ui build: ' + BUILD_TAG;
+
+  var logEl = document.getElementById('log');
+  function log(msg, cls) {
+    var d = document.createElement('div');
+    if (cls) d.className = 'l-' + cls;
+    var t = new Date().toTimeString().slice(0, 8);
+    d.innerHTML = '<span class="l-time">[' + t + ']</span>' + String(msg);
+    logEl.appendChild(d);
+    logEl.scrollTop = logEl.scrollHeight;
+    while (logEl.children.length > 300) logEl.removeChild(logEl.firstChild);
+  }
+
+  function setDaemonChip(state, label) {
+    var c = document.getElementById('daemonChip');
+    c.classList.remove('on', 'off', 'warn');
+    if (state === 'on') c.classList.add('on');
+    else if (state === 'off') c.classList.add('off');
+    else c.classList.add('warn');
+    document.getElementById('daemonState').textContent = label;
+  }
+  function setJobChip(state, label) {
+    var c = document.getElementById('jobChip');
+    c.classList.remove('on', 'off', 'warn');
+    if (state === 'on') c.classList.add('on');
+    else if (state === 'off') c.classList.add('off');
+    else c.classList.add('warn');
+    document.getElementById('jobState').textContent = label;
+  }
+
+  window.onmessage = function (e) {
+    var msg = (e && e.data && e.data.pluginMessage) || null;
+    if (!msg) return;
+
+    if (msg.type === 'daemon-status') {
+      if (msg.ok) setDaemonChip('on', 'listening');
+      else setDaemonChip('off', msg.error || 'disconnected');
+      return;
+    }
+
+    if (msg.type === 'job-received') {
+      setJobChip('warn', 'running ' + msg.jobId);
+      log('Job received: ' + msg.jobId, 'ok');
+      document.getElementById('phase').textContent = 'phase: start';
+      return;
+    }
+
+    if (msg.type === 'push-progress') {
+      document.getElementById('phase').textContent = 'phase: ' + msg.phase;
+      document.getElementById('done').textContent = String(msg.done);
+      document.getElementById('total').textContent = String(msg.total);
+      var pct = msg.total > 0 ? Math.min(100, Math.round((msg.done / msg.total) * 100)) : 0;
+      document.getElementById('barFill').style.width = pct + '%';
+      var s = msg.stats;
+      if (s) {
+        document.getElementById('s-created').textContent = s.created || 0;
+        document.getElementById('s-failed').textContent = s.failed || 0;
+        document.getElementById('s-verified').textContent = s.verified || 0;
+      }
+      return;
+    }
+
+    if (msg.type === 'job-done') {
+      setJobChip('on', 'done ' + msg.jobId);
+      var r = msg.result || {};
+      if (r.error) log('Job failed: ' + r.error, 'err');
+      else {
+        var st = (r.report && r.report.stats) || r.stats || null;
+        if (st) log('Job done · created=' + (st.created||0) + ' failed=' + (st.failed||0) + ' verified=' + (st.verified||0), 'ok');
+        else log('Job done: ' + msg.jobId, 'ok');
+      }
+      setTimeout(function () { setJobChip('off', 'idle'); }, 3000);
+      return;
+    }
+
+    if (msg.type === 'log') {
+      log(msg.message || '', msg.level || '');
+    }
+  };
+
+  log('UI ready · polling daemon…', 'muted');
+  setDaemonChip('warn', 'checking…');
+  setJobChip('off', 'idle');
+</script>
+</body>
+</html>

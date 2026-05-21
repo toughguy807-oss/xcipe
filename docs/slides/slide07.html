@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #FFFFFF; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+  background: #FFFFFF;
+}
+.header-bar {
+  width: 720pt; height: 3pt; background: #2E86AB;
+}
+.title-area {
+  margin: 24pt 0 0 40pt;
+}
+.slide-num {
+  color: #2E86AB; font-size: 10pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.slide-title {
+  color: #1C2833; font-size: 26pt; font-weight: bold;
+  margin: 0 0 16pt 0;
+}
+.two-col {
+  display: flex; margin: 0 40pt; gap: 20pt;
+}
+.left-col {
+  flex: 1; display: flex; flex-direction: column; gap: 10pt;
+}
+.right-col {
+  flex: 1; display: flex; flex-direction: column; gap: 10pt;
+}
+.tech-card {
+  background: #F8F9FA; border-radius: 6pt; padding: 14pt;
+}
+.tech-label {
+  color: #2E86AB; font-size: 8pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.tech-name {
+  color: #1C2833; font-size: 14pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.tech-desc {
+  color: #666666; font-size: 9pt; line-height: 1.4;
+  margin: 0;
+}
+.env-section {
+  margin: 14pt 40pt 0 40pt;
+  display: flex; gap: 12pt;
+}
+.env-card {
+  flex: 1; border-radius: 4pt; padding: 12pt 16pt; text-align: center;
+}
+.env-dev {
+  background: #2E86AB;
+}
+.env-prd {
+  background: #1C2833;
+}
+.env-name {
+  color: #FFFFFF; font-size: 12pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.env-desc {
+  color: #CCDDEE; font-size: 9pt;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header-bar"></div>
+<div class="title-area">
+  <p class="slide-num">06</p>
+  <h1 class="slide-title">Tech Stack</h1>
+</div>
+<div class="two-col">
+  <div class="left-col">
+    <div class="tech-card">
+      <p class="tech-label">RUNTIME</p>
+      <p class="tech-name">Node.js + Express</p>
+      <p class="tech-desc">Lightweight HTTP server. RESTful API endpoints. SSE for real-time dashboard updates.</p>
+    </div>
+    <div class="tech-card">
+      <p class="tech-label">DATABASE</p>
+      <p class="tech-name">SQLite (WAL Mode)</p>
+      <p class="tech-desc">Zero-config embedded DB. WAL enables concurrent reads during writes. Single-file backup.</p>
+    </div>
+  </div>
+  <div class="right-col">
+    <div class="tech-card">
+      <p class="tech-label">AI INTEGRATION</p>
+      <p class="tech-name">MCP Server + Claude API</p>
+      <p class="tech-desc">Model Context Protocol for tool calling. Opus for creation, Sonnet for review. Structured JSON I/O.</p>
+    </div>
+    <div class="tech-card">
+      <p class="tech-label">VERSION CONTROL</p>
+      <p class="tech-name">Git Hooks + File System</p>
+      <p class="tech-desc">Pre-commit validation. JSON schema checks. Automated deployment pipeline.</p>
+    </div>
+  </div>
+</div>
+<div class="env-section">
+  <div class="env-card env-dev">
+    <p class="env-name">DEV Environment</p>
+    <p class="env-desc">Claude Code CLI - Interactive development, skill testing, pipeline prototyping</p>
+  </div>
+  <div class="env-card env-prd">
+    <p class="env-name">PRD Environment</p>
+    <p class="env-desc">API Daemon - Automated execution, scheduled tasks, production workflows</p>
+  </div>
+</div>
+</body>
+</html>

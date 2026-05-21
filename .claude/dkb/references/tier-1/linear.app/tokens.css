@@ -1,0 +1,73 @@
+/* linear.app — 디자인 토큰 (추정, Vision 미검증)
+   생성일: 2026-04-30
+   주의: Vision 캡처 후 정확값 보정 필요
+*/
+
+:root {
+  /* 컬러 — KPI Dark 시그니처 */
+  --color-bg: #08090A;
+  --color-bg-alt: #0F0F10;
+  --color-bg-elevated: #16171A;
+  --color-text-primary: #F7F8F8;
+  --color-text-secondary: #8A8F98;
+  --color-accent: #5E6AD2;          /* Linear 보라 */
+  --color-accent-coral: #BE6A6A;    /* gradient 반대편 */
+  --color-border: #1F2024;
+
+  /* Gradient 시그니처 — 텍스트 전용 */
+  --gradient-text: linear-gradient(120deg, #5E6AD2 0%, #BE6A6A 100%);
+
+  /* 폰트 — Inter Display + Berkeley Mono */
+  --font-display: 'Inter Display', 'Inter', -apple-system, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Berkeley Mono', 'JetBrains Mono', monospace;
+
+  /* 사이즈 */
+  --fs-h1: clamp(2.5rem, 5vw, 4.5rem);
+  --fs-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --fs-body: 0.9375rem;     /* 15px */
+  --fs-body-sm: 0.875rem;   /* 14px */
+
+  /* Weight */
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* Letter spacing — Linear는 매우 타이트 */
+  --ls-display: -0.04em;
+  --ls-body: -0.011em;
+
+  /* 간격 */
+  --space-section: clamp(80px, 12vw, 160px);
+  --container-max: 1024px;       /* 의도적 좁힘 */
+  --container-padding: clamp(24px, 5vw, 32px);
+
+  /* 모션 */
+  --motion-fast: 150ms ease-out;
+  --motion-medium: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 시그니처 패턴 — Gradient Text H1 */
+.h1-gradient {
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-h1);
+  letter-spacing: var(--ls-display);
+  line-height: 1.05;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 키보드 단축키 표시 */
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}

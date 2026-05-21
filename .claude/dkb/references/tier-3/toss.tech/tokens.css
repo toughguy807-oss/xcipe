@@ -1,0 +1,115 @@
+/* toss.tech — 디자인 토큰 (WebFetch + 추정)
+   생성일: 2026-04-30
+*/
+
+:root {
+  /* 컬러 — Toss Brand */
+  --color-bg: #FFFFFF;
+  --color-bg-alt: #F9FAFB;
+  --color-text-primary: #191F28;        /* Toss 다크 그레이 */
+  --color-text-secondary: #4E5968;
+  --color-text-tertiary: #8B95A1;
+  --color-accent: #3182F6;              /* Toss Brand Blue */
+  --color-accent-light: #E8F2FF;
+  --color-border: #E5E8EB;
+
+  /* 폰트 — 한영 최적화 */
+  --font-toss: 'Toss Product Sans', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* 사이즈 */
+  --fs-h1: clamp(1.75rem, 3.5vw, 2.5rem);
+  --fs-h2: clamp(1.25rem, 2.5vw, 1.75rem);
+  --fs-card-title: 1.125rem;
+  --fs-body: 1rem;
+  --fs-meta: 0.875rem;
+
+  /* Weight — Toss는 절제된 weight */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* 한글 line-height — 한국 톱 가독성 */
+  --lh-korean-tight: 1.4;
+  --lh-korean-normal: 1.6;
+  --lh-korean-loose: 1.8;
+
+  /* 간격 */
+  --space-section: clamp(48px, 8vw, 96px);
+  --container-max: 1200px;
+  --container-padding: clamp(20px, 4vw, 32px);
+
+  /* 모션 — Toss 미세 */
+  --motion-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-medium: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 한글 타이포 — Toss 정밀 */
+.korean-text {
+  font-family: var(--font-toss);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-height: var(--lh-korean-normal);
+  letter-spacing: -0.02em;            /* 한글 자간 미세 음수 */
+}
+
+/* 카테고리 칩 */
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  font-size: var(--fs-meta);
+  font-weight: var(--fw-medium);
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  border-radius: 999px;
+}
+
+/* 블로그 카드 */
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--color-bg);
+  transition: transform var(--motion-fast), box-shadow var(--motion-fast);
+}
+
+.blog-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.blog-card .thumbnail {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.blog-card .title {
+  font-size: var(--fs-card-title);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  line-height: var(--lh-korean-tight);
+}
+
+.blog-card .meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-meta);
+  color: var(--color-text-secondary);
+}
+
+/* 이모지 프로필 — Toss 시그니처 */
+.emoji-profile {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-alt);
+  border-radius: 50%;
+  font-size: 14px;
+}

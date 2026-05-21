@@ -1,0 +1,42 @@
+/* scale.com — 정확 토큰 (Vision 추정 v1.0, 2026-05-04)
+ * 후속: DevTools 실측으로 hex/font-family 확정 권고
+ */
+
+:root {
+  /* ── Color ── */
+  --color-bg: #000000;                    /* Pure black — Scale 시그니처 (Frontier AI 권위) */
+  --color-bg-alt: #0A0A0A;                /* Section alt */
+  --color-bg-card: #111111;               /* Card surface */
+  --color-text-primary: #FFFFFF;          /* H1/H2/Body strong */
+  --color-text-secondary: #A1A1A1;        /* Body weak */
+  --color-border-subtle: #1F1F1F;
+
+  /* ── Accent — 3D 일러스트 그라디언트 시그니처 ── */
+  --color-accent-pink: #F4D8E8;           /* 파스텔 핑크 */
+  --color-accent-cyan: #C5E4F0;           /* 파스텔 시안 */
+  --gradient-illust: linear-gradient(135deg, #F4D8E8 0%, #C5E4F0 100%);
+  --gradient-text-h1: linear-gradient(90deg, #FFFFFF 0%, #C5E4F0 100%);
+
+  /* ── Typography ── */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', monospace;
+  --font-size-h1: clamp(2.5rem, 5vw, 4.5rem);
+  --font-size-h2: clamp(2rem, 3.5vw, 3rem);
+  --font-size-body: 1rem;
+  --font-weight-h1: 300;                  /* light — Scale 시그니처 */
+  --font-weight-body: 400;
+  --font-weight-strong: 500;
+  --line-height-h1: 1.1;
+  --line-height-body: 1.6;
+  --letter-spacing-h1: -0.02em;
+
+  /* ── Spacing ── */
+  --space-section: 120px;
+  --space-container: 1280px;
+  --space-hero-padding: 100px;
+  --space-card-gap: 16px;
+
+  /* ── Motion ── */
+  --transition-hover: 150ms ease;
+  --transition-fade: 300ms ease;
+}

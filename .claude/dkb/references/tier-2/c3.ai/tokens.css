@@ -1,0 +1,35 @@
+/* c3.ai — 정확 토큰 (Vision 추정 v1.0, 2026-05-04)
+ * 후속: DevTools 실측으로 hex/font-family 확정 권고
+ */
+
+:root {
+  /* ── Color ── */
+  --color-bg: #0F0F0F;                    /* 다크 base — Pure black 회피 */
+  --color-bg-alt: #1A1A1A;                /* Card surface */
+  --color-bg-overlay: rgba(0,0,0,0.5);    /* Hero 사진 위 오버레이 */
+  --color-text-primary: #FFFFFF;          /* H1/H2/Body strong */
+  --color-text-secondary: #A0A0A0;        /* Body weak */
+  --color-border-subtle: #2A2A2A;
+
+  /* ── Accent — 오렌지 CTA 시그니처 ── */
+  --color-accent-orange: #E85D2A;         /* CTA 오렌지 */
+  --color-accent-orange-hover: #C84E1F;
+
+  /* ── Typography ── */
+  --font-sans: Helvetica, Arial, sans-serif;
+  --font-size-h1: clamp(2.5rem, 5vw, 4rem);
+  --font-size-h2: clamp(2rem, 3vw, 2.5rem);
+  --font-size-body: 1rem;
+  --font-weight-h1: 500;
+  --font-weight-body: 400;
+  --line-height-h1: 1.15;
+  --line-height-body: 1.5;
+
+  /* ── Spacing ── */
+  --space-section: 100px;
+  --space-container: 1280px;
+  --space-card-gap: 24px;
+
+  /* ── Motion ── */
+  --transition-hover: 200ms ease;
+}

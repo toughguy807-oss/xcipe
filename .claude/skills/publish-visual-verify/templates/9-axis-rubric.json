@@ -1,0 +1,102 @@
+{
+  "name": "Taste 9-Axis Audit",
+  "version": "v1",
+  "source": "Anthropic Claude Design Sys Prompt + taste-skill + gstack",
+  "threshold": {
+    "pass": 7.5,
+    "conditional": 6.0,
+    "fail_below": 6.0
+  },
+  "axes": [
+    {
+      "id": "typography",
+      "name": "Typography",
+      "description": "폰트 선택·위계·대비·fluid scale·text-wrap",
+      "scale": {
+        "0": "Inter/Roboto 단일 + 깨진 위계 + 고정 16px",
+        "5": "Pretendard 단일 + 고정 px 스케일 + 기본 line-height",
+        "10": "Variable font + 극단 weight 대비(100 vs 900) + clamp() fluid + text-wrap: pretty + 의미 기반 세리프 믹스"
+      }
+    },
+    {
+      "id": "color",
+      "name": "Color",
+      "description": "팔레트 위계·OKLCH·tinted shadow·gamut",
+      "scale": {
+        "0": "퍼플 그라디언트 #6366F1 + pure #000 shadow + hex 기본값",
+        "5": "hex 2-tier + black 기반 shadow + 단일 accent",
+        "10": "OKLCH 3-tier + 단일 accent + tinted shadow (color-mix oklch) + P3 gamut 활용"
+      }
+    },
+    {
+      "id": "layout",
+      "name": "Layout",
+      "description": "Bento/Editorial/Subgrid/Container Query 활용",
+      "scale": {
+        "0": "3-col 카드 그리드 3개 이상 반복 + 100vh 풀스크린",
+        "5": "2-col 기본 + asymmetric 1섹션",
+        "10": "Bento + Editorial + Subgrid + Container Query 4종 이상 + :has() 조건부 스타일"
+      }
+    },
+    {
+      "id": "interactivity",
+      "name": "Interactivity",
+      "description": "hover/focus/active/disabled/pressed 5상태 + 컴포넌트별 고유 모션",
+      "scale": {
+        "0": "hover:scale(1.05) 전역 일괄 + focus-visible 없음",
+        "5": "기본 hover color 변경 + focus-visible outline",
+        "10": "5상태 × 컴포넌트별 고유 모션 + reduced-motion 대응 + View Transitions"
+      }
+    },
+    {
+      "id": "content",
+      "name": "Content",
+      "description": "실제 카피·구체 수치·고유 제품명",
+      "scale": {
+        "0": "Lorem ipsum / John Doe / \"Seamless innovation\"",
+        "5": "일부 placeholder 혼재 + 일반적 마케팅 카피",
+        "10": "실제 카피 + 구체 수치 (22+ DX, 26 PoC 등) + 고유 제품명 + 업종 특화 표현"
+      }
+    },
+    {
+      "id": "components",
+      "name": "Components",
+      "description": "manifest variant 실구현 커버리지",
+      "scale": {
+        "0": "카드 그리드만 + variant 10개 미만",
+        "5": "manifest 30~49 variant 구현",
+        "10": "manifest 58+ variant 중 50+ 실구현 + 베이스 선언 86%+"
+      }
+    },
+    {
+      "id": "iconography",
+      "name": "Iconography",
+      "description": "아이콘 의미 일치 + 스타일 일관성",
+      "scale": {
+        "0": "Rocket=Launch / Lightbulb=Idea 같은 cliché + 혼용 스타일",
+        "5": "Lucide 단독 일관 사용",
+        "10": "의미 맞춤 선택 + Phosphor/Heroicons 신중 혼용 + 커스텀 1개 이상"
+      }
+    },
+    {
+      "id": "code_quality",
+      "name": "Code Quality",
+      "description": "콘솔 에러·FOUC·Lighthouse",
+      "scale": {
+        "0": "콘솔 에러 5개 이상 + FOUC 0.5초 이상",
+        "5": "경미한 경고 + Lighthouse 70~89",
+        "10": "콘솔 에러 0 + FOUC 없음 + Lighthouse 90+ 전 축"
+      }
+    },
+    {
+      "id": "strategic_omissions",
+      "name": "Strategic Omissions",
+      "description": "과잉 장식 제거 + 의도 있는 여백",
+      "scale": {
+        "0": "파티클 배경 + emoji 남용 + glitter + generic illustration",
+        "5": "일부 장식 + placeholder 일부",
+        "10": "과잉 장식 0 + placeholder 0 + emoji 의도적 최소 + 여백이 메시지"
+      }
+    }
+  ]
+}

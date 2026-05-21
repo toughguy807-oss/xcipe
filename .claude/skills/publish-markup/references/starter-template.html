@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO 기본 -->
+  <title>{페이지 제목} | {사이트명}</title>
+  <meta name="description" content="{160자 이내 페이지 설명}">
+  <meta name="keywords" content="{키워드1}, {키워드2}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{OG 제목 — 60자 이내}">
+  <meta property="og:description" content="{OG 설명 — 160자 이내}">
+  <meta property="og:image" content="{1200x630 OG 이미지 URL}">
+  <meta property="og:url" content="{페이지 URL}">
+
+  <!-- 다국어 (해당 시) -->
+  <!-- <link rel="alternate" hreflang="en" href="{영문 URL}"> -->
+  <!-- <link rel="alternate" hreflang="ko" href="{한국어 URL}"> -->
+
+  <!-- 파비콘 -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- 외부 CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 본문 바로가기 (접근성) -->
+  <a href="#main-content" class="skip-link">본문 바로가기</a>
+
+  <!-- ════════════════════════════════════════
+       HEADER
+       ════════════════════════════════════════ -->
+  <header class="header" role="banner">
+    <div class="header__inner container">
+
+      <!-- 로고 -->
+      <h1 class="header__logo">
+        <a href="/">
+          <img src="placeholder.jpg" alt="{사이트명}" data-src-keyword="{로고 키워드}">
+        </a>
+      </h1>
+
+      <!-- GNB (데스크톱) -->
+      <nav class="gnb" role="navigation" aria-label="메인 메뉴">
+        <ul class="gnb__menu">
+          <li class="gnb__item"><a href="#" class="gnb__link" aria-current="page">{메뉴1}</a></li>
+          <li class="gnb__item"><a href="#" class="gnb__link">{메뉴2}</a></li>
+          <li class="gnb__item"><a href="#" class="gnb__link">{메뉴3}</a></li>
+          <li class="gnb__item"><a href="#" class="gnb__link">{메뉴4}</a></li>
+        </ul>
+      </nav>
+
+      <!-- 햄버거 (모바일) -->
+      <button class="gnb__hamburger" type="button"
+              aria-expanded="false" aria-controls="mobile-menu" aria-label="메뉴 열기">
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+        <span class="gnb__hamburger-line"></span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- 모바일 드로어 메뉴 -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="모바일 메뉴">
+      <ul class="mobile-menu__list">
+        <li><a href="#">{메뉴1}</a></li>
+        <li><a href="#">{메뉴2}</a></li>
+        <li><a href="#">{메뉴3}</a></li>
+        <li><a href="#">{메뉴4}</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       MAIN CONTENT
+       ════════════════════════════════════════ -->
+  <main id="main-content" role="main">
+
+    <!-- 섹션: 히어로 (FR-### / FN-### / UI-###) -->
+    <section class="hero" data-ui-id="UI-001">
+      <div class="hero__inner container">
+        <h2 class="hero__title">{히어로 제목}</h2>
+        <p class="hero__desc">{히어로 설명}</p>
+        <a href="#" class="btn btn--primary hero__cta">{CTA 텍스트}</a>
+      </div>
+      <div class="hero__bg">
+        <img src="placeholder.jpg" alt="" aria-hidden="true" data-src-keyword="{히어로 배경 키워드}">
+      </div>
+    </section>
+
+    <!-- 섹션: 카드 그리드 (FR-### / FN-### / UI-###) -->
+    <section class="section section--gray" data-ui-id="UI-002">
+      <div class="container">
+        <h2 class="section__title">{섹션 제목}</h2>
+        <p class="section__desc">{섹션 설명}</p>
+
+        <div class="card-grid card-grid--3">
+          <!-- 카드 1 -->
+          <article class="card">
+            <div class="card__image card__image--16x9">
+              <img src="placeholder.jpg" alt="{카드1 이미지 설명}" data-src-keyword="{키워드}">
+            </div>
+            <div class="card__body">
+              <span class="card__badge">{뱃지}</span>
+              <h3 class="card__title">{카드 제목}</h3>
+              <p class="card__desc">{카드 설명}</p>
+              <a href="#" class="card__link">{더보기} <span class="sr-only">{카드 제목} 상세</span></a>
+            </div>
+          </article>
+
+          <!-- 카드 2~N 반복 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션: CTA 배너 (FR-### / FN-### / UI-###) -->
+    <section class="cta-banner" data-ui-id="UI-003">
+      <div class="container">
+        <h2 class="cta-banner__title">{CTA 제목}</h2>
+        <p class="cta-banner__desc">{CTA 설명}</p>
+        <a href="#" class="btn btn--secondary cta-banner__btn">{CTA 버튼}</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner container">
+      <div class="footer__info">
+        <p class="footer__org">{기관/회사명}</p>
+        <address class="footer__address">{주소} | TEL: {전화번호}</address>
+        <p class="footer__copyright">&copy; {연도} {사이트명}. All rights reserved.</p>
+      </div>
+      <nav class="footer__links" aria-label="하단 메뉴">
+        <a href="#">개인정보처리방침</a>
+        <a href="#">이용약관</a>
+        <a href="#">사이트맵</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- 외부 JS -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>

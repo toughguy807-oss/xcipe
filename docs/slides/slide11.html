@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #FFFFFF; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+  background: #FFFFFF;
+}
+.header-bar {
+  width: 720pt; height: 3pt; background: #2E86AB;
+}
+.title-area {
+  margin: 24pt 0 0 40pt;
+}
+.slide-num {
+  color: #2E86AB; font-size: 10pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.slide-title {
+  color: #1C2833; font-size: 26pt; font-weight: bold;
+  margin: 0 0 16pt 0;
+}
+.roadmap-area {
+  margin: 0 40pt;
+  display: flex; gap: 16pt;
+}
+.phase-card {
+  flex: 1; border-radius: 6pt; padding: 18pt;
+  display: flex; flex-direction: column;
+}
+.phase1-card {
+  background: #2E86AB;
+}
+.phase2-card {
+  background: #F8F9FA; border: 2pt solid #E0E0E0;
+}
+.phase-badge {
+  margin: 0 0 8pt 0;
+}
+.badge-text-white {
+  color: #FFFFFF; font-size: 9pt; font-weight: bold;
+  margin: 0;
+}
+.badge-text-dark {
+  color: #2E86AB; font-size: 9pt; font-weight: bold;
+  margin: 0;
+}
+.phase-title-white {
+  color: #FFFFFF; font-size: 18pt; font-weight: bold;
+  margin: 0 0 6pt 0;
+}
+.phase-title-dark {
+  color: #1C2833; font-size: 18pt; font-weight: bold;
+  margin: 0 0 6pt 0;
+}
+.phase-sub-white {
+  color: #CCE8F0; font-size: 10pt;
+  margin: 0 0 12pt 0;
+}
+.phase-sub-dark {
+  color: #666666; font-size: 10pt;
+  margin: 0 0 12pt 0;
+}
+.feature-list-white {
+  color: #FFFFFF; font-size: 9pt; line-height: 1.6;
+  margin: 0;
+}
+.feature-list-dark {
+  color: #333333; font-size: 9pt; line-height: 1.6;
+  margin: 0;
+}
+.timeline-bar {
+  margin: 16pt 40pt 0 40pt;
+  display: flex; align-items: center;
+}
+.timeline-segment {
+  flex: 1; height: 6pt; border-radius: 3pt;
+}
+.tl-done {
+  background: #2E86AB;
+}
+.tl-future {
+  background: #E0E0E0;
+}
+.timeline-labels {
+  margin: 4pt 40pt 0 40pt;
+  display: flex;
+}
+.tl-label {
+  flex: 1;
+}
+.tl-label-text {
+  color: #888888; font-size: 8pt;
+  margin: 0;
+}
+.tl-label-text-active {
+  color: #2E86AB; font-size: 8pt; font-weight: bold;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header-bar"></div>
+<div class="title-area">
+  <p class="slide-num">10</p>
+  <h1 class="slide-title">Roadmap</h1>
+</div>
+<div class="roadmap-area">
+  <div class="phase-card phase1-card">
+    <div class="phase-badge"><p class="badge-text-white">PHASE 1 - NOW</p></div>
+    <p class="phase-title-white">Project Management</p>
+    <p class="phase-sub-white">19 domains, AI-driven agency workflows</p>
+    <ul class="feature-list-white">
+      <li>Planning pipeline (QST to SB)</li>
+      <li>Design pipeline (BM to UI)</li>
+      <li>Publish pipeline (Markup, Style, Interaction)</li>
+      <li>QA pipeline (Functional, A11y, Performance)</li>
+      <li>Dashboard with 5-tab project view</li>
+      <li>Kanban + Pipeline hybrid board</li>
+      <li>ID traceability (FR to TC)</li>
+      <li>On-premise deployment</li>
+    </ul>
+  </div>
+  <div class="phase-card phase2-card">
+    <div class="phase-badge"><p class="badge-text-dark">PHASE 2 - NEXT</p></div>
+    <p class="phase-title-dark">Company Operations</p>
+    <p class="phase-sub-dark">Expanding from project to organization level</p>
+    <ul class="feature-list-dark">
+      <li>Inbound lead management</li>
+      <li>CRM integration</li>
+      <li>Resource allocation</li>
+      <li>Team capacity planning</li>
+      <li>Financial reporting</li>
+      <li>Client portal</li>
+      <li>Multi-tenant support</li>
+      <li>Advanced analytics</li>
+    </ul>
+  </div>
+</div>
+<div class="timeline-bar">
+  <div class="timeline-segment tl-done"></div>
+  <div class="timeline-segment tl-future"></div>
+</div>
+<div class="timeline-labels">
+  <div class="tl-label"><p class="tl-label-text-active">2026 Q1~Q2: Phase 1 Build</p></div>
+  <div class="tl-label"><p class="tl-label-text">2026 Q3~Q4: Phase 2 Expansion</p></div>
+</div>
+</body>
+</html>

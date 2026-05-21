@@ -1,0 +1,64 @@
+/* anthropic.com — 디자인 토큰 (추정, Vision 미검증)
+   생성일: 2026-04-30
+   방식: 사전 지식 + curl HTML
+   주의: Vision 캡처 후 정확값 보정 필요
+*/
+
+:root {
+  /* 컬러 — Off-white + Coral 시그니처 */
+  --color-bg: #FAFAF7;          /* Off-white (Pure white #FFF 회피) */
+  --color-bg-alt: #F5F4F0;       /* 섹션 교차 톤 */
+  --color-text-primary: #1A1815; /* 본문 (Pure black #000 회피) */
+  --color-text-secondary: #5C5852;
+  --color-accent: #CC7856;       /* Coral/Terracotta 단일 액센트 */
+  --color-accent-hover: #B86847;
+  --color-border: #1A18151A;
+
+  /* 폰트 — Editorial Serif + Sans 믹스 */
+  --font-serif: 'Copernicus', 'Tiempos Headline', 'Iowan Old Style', serif;
+  --font-sans: 'Styrene B', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  /* 사이즈 — Fluid clamp */
+  --fs-h1: clamp(2.5rem, 5vw, 4.5rem);
+  --fs-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --fs-body: 1rem;          /* 16px */
+  --fs-body-lg: 1.125rem;   /* 18px */
+
+  /* Weight */
+  --fw-serif-italic: 400;
+  --fw-sans-regular: 400;
+  --fw-sans-medium: 500;
+
+  /* 간격 — 매거진 룩 화이트스페이스 */
+  --space-section: clamp(80px, 12vw, 160px);
+  --space-block: clamp(40px, 6vw, 80px);
+  --container-max: 1200px;
+  --container-padding: clamp(24px, 5vw, 48px);
+
+  /* 모션 — 절제 */
+  --motion-fade: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-hover: 200ms ease-out;
+}
+
+/* 시그니처 패턴 — Italic Serif H1 */
+.h1-editorial {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: var(--fw-serif-italic);
+  font-size: var(--fs-h1);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+/* Coral 점 시그니처 */
+.coral-dot::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  margin-right: 0.5em;
+}

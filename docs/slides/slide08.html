@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #FFFFFF; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+  background: #FFFFFF;
+}
+.header-bar {
+  width: 720pt; height: 3pt; background: #2E86AB;
+}
+.title-area {
+  margin: 24pt 0 0 40pt;
+}
+.slide-num {
+  color: #2E86AB; font-size: 10pt; font-weight: bold;
+  margin: 0 0 4pt 0;
+}
+.slide-title {
+  color: #1C2833; font-size: 26pt; font-weight: bold;
+  margin: 0 0 6pt 0;
+}
+.slide-sub {
+  color: #666666; font-size: 10pt;
+  margin: 0 0 14pt 0;
+}
+.pipeline-flow {
+  margin: 0 30pt;
+  display: flex; flex-direction: column; gap: 8pt;
+}
+.phase-row {
+  display: flex; align-items: center; gap: 4pt;
+}
+.phase-label {
+  width: 60pt; text-align: right; padding-right: 8pt;
+}
+.phase-name {
+  color: #1C2833; font-size: 10pt; font-weight: bold;
+  margin: 0;
+}
+.step-group {
+  display: flex; gap: 3pt; flex: 1;
+}
+.step-box {
+  flex: 1; text-align: center; padding: 8pt 4pt; border-radius: 3pt;
+}
+.step-plan { background: #2E86AB; }
+.step-design { background: #1C8C6E; }
+.step-publish { background: #D4A843; }
+.step-qa { background: #C0392B; }
+.step-dev { background: #8E44AD; }
+.step-deploy { background: #1C2833; }
+.step-text {
+  color: #FFFFFF; font-size: 8pt; font-weight: bold;
+  margin: 0;
+}
+.step-sub {
+  color: #DDEEEE; font-size: 6pt;
+  margin: 2pt 0 0 0;
+}
+.arrow-row {
+  text-align: center; margin: 0 0 0 68pt;
+}
+.arrow-text {
+  color: #AAAAAA; font-size: 10pt;
+  margin: 0;
+}
+.trace-section {
+  margin: 12pt 40pt 0 40pt;
+  background: #1C2833; border-radius: 6pt; padding: 14pt 20pt;
+  display: flex; gap: 20pt; align-items: center;
+}
+.trace-title {
+  color: #2E86AB; font-size: 11pt; font-weight: bold;
+  margin: 0; white-space: nowrap;
+}
+.trace-chain {
+  display: flex; align-items: center; gap: 6pt; flex: 1;
+}
+.trace-id {
+  background: #2E86AB; border-radius: 3pt; padding: 6pt 10pt;
+}
+.trace-id-text {
+  color: #FFFFFF; font-size: 9pt; font-weight: bold;
+  margin: 0;
+}
+.trace-arrow {
+  color: #556677;
+}
+.trace-arrow-text {
+  color: #556677; font-size: 12pt;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header-bar"></div>
+<div class="title-area">
+  <p class="slide-num">07</p>
+  <h1 class="slide-title">Pipeline: End-to-End Automation</h1>
+  <p class="slide-sub">From requirements to deployment, fully traceable</p>
+</div>
+<div class="pipeline-flow">
+  <div class="phase-row">
+    <div class="phase-label"><p class="phase-name">Planning</p></div>
+    <div class="step-group">
+      <div class="step-box step-plan"><p class="step-text">QST</p><p class="step-sub">Client Q&amp;A</p></div>
+      <div class="step-box step-plan"><p class="step-text">REQ</p><p class="step-sub">Requirements</p></div>
+      <div class="step-box step-plan"><p class="step-text">FN</p><p class="step-sub">Functions</p></div>
+      <div class="step-box step-plan"><p class="step-text">IA</p><p class="step-sub">Information Arch</p></div>
+      <div class="step-box step-plan"><p class="step-text">WBS</p><p class="step-sub">Work Breakdown</p></div>
+      <div class="step-box step-plan"><p class="step-text">SB</p><p class="step-sub">Storyboard</p></div>
+    </div>
+  </div>
+  <div class="arrow-row"><p class="arrow-text">|</p></div>
+  <div class="phase-row">
+    <div class="phase-label"><p class="phase-name">Design</p></div>
+    <div class="step-group">
+      <div class="step-box step-design"><p class="step-text">Benchmark</p></div>
+      <div class="step-box step-design"><p class="step-text">Knowledge</p></div>
+      <div class="step-box step-design"><p class="step-text">Layout</p></div>
+      <div class="step-box step-design"><p class="step-text">UI Spec</p></div>
+    </div>
+  </div>
+  <div class="arrow-row"><p class="arrow-text">|</p></div>
+  <div class="phase-row">
+    <div class="phase-label"><p class="phase-name">Build</p></div>
+    <div class="step-group">
+      <div class="step-box step-publish"><p class="step-text">Markup</p></div>
+      <div class="step-box step-publish"><p class="step-text">Style</p></div>
+      <div class="step-box step-publish"><p class="step-text">Interaction</p></div>
+      <div class="step-box step-qa"><p class="step-text">Functional QA</p></div>
+      <div class="step-box step-qa"><p class="step-text">A11y QA</p></div>
+      <div class="step-box step-qa"><p class="step-text">Perf QA</p></div>
+    </div>
+  </div>
+</div>
+<div class="trace-section">
+  <p class="trace-title">ID Traceability</p>
+  <div class="trace-chain">
+    <div class="trace-id"><p class="trace-id-text">FR-001</p></div>
+    <div class="trace-arrow"><p class="trace-arrow-text">&gt;</p></div>
+    <div class="trace-id"><p class="trace-id-text">FN-001</p></div>
+    <div class="trace-arrow"><p class="trace-arrow-text">&gt;</p></div>
+    <div class="trace-id"><p class="trace-id-text">UI-001</p></div>
+    <div class="trace-arrow"><p class="trace-arrow-text">&gt;</p></div>
+    <div class="trace-id"><p class="trace-id-text">TC-F-001</p></div>
+  </div>
+</div>
+</body>
+</html>
