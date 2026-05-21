@@ -170,15 +170,12 @@ class FailingProvider {
 
 function getProvider() {
   let configured = getSetting('ai_provider') || 'mock';
-  // v26: 분산 워커 모드 — 서버는 claude-code 호출 불가 (OAuth 없음).
-  //   ai_provider='claude-code' 시 컨테이너에 ~/.claude/credentials 없으면 무조건 mock fallback.
-  //   ESYS_DEV=1 (로컬 개발) + ~/.claude 존재할 때만 직접 호출 허용.
-  //   WORKER_MODE=queue-only 도 같은 효과 (명시 권장).
+  // v26: 분산 워커 모드는 WORKER_MODE=queue-only 가 명시 설정된 경우만 적용.
+  //   본인 PC 에서 npm start (또는 npm run dev) 로 실행하는 기존 운영 패턴에는 영향 없음.
+  //   Railway 클라우드는 Variables 에 WORKER_MODE=queue-only 추가 → mock fallback.
   if (configured === 'claude-code') {
     const workerMode = (process.env.WORKER_MODE || '').toLowerCase();
-    const isDevLocal = process.env.ESYS_DEV === '1';
-    if (workerMode === 'queue-only' || !isDevLocal) {
-      // 컨테이너 환경 = OAuth 없음 → mock fallback. 워커가 파이프라인 처리.
+    if (workerMode === 'queue-only') {
       configured = 'mock';
     }
   }
@@ -213,10 +210,8 @@ async function testConnection(providerName = null) {
 }
 
 async function analyzePrompt(prompt) {
-  // v26: 분산 워커 모드(queue-only) + claude-code 면 서버가 직접 호출 못 함.
-  //   동기 응답 필요한 짧은 분석이라 워커 위임 부적합 → 휴리스틱 fallback 반환.
-  //   사용자가 프로젝트 폼에서 필드를 직접 채우면 됨.
-  const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
+  // v26: WORKER_MODE=queue-only 명시 시에만 fallback. 본인 PC 로컬 운영에는 영향 없음.
+  const workerMode = (process.env.WORKER_MODE || '').toLowerCase();
   const aiProvider = getSetting('ai_provider') || 'claude-code';
   if (workerMode === 'queue-only' && aiProvider === 'claude-code') {
     const text = String(prompt || '').trim();
