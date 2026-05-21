@@ -329,7 +329,21 @@ Return ONLY valid JSON, no markdown.`;
 
 // PR1-A1: model-bridge 레벨 세션 점검 — 현재 provider 의 OS 인증 상태 반환
 //   doctor + admin/settings/ai 에서 사용. LLM 호출 0건.
+//
+// v27: claude-code + queue-only 환경(컨테이너)에서는 서버측 OAuth 가 없어
+// getProvider() 가 mock 으로 silent fallback 되고 checkSession 이 loggedIn=false
+// 를 반환하면서 호출자(doctor 등)가 FAIL 로 오판한다. 분산 워커 모드임을 명시한다.
 async function checkSession() {
+  const configured = (getSetting('ai_provider') || 'mock').toLowerCase();
+  if (configured === 'claude-code' && getEffectiveWorkerMode() === 'queue-only') {
+    return {
+      provider: 'claude-code',
+      ok: true,
+      loggedIn: false,
+      mode: 'distributed-worker',
+      hint: '분산 워커 모드 — 서버측 세션 점검 불가. 본인 PC 워커의 claude_session_info 를 직접 조회하세요.'
+    };
+  }
   const provider = getProvider();
   if (typeof provider.checkSession === 'function') {
     try {

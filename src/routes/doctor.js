@@ -6,7 +6,7 @@ const path = require('path');
 const os = require('os');
 const { db, getSetting } = require('../db');
 const { authMiddleware, requireRole } = require('../auth');
-const { checkSession: bridgeCheckSession } = require('../engine/model-bridge');
+const { checkSession: bridgeCheckSession, getEffectiveWorkerMode } = require('../engine/model-bridge');
 const sync = require('../engine/asset-sync');
 
 router.use(authMiddleware);
@@ -20,7 +20,11 @@ router.use(requireRole('admin'));
 //   v18 = users.anthropic_api_key + anthropic_model (사용자별 AI Provider 키)
 //   v19 = teams + team_members + projects.team_id (그룹 격리)
 //   v20 = project_design_systems + figma_file_key/node_id/last_synced/direction/sync_meta (Figma 양방향)
-const EXPECTED_USER_VERSION = 20;
+//   v21-v23 = (intermediate migrations)
+//   v24 = users.worker_token / worker_role 등 (migrateV25_distributedWorker — 함수명/pragma 값 1차이 주의)
+//   v25 = users.claude_session_info (migrateV26_workerSession)
+//   v26 = users.last_polled_at    (migrateV27_workerPolling)
+const EXPECTED_USER_VERSION = 26;
 
 // 출력 디렉터리 (pipeline/artifact-saver.js의 OUTPUT_ROOT와 동일 위치)
 const OUTPUT_DIR = path.join(__dirname, '..', '..', 'output');
@@ -187,7 +191,12 @@ function checkEnv() {
 //   mock         → WARN (실제 LLM 미사용)
 //   claude-code  → claude auth status JSON (loggedIn/email/plan)
 //   claude-api   → API 키 보유 여부 (LLM 호출 X)
-async function checkAiProvider() {
+//
+// v27: 분산 워커 모드(queue-only + claude-code) 분기.
+//   서버 컨테이너엔 OAuth 가 없어 bridgeCheckSession 이 mock fallback 되고
+//   loggedIn=false 가 반환되면서 FAIL 로 잘못 표기됨. 대신 본인(admin) 워커가
+//   보고한 users.claude_session_info + last_polled_at 기반으로 점검한다.
+async function checkAiProvider(userId) {
   const checks = [];
   const provider = (getSetting('ai_provider') || 'mock').toLowerCase();
 
@@ -199,6 +208,51 @@ async function checkAiProvider() {
   });
 
   if (provider === 'mock') {
+    return checks;
+  }
+
+  // claude-code + queue-only: 서버측 spawn 회피, 워커 보고 데이터 사용
+  if (provider === 'claude-code' && getEffectiveWorkerMode() === 'queue-only') {
+    let sessionInfo = null;
+    let lastPolledAt = null;
+    try {
+      const row = db.prepare(`SELECT claude_session_info, last_polled_at FROM users WHERE id = ?`).get(userId);
+      if (row) {
+        if (row.claude_session_info) {
+          try { sessionInfo = JSON.parse(row.claude_session_info); } catch {}
+        }
+        lastPolledAt = row.last_polled_at || null;
+      }
+    } catch {}
+
+    const hasRecentPoll = !!(lastPolledAt && new Date(lastPolledAt).getTime() > Date.now() - 2 * 60 * 1000);
+    checks.push({
+      key: 'worker_polling',
+      label: '본인 PC 워커 polling',
+      status: hasRecentPoll ? 'PASS' : 'FAIL',
+      detail: hasRecentPoll
+        ? `최근 polling: ${lastPolledAt}`
+        : (lastPolledAt ? `2분+ 미응답 (마지막: ${lastPolledAt}) — xcipe-worker 재시작 필요`
+                        : '워커가 아직 polling 한 적 없음 — 다운로드 후 실행 필요')
+    });
+
+    const loggedIn = !!(sessionInfo && sessionInfo.loggedIn);
+    checks.push({
+      key: 'claude_code_login',
+      label: 'Claude Code 로그인 (워커 PC)',
+      status: loggedIn ? 'PASS' : 'FAIL',
+      detail: loggedIn
+        ? `${sessionInfo.email || '(email unknown)'} · ${sessionInfo.plan || 'plan unknown'}`
+        : (sessionInfo ? `워커 보고: loggedIn=false` : '워커가 session 정보를 보고하지 않음 (가동 후 수초 대기 필요)')
+    });
+    if (loggedIn && sessionInfo.orgName) {
+      checks.push({
+        key: 'claude_code_org',
+        label: '조직 (워커 PC)',
+        status: 'PASS',
+        detail: sessionInfo.orgName
+      });
+    }
     return checks;
   }
 
@@ -396,7 +450,7 @@ router.get('/', async (req, res) => {
     database: checkDb(),
     filesystem: checkFs(),
     worker: checkWorker(),
-    ai_provider: await checkAiProvider(),
+    ai_provider: await checkAiProvider(req.user && req.user.id),
     environment: checkEnv(),
     errors: checkErrorRate(),
     assets: checkAssetCategoryHealth(),
