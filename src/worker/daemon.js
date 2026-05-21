@@ -640,16 +640,21 @@ async function start() {
       const selfPath = __filename;
       const localBytes = fs.readFileSync(selfPath);
       // 헤더(env 주입) 제거 후 body 만 비교 — token 등 unique 부분 제외
-      const localBody = localBytes.toString('utf8').replace(/^[\s\S]*?\n\/\/ 분산 워커 daemon/, '// 분산 워커 daemon');
+      // CRLF/LF normalize — Windows zip 후 본문이 CRLF 로 들어와도 LF 인 remote 와 무한 mismatch 방지
+      const normalize = (s) => String(s).replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+      const localBody = normalize(
+        localBytes.toString('utf8').replace(/^[\s\S]*?\n\/\/ 분산 워커 daemon/, '// 분산 워커 daemon')
+      );
       const res = await fetch(`${SERVER}/api/worker/download/xcipe-worker.js`);
       if (res.ok) {
-        const remote = await res.text();
+        const remoteRaw = await res.text();
+        const remote = normalize(remoteRaw);
         if (remote && remote.length > 1000 && remote !== localBody) {
           log('새 daemon 코드 감지 — 자동 업데이트 후 재시작');
-          // 기존 헤더(env 주입) 보존 + body 만 교체
+          // 기존 헤더(env 주입) 보존 + body 만 교체 (remoteRaw 사용 — normalize 전 원본)
           const headerMatch = localBytes.toString('utf8').match(/^([\s\S]*?\n)\/\/ 분산 워커 daemon/);
           const header = headerMatch ? headerMatch[1] : '';
-          fs.writeFileSync(selfPath, header + remote, 'utf8');
+          fs.writeFileSync(selfPath, header + remoteRaw, 'utf8');
           log('업데이트 완료. 5초 후 자동 재시작…');
           setTimeout(() => {
             const { spawn } = require('child_process');
