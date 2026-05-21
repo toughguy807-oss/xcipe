@@ -1,0 +1,178 @@
+# breakpoint
+
+## Usage
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Breakpoint
+
+다양한 디바이스 환경에서 일관된 사용자 경험을 제공하기 위한 반응형 레이아웃 기준입니다.
+
+콘텐츠의 가독성을 유지하고 인터랙션 요소의 조작성을 최적화합니다.
+
+Usage
+Tokens
+Breakpoint
+
+화면 크기와 해상도를 기준으로 반응형 레이아웃을 사용하여 환경에 최적화된 구조로 표시됩니다.
+
+
+
+
+Grid
+
+컬럼, 마진, 거터로 구성되어 있으며, 다양한 디바이스에서 일관된 사용자 경험을 제공합니다.
+
+Moblie
+Tablet
+Desktop
+
+
+
+
+
+
+
+Responsive Layout
+
+그리드 시스템을 기반으로 화면 크기에 따라 UI 요소가 유연하게 변경됩니다.
+
+
+
+
+Spacing
+
+스페이싱은 UI 요소 간의 간격과 여백을 정의하여 콘텐츠의 위계와 가독성을 조율합니다.
+
+4pt Grid
+
+모든 여백과 간격을 4point 단위로 설정해 규칙성을 확보합니다. 
+상세하고 복잡한 컴포넌트의 경우, 2의 배수 단위를 제한적으로 사용합니다.
+
+
+
+
+Use case
+Space 4
+
+라디오 버튼과 레이블 사이의 갭 값으로 사용합니다.
+
+	
+Space 8
+
+컴포넌트 요소 사이의 갭 값으로 사용합니다.
+
+
+
+	
+
+
+Space 16
+
+컴포넌트의 패딩 값으로 사용합니다.
+
+	
+Space 20
+
+마진 값으로 사용합니다.
+
+
+
+	
+Help us improve
+Copyright© KT Corp. All rights reserved.
+
+## Tokens
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Breakpoint
+
+다양한 디바이스 환경에서 일관된 사용자 경험을 제공하기 위한 반응형 레이아웃 기준입니다.
+
+콘텐츠의 가독성을 유지하고 인터랙션 요소의 조작성을 최적화합니다.
+
+Usage
+Tokens
+Primitive Token
+Table view
+JSON
+space.2
+2
+space.4
+4
+space.6
+6
+space.8
+8
+space.10
+10
+space.12
+12
+space.16
+16
+space.20
+20
+space.24
+24
+space.32
+32
+space.40
+40
+space.48
+48
+space.56
+56
+space.64
+64
+space.80
+80
+Mobile
+Table view
+JSON
+margin.platform
+{space.20}
+gutter.platform
+{space.12}
+Tablet
+Table view
+JSON
+margin.platform
+{space.20}
+gutter.platform
+{space.16}
+Desktop
+Table view
+JSON
+margin.platform
+{space.24}
+gutter.platform
+{space.20}
+Help us improve
+Copyright© KT Corp. All rights reserved.

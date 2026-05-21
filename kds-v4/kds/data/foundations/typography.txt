@@ -1,0 +1,631 @@
+# typography
+
+## Usage
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Typography
+
+효율적인 정보 전달을 위한 타이포그래피 사용 기준입니다.
+
+폰트, 크기, 굵기, 행간 등을 표준화하여 효율적으로 정보를 전달합니다.
+
+Usage
+Tokens
+Typefaces
+Display
+
+디스플레이용으로 사용되며 브랜드 에셋에 적용해 아이덴티티를 강화합니다.
+
+KT Flow
+Title & Body
+
+본문의 가독성을 확보하기 위해 사용합니다. 단, 상황에 따라 디스플레이 용도로도 사용할 수 있습니다.
+
+Pretendard
+
+
+
+
+Type Scale
+
+Display, Heading, Title, Body, Label, Caption으로 정의한 6단계 위계에 맞게 조합하여 사용합니다.
+
+Scale Category
+	
+Weight
+	
+Size
+	
+Line-Height
+	
+Role
+
+
+
+
+
+
+Display 1
+
+
+
+
+	
+
+Medium, Bold
+
+	
+
+60 px (4rem)
+
+	
+
+130%
+
+	
+
+최상위 헤드라인 (PC권장)
+
+
+
+
+
+
+
+Display 2
+
+
+
+
+	
+
+Medium, Bold
+
+	
+
+40px (2.67rem)
+
+	
+
+130%
+
+	
+
+메인 타이틀 (PC 권장)
+
+
+
+
+
+
+
+Display 3
+
+
+
+
+	
+
+Medium, Bold
+
+	
+
+36px (2.4rem)
+
+	
+
+148%
+
+	
+
+강조형 헤드라인
+
+
+
+
+
+
+
+Heading 1
+
+
+
+
+	
+
+Medium, Bold
+
+	
+
+32px (2.133rem)
+
+	
+
+148%
+
+	
+
+페이지 상위 제목
+
+
+
+
+
+
+
+Heading 2
+
+
+
+
+	
+
+Medium, Bold
+
+	
+
+24px (1.6rem)
+
+	
+
+148%
+
+	
+
+하위 제목
+
+
+
+
+
+
+
+Heading 3
+
+
+
+
+	
+
+Medium, Bold
+
+	
+
+22px (1.47rem)
+
+	
+
+148%
+
+	
+
+소제목, 그룹 제목
+
+
+
+
+
+
+
+Title 1
+
+
+
+
+	
+
+Medium, Bold
+
+	
+
+20px (1.33rem)
+
+	
+
+148%
+
+	
+
+콘텐츠 타이틀
+
+
+
+
+
+
+
+Title 2
+
+
+
+
+	
+
+Medium, Semibold, Bold
+
+	
+
+18px (1.2rem)
+
+	
+
+148%
+
+	
+
+서브 페이지 제목
+
+
+
+
+
+
+
+Body 1
+
+
+
+
+	
+
+Regular, Medium, Semibold, Bold
+
+	
+
+16px (1.07rem)
+
+	
+
+148% / 170%
+
+	
+
+본문 텍스트 (PC 권장)
+
+
+
+
+
+
+
+Body 2
+
+
+
+
+	
+
+Regular, Medium, Semibold, Bold
+
+	
+
+15px (1rem)
+
+	
+
+148% / 158%
+
+	
+
+본문 텍스트
+
+
+
+
+
+
+
+Body 3
+
+
+
+
+	
+
+Regular, Medium, Semibold, Bold
+
+	
+
+14px (0.933rem)
+
+	
+
+148% / 158%
+
+	
+
+본문 소형 텍스트
+
+
+
+
+
+
+
+Label 1
+
+
+
+
+	
+
+Medium
+
+	
+
+17px (1.133rem)
+
+	
+
+148%
+
+	
+
+버튼 라벨 (PC 권장)
+
+
+
+
+
+
+
+Label 2
+
+
+
+
+	
+
+SemiBold
+
+	
+
+15px (1rem)
+
+	
+
+148%
+
+	
+
+버튼, 입력 폼
+
+
+
+
+
+
+
+Label 3
+
+
+
+
+	
+
+Medium, Semibold
+
+	
+
+13px (0.87rem)
+
+	
+
+148%
+
+	
+
+입력 레이블
+
+
+
+
+
+
+
+Label 4
+
+
+
+
+	
+
+Medium, Semibold, Bold
+
+	
+
+10px (0.625rem)
+
+	
+
+Auto
+
+	
+
+바텀 아이콘 레이블
+
+
+
+
+
+
+
+Caption
+
+
+
+
+	
+
+Medium, SemiBold
+
+	
+
+12px (0.8rem)
+
+	
+
+148%
+
+	
+
+툴팁, 보조 설명
+
+
+
+
+Spec
+Responsive
+
+화면 크기에 따라 폰트 스타일이 자동으로 전환되며, 모바일과 PC 환경에서 시각 위계를 유지합니다.
+
+Size
+
+레이블, 본문과 같은 정보성 텍스트에는 15사이즈를 사용하여 가독성을 높입니다.
+
+Line-height
+
+줄 간격은 기본 148%로 사용하며, 글줄이 많고 장문을 읽어야 하는 경우 170%로 사용하여 가독성을 높입니다.
+
+
+
+
+Use Case
+Help us improve
+Copyright© KT Corp. All rights reserved.
+
+## Tokens
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Typography
+
+효율적인 정보 전달을 위한 타이포그래피 사용 기준입니다.
+
+폰트, 크기, 굵기, 행간 등을 표준화하여 효율적으로 정보를 전달합니다.
+
+Usage
+Tokens
+Primitive Token
+Table view
+JSON
+font-size.60
+60
+font-size.40
+40
+font-size.36
+36
+font-size.32
+32
+font-size.24
+24
+font-size.22
+22
+font-size.20
+20
+font-size.18
+18
+font-size.17
+17
+font-size.16
+16
+font-size.15
+15
+font-size.14
+14
+font-size.13
+13
+font-size.12
+12
+font-size.10
+10
+font-weight.bold
+700
+font-weight.semibold
+600
+font-weight.medium
+500
+font-weight.regular
+400
+line-height.default
+148%
+line-height.reading-1
+170%
+line-height.reading-2
+158%
+line-height.reading-3
+130%
+font-family.kt flow
+kt flow
+font-family.pretendard
+Pretendard
+
+
+
+
+Semantic Token
+Table view
+JSON
+text.display.xlarge
+{font-size.60}
+text.display.large
+{font-size.40}
+text.display.medium
+{font-size.36}
+text.heading.large
+{font-size.32}
+text.heading.medium
+{font-size.24}
+text.heading.small
+{font-size.22}
+text.title.large
+{font-size.20}
+text.title.medium
+{font-size.18}
+text.title.small
+{font-size.16}
+text.body.large
+{font-size.16}
+text.body.medium
+{font-size.15}
+text.body.small
+{font-size.14}
+text.label.large
+{font-size.17}
+text.label.medium
+{font-size.15}
+text.label.small
+{font-size.13}
+text.label.xsmall
+{font-size.10}
+text.caption.medium
+{font-size.12}
+Help us improve
+Copyright© KT Corp. All rights reserved.

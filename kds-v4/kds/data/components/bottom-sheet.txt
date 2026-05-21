@@ -1,0 +1,86 @@
+# bottom-sheet
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Bottom Sheet
+
+현재 화면의 맥락을 유지하면서 연관 정보를 확인하고 상호작용할 수 있습니다.
+
+불필요한 화면 전환을 최소화할 수 있습니다.
+
+Anatomy
+
+Dim
+
+Container
+
+Header Area
+
+Content Area
+
+Footer Area
+
+Close Button
+
+
+
+
+
+
+
+Type
+
+추가적으로 많은 내용을 제공해야 할 때 바텀시트를 사용합니다.
+업무 단계에서는 불필요한 화면 전환을 줄이고 현재 화면을 유지할 수 있습니다.
+
+
+
+
+State
+
+내용이 길어질 경우 고정된 높이 내 스크롤이 발생하며 헤더와 푸터 영역은 고정됩니다.
+
+
+
+
+Spec
+1. Container
+
+최대 높이는 디바이스 높이의 90%입니다.
+
+2. Header Text
+
+
+
+
+Template
+통신사 선택 / 약관 동의
+Help us improve
+Copyright© KT Corp. All rights reserved.

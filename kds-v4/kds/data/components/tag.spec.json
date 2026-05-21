@@ -1,0 +1,123 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "tag",
+  "version": "1.0",
+  "source": "kds/data/components/tag/01~13.jpg",
+  "description": "항목의 상태를 쉽고 빠르게 인식할 수 있도록 돕습니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container", "required": true },
+    { "id": 2, "name": "Label",     "required": true }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["membership", "status", "category"],
+      "default": "status",
+      "spec": "tag/03, 06, 07",
+      "note": "membership=서비스 등급, status=진행/완료/주의, category=카테고리/속성"
+    },
+    "style": {
+      "values": ["fill", "dot", "text"],
+      "default": "fill",
+      "spec": "tag/05, 11",
+      "note": "fill=배경 채워진 박스, dot=색 동그라미+텍스트, text=색 텍스트만"
+    },
+    "statusType": {
+      "values": ["default", "in-progress", "positive", "complete", "disabled", "warning", "critical", "info", "custom-a", "custom-b"],
+      "appliesTo": ["status"],
+      "spec": "tag/11",
+      "note": "각 statusType 별 색 매핑 (Fill/Text/Dot 공통)"
+    },
+    "membershipType": {
+      "values": ["vvip", "vip", "gold", "silver", "white", "basic", "all"],
+      "appliesTo": ["membership"],
+      "spec": "tag/03"
+    },
+    "categoryType": {
+      "values": ["basic", "new", "hot", "recommend", "sale"],
+      "appliesTo": ["category"],
+      "spec": "tag/07"
+    }
+  },
+
+  "sizes": {
+    "spec": "tag/09",
+    "tokens": {
+      "Large":  { "height": 24 },
+      "Medium": { "height": 20 },
+      "Small":  { "height": 18 }
+    },
+    "default": "Medium"
+  },
+
+  "placement": {
+    "spec": "tag/10",
+    "gap": 4,
+    "context": ["product-card", "user-name", "robot-card"],
+    "note": "상품 카드·사용자 이름·아이템 카드 옆에 가로 배열. 여러 tag 가 동시에 표시될 수 있음"
+  },
+
+  "colorMatrix": {
+    "spec": "tag/11",
+    "status": {
+      "default":     { "fill": "fill.secondary-01",         "label": "text.tertiary-01",          "dot": "icon.tertiary-01" },
+      "in-progress": { "fill": "tag.status.fill.info",      "label": "tag.status.text.info",      "dot": "tag.status.text.info",      "note": "blue tone" },
+      "positive":    { "fill": "tag.status.fill.positive",  "label": "tag.status.text.positive",  "dot": "tag.status.text.positive",  "note": "green tone" },
+      "complete":    { "fill": "fill.primary",              "label": "text.inverse",              "dot": "fill.primary",              "note": "black" },
+      "disabled":    { "fill": "fill.disabled-01",          "label": "text.disabled-01",          "dot": "icon.disabled-01" },
+      "warning":     { "fill": "tag.status.fill.warning",   "label": "tag.status.text.warning",   "dot": "tag.status.text.warning",   "note": "orange tone" },
+      "critical":    { "fill": "tag.category.fill.sale",    "label": "text.feedback-critical-01", "dot": "text.feedback-critical-01", "note": "red tone — fill.feedback-critical-hover 도 가능" },
+      "info":        { "fill": "tag.category.fill.hot",     "label": "text.feedback-info-01",     "dot": "text.feedback-info-01",     "note": "teal/blue tone" }
+    },
+    "membership": {
+      "vvip":   { "fill": "fill.accent-primary", "label": "text.inverse" },
+      "vip":    { "fill": "fill.primary",        "label": "text.inverse" },
+      "gold":   { "fill": "tag.membership.fill.gold",   "label": "text.inverse" },
+      "silver": { "fill": "tag.membership.fill.silver", "label": "text.inverse" },
+      "white":  { "fill": "fill.secondary-01",   "label": "text.primary" },
+      "basic":  { "fill": "fill.disabled-01",    "label": "text.tertiary-01" },
+      "all":    { "fill": "link.link-primary",   "label": "text.inverse" }
+    },
+    "category": {
+      "basic":     { "fill": "tag.category.fill.basic",     "label": "tag.category.text.basic" },
+      "new":       { "fill": "tag.category.fill.new",       "label": "tag.category.text.new" },
+      "hot":       { "fill": "tag.category.fill.hot",       "label": "tag.category.text.hot" },
+      "recommend": { "fill": "tag.category.fill.recommend", "label": "tag.category.text.recommend" },
+      "sale":      { "fill": "tag.category.fill.sale",      "label": "tag.category.text.sale" }
+    }
+  },
+
+  "radius": {
+    "default": "radius.4",
+    "note": "tag 는 작은 사각형 라운드 — chip 의 pill 과 구분"
+  },
+
+  "padding": {
+    "horizontal": 6,
+    "note": "Label 좌우 padding"
+  },
+
+  "rules": [
+    {
+      "id": "concise-label",
+      "severity": "warning",
+      "spec": "tag/12",
+      "do": "tag 레이블은 간략하게 작성합니다.",
+      "dont": "tag 레이블을 길게 작성하지 않습니다.",
+      "example": { "ok": "MD 추천", "ng": "MD가 강력 추천하는 상품입니다" }
+    },
+    {
+      "id": "semantic-color",
+      "severity": "warning",
+      "spec": "tag/13",
+      "do": "의미에 맞는 색상을 사용합니다.",
+      "dont": "의미와 맞지 않는 색상을 사용하지 않습니다 (예: '호출 중'·'충전 필요' 같이 의미가 명백히 다른 두 상태는 다른 색)"
+    }
+  ],
+
+  "lintHints": {
+    "heightTokenSet": [18, 20, 24],
+    "componentNameKeywords": ["tag", "badge", "label-tag"]
+  }
+}

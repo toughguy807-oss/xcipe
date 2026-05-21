@@ -1,0 +1,108 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "text-field",
+  "version": "1.0",
+  "source": "kds/data/components/text-field/01~15.jpg",
+  "description": "사용자의 의도에 따라 데이터를 수집하고, 입력 과정 전반에 걸쳐 피드백과 안내를 제공합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container",   "required": true },
+    { "id": 2, "name": "Placeholder", "required": false, "note": "값 없을 때 입력 가이드" },
+    { "id": 3, "name": "Label",       "required": false, "note": "two-line 변형에서 상단에 표시" },
+    { "id": 4, "name": "Input Text",  "required": true },
+    { "id": 5, "name": "Clear Icon",  "required": false, "note": "값 있을 때 표시. Typing/Complete/Error 상태" },
+    { "id": 6, "name": "Helper Text", "required": false, "note": "Container 아래. 가이드 또는 에러 메시지" }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["text-input", "text-area"],
+      "default": "text-input",
+      "spec": "text-field/01, 03, 04"
+    },
+    "textAreaSubtype": {
+      "values": ["default", "count"],
+      "appliesTo": ["text-area"],
+      "note": "count 는 우측 하단에 글자수 카운터 (예: 8/50)",
+      "spec": "text-field/04"
+    },
+    "labelLayout": {
+      "values": ["no-label", "two-line"],
+      "default": "no-label",
+      "note": "two-line 은 Label 이 컨테이너 안 상단, Input 이 아래에 배치되는 floating 형태",
+      "spec": "text-field/01, 06"
+    },
+    "state": {
+      "values": ["default", "focused", "typing", "complete", "error", "read-only", "disabled"],
+      "default": "default",
+      "spec": "text-field/05"
+    }
+  },
+
+  "sizes": {
+    "spec": "text-field/06",
+    "tokens": {
+      "TextField":         { "minHeight": 52,  "note": "no-label" },
+      "TextFieldTwoLine":  { "minHeight": 68,  "note": "two-line (Label + Input)" },
+      "TextArea":          { "minHeight": 100, "note": "multi-line input" }
+    },
+    "default": "TextField"
+  },
+
+  "width": {
+    "spec": "text-field/07, 08, 09",
+    "policies": {
+      "flexible": {
+        "description": "가용 폭에 맞춰 확장. 좌우 화면 padding 안",
+        "sidePadding": { "default": 20 }
+      },
+      "fixed": {
+        "description": "320 해상도 모바일에서 212px, PC 컨테이너 폼에서 610px",
+        "examples": { "mobile-320": 212, "web-pc-container": 610 }
+      }
+    }
+  },
+
+  "colorMatrix": {
+    "spec": "text-field/05",
+    "note": "state 별 border/fill/text 토큰 매핑",
+    "default":  { "fill": "background.default", "border": "border.primary-01",       "label": "text.secondary-01", "placeholder": "text.tertiary-01", "input": "text.primary" },
+    "focused":  { "fill": "background.default", "border": "border.primary-focused",  "label": "text.secondary-01", "placeholder": "text.tertiary-01", "input": "text.primary" },
+    "typing":   { "fill": "background.default", "border": "border.primary-focused",  "label": "text.secondary-01", "placeholder": "text.tertiary-01", "input": "text.primary" },
+    "complete": { "fill": "background.default", "border": "border.primary-01",       "label": "text.secondary-01", "placeholder": "text.tertiary-01", "input": "text.primary" },
+    "error":    { "fill": "background.default", "border": "border.feedback-critical","label": "text.secondary-01", "placeholder": "text.tertiary-01", "input": "text.primary", "helper": "text.feedback-critical-01" },
+    "read-only":{ "fill": "fill.disabled-01",   "border": "border.disabled-01",      "label": "text.secondary-01", "placeholder": "text.tertiary-01", "input": "text.primary" },
+    "disabled": { "fill": "fill.disabled-01",   "border": "border.disabled-01",      "label": "text.disabled-01",  "placeholder": "text.disabled-01", "input": "text.disabled-01" }
+  },
+
+  "rules": [
+    {
+      "id": "placeholder-specific",
+      "severity": "warning",
+      "spec": "text-field/11, 14",
+      "do": "플레이스홀더에는 입력해야 할 내용을 구체적 예시로 안내합니다.",
+      "dont": "불명확하거나 포괄적인 플레이스홀더로 혼란을 주지 않습니다.",
+      "example": { "ok": "abcd@kt.com", "ng": "이메일을 작성하세요" }
+    },
+    {
+      "id": "error-actionable",
+      "severity": "warning",
+      "spec": "text-field/12",
+      "do": "오류 발생 시 해결 방법과 다음 조치를 명확히 안내합니다.",
+      "dont": "오류 내용을 모호하게 안내하지 않습니다.",
+      "example": { "ok": "4자리 이상 연속된 숫자는 사용할 수 없어요.", "ng": "비밀번호를 다시 확인해 주세요." }
+    },
+    {
+      "id": "helper-and-error-exclusive",
+      "severity": "error",
+      "spec": "text-field/13",
+      "do": "헬퍼 텍스트는 목적에 맞게 작성합니다.",
+      "dont": "헬퍼 텍스트와 에러 메시지를 동시에 표시하지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "heightTokenSet": [52, 68, 100],
+    "componentNameKeywords": ["text-field", "textfield", "input", "text-area", "textarea"]
+  }
+}

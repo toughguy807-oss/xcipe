@@ -1,0 +1,94 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "tab",
+  "version": "1.0",
+  "source": "kds/data/components/tab/01~08.jpg",
+  "description": "동일한 맥락 속에서 섹션을 원활하게 오가며 탐색할 수 있습니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Label",               "required": true },
+    { "id": 2, "name": "Selection Indicator", "required": true, "note": "선택된 탭 하단 underline" },
+    { "id": 3, "name": "Divider",             "required": true, "note": "탭 전체 하단 구분선" }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["fixed", "scrollable"],
+      "default": "fixed",
+      "spec": "tab/02, 03, 05",
+      "note": "fixed=화면 너비 균등 분할 (2/3/4/5 column). scrollable=항목 많을 때 가로 스크롤"
+    },
+    "columns": {
+      "values": [2, 3, 4, 5],
+      "appliesTo": ["fixed"],
+      "spec": "tab/05",
+      "note": "각 탭 폭 = (Flexible Width / N)"
+    },
+    "state": {
+      "values": ["default", "selected", "disabled"],
+      "default": "default",
+      "spec": "tab/04"
+    }
+  },
+
+  "sizes": {
+    "spec": "tab/05",
+    "tokens": {
+      "Default": { "height": 48 }
+    },
+    "default": "Default"
+  },
+
+  "width": {
+    "spec": "tab/05, 06",
+    "fixed": {
+      "policy": "flexible",
+      "perTab": "1/N (column 균등 분할)"
+    },
+    "scrollable": {
+      "policy": "natural",
+      "sidePadding": { "default": 20 },
+      "tabGap": 16,
+      "labelPadding": { "left": 12, "right": 12 },
+      "maxLabelWidth": { "mobile-430": 191, "mobile-360": 156, "mobile-320": 136 }
+    }
+  },
+
+  "colorMatrix": {
+    "spec": "tab/04",
+    "default":  { "label": "text.tertiary-01", "indicator": "none",         "divider": "border.tertiary-01" },
+    "selected": { "label": "text.primary",     "indicator": "border.primary-pressed", "labelWeight": "bold", "divider": "border.tertiary-01" },
+    "disabled": { "label": "text.disabled-01", "indicator": "none",         "divider": "border.tertiary-01" }
+  },
+
+  "indicator": {
+    "spec": "tab/04, 05",
+    "thickness": 2,
+    "color": "border.primary-pressed",
+    "position": "bottom",
+    "note": "selected 탭 하단에만 부착 (탭 폭과 동일)"
+  },
+
+  "rules": [
+    {
+      "id": "label-max-10",
+      "severity": "warning",
+      "spec": "tab/07",
+      "do": "탭 레이블은 짧고 이해하기 쉽게 작성합니다.",
+      "dont": "레이블이 최대 10자를 초과하지 않습니다.",
+      "maxLength": 10
+    },
+    {
+      "id": "vertical-scroll-content",
+      "severity": "warning",
+      "spec": "tab/08",
+      "do": "탭 하위 콘텐츠는 세로 스크롤로 구성합니다.",
+      "dont": "탭 하위 콘텐츠를 가로 스크롤로 구성하여 혼란을 주지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "heightTokenSet": [48],
+    "componentNameKeywords": ["tab", "tabs", "tabbar", "tab-bar"]
+  }
+}

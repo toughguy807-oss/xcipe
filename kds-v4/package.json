@@ -1,0 +1,11 @@
+{
+  "name": "kds-design-bridge",
+  "private": true,
+  "scripts": {
+    "bridge": "node bridge-server.js",
+    "lint:kds": "node kds/lint.js to-figma"
+  },
+  "dependencies": {
+    "chokidar": "^5.0.0"
+  }
+}

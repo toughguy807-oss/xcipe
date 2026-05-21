@@ -1,0 +1,79 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "radio-button",
+  "version": "1.0",
+  "source": "kds/data/components/radio-button/01~05.jpg",
+  "description": "두 개 이상의 항목 중 하나만 선택할 수 있을 때 사용합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Radio Button", "required": true, "note": "원형 indicator" },
+    { "id": 2, "name": "Label",        "required": true }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["basic"],
+      "default": "basic",
+      "note": "radio-button 은 basic 단일 type"
+    },
+    "selected": {
+      "values": ["unselected", "selected"],
+      "default": "unselected",
+      "spec": "radio-button/03"
+    },
+    "state": {
+      "values": ["default", "hover", "disabled"],
+      "default": "default",
+      "spec": "radio-button/03",
+      "note": "hover 는 PC only"
+    }
+  },
+
+  "sizes": {
+    "spec": "radio-button/04",
+    "tokens": {
+      "Default": { "height": 46 }
+    },
+    "default": "Default"
+  },
+
+  "width": {
+    "spec": "radio-button/04",
+    "policies": {
+      "flexible": { "description": "가용 폭 채움", "sidePadding": { "default": 20 } }
+    }
+  },
+
+  "colorMatrix": {
+    "spec": "radio-button/03",
+    "unselected": {
+      "default":  { "border": "border.primary-01",       "fill": "background.default", "label": "text.primary" },
+      "hover":    { "border": "border.primary-hover-01", "fill": "background.default", "label": "text.primary" },
+      "disabled": { "border": "border.disabled-01",      "fill": "fill.disabled-01",   "label": "text.disabled-01" }
+    },
+    "selected": {
+      "default":  { "border": "fill.primary",       "fill": "fill.primary",       "dot": "icon.inverse", "label": "text.primary" },
+      "hover":    { "border": "fill.primary-hover", "fill": "fill.primary-hover", "dot": "icon.inverse", "label": "text.primary" },
+      "disabled": { "border": "fill.disabled-02",   "fill": "fill.disabled-02",   "dot": "icon.disabled-01", "label": "text.disabled-01" }
+    }
+  },
+
+  "radius": {
+    "indicator": "radius.circle"
+  },
+
+  "rules": [
+    {
+      "id": "vertical-layout",
+      "severity": "warning",
+      "spec": "radio-button/05",
+      "do": "선택 항목은 세로 배열을 권장합니다.",
+      "dont": "같은 그룹에서 세로와 가로 배열을 함께 사용하지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "heightTokenSet": [46],
+    "componentNameKeywords": ["radio", "radio-button", "radio-btn"]
+  }
+}

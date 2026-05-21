@@ -1,0 +1,71 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "tooltip",
+  "version": "1.0",
+  "source": "kds/data/components/tooltip/01~05.jpg",
+  "description": "특정 요소에 대한 도움말이나 부가 정보를 제공합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container",    "required": true },
+    { "id": 2, "name": "Text",         "required": true },
+    { "id": 3, "name": "Caret Tip",    "required": true,  "note": "anchor 요소를 가리키는 꼬리 (상/하/좌/우)" },
+    { "id": 4, "name": "Close Button", "required": false, "note": "Toggle 유형에서만. 'X' 아이콘" }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["toggle", "auto"],
+      "default": "toggle",
+      "spec": "tooltip/02, 03",
+      "note": "toggle=정보 안내 (light bg + close X). auto=강조 (dark bg, 3초 후 자동 닫힘 + 외부 클릭)"
+    },
+    "caretPosition": {
+      "values": ["top", "bottom", "left", "right"],
+      "default": "bottom",
+      "note": "anchor 요소 기준으로 어느 방향에 꼬리 — 보통 anchor 아래에 노출 시 꼬리 = top"
+    }
+  },
+
+  "size": {
+    "spec": "tooltip/04",
+    "maxWidth": 272,
+    "maxText": "최대 68자",
+    "padding": { "horizontal": 12, "vertical": 8 }
+  },
+
+  "colorMatrix": {
+    "spec": "tooltip/02, 03",
+    "toggle": { "fill": "background.default", "border": "border.tertiary-01", "text": "text.primary",  "close": "icon.tertiary-01", "elevation": "elevation.16-up" },
+    "auto":   { "fill": "fill.primary",       "border": "none",               "text": "text.inverse",  "elevation": "elevation.16-up" }
+  },
+
+  "caret": {
+    "size": { "width": 8, "height": 6 },
+    "color": "inherit-container-fill",
+    "note": "container 와 동일한 fill 로 그리기"
+  },
+
+  "radius": {
+    "default": "radius.8"
+  },
+
+  "interaction": {
+    "spec": "tooltip/02, 03",
+    "toggle": { "open": "anchor-tap", "close": ["close-button", "outside-tap"] },
+    "auto":   { "open": "anchor-mount or focus", "close": ["after-3s", "outside-tap"] }
+  },
+
+  "rules": [
+    {
+      "id": "text-only",
+      "severity": "error",
+      "spec": "tooltip/05",
+      "do": "tooltip 은 텍스트로만 정보를 제공합니다.",
+      "dont": "tooltip 내부에 버튼·링크·CTA 를 포함하지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "componentNameKeywords": ["tooltip", "tip", "info-tip"]
+  }
+}

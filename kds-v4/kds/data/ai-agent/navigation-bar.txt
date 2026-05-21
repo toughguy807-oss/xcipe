@@ -1,0 +1,79 @@
+# navigation-bar
+
+Styleguide secondary navigation
+
+AI Agent
+Principles
+Components
+Prompt Text Field
+Prompt Input
+Prompt Output
+Process Indicator
+Navigation Bar
+Context Panel
+Patterns
+Components
+Navigation Bar
+
+AI 기반 서비스나 특정 AI 기능 영역에서 핵심 기능에 빠르게 접근할 수 있습니다.
+
+대화 기록, 라이브러리, 프로젝트 등 AI의 특성을 반영한 기능과 설정을 제공합니다.
+
+Mobile
+Desktop
+Anatomy
+
+Toggle Button
+
+Agent Logo
+
+New Chat
+
+Search Chat
+
+Library (Optional)
+
+Archive (Optional)
+
+Project (Optional)
+
+Recent Chat
+
+Profile
+
+
+
+
+
+
+
+Type
+
+
+
+
+State
+1. Navigation Bar
+2. Scrolling
+
+사용 빈도와 맥락 전환 중요도가 높은 핵심 메뉴는 고정 영역으로 배치하며,
+과거 기록 탐색을 목적으로 하는 히스토리성 메뉴는 스크롤 영역으로 구성합니다.
+
+3. Bottom Sheet
+
+
+
+
+Spec
+Agent & Project
+
+생성된 프로젝트 갯수가 4개 이상일 경우 더 보기 버튼이 노출됩니다.
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

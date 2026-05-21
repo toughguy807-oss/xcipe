@@ -1,0 +1,85 @@
+# indicator
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Indicator
+
+프로세스의 진행 상황 및 정보의 현재 위치를 안내합니다.
+
+Anatomy
+
+Active
+
+Inactive
+
+Container
+
+Current Number
+
+Total Number
+
+Controller (Optional)
+
+
+
+
+
+
+
+Type
+1. Dot Indicator
+
+이미지의 내부 또는 외부에 모두 활용할 수 있습니다.
+
+2. Number Indicator
+3. Progress Indicator
+
+
+
+
+Spec
+1. Placement
+1. Dot Indicator
+2. Number Indicator
+3. Progress Indicator
+2. Responsive
+1. Dot Indicator
+2. Number Indicator
+
+
+
+
+Guideline
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

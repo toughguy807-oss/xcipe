@@ -1,0 +1,95 @@
+# text-field
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Text Field
+
+사용자의 의도에 따라 데이터를 수집하고,
+
+입력 과정 전반에 걸쳐 피드백과 안내를 제공합니다.
+
+Anatomy
+
+Container
+
+Placeholder
+
+Label
+
+Input Text
+
+Clear Icon
+
+Helper Text
+
+
+
+
+
+
+
+Type
+1. Text Input
+2. Text Area
+
+
+
+
+State
+
+
+
+
+Spec
+1. Container
+2. Label
+3. Responsive
+Mobile (0-767px)
+
+화면 너비에 맞춰 확장합니다.
+
+Tablet/Desktop (768-1920px 이상)
+
+최대 너비는 610px로 사용합니다.
+
+데스크톱 환경에서는 Label과 Text field를 분리하여 사용합니다.
+
+
+
+
+Guideline
+
+
+
+
+Template
+로그인
+Help us improve
+Copyright© KT Corp. All rights reserved.

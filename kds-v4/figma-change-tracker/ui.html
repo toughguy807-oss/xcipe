@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 12px;
+      color: #333;
+      background: #fff;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 12px 16px;
+      z-index: 10;
+    }
+
+    .header h1 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .header-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #888;
+      font-size: 11px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+      padding: 8px 16px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    button {
+      padding: 6px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fff;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    button:hover {
+      background: #f5f5f5;
+    }
+
+    .btn-export {
+      background: #18a0fb;
+      color: #fff;
+      border-color: #18a0fb;
+    }
+
+    .btn-export:hover {
+      background: #0d8ce0;
+    }
+
+    .btn-clear {
+      color: #e74c3c;
+      border-color: #e74c3c;
+    }
+
+    .btn-clear:hover {
+      background: #fef2f2;
+    }
+
+    .log-container {
+      padding: 8px 16px;
+    }
+
+    .log-empty {
+      text-align: center;
+      color: #aaa;
+      padding: 40px 0;
+      font-size: 12px;
+    }
+
+    .log-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .log-time {
+      color: #999;
+      font-size: 10px;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      white-space: nowrap;
+      min-width: 60px;
+      padding-top: 2px;
+    }
+
+    .log-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      white-space: nowrap;
+      min-width: 56px;
+      text-align: center;
+    }
+
+    .badge-CREATE { background: #dcfce7; color: #16a34a; }
+    .badge-DELETE { background: #fee2e2; color: #dc2626; }
+    .badge-PROPERTY_CHANGE { background: #dbeafe; color: #2563eb; }
+    .badge-STYLE_CREATE { background: #f3e8ff; color: #9333ea; }
+    .badge-STYLE_DELETE { background: #fce7f3; color: #db2777; }
+    .badge-STYLE_PROPERTY_CHANGE { background: #fef9c3; color: #a16207; }
+    .badge-BULK_CREATE { background: #bbf7d0; color: #15803d; }
+    .badge-BULK_DELETE { background: #fecaca; color: #b91c1c; }
+
+    .log-items {
+      margin-top: 4px;
+      padding: 6px 8px;
+      background: #fafafa;
+      border-radius: 4px;
+      font-size: 10px;
+      color: #666;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    .log-items .item {
+      display: flex;
+      gap: 6px;
+      padding: 1px 0;
+    }
+    .log-items .item-type {
+      color: #aaa;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      min-width: 70px;
+    }
+    .log-toggle {
+      cursor: pointer;
+      color: #2563eb;
+      font-size: 10px;
+      margin-top: 2px;
+      user-select: none;
+    }
+    .log-toggle:hover { text-decoration: underline; }
+    .log-parent {
+      color: #16a34a;
+      font-size: 10px;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      margin-top: 2px;
+    }
+
+    .log-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .log-name {
+      font-weight: 500;
+      word-break: break-word;
+    }
+
+    .log-detail {
+      color: #888;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .log-node-id {
+      color: #bbb;
+      font-size: 10px;
+      font-family: 'SF Mono', 'Menlo', monospace;
+    }
+
+    /* 시안 식별 칩 — 변경 로그 entry 의 상단에 표시 */
+    .screen-chip {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 10px;
+      background: #eef2ff;
+      color: #4f46e5;
+      font-size: 10px;
+      font-weight: 500;
+      margin-right: 4px;
+      vertical-align: 1px;
+    }
+
+    /* 시안 필터 영역 (buttons 영역 위에 표시) */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      background: #fafbfd;
+      font-size: 11px;
+      color: #666;
+    }
+    .filter-bar label {
+      font-weight: 500;
+      color: #444;
+      white-space: nowrap;
+    }
+    .filter-bar select {
+      flex: 1;
+      min-width: 0;
+      padding: 4px 8px;
+      border: 1px solid #d9dbde;
+      border-radius: 6px;
+      background: #fff;
+      font-size: 11px;
+      color: #333;
+      cursor: pointer;
+    }
+    .filter-bar select:hover { border-color: #b9bcc2; }
+    body.minimized .filter-bar { display: none; }
+
+    /* JSON 미리보기 모달 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 100;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 8px;
+      width: 90%;
+      max-height: 80%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .modal-header h2 {
+      font-size: 13px;
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow: auto;
+      padding: 12px;
+    }
+
+    .modal-body pre {
+      font-size: 10px;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    /* 최소화 상태 */
+    .mini-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+    .mini-bar .mini-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .mini-bar .mini-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .mini-bar .mini-count {
+      font-size: 11px;
+      color: #888;
+    }
+
+    body.minimized .mini-bar {
+      display: flex;
+    }
+
+    body.minimized .header,
+    body.minimized .buttons,
+    body.minimized .log-container,
+    body.minimized .modal-overlay {
+      display: none;
+    }
+
+    .btn-minimize {
+      border: none;
+      background: none;
+      font-size: 14px;
+      cursor: pointer;
+      color: #999;
+      padding: 0 4px;
+    }
+
+    .btn-minimize:hover {
+      color: #333;
+      background: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 최소화 상태 바 -->
+  <div class="mini-bar" id="mini-bar">
+    <div class="mini-left">
+      <div class="mini-dot"></div>
+      <span>감지 중</span>
+    </div>
+    <span class="mini-count" id="mini-count">0건</span>
+  </div>
+
+  <div class="header">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h1>Change Tracker</h1>
+      <button class="btn-minimize" id="btn-minimize" title="최소화">&#8722;</button>
+    </div>
+    <div class="header-info">
+      <div class="status">
+        <div class="status-dot"></div>
+        <span>변경 감지 중</span>
+      </div>
+      <span id="count">0건</span>
+    </div>
+  </div>
+
+  <div class="buttons" style="flex-wrap:wrap;">
+    <button class="btn-export" id="btn-import">Claude에서 불러오기</button>
+    <button class="btn-export" id="btn-send">Claude로 보내기</button>
+    <button id="btn-export">JSON 저장</button>
+    <button class="btn-clear" id="btn-clear">로그 초기화</button>
+    <span id="bridge-status" style="font-size:10px;color:#999;margin-left:auto;align-self:center;">●</span>
+  </div>
+
+  <div class="filter-bar">
+    <label for="screen-filter">보낼 범위</label>
+    <select id="screen-filter">
+      <option value="auto">선택 프레임 기준 (자동)</option>
+      <option value="all">전체 (모든 변경)</option>
+    </select>
+    <span id="selection-hint" style="font-size:10px;color:#666;white-space:nowrap;"></span>
+  </div>
+
+  <div class="log-container" id="log-container">
+    <div class="log-empty" id="log-empty">
+      피그마에서 요소를 수정하면 여기에 변경 로그가 표시됩니다.
+    </div>
+  </div>
+
+  <!-- JSON 내보내기 모달 -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>JSON 내보내기</h2>
+        <button id="modal-close" style="border:none;background:none;font-size:16px;cursor:pointer;">&times;</button>
+      </div>
+      <div class="modal-body">
+        <pre id="json-preview"></pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-export" id="btn-copy">클립보드에 복사</button>
+        <button id="btn-download">파일로 저장</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const logContainer = document.getElementById('log-container');
+    const logEmpty = document.getElementById('log-empty');
+    const countEl = document.getElementById('count');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const jsonPreview = document.getElementById('json-preview');
+    const miniCount = document.getElementById('mini-count');
+
+    let count = 0;
+    let lastExportData = null;
+    const BRIDGE = 'http://localhost:3939';
+
+    async function checkBridge() {
+      const statusEl = document.getElementById('bridge-status');
+      try {
+        const r = await fetch(BRIDGE + '/health');
+        if (r.ok) { statusEl.style.color = '#22c55e'; statusEl.title = '브릿지 연결됨'; return true; }
+      } catch (e) {}
+      statusEl.style.color = '#e74c3c';
+      statusEl.title = '브릿지 서버 꺼짐 (node bridge-server.js)';
+      return false;
+    }
+    checkBridge();
+    setInterval(checkBridge, 5000);
+
+    const badgeLabels = {
+      'CREATE': 'CREATE',
+      'DELETE': 'DELETE',
+      'PROPERTY_CHANGE': 'CHANGE',
+      'STYLE_CREATE': 'STYLE+',
+      'STYLE_DELETE': 'STYLE-',
+      'STYLE_PROPERTY_CHANGE': 'STYLE~',
+      'BULK_CREATE': 'BULK+',
+      'BULK_DELETE': 'BULK-'
+    };
+
+    // 플러그인 코드에서 메시지 수신
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+
+      if (msg.type === 'new-change') {
+        addLogEntry(msg.entry);
+      }
+
+      if (msg.type === 'export-result') {
+        lastExportData = msg.data;
+        jsonPreview.textContent = JSON.stringify(msg.data, null, 2);
+        modalOverlay.classList.add('active');
+      }
+
+      if (msg.type === 'send-payload') {
+        sendToBridge(msg.data);
+      }
+
+      if (msg.type === 'import-result') {
+        // 성공 알림은 figma.notify로 이미 나감
+      }
+
+      if (msg.type === 'fetch-images') {
+        fetchImagesForPlugin(msg.requestId, msg.requests || []);
+      }
+
+      if (msg.type === 'log-cleared') {
+        logContainer.innerHTML = '';
+        logContainer.appendChild(logEmpty);
+        logEmpty.style.display = 'block';
+        count = 0;
+        countEl.textContent = '0건';
+      }
+
+      if (msg.type === 'screens-list') {
+        updateScreensList(msg.screens || []);
+      }
+
+      if (msg.type === 'selection-screen') {
+        updateSelectionHint(msg.screen);
+      }
+    };
+
+    function updateScreensList(screens) {
+      const sel = document.getElementById('screen-filter');
+      const prev = sel.value;
+      sel.innerHTML = '';
+      const autoOpt = document.createElement('option');
+      autoOpt.value = 'auto';
+      autoOpt.textContent = '선택 프레임 기준 (자동)';
+      sel.appendChild(autoOpt);
+      const allOpt = document.createElement('option');
+      allOpt.value = 'all';
+      allOpt.textContent = '전체 (모든 변경)';
+      sel.appendChild(allOpt);
+      for (const s of screens) {
+        const o = document.createElement('option');
+        o.value = s.nodeId;
+        const kdsTag = s.kdsId ? ' [' + s.kdsId + ']' : '';
+        o.textContent = s.name + kdsTag;
+        sel.appendChild(o);
+      }
+      // 이전 선택 복원 (해당 시안이 여전히 존재할 때) — 없으면 디폴트 'auto'
+      if (prev && Array.from(sel.options).some(o => o.value === prev)) {
+        sel.value = prev;
+      } else {
+        sel.value = 'auto';
+      }
+    }
+
+    function updateSelectionHint(screen) {
+      const hint = document.getElementById('selection-hint');
+      if (!hint) return;
+      if (screen && screen.screenName) {
+        const tag = screen.screenKdsId ? ' [' + screen.screenKdsId + ']' : '';
+        hint.textContent = '→ ' + screen.screenName + tag;
+        hint.style.color = '#4f46e5';
+      } else {
+        hint.textContent = '→ 선택 없음 (auto 시 전체로 폴백)';
+        hint.style.color = '#999';
+      }
+    }
+
+    function addLogEntry(entry) {
+      logEmpty.style.display = 'none';
+      count++;
+      countEl.textContent = `${count}건`;
+      miniCount.textContent = `${count}건`;
+
+      const el = document.createElement('div');
+      el.className = 'log-entry';
+
+      const name = entry.nodeName || entry.styleId || '';
+      const nodeId = entry.nodeId || entry.styleId || '';
+      const parentPath = entry.parentPath ? `<div class="log-parent">📂 ${escapeHtml(entry.parentPath)}</div>` : '';
+
+      let itemsHtml = '';
+      if (entry.items && entry.items.length) {
+        const listId = 'items-' + Math.random().toString(36).slice(2, 9);
+        const rows = entry.items.map(it =>
+          `<div class="item"><span class="item-type">${escapeHtml(it.type || '')}</span><span>${escapeHtml(it.name)}${it.childCount ? ` <span style="color:#aaa">(자식 ${it.childCount})</span>` : ''}</span></div>`
+        ).join('');
+        itemsHtml = `
+          <div class="log-toggle" data-target="${listId}">▸ ${entry.items.length}개 항목 보기</div>
+          <div class="log-items" id="${listId}" style="display:none;">${rows}</div>
+        `;
+      }
+
+      const screenChip = entry.screenName
+        ? `<span class="screen-chip" title="${escapeHtml(entry.screenKdsId || '')}">${escapeHtml(entry.screenName)}</span>`
+        : '';
+
+      el.innerHTML = `
+        <span class="log-time">${entry.timestamp}</span>
+        <span class="log-badge badge-${entry.type}">${badgeLabels[entry.type] || entry.type}</span>
+        <div class="log-content">
+          <div class="log-name">${screenChip}${escapeHtml(name)}</div>
+          <div class="log-detail">${escapeHtml(entry.detail)}</div>
+          ${parentPath}
+          ${itemsHtml}
+          <div class="log-node-id">${escapeHtml(nodeId)}</div>
+        </div>
+      `;
+
+      const toggle = el.querySelector('.log-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          const target = document.getElementById(toggle.dataset.target);
+          if (!target) return;
+          const open = target.style.display !== 'none';
+          target.style.display = open ? 'none' : 'block';
+          toggle.textContent = (open ? '▸ ' : '▾ ') + (entry.items.length) + '개 항목 보기';
+        });
+      }
+
+      // 최신 항목이 위에 오도록
+      if (logContainer.firstChild && logContainer.firstChild !== logEmpty) {
+        logContainer.insertBefore(el, logContainer.firstChild);
+      } else {
+        logContainer.appendChild(el);
+      }
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function currentScreenFilter() {
+      const sel = document.getElementById('screen-filter');
+      return sel ? sel.value : 'all';
+    }
+
+    // 버튼 이벤트
+    document.getElementById('btn-export').addEventListener('click', () => {
+      parent.postMessage({ pluginMessage: { type: 'export-json', screenFilter: currentScreenFilter() } }, '*');
+    });
+
+    // Claude에서 불러오기 — 브릿지에서 최신 디자인 JSON 가져옴
+    document.getElementById('btn-import').addEventListener('click', async () => {
+      const btn = document.getElementById('btn-import');
+      const original = btn.textContent;
+      btn.textContent = '불러오는 중…';
+      btn.disabled = true;
+      try {
+        const r = await fetch(BRIDGE + '/design');
+        if (!r.ok) {
+          const err = await r.json().catch(() => ({}));
+          alert('불러오기 실패: ' + (err.error || r.statusText));
+          return;
+        }
+        const payload = await r.json();
+        parent.postMessage({ pluginMessage: { type: 'import-design', design: payload.design } }, '*');
+      } catch (e) {
+        alert('브릿지 서버에 연결 실패. node bridge-server.js 실행 중인지 확인하세요.\n\n' + e.message);
+      } finally {
+        btn.textContent = original;
+        btn.disabled = false;
+      }
+    });
+
+    // Claude로 보내기 — 변경 로그를 브릿지로 POST
+    document.getElementById('btn-send').addEventListener('click', () => {
+      parent.postMessage({ pluginMessage: { type: 'send-to-bridge', screenFilter: currentScreenFilter() } }, '*');
+    });
+
+    // 초기 진입 시 시안 셀렉트 한 번 요청 (figma.on currentpagechange 만으로는 첫 진입에 트리거 안 됨)
+    parent.postMessage({ pluginMessage: { type: 'request-screens-list' } }, '*');
+
+    // 플러그인 main의 요청으로 이미지 배치 fetch (UI에만 fetch 있음)
+    async function fetchImagesForPlugin(requestId, requests) {
+      const results = await Promise.all(requests.map(async (req) => {
+        try {
+          // 상대 경로(예: /preview-assets/...)는 BRIDGE로 앞에 붙여서 resolve
+          const url = req.url && req.url.startsWith('/') ? BRIDGE + req.url : req.url;
+          const r = await fetch(url);
+          if (!r.ok) return { nodeId: req.nodeId, error: 'HTTP ' + r.status };
+          const buf = await r.arrayBuffer();
+          // Uint8Array는 postMessage 직렬화에서 동작 일관성이 떨어지므로 plain array로 변환
+          const bytes = Array.from(new Uint8Array(buf));
+          return { nodeId: req.nodeId, bytes };
+        } catch (e) {
+          return { nodeId: req.nodeId, error: String(e && e.message || e) };
+        }
+      }));
+      parent.postMessage({ pluginMessage: { type: 'images-loaded', requestId, results } }, '*');
+    }
+
+    async function sendToBridge(data) {
+      const btn = document.getElementById('btn-send');
+      const original = btn.textContent;
+      btn.textContent = '보내는 중…';
+      btn.disabled = true;
+      try {
+        const r = await fetch(BRIDGE + '/export', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!r.ok) throw new Error(await r.text());
+        const result = await r.json();
+        btn.textContent = '✓ 전송됨 (' + result.saved + ')';
+        setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 2000);
+      } catch (e) {
+        alert('전송 실패: ' + e.message);
+        btn.textContent = original;
+        btn.disabled = false;
+      }
+    }
+
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      if (confirm('변경 로그를 모두 삭제하시겠습니까?')) {
+        parent.postMessage({ pluginMessage: { type: 'clear-log' } }, '*');
+      }
+    });
+
+    document.getElementById('modal-close').addEventListener('click', () => {
+      modalOverlay.classList.remove('active');
+    });
+
+    document.getElementById('btn-copy').addEventListener('click', () => {
+      if (lastExportData) {
+        const text = JSON.stringify(lastExportData, null, 2);
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        document.getElementById('btn-copy').textContent = '복사 완료';
+        setTimeout(() => {
+          document.getElementById('btn-copy').textContent = '클립보드에 복사';
+        }, 1500);
+      }
+    });
+
+    document.getElementById('btn-download').addEventListener('click', () => {
+      if (lastExportData) {
+        const text = JSON.stringify(lastExportData, null, 2);
+        const blob = new Blob([text], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `change-log-${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('active');
+      }
+    });
+
+    // 최소화/복원
+    document.getElementById('btn-minimize').addEventListener('click', () => {
+      document.body.classList.add('minimized');
+      parent.postMessage({ pluginMessage: { type: 'minimize' } }, '*');
+    });
+
+    document.getElementById('mini-bar').addEventListener('click', () => {
+      document.body.classList.remove('minimized');
+      parent.postMessage({ pluginMessage: { type: 'expand' } }, '*');
+    });
+  </script>
+</body>
+</html>

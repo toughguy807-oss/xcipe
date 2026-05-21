@@ -1,0 +1,65 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "bottom-navigation",
+  "version": "1.0",
+  "source": "kds/data/components/bottom-navigation/01~05.jpg",
+  "description": "서비스의 핵심 기능을 빠르게 탐색할 수 있는 경로를 제공합니다. 아이콘과 텍스트를 사용하여 직관적으로 구성합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container", "required": true },
+    { "id": 2, "name": "Icon",      "required": true },
+    { "id": 3, "name": "Label",     "required": true },
+    { "id": 4, "name": "Divider",   "required": true, "note": "내비게이션 상단 1px 라인" }
+  ],
+
+  "variants": {
+    "columns": {
+      "values": [3, 4, 5],
+      "default": 4,
+      "spec": "bottom-navigation/04",
+      "note": "탭 수 (3~5). 각 탭 폭 = (Flexible Width / N)"
+    },
+    "state": {
+      "values": ["default", "selected", "disabled"],
+      "default": "default",
+      "spec": "bottom-navigation/03"
+    }
+  },
+
+  "sizes": {
+    "spec": "bottom-navigation/04",
+    "tokens": {
+      "Default": { "height": 56 }
+    },
+    "default": "Default"
+  },
+
+  "width": {
+    "spec": "bottom-navigation/04, 05",
+    "policy": "flexible",
+    "perTab": "1/N (column 균등 분할)",
+    "maxLabelWidthByViewport": { "mobile-430": 78, "mobile-360": 64, "mobile-320": 56 }
+  },
+
+  "colorMatrix": {
+    "spec": "bottom-navigation/03",
+    "default":  { "fill": "background.default", "icon": "icon.tertiary-01", "label": "text.tertiary-01", "topDivider": "border.tertiary-01" },
+    "selected": { "fill": "background.default", "icon": "icon.primary",     "label": "text.primary",     "topDivider": "border.tertiary-01", "labelWeight": "bold" },
+    "disabled": { "fill": "background.default", "icon": "icon.disabled-01", "label": "text.disabled-01", "topDivider": "border.tertiary-01" }
+  },
+
+  "iconSize": {
+    "default": 24
+  },
+
+  "placement": {
+    "context": "screen-bottom",
+    "anchor":  "bottom-edge",
+    "note": "iOS safe area 위, Android navigation bar 위에 부착"
+  },
+
+  "lintHints": {
+    "heightTokenSet": [56],
+    "componentNameKeywords": ["bottom-nav", "bottom-navigation", "tab-bar", "bnb"]
+  }
+}

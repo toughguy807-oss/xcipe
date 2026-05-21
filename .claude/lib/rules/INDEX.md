@@ -28,6 +28,7 @@
 | 20 | `lib/rules/vercel-wig.md` | **Vercel Web Interface Guidelines (외부 1급 표준 · snapshot SHA 핀)** · design-knowledge/layout/ui · publish-markup/style/interaction · qa-accessibility/performance · publish-visual-verify · §1-8 (Interactions/Animations/Layout/Content/Forms/Performance/Design/Copywriting) · **충돌 시 측정 가능 항목은 Vercel 우선, 미적 방향성은 자체 craft 우선** |
 | 21 | `lib/rules/command-vs-skill.md` | 신규 진입점 도입 검토 · command 신설 판단 · **외부 자료(claude-starter-kit/agent-skills/GitHub repo/블로그/타 AI 시스템) 패턴 차용 검토 시 의무 (§"외부 자료 차용 체크리스트" 4-Step)** · 기존 9 commands deprecation 결정 |
 | 22 | `lib/rules/agent-runtime.md` | 외부 멀티에이전트 패턴(AIMAX/Outworked/AgentOffice/CrewAI/Claude Office) 차용 검토 · Top 3 흡수(Cost Dashboard / 상태 6단계 / Crews-vs-Flows 2모드) 구현 착수 · "왜 흡수 안 했나" 질의 |
+| 23 | `lib/rules/kds-compare-template.md` | KDS 워크플로우 B (A/B/C 시안 비교) 작업 시 `<name>-compare.html` 생성 직전 · 외곽 grid·col-head·frame-wrap·row-axis 디폴트 템플릿 (2026-05-21 추가, KDS CLAUDE.md 라인 327·377-387 mirror) |
 
 ## Protected Rules (Archive 후보 제외)
 참조: `lib/rules/PROTECTED.md` — 안전 룰 9건 + 보호 스킬 4건 + 90일 미만 신규 자산 면제

@@ -1,0 +1,56 @@
+# 파일-분석
+
+Styleguide secondary navigation
+
+AI Agent
+Principles
+Components
+Patterns
+온보딩
+대화형 질의응답
+파일 분석
+이미지 생성
+음성입력
+Patterns
+파일 분석
+
+사용자가 업로드한 파일의 내용을 AI가 분석해 다양한 형식으로 가공하여 제공합니다.
+
+반복적이거나 오래 걸리는 작업을 대신 수행하여 사용 효율을 높입니다.
+
+Mobile
+Desktop
+Anatomy
+
+Prompt Text Field - File Upload (Document)
+
+Prompt Input
+
+Prompt Output
+
+Prompt Output - File
+
+
+
+
+
+
+
+Flow
+
+
+
+
+Related Components
+Prompt Text Field
+Prompt Input
+Prompt Output
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

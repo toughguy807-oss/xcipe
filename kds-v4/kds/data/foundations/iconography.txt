@@ -1,0 +1,138 @@
+# iconography
+
+## Usage
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Iconography
+
+효율적인 시각 언어로 소통하기 위한 아이콘 사용 기준입니다.
+
+기능과 정보를 직관적으로 전달하여 사용자의 인지 속도를 높입니다.
+
+Usage
+Tokens
+
+
+
+
+Style
+
+누구나 쉽게 이해할 수 있도록 간결하고 직관적인 형태로 제작합니다.
+
+Line
+
+기본형 아이콘으로 사용합니다.
+
+	
+Fill
+
+강조 요소에 사용합니다.
+
+
+
+	
+
+
+
+
+Grid
+
+모든 아이콘은 24px 사이즈를 기준으로 제작합니다. 2px의 여백을 유지하고, 20px의 영역 안에서 작업합니다.
+
+Size & Touch Area
+
+아이콘은 최소 12px 이상이어야 하며, 이보다 작은 크기는 제한됩니다. 또한 44px의 터치 영역을 확보합니다.
+
+24px
+	
+12px
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+Shape
+
+일관된 아이콘을 유지하기 위해 사이즈에 적합한 선 두께와 라운드 값을 사용합니다.
+
+Stroke
+
+2px를 기준으로 제작하며, 1.2~4px 범위에서 사용합니다.
+
+요소는 가운데 정렬로 배치합니다.
+
+	
+Round
+
+24px 아이콘 기준으로 2px 라운드 값을 사용합니다.
+
+End Point는 라운드를 사용합니다.
+
+
+
+
+
+
+
+	
+
+
+
+
+
+Placement
+Button
+	
+Select
+
+
+
+
+
+
+	
+
+
+
+
+
+
+Tooltip
+	
+Indicator
+
+
+
+
+
+
+	
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

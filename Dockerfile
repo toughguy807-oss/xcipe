@@ -22,6 +22,10 @@ COPY package.json package-lock.json* ./
 RUN npm ci --omit=dev --no-audit --no-fund \
  && npm cache clean --force
 
+# v25: KDS bridge-server 의존성 설치 (chokidar 등)
+COPY kds-v4/package.json kds-v4/package-lock.json* ./kds-v4/
+RUN cd kds-v4 && npm ci --omit=dev --no-audit --no-fund || npm install --omit=dev --no-audit --no-fund
+
 # Playwright Chromium + 시스템 의존성 한 번에
 RUN npx --yes playwright@1.59.1 install --with-deps chromium
 
@@ -44,6 +48,7 @@ WORKDIR /app
 
 # 의존성 복사
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/kds-v4/node_modules ./kds-v4/node_modules
 COPY --from=deps /root/.cache/ms-playwright /root/.cache/ms-playwright
 COPY --from=deps /usr/local/lib/node_modules/@anthropic-ai /usr/local/lib/node_modules/@anthropic-ai
 COPY --from=deps /usr/local/bin/claude /usr/local/bin/claude
@@ -53,19 +58,24 @@ COPY . .
 
 # Railway Volume mount point
 # DB_PATH=/app/data/eluo.db, output=/app/output 가 Volume 으로 매핑됨
-RUN mkdir -p /app/data /app/output /app/logs /app/tmp
+# kds-v4/to-figma, kds-v4/from-figma 도 Volume 권장 (디자이너 산출물 영속)
+RUN mkdir -p /app/data /app/output /app/logs /app/tmp \
+             /app/kds-v4/to-figma /app/kds-v4/from-figma /app/kds-v4/logs
 
 ENV NODE_ENV=production \
     PORT=3747 \
     DB_PATH=/app/data/eluo.db \
+    KDS_V4_ROOT=/app/kds-v4 \
+    KDS_BRIDGE_PORT=3939 \
     PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
 
 EXPOSE 3747
 
-# Healthcheck — /api/doctor 또는 / 로 응답 확인
-HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD curl -fsS http://localhost:3747/ || exit 1
+# Healthcheck — / 로 응답 확인 (xcipe Express). kds-bridge 는 /kds-bridge/health 로 확인 가능
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 CMD curl -fsS http://localhost:3747/ || exit 1
 
-# prestart의 bundle-claude.js는 ~/.claude 의존이라 컨테이너에서 스킵
-# (.claude/ 는 빌드 시점에 이미 번들됨)
-CMD ["node", "src/server.js"]
+# v25: 두 프로세스 동시 실행 — xcipe(3747) + kds-bridge(3939)
+#   - concurrently 가 SIGTERM 받으면 둘 다 정상 종료
+#   - kds-bridge 가 죽으면 xcipe 도 같이 죽어서 Railway 가 재배포 트리거
+#   - prestart bundle-claude.js 는 ~/.claude 의존이라 컨테이너에서 스킵 (.claude/ 빌드 시점 번들됨)
+CMD ["npx", "concurrently", "-k", "-n", "xcipe,kds-bridge", "-c", "blue,green", "node src/server.js", "node kds-v4/bridge-server.js"]

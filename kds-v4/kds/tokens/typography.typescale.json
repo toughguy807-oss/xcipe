@@ -1,0 +1,98 @@
+{
+  "display-1": {
+    "weight": "Medium, Bold",
+    "size": "60px",
+    "lineHeight": "130%",
+    "role": "최상위 헤드라인 (PC권장)"
+  },
+  "display-2": {
+    "weight": "Medium, Bold",
+    "size": "40px",
+    "lineHeight": "130%",
+    "role": "메인 타이틀 (PC 권장)"
+  },
+  "display-3": {
+    "weight": "Medium, Bold",
+    "size": "36px",
+    "lineHeight": "148%",
+    "role": "강조형 헤드라인"
+  },
+  "heading-1": {
+    "weight": "Medium, Bold",
+    "size": "32px",
+    "lineHeight": "148%",
+    "role": "페이지 상위 제목"
+  },
+  "heading-2": {
+    "weight": "Medium, Bold",
+    "size": "24px",
+    "lineHeight": "148%",
+    "role": "하위 제목"
+  },
+  "heading-3": {
+    "weight": "Medium, Bold",
+    "size": "22px",
+    "lineHeight": "148%",
+    "role": "소제목, 그룹 제목"
+  },
+  "title-1": {
+    "weight": "Medium, Bold",
+    "size": "20px",
+    "lineHeight": "148%",
+    "role": "콘텐츠 타이틀"
+  },
+  "title-2": {
+    "weight": "Medium, Semibold, Bold",
+    "size": "18px",
+    "lineHeight": "148%",
+    "role": "서브 페이지 제목"
+  },
+  "body-1": {
+    "weight": "Regular, Medium, Semibold, Bold",
+    "size": "16px",
+    "lineHeight": "148% / 170%",
+    "role": "본문 텍스트 (PC 권장)"
+  },
+  "body-2": {
+    "weight": "Regular, Medium, Semibold, Bold",
+    "size": "15px",
+    "lineHeight": "148% / 158%",
+    "role": "본문 텍스트"
+  },
+  "body-3": {
+    "weight": "Regular, Medium, Semibold, Bold",
+    "size": "14px",
+    "lineHeight": "148% / 158%",
+    "role": "본문 소형 텍스트"
+  },
+  "label-1": {
+    "weight": "Medium",
+    "size": "17px",
+    "lineHeight": "148%",
+    "role": "버튼 라벨 (PC 권장)"
+  },
+  "label-2": {
+    "weight": "SemiBold",
+    "size": "15px",
+    "lineHeight": "148%",
+    "role": "버튼, 입력 폼"
+  },
+  "label-3": {
+    "weight": "Medium, Semibold",
+    "size": "13px",
+    "lineHeight": "148%",
+    "role": "입력 레이블"
+  },
+  "label-4": {
+    "weight": "Medium, Semibold, Bold",
+    "size": "10px",
+    "lineHeight": "auto",
+    "role": "바텀 아이콘 레이블"
+  },
+  "caption": {
+    "weight": "Medium, SemiBold",
+    "size": "12px",
+    "lineHeight": "148%",
+    "role": "툴팁, 보조 설명"
+  }
+}

@@ -1,0 +1,45 @@
+# 재확인
+
+Styleguide secondary navigation
+
+UX Writing
+Principles
+활용 사례
+메시지 유형별 가이드
+완료
+재확인
+빈 화면
+거절
+오류
+메시지 유형별 가이드
+재확인
+
+액션 수행 전 사용자의 진행 의사를 다시 한 번 확인합니다.
+
+공통 가이드
+
+핵심 질문을 빠르게 인지할 수 있도록 가장 앞에 배치합니다.
+
+해요체를 사용합니다.
+
+
+
+
+
+
+
+Type
+1. 단순 확인
+
+사용자의 진행 의사만 재확인하는 유형입니다.
+
+2. 세부 사항 안내
+
+진행 전 반드시 알아야 할 제약 사항이나 추가 정보를 안내하는 유형입니다.
+
+
+
+
+Guideline
+Help us improve
+Copyright© KT Corp. All rights reserved.

@@ -1,0 +1,55 @@
+# context-panel
+
+Styleguide secondary navigation
+
+AI Agent
+Principles
+Components
+Prompt Text Field
+Prompt Input
+Prompt Output
+Process Indicator
+Navigation Bar
+Context Panel
+Patterns
+Components
+Context Panel
+
+현재 화면의 맥락을 유지하면서 AI 관련 정보, 기능을 제공합니다.
+
+불필요한 화면 전환을 최소화할 수 있습니다.
+
+Mobile
+Desktop
+Anatomy
+
+Title
+
+Content Area
+
+Close Button
+
+
+
+
+
+
+
+Type
+1. Reference
+
+URL 등 출처를 표시합니다. 부가적 정보 특성상 바텀시트로 제공합니다.
+
+2. Text Editor
+
+생성된 텍스트를 조회 · 편집합니다. 문서 작업 특성상 사이드 전체 화면으로 제공합니다.
+
+3. PDF Viewer
+
+첨부 · 생성된 PDF를 열람합니다. 문서 열람 특성상 사이드 전체 화면으로 제공합니다.
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

@@ -1,0 +1,120 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "popup",
+  "version": "1.0",
+  "source": "kds/data/components/popup/01~12.jpg",
+  "description": "사용자의 현재 작업 흐름을 일시적으로 중단하고, 중요한 정보를 전달하거나 필수적인 작업을 요청합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Dim",       "required": true, "note": "어두운 배경 overlay" },
+    { "id": 2, "name": "Container", "required": true },
+    { "id": 3, "name": "Title",     "required": true },
+    { "id": 4, "name": "Body",      "required": false },
+    { "id": 5, "name": "Button",    "required": true, "note": "1개 또는 2개" }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["center", "full", "expanded"],
+      "default": "center",
+      "spec": "popup/02, 03, 07",
+      "note": "center=가운데 작은 팝업, full=풀 화면 팝업 (X close), expanded=콘텐츠 영역 큰 팝업 (PC/태블릿)"
+    },
+    "layout": {
+      "values": ["title-only", "title-body-1btn", "title-body-2btn"],
+      "appliesTo": ["center"],
+      "spec": "popup/02"
+    }
+  },
+
+  "sizes": {
+    "spec": "popup/04, 06, 07",
+    "tokens": {
+      "Center1Line": { "minHeight": 140, "width": 320 },
+      "Center2Line": { "minHeight": 184, "width": 320 },
+      "CenterPC":    { "width": 400, "note": "PC/태블릿 중앙 정렬" },
+      "Expanded":    { "maxWidth": 610, "maxHeight": 800, "innerScroll": true }
+    }
+  },
+
+  "width": {
+    "spec": "popup/05, 06",
+    "mobile": { "policy": "flexible", "sidePadding": 40, "note": "화면 너비 안에서 자연 폭" },
+    "pc":     { "policy": "fixed", "value": 400, "note": "텍스트 중심 팝업은 400px" }
+  },
+
+  "colorMatrix": {
+    "spec": "popup/01, 02",
+    "default": {
+      "dim":       "dim.overlay",
+      "fill":      "background.default",
+      "title":     "text.primary",
+      "body":      "text.tertiary-01",
+      "elevation": "elevation.16-up"
+    }
+  },
+
+  "radius": {
+    "default": "radius.16"
+  },
+
+  "padding": {
+    "container": { "horizontal": 24, "vertical": 24 },
+    "titleBodyGap": 8,
+    "bodyButtonGap": 24,
+    "buttonGap": 8
+  },
+
+  "buttonLayout": {
+    "spec": "popup/02, 10",
+    "single":     { "width": "full" },
+    "twoButtons": { "split": "1/N + 1/N", "gap": 8, "positiveSide": "right" }
+  },
+
+  "interaction": {
+    "spec": "popup/01",
+    "dimDismiss": true,
+    "note": "Dim 터치 시 팝업 닫힘. (단, 필수 결정 팝업은 dim dismiss 비활성화 가능)"
+  },
+
+  "rules": [
+    {
+      "id": "clear-text-and-label",
+      "severity": "warning",
+      "spec": "popup/08",
+      "do": "팝업 텍스트와 버튼 레이블은 명확하게 작성합니다.",
+      "dont": "팝업 텍스트와 버튼 레이블을 모호하게 작성하지 않습니다."
+    },
+    {
+      "id": "one-popup-at-a-time",
+      "severity": "error",
+      "spec": "popup/09",
+      "do": "한 화면에서 팝업은 하나만 호출합니다.",
+      "dont": "팝업을 중첩하여 사용하지 않습니다."
+    },
+    {
+      "id": "positive-action-right",
+      "severity": "warning",
+      "spec": "popup/10",
+      "do": "긍정적 액션 버튼은 오른쪽에 배치합니다.",
+      "dont": "긍정적 액션 버튼을 왼쪽에 배치하지 않습니다."
+    },
+    {
+      "id": "include-cancel",
+      "severity": "warning",
+      "spec": "popup/11",
+      "do": "이전 화면으로 돌아갈 수 있는 버튼을 포함합니다.",
+      "dont": "사용자가 행동을 취소할 수 없도록 만들지 않습니다."
+    },
+    {
+      "id": "use-bottomsheet-for-long-content",
+      "severity": "info",
+      "spec": "popup/04",
+      "do": "내용이 많을 경우 팝업 대신 bottom-sheet 를 사용합니다."
+    }
+  ],
+
+  "lintHints": {
+    "componentNameKeywords": ["popup", "modal", "dialog", "alert"]
+  }
+}

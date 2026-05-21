@@ -1,0 +1,33 @@
+{
+  "breakpoints": {
+    "mobile": {
+      "min": 0,
+      "max": 767
+    },
+    "tablet": {
+      "min": 768,
+      "max": 1919
+    },
+    "desktop": {
+      "min": 1920,
+      "max": null
+    }
+  },
+  "grid": {
+    "mobile": {
+      "columns": 4,
+      "margin": 16,
+      "gutter": 8
+    },
+    "tablet": {
+      "columns": 8,
+      "margin": 24,
+      "gutter": 16
+    },
+    "desktop": {
+      "columns": 12,
+      "margin": "auto",
+      "gutter": 24
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "elevation.level.0": {
+    "reference": "{background.default}"
+  },
+  "elevation.level.1": {
+    "reference": "{surface.primary-01}"
+  },
+  "elevation.level.2": {
+    "reference": "{surface.primary-02}"
+  },
+  "elevation.level.3": {
+    "reference": "{surface.primary-03}"
+  },
+  "elevation.level.4": {
+    "reference": "{surface.primary-04}"
+  },
+  "shadow-1": {
+    "fill": "rgba(255, 255, 255, 1.0)",
+    "shadow": "0.0px 2.0px 4.0px 0px rgba(20, 20, 20, 0.1),0.0px 0.0px 2.0px 0px rgba(20, 20, 20, 0.05)"
+  },
+  "shadow-2": {
+    "fill": "rgba(255, 255, 255, 1.0)",
+    "shadow": "0.0px 4.0px 8.0px 0px rgba(20, 20, 20, 0.1),0.0px 0.0px 4.0px 0px rgba(20, 20, 20, 0.05)"
+  },
+  "shadow-3": {
+    "fill": "rgba(255, 255, 255, 1.0)",
+    "shadow": "0.0px 8.0px 12.0px 0px rgba(20, 20, 20, 0.2),0.0px 0.0px 8.0px 0px rgba(20, 20, 20, 0.05)"
+  }
+}

@@ -1,0 +1,50 @@
+# 입력-폼
+
+Styleguide secondary navigation
+
+Patterns
+Overview
+Common UI
+입력 폼
+약관 동의
+빈 화면
+유의사항
+Service Pattern
+Common UI
+입력 폼
+
+복잡한 입력 과정을 쉽게 완료할 수 있는 패턴을 제공합니다.
+
+Anatomy
+
+Text Field
+
+Checkbox
+
+Button
+
+Dropdown
+
+Divider
+
+
+
+
+
+
+
+Related Components
+Text Field
+Checkbox
+Button
+Dropdown
+Divider
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

@@ -169,11 +169,14 @@ railway variables set CORS_ORIGIN='https://xcipe.vercel.app,https://xcipe.eluocn
 
 ### Phase 1 잔존 이슈
 
-1. **`kds-bridge` (3939) 미배포 — 의도된 결정 (2026-05-21)**
-   - **이유 1**: `ecosystem.config.js`의 두 번째 앱은 사용자 PC `C:/Users/hj.moon/Downloads/AX_KDS_design system-v4/` 경로의 `bridge-server.js` 실행. **소스가 xcipe repo 밖**이라 컨테이너 빌드 시 COPY 할 코드 없음.
-   - **이유 2**: Figma 플러그인 manifest 의 `networkAccess.devAllowedDomains` 가 `http://localhost:3747` 로 고정. Railway 도메인을 호출하려면 manifest 변경 + 플러그인 재발행 필요.
-   - **사용자 결정 (2026-05-21)**: Figma 플러그인 연동은 **현재대로 로컬 PC PM2 운영 유지**. 클라우드 배포에서 분리.
-   - **알아둘 점**: `bridge` 핵심 API 자체는 `src/routes/bridge.js` 로 xcipe Express 안에 통합되어 있어, **xcipe `/bridge/*` 라우트는 Railway 에서도 동작**. 단 Figma 플러그인이 호출하지 못할 뿐.
+1. **`kds-bridge` (3939) 클라우드 통합 완료 (2026-05-21 후속)**
+   - **변경 전 결정**: kds-bridge 미배포 (외부 PC 경로 의존 + Figma manifest localhost 고정)
+   - **변경 후 (2026-05-21)**: kds-v4 폴더를 xcipe repo 에 통합 → Railway 컨테이너 안에서 xcipe(3747) + kds-bridge(3939) 동시 실행
+   - **연동 흐름**: 외부 → `https://railway-domain/kds-bridge/*` → xcipe Express proxy → `localhost:3939` → bridge-server.js
+   - **Dockerfile**: `concurrently -k` 로 두 프로세스 동시 실행 + SIGTERM 시 둘 다 정상 종료
+   - **Figma 플러그인 manifest 갱신**: `devAllowedDomains` 에 Railway 도메인 등록 → 디자이너가 Figma 데스크톱 → Plugins → Development → Import plugin from manifest 로 새로 import
+   - **플러그인 다운로드**: xcipe 도메인 `/kds-design` 페이지 → "Figma 플러그인" 버튼 → zip 다운로드 → 압축 풀고 manifest.json import
+   - **Volume 권장**: `/app/kds-v4/to-figma`, `/app/kds-v4/from-figma` 도 Railway Volume (디자이너 산출물 영속). Hobby plan 5GB 한도 안배 필요
 
 2. **AI Provider 분리 운영 — 의도된 결정 (2026-05-21)**
    - Railway: `AI_PROVIDER=mock` — UI/티켓/대시보드/관리/산출물 열람 게이트웨이

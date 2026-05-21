@@ -1,0 +1,43 @@
+# 온보딩
+
+Styleguide secondary navigation
+
+Patterns
+Overview
+Common UI
+Service Pattern
+온보딩
+검색
+시스템 상태
+Service Pattern
+온보딩
+
+서비스의 주요 기능과 사용 방법을 안내하는 패턴을 제공합니다.
+
+Anatomy
+
+Indicator
+
+Bottom Sheet
+
+Button
+
+
+
+
+
+
+
+Related Components
+Indicator
+Bottom Sheet
+Button
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

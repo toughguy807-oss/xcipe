@@ -1,0 +1,111 @@
+# 유의사항
+
+Styleguide secondary navigation
+
+Patterns
+Overview
+Common UI
+입력 폼
+약관 동의
+빈 화면
+유의사항
+Service Pattern
+Common UI
+유의사항
+
+서비스 이용 과정에서 인지해야 할 정보를 명확히 안내합니다.
+
+Anatomy
+
+Divider
+
+Dropdown
+
+
+
+
+
+
+
+유의사항 내 표기 구분
+
+문장 간 위계와 주의 수준을 시각적으로 구분하여 가독성과 명료성을 높입니다.
+
+기호
+
+	
+
+사용법
+
+	
+
+예시
+
+
+
+
+(불렛) 
+
+	
+
+일반 항목 구분
+
+	
+
+결제일 기준 3일 전 취소 가능
+
+
+
+
+- (하이픈)
+
+	
+
+하위 항목
+
+	
+
+- 적용 요금제: 5G 슬림 이상
+
+
+
+
+숫자
+
+	
+
+단계 구분
+
+	
+
+1. 신청서 작성 → 2. 결제 → 3. 완료
+
+
+
+
+텍스트 (강조)
+
+	
+
+블랙 컬러 + SemiBold 사용(600)
+
+	
+
+결제 후 환불은 불가합니다.                    
+데이터 초과 시 추가 요금이 발생합니다.
+
+
+
+
+Related Components
+Divider
+Dropdown
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

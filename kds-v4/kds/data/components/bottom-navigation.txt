@@ -1,0 +1,72 @@
+# bottom-navigation
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Bottom Navigation
+
+서비스의 핵심 기능을 빠르게 탐색할 수 있는 경로를 제공합니다.
+
+아이콘과 텍스트를 사용하여 직관적으로 구성합니다.
+
+Anatomy
+
+Container
+
+Divider
+
+Icon
+
+Label
+
+
+
+
+
+
+
+Type
+
+
+
+
+State
+
+
+
+
+Spec
+1. Container
+2. Label
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

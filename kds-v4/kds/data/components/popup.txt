@@ -1,0 +1,90 @@
+# popup
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Popup
+
+사용자의 현재 작업 흐름을 일시적으로 중단하고,
+
+중요한 정보를 전달하거나 필수적인 작업을 요청합니다.
+
+Anatomy
+
+Dim
+
+Container
+
+Title
+
+Body
+
+Button
+
+
+
+
+
+
+
+Type
+1. Center Popup
+2. Full Popup
+
+
+
+
+Spec
+1. Container
+
+팝업은 타이틀 2줄 입력까지는 최소 높이를 유지합니다.
+내용이 많을 경우에는 팝업 대신 바텀시트를 사용합니다.
+
+2. Overlay
+
+Dim을 터치하면 팝업이 닫힙니다.
+
+3. Responsive
+Mobile (0-767px)
+
+화면 너비에 맞춰 확장합니다.
+
+Tablet/Desktop (768-1920px 이상)
+
+텍스트 중심 팝업은 컨텐츠 영역을 최대 400px 너비로 중앙 정렬합니다.
+
+콘텐츠 노출이 필요한 경우 Expanded 팝업을 사용합니다.
+팝업은 최대 높이 800px까지 확장되며, 초과 시 내부 스크롤이 발생합니다.
+
+
+
+
+Guideline
+Help us improve
+Copyright© KT Corp. All rights reserved.

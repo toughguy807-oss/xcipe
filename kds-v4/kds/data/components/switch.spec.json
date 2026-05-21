@@ -1,0 +1,80 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "switch",
+  "version": "1.0",
+  "source": "kds/data/components/switch/01~07.jpg",
+  "description": "항목의 상태를 즉시 제어할 때 사용합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Track",  "required": true, "note": "배경 (pill 형태)" },
+    { "id": 2, "name": "Handle", "required": true, "note": "원형 노브 — on 일 때 오른쪽, off 일 때 왼쪽" }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["basic", "text"],
+      "default": "basic",
+      "spec": "switch/03",
+      "note": "text 는 트랙 안에 ON/OFF 텍스트 라벨"
+    },
+    "value": {
+      "values": ["off", "on"],
+      "default": "off",
+      "spec": "switch/04, 05"
+    },
+    "state": {
+      "values": ["default", "disabled"],
+      "default": "default",
+      "spec": "switch/04, 05",
+      "note": "switch 는 hover/pressed 상태가 spec 에 별도 없음"
+    }
+  },
+
+  "sizes": {
+    "spec": "switch/06",
+    "tokens": {
+      "Medium": { "height": 28 },
+      "Small":  { "height": 24 },
+      "XSmall": { "height": 20 }
+    },
+    "default": "Medium"
+  },
+
+  "colorMatrix": {
+    "spec": "switch/04, 05",
+    "off": {
+      "default":  { "track": "fill.secondary-01",   "handle": "switch-handle.fill-default" },
+      "disabled": { "track": "fill.disabled-01",    "handle": "switch-handle.fill-disabled" }
+    },
+    "on": {
+      "default":  { "track": "fill.feedback-info",  "handle": "switch-handle.fill-default", "trackLabel": "text.inverse" },
+      "disabled": { "track": "fill.feedback-info-disabled", "handle": "switch-handle.fill-disabled", "trackLabel": "text.inverse" }
+    }
+  },
+
+  "radius": {
+    "track":  "radius.circle",
+    "handle": "radius.circle"
+  },
+
+  "placement": {
+    "spec": "switch/02",
+    "context": "list-item",
+    "note": "주로 list-item 의 우측에 위치. label 좌측 + switch 우측 패턴"
+  },
+
+  "rules": [
+    {
+      "id": "concise-label",
+      "severity": "warning",
+      "spec": "switch/07",
+      "do": "스위치의 레이블/설명 텍스트를 간결하게 작성합니다.",
+      "dont": "불필요하게 길거나 의미가 모호하게 작성하지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "heightTokenSet": [20, 24, 28],
+    "componentNameKeywords": ["switch", "toggle"]
+  }
+}

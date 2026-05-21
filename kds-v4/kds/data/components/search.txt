@@ -1,0 +1,73 @@
+# search
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Search
+
+키워드 입력만으로 원하는 정보에 빠르게 도달할 수 있습니다.
+
+Anatomy
+
+Container
+
+Placeholder
+
+Search Icon
+
+
+
+
+
+
+
+Type
+1. Outline
+2. Underline
+
+
+
+
+State
+1. Outline
+2. Underline
+
+
+
+
+Spec
+1. Container
+2. Text
+
+
+
+
+Guideline
+Help us improve
+Copyright© KT Corp. All rights reserved.

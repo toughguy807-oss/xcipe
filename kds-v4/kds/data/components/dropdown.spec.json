@@ -1,0 +1,90 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "dropdown",
+  "version": "1.0",
+  "source": "kds/data/components/dropdown/01~08.jpg",
+  "description": "여러 항목 중 하나를 선택합니다. 화면 공간을 효율적으로 활용할 수 있습니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container",     "required": true },
+    { "id": 2, "name": "Label",         "required": true,  "note": "Complete 상태에서 상단에 작게, 아래 선택값" },
+    { "id": 3, "name": "Dropdown Icon", "required": true,  "note": "chevron-down (열림 시 chevron-up)" }
+  ],
+
+  "variants": {
+    "state": {
+      "values": ["default", "focused", "complete", "error", "disabled"],
+      "default": "default",
+      "spec": "dropdown/04"
+    },
+    "openInteraction": {
+      "values": ["mobile-bottom-sheet", "desktop-inline-menu"],
+      "spec": "dropdown/02, 03, 08",
+      "note": "모바일 = 선택 시 bottom-sheet 로 옵션 표시 (radio-button 리스트). 데스크탑 = 인라인 dropdown 메뉴로 펼침"
+    }
+  },
+
+  "sizes": {
+    "spec": "dropdown/05",
+    "tokens": {
+      "Default": { "height": 52 }
+    },
+    "default": "Default"
+  },
+
+  "width": {
+    "spec": "dropdown/05, 06, 07",
+    "policies": {
+      "flexible": {
+        "description": "모바일에서 가용 폭 채움",
+        "sidePadding": { "default": 20 }
+      },
+      "fixed": {
+        "description": "태블릿/데스크탑 폼에서 최대 610px",
+        "examples": { "web-pc-container": 610 }
+      }
+    }
+  },
+
+  "colorMatrix": {
+    "spec": "dropdown/04",
+    "default":  { "fill": "background.default", "border": "border.primary-01",       "label": "text.tertiary-01",  "icon": "icon.primary" },
+    "focused":  { "fill": "background.default", "border": "border.primary-focused",  "label": "text.tertiary-01",  "icon": "icon.primary" },
+    "complete": { "fill": "background.default", "border": "border.primary-01",       "label": "text.secondary-01", "value": "text.primary", "icon": "icon.primary" },
+    "error":    { "fill": "background.default", "border": "border.feedback-critical","label": "text.tertiary-01",  "icon": "icon.feedback-critical-01" },
+    "disabled": { "fill": "fill.disabled-01",   "border": "border.disabled-01",      "label": "text.disabled-01",  "icon": "icon.disabled-01" }
+  },
+
+  "openMenu": {
+    "spec": "dropdown/03, 08",
+    "mobileBottomSheet": {
+      "header": "선택 제목 + close-X",
+      "list": "radio-button 형태 (선택 표시)",
+      "anchor": "screen-bottom"
+    },
+    "desktopMenu": {
+      "alignment": "container 하단 부착",
+      "highlight": "현재 선택 항목은 fill.secondary-01 배경"
+    }
+  },
+
+  "radius": {
+    "container": "radius.8",
+    "bottomSheet": "radius.16 top-only"
+  },
+
+  "rules": [
+    {
+      "id": "use-bottom-sheet-on-mobile",
+      "severity": "warning",
+      "spec": "dropdown/02",
+      "do": "모바일에서 dropdown 선택 시 bottom-sheet 로 옵션을 제공합니다.",
+      "dont": "모바일에서 데스크탑식 inline 메뉴를 사용하지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "heightTokenSet": [52],
+    "componentNameKeywords": ["dropdown", "drop-down", "select", "picker"]
+  }
+}

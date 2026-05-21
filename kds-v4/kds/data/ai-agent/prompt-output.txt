@@ -1,0 +1,94 @@
+# prompt-output
+
+Styleguide secondary navigation
+
+AI Agent
+Principles
+Components
+Prompt Text Field
+Prompt Input
+Prompt Output
+Process Indicator
+Navigation Bar
+Context Panel
+Patterns
+Components
+Prompt Output
+
+AI가 생성한 답변을 텍스트, 이미지, 코드 등으로 유연하게 출력합니다.
+
+출처를 투명하게 제공하여 신뢰감을 높입니다.
+
+Mobile
+Desktop
+Anatomy
+
+Tab
+
+Response
+
+Citation
+
+Source
+
+Feedback Button
+
+
+
+
+
+
+
+Type
+1. Text Output
+
+일반 텍스트 또는 Markdown 형태로 응답합니다.
+
+2. Code Block
+
+코드, 명령어, 결괏값을 읽기 쉽게 표현합니다.
+
+3. Data Output
+
+표, 리스트, JSON, 코드 등 데이터를 구조화하여 제공합니다.
+
+4. Image/Video Output
+
+이미지, 영상 등 콘텐츠를 생성하여 제공합니다.
+
+5. File Output
+
+PDF, Excel 등 답변을 다운로드할 수 있는 파일 형태로 제공합니다.
+
+6. Citation
+
+본문에서 각 문장 끝에 표시되는 주석으로, 인용한 정보의 출처를 제공합니다.
+
+7. Source
+
+답변 끝에 표시되는 버튼으로, 답변에 사용된 전체 참고 자료를 확인할 수 있습니다.
+
+8. Suggestion
+
+답변 하단에 표시되는 추천 질문 버튼으로 사용자 흐름에 적합한 대화를 추천합니다.
+
+
+
+
+State
+1. Citation
+2. Source
+3. Image/Video
+4. Markdown
+5. Suggest Prompt
+
+
+
+
+Guideline
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

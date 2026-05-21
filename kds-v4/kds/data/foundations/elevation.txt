@@ -1,0 +1,257 @@
+# elevation
+
+## Usage
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Elevation
+
+컴포넌트의 시각적 위계와 공간감을 부여하는 기준입니다.
+
+요소의 중요도와 화면 상의 상대적 위치를 명확하게 전달합니다.
+
+Usage
+Tokens
+
+
+
+
+Elevation Level
+엘리베이션 단계
+	
+주요 구성 요소
+	
+
+시멘틱 적용 예시
+
+
+
+Level 0
+	
+
+Background
+
+	
+
+Background Default (시스템의 베이스 레이어)
+
+
+
+Level 1
+	
+
+Chip, Button, Text Field 등
+
+	
+
+Surface Primary 01 (기본 컴포넌트)
+
+
+
+Level 2
+	
+
+유의사항, Canvas (Side Panel)
+
+	
+
+Surface Primary 02
+
+
+
+Level 3
+	
+
+Dropdown, AI Process Indicator (Tag)
+
+	
+
+Surface Primary 03
+
+
+
+Level 4
+	
+
+Popup, Bottom Sheet, Navigation Bar
+
+	
+
+Surface Primary 04 (최상위 레이어)
+
+ 
+
+Layer Structure
+
+화면 레이어는 총 5단계의 위계로 나뉘며, 레벨에 따라 요소 간 우선순위를 결정합니다.
+
+
+
+
+Color
+
+컬러는 레이어를 구분하는 기본 요소이며, 레이어 구분이 명확하지 않을 경우 보더라인을 사용합니다.
+
+
+
+
+Shadow
+
+레이어의 깊이감을 통해 요소의 위계와 중요도를 직관적으로 파악할 수 있도록 합니다.
+
+Shadow 1
+
+인풋, 셀렉트의 Focused 상태일 때 사용합니다.
+
+	
+Shadow 2
+
+드롭다운 메뉴와 같이 다른 요소와 구분이 필요할 때 사용합니다.
+
+
+
+	
+
+
+Shadow 3
+
+팝업과 같이 다른 요소와 강한 구분이 필요할 때 사용합니다.
+
+	
+
+
+
+
+
+
+	
+
+
+
+
+Component Shadow
+
+컴포넌트에 정의된 그림자 효과는 해당 컴포넌트의 시각적 위계와 깊이를 표현하기 위해 설계된 것으로, 
+정의된 컴포넌트 내에서만 사용합니다.
+
+Handle
+
+슬라이더, 스위치 핸들에 사용합니다.
+
+	
+Top Navigation
+
+Scrolling에 사용합니다.
+
+
+
+	
+
+
+
+
+Dim
+
+음영 효과는 특정 레이어의 강조를 위해 사용합니다.
+
+
+
+
+Use Case
+Elevation Level 1
+
+기본 구성요소에 surface-01과 같은 위계로 사용합니다.
+
+	
+Elevation Level 2
+
+surface-02,텍스트, 아이콘과 같은 기본 구성요소에 사용합니다.
+
+
+
+	
+
+
+Elevation Level3
+
+surface-03와 함께 Tag와 같은 구성요소에 사용합니다.
+
+	
+Elevation Level 4
+
+Agent 모드에서 Default 모드와 동일한 구성요소에 사용합니다.
+
+
+
+	
+Help us improve
+Copyright© KT Corp. All rights reserved.
+
+## Tokens
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Elevation
+
+컴포넌트의 시각적 위계와 공간감을 부여하는 기준입니다.
+
+요소의 중요도와 화면 상의 상대적 위치를 명확하게 전달합니다.
+
+Usage
+Tokens
+Primitive Token
+Table view
+JSON
+elevation.level.0
+{background.default}
+elevation.level.1
+{surface.primary-01}
+elevation.level.2
+{surface.primary-02}
+elevation.level.3
+{surface.primary-03}
+elevation.level.4
+{surface.primary-04}
+shadow-1
+Fill
+rgba(255, 255, 255, 1.0)
+Shadow
+0.0px 2.0px 4.0px 0px rgba(20, 20, 20, 0.1),0.0px 0.0px 2.0px 0px rgba(20, 20, 20, 0.05)
+shadow-2
+Fill
+rgba(255, 255, 255, 1.0)
+Shadow
+0.0px 4.0px 8.0px 0px rgba(20, 20, 20, 0.1),0.0px 0.0px 4.0px 0px rgba(20, 20, 20, 0.05)
+shadow-3
+Fill
+rgba(255, 255, 255, 1.0)
+Shadow
+0.0px 8.0px 12.0px 0px rgba(20, 20, 20, 0.2),0.0px 0.0px 8.0px 0px rgba(20, 20, 20, 0.05)
+Help us improve
+Copyright© KT Corp. All rights reserved.

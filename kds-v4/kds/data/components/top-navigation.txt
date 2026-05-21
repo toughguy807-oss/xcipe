@@ -1,0 +1,76 @@
+# top-navigation
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Top Navigation
+
+현재 위치를 안내하고 핵심 기능을 제공합니다.
+
+화면 최상단에서 브랜드 아이덴티티를 유지합니다.
+
+Anatomy
+
+Container
+
+Logo
+
+Trailing Element
+
+Leading Button
+
+Title (Optional)
+
+
+
+
+
+
+
+Type
+
+
+
+
+State
+
+
+
+
+Spec
+1. Container
+2. Title
+3. Icon
+
+
+
+
+Guideline
+Help us improve
+Copyright© KT Corp. All rights reserved.

@@ -1,0 +1,94 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "card",
+  "version": "1.0",
+  "source": "kds/data/components/card/01~08.jpg",
+  "description": "공통된 정보를 시각적으로 묶어서 제공합니다. 유연한 레이아웃을 사용하여 공간을 효율적으로 활용합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container",  "required": true },
+    { "id": 2, "name": "Title Text", "required": true },
+    { "id": 3, "name": "Body Text",  "required": false }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["full-image", "image-text"],
+      "default": "image-text",
+      "spec": "card/02, 04, 07",
+      "note": "full-image=이미지 위 텍스트 오버레이. image-text=이미지+텍스트 분리"
+    },
+    "layout": {
+      "values": ["one-column", "two-column"],
+      "default": "one-column",
+      "spec": "card/03, 06",
+      "note": "1단=가로 1열. 2단=그리드 2열"
+    },
+    "textOverlayPosition": {
+      "values": ["top", "bottom"],
+      "appliesTo": ["full-image"],
+      "default": "top",
+      "spec": "card/02"
+    }
+  },
+
+  "sizes": {
+    "spec": "card/01, 03",
+    "tokens": {
+      "FullImage1단":   { "minHeight": 200, "aspectRatio": "1:1 or 4:3" },
+      "ImageText1단":   { "minHeight": 280, "imageAspect": "16:9" },
+      "ImageText2단":   { "minHeight": 220, "imageAspect": "1:1" }
+    }
+  },
+
+  "padding": {
+    "spec": "card/01, 03",
+    "container": { "horizontal": 20, "vertical": 20 },
+    "twoColumn":  { "gap": 12 }
+  },
+
+  "colorMatrix": {
+    "spec": "card/01, 06",
+    "default": {
+      "fill":   "fill.secondary-01",
+      "title":  "text.primary",
+      "body":   "text.tertiary-01",
+      "border": "none"
+    },
+    "fullImageOverlay": {
+      "title": "text.inverse",
+      "body":  "text.inverse",
+      "note":  "이미지 위 오버레이는 흰 텍스트 (밝은 이미지일 경우 어두운 그라디언트 mask 권장)"
+    },
+    "textBelowImage": {
+      "fill":  "fill.secondary-01",
+      "note":  "이미지 하단 텍스트 영역 옅은 회색"
+    }
+  },
+
+  "radius": {
+    "default": "radius.16",
+    "image":   "radius.12",
+    "note": "Container=radius.16, Image=radius.12 (carded 안 이미지)"
+  },
+
+  "elevation": {
+    "default": "none",
+    "interactive": "elevation.4",
+    "note": "터치 가능 카드일 때 elevation 활용"
+  },
+
+  "rules": [
+    {
+      "id": "image-text-readability",
+      "severity": "warning",
+      "spec": "card/05",
+      "do": "이미지와 텍스트의 가독성을 고려합니다.",
+      "dont": "이미지가 텍스트 위치를 가려 가독성을 떨어뜨리는 배치를 하지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "componentNameKeywords": ["card", "event-card", "image-card", "info-card"]
+  }
+}

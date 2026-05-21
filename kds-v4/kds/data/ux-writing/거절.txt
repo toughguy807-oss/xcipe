@@ -1,0 +1,45 @@
+# 거절
+
+Styleguide secondary navigation
+
+UX Writing
+Principles
+활용 사례
+메시지 유형별 가이드
+완료
+재확인
+빈 화면
+거절
+오류
+메시지 유형별 가이드
+거절
+
+서비스 조건 상 진행이 불가능할 때 상황을 안내합니다.
+
+공통 가이드
+
+현재 상황을 빠르게 인지할 수 있도록 가장 앞에 배치합니다.
+
+해요체를 사용합니다.
+
+
+
+
+
+
+
+Type
+1. 기본형
+
+현재 상황에 포커스를 둔 유형입니다.
+
+2. 행동 제안형
+
+현재 상황과 해결 방법을 함께 제시하는 유형입니다.
+
+
+
+
+Guideline
+Help us improve
+Copyright© KT Corp. All rights reserved.

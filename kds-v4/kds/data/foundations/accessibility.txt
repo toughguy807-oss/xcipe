@@ -1,0 +1,197 @@
+# accessibility
+
+## Usage
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Accessibility
+
+신체적, 환경적 조건과 관계없이 접근성을 보장하기 위한 기준입니다.
+
+누구나 동등하게 이용할 수 있는 서비스 구축을 지향합니다.
+
+
+
+
+Accessibility Principle
+
+다양한 연령, 장애, 환경을 고려해야 하는 디자인 시스템에서는 
+WCAG(Web Content Accessibility Guideline) 기준을 준수하는 것이 필수입니다.
+
+*관련 법률 정책 : 장애인차별금지 및 권리구제 등에 관한 법률, 장애인 복지법
+
+인식의 용이성
+
+	
+
+텍스트 명도 대비, 폰트 크기, 콘텐츠 구분 등을 통해 사용자가 정보를 쉽게 인식할 수 있도록 구성합니다.
+
+
+
+
+운용의 용이성
+
+	
+
+키보드, 스크린리더, 음성 명령 등 입력 방식으로 앱을 조작할 수 있어야 합니다.
+
+
+
+
+이해의 용이성
+
+	
+
+레이블, 에러 메시지, 피드백 등은 명확하고 직관적이어야 하며 사용자 혼동을 유발하지 않아야 합니다.
+
+
+
+
+견고성
+
+	
+
+다양한 디바이스, 보조기기에서도 일관되게 작동하도록 코드와 UI를 설계합니다.
+
+
+
+
+Color Contrast
+
+컬러 토큰 정의 시 AA 또는 AAA 통과 여부를 명시하여 실무자가 쉽게 판단 가능하게 합니다.
+
+Text
+
+본문 텍스트 기준, 배경과의 명도 대비를 4.5:1 이상으로 설정하여 명확하게 전달합니다.
+
+유형
+	
+대비율
+	
+가이드
+
+
+본문
+	
+
+배경 대비 최소 4.5:1
+
+	
+
+필수 적용
+
+
+
+제목
+	
+
+배경 대비 최소 3:1
+
+	
+
+18px / Bold 이상 사용 시 적용
+
+
+
+비활성화 상태
+	
+
+배경 대비 최소 3:1 권장
+
+	
+
+예외 적용 가능, 문맥 설명 필요
+
+CTA Button
+
+주요 액션 버튼은 배경과의 명도 대비를 3:1 이상으로 설정하여 명확하게 인지시킵니다.
+단, 비활성화 상태의 경우 예외가 적용됩니다.
+
+Icon
+
+아이콘은 배경과의 명도 대비를 3:1 이상으로 설정하여 명확하게 인지시킵니다.
+단, 비활성화 상태의 경우 예외가 적용됩니다.
+
+
+
+
+Readability
+Minimum Font Size
+
+모바일 환경에서는 글자가 지나치게 작아지지 않도록 12px 이상을 사용합니다. 
+PC 환경에서는 화면과 사용 거리 차이를 고려하여 14px 이상을 사용하여 가독성을 확보합니다.
+
+폰트 사이즈 전체 보기 →
+
+
+
+
+Line-height
+
+가독성을 위해 단문 148%, 장문 170% 행간 적용을 권장합니다.
+
+Weight Variation
+
+SemiBold, Bold, Medium Weight 사용 시 시각적 위계를 명확히 설정합니다.
+
+
+
+
+Focus & Interaction
+Touch & Click Target
+
+터치 영역은 최소 44x44px 사이즈를 권장합니다.
+
+Keyboard Interaction
+
+모든 기능을 키보드만으로 사용할 수 있도록 키보드 조작 방식을 지원합니다.
+
+Reading & Focus Process
+
+정보는 일반적으로 왼쪽에서 오른쪽, 위에서 아래로 읽어갑니다.
+따라서 정보의 배치를 변경해야 할 경우 실제 읽는 순서와 동일하게 배치합니다.
+
+
+
+
+Motion
+
+KT의 모션은 모든 사용자가 동등하게 경험할 수 있도록 접근성을 고려합니다.
+시각·전정기관 장애, 모션 민감도 등 다양한 환경을 반영해 불편과 위험을 최소화합니다.
+
+모션 대체 제공 : 모든 인터페이스에는 간소화된 전환을 제공
+
+환경 설정 지원 : 운영체제·브라우저의 ‘모션 줄이기’ 설정을 감지해 적용
+
+자연스러운 움직임 : 과도한 속도·반짝임·갑작스러움 지양, 부드러운 전환을 사용
+
+집중 요소 한정 : 포커스된 요소에만 적용해 시선 분산 방지
+
+
+
+
+
+
+
+Accessibility Check List
+명도 대비 검사기
+WebAIM - Contrast Checker
+UI 접근성 검사 도구 (Android)
+Accessibility Scanner
+UI 접근성 검사 도구 (iOS)
+Xcode Accessibility Inspector
+Help us improve
+Copyright© KT Corp. All rights reserved.

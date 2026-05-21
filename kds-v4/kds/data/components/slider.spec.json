@@ -1,0 +1,93 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "slider",
+  "version": "1.0",
+  "source": "kds/data/components/slider/01~06.jpg",
+  "description": "원하는 값을 설정하거나 범위를 조정할 수 있습니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Track",   "required": true,  "note": "전체 범위 가이드 라인" },
+    { "id": 2, "name": "Handle",  "required": true,  "note": "조작 가능한 노브 (원형)" },
+    { "id": 3, "name": "Value",   "required": false, "note": "최소/최대 라벨 또는 현재값" },
+    { "id": 4, "name": "Popover", "required": false, "note": "Handle 위에 떠 있는 현재값 툴팁" }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["basic", "range"],
+      "default": "basic",
+      "spec": "slider/02, 04",
+      "note": "basic=단일 핸들. range=양쪽 핸들 사이 구간 선택"
+    },
+    "popover": {
+      "values": ["hidden", "shown"],
+      "default": "hidden",
+      "spec": "slider/03",
+      "note": "shown 은 active drag 중 또는 항상 표시 선택"
+    },
+    "state": {
+      "values": ["default", "hover-pressed", "disabled"],
+      "default": "default",
+      "spec": "slider/05"
+    }
+  },
+
+  "sizes": {
+    "spec": "slider/05",
+    "tokens": {
+      "TrackHeight":  { "value": 6 },
+      "HandleSize":   { "width": 24, "height": 24 }
+    }
+  },
+
+  "colorMatrix": {
+    "spec": "slider/05",
+    "default": {
+      "trackInactive": "fill.disabled-01",
+      "trackActive":   "fill.feedback-info",
+      "handleFill":    "slider-handle.fill-default",
+      "handleBorder":  "slider-handle.border-default",
+      "value":         "text.tertiary-01"
+    },
+    "hover-pressed": {
+      "trackInactive": "fill.disabled-01",
+      "trackActive":   "fill.feedback-info",
+      "handleFill":    "slider-handle.fill-default",
+      "handleBorder":  "slider-handle.border-default",
+      "handleHaloRing": "fill.opacity-white",
+      "value":         "text.primary"
+    },
+    "disabled": {
+      "trackInactive": "fill.disabled-01",
+      "trackActive":   "fill.feedback-info-disabled",
+      "handleFill":    "slider-handle.fill-disabled",
+      "handleBorder":  "slider-handle.border-disabled",
+      "value":         "text.disabled-01"
+    }
+  },
+
+  "radius": {
+    "track":  "radius.circle",
+    "handle": "radius.circle"
+  },
+
+  "elevation": {
+    "handle": "elevation.4",
+    "note": "drag 가능함을 시각적으로 보이도록 약한 그림자"
+  },
+
+  "rules": [
+    {
+      "id": "label-context",
+      "severity": "warning",
+      "spec": "slider/06",
+      "do": "슬라이더의 의미를 라벨 혹은 아이콘으로 설명합니다.",
+      "dont": "맥락 없이 슬라이더만 노출하지 않습니다.",
+      "example": { "ok": "예상 월 매출 + 0원 ~ 1억 원 + 5,000만 원 값 표시", "ng": "라벨 없이 슬라이더만" }
+    }
+  ],
+
+  "lintHints": {
+    "componentNameKeywords": ["slider", "range-slider"]
+  }
+}

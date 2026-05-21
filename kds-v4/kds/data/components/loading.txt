@@ -1,0 +1,87 @@
+# loading
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Loading
+
+내용을 불러오는 동안 진행 상태를 시각적으로 안내합니다.
+
+Anatomy
+
+Loading Spinner
+
+Label (Optional)
+
+
+
+
+
+
+
+Type
+1. Small
+
+리프레시 등 짧은 로딩 시 사용하며, 콘텐츠와 함께 보여질 때 사용합니다.
+
+2. Medium
+
+전체 페이지 로딩 시 사용하며, 안내 메시지와 함께 노출될 경우 메시지는 최대 18자까지 입력 가능합니다.
+
+3. Large
+
+PC처럼 넓은 화면에 적용할 때 사용하며, 화면에 맞게 비율을 조절할 수 있습니다.
+
+
+
+
+
+
+
+Spec
+1. Size
+
+
+
+
+2. Placement
+
+
+
+
+Use Case
+Skeleton
+
+이미지가 많거나 화면 로딩이 길어진 경우, 스켈레톤 UI를 제공하여 사용자 로딩을 예측할 수 있도록 합니다.
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

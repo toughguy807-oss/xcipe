@@ -14,14 +14,19 @@ const path = require('path');
 const crypto = require('crypto');
 
 function getKdsRoot() {
-  // 우선순위: env > settings > hardcoded fallback
+  // 우선순위: env > settings > 컨테이너 내 통합 경로 > 레거시 Windows 경로 (로컬 fallback)
   try {
     const { getSetting } = require('../db/settings');
     const s = getSetting && getSetting('kds_v4_root');
     if (s) return s;
   } catch {}
-  return process.env.KDS_V4_ROOT
-    || 'C:/Users/hj.moon/Downloads/AX_KDS_design system-v4/AX_KDS_design system-v4';
+  if (process.env.KDS_V4_ROOT) return process.env.KDS_V4_ROOT;
+  // v25: xcipe repo 안에 통합된 경로 우선 (Railway 컨테이너 + 로컬 동일)
+  const fs = require('fs');
+  const bundledKds = path.resolve(__dirname, '..', '..', 'kds-v4');
+  if (fs.existsSync(bundledKds)) return bundledKds;
+  // legacy: 사용자 PC 외부 경로 (분리 운영 환경)
+  return 'C:/Users/hj.moon/Downloads/AX_KDS_design system-v4/AX_KDS_design system-v4';
 }
 
 function _execClaude(prompt, { cwd, timeout = 300000, command = 'claude' } = {}) {

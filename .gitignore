@@ -9,15 +9,18 @@ logs/
 npm-debug.log*
 .server.log
 
-# Runtime data (Railway Volume에서 영구 저장)
-data/
-output/
-tmp/
-backups/
+# Runtime data (Railway Volume에서 영구 저장) — 루트 anchor 로 한정
+/data/
+/output/
+/tmp/
+/backups/
 *.db
 *.db-journal
 *.db-wal
 *.db-shm
+
+# KDS 디자인 토큰·SVG 라이브러리는 git 포함 필수 (negate)
+!kds-v4/kds/data/
 
 # Environment
 .env
@@ -47,6 +50,15 @@ test/screenshots/
 # Bundled Claude (~/.claude → .claude/ 동기화본) — 포함
 # 단 agent-memory 는 PC별 상태라 제외
 .claude/agent-memory/
+
+# KDS v4 — 코드와 SVG 라이브러리는 commit, 산출물·로그·node_modules 는 Volume/local 만
+kds-v4/node_modules/
+kds-v4/to-figma/
+kds-v4/from-figma/
+kds-v4/research/
+kds-v4/logs/
+kds-v4/*.log
+kds-v4/bridge.log
 
 # 민감 정보
 *.pem

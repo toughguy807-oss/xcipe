@@ -1,0 +1,65 @@
+# list
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+List
+
+정보를 한눈에 살펴볼 수 있도록 구조화된 형태로 제공합니다.
+
+Anatomy
+
+Container
+
+Headline
+
+Trailing Element (Optional)
+
+
+
+
+
+
+
+Type
+1. Text
+2. Image
+3. Product
+4. Menu
+
+
+
+
+Template
+1. 설정
+2. 혜택 검색
+3. 상품 리스트
+4. 메뉴
+Help us improve
+Copyright© KT Corp. All rights reserved.

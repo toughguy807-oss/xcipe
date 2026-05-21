@@ -1,0 +1,39 @@
+# 시스템-상태
+
+Styleguide secondary navigation
+
+Patterns
+Overview
+Common UI
+Service Pattern
+온보딩
+검색
+시스템 상태
+Service Pattern
+시스템 상태
+
+정상적인 서비스 이용이 어려운 상황을 명확히 전달하고,
+
+사용자에게 가능한 대응 경로를 안내하는 패턴을 제공합니다.
+
+Anatomy
+
+Button
+
+
+
+
+
+
+
+Related Components
+Button
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

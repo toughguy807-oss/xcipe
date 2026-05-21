@@ -1,0 +1,94 @@
+# button
+
+## Usage
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Button
+
+사용자의 의도를 명확하게 전달하고, 행동을 유도합니다.
+
+버튼의 형태와 색은 우선순위를 시각적으로 구분합니다.
+
+Anatomy
+
+Container
+
+Label
+
+Icon (Optional)
+
+
+
+
+
+
+
+Type
+1. Button
+2. Text Button
+3. Floating Action Button
+
+
+
+
+State
+
+업무 단계를 수행하는 Primary 버튼은 화면 하단에 고정 배치합니다.
+
+Extended FAB은 하단으로 스크롤 시 축소되고, 상단으로 스크롤하면 다시 확장됩니다.
+
+
+
+
+Spec
+1. Size
+2. Container
+3. Label
+4. Placement
+5. Responsive
+Mobile (0-767px)
+
+화면 너비에 맞춰 확장합니다.
+
+Tablet/Desktop (768-1920px 이상)
+
+최대 너비는 610px로 사용합니다.
+
+
+
+
+Guideline
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

@@ -1,0 +1,98 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "checkbox",
+  "version": "1.0",
+  "source": "kds/data/components/checkbox/01~08.jpg",
+  "description": "여러 항목 중 하나 이상을 선택하거나 해제합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Checkbox", "required": true, "note": "체크 indicator (circle + check)" },
+    { "id": 2, "name": "Label",    "required": true }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["basic", "button"],
+      "default": "basic",
+      "spec": "checkbox/02, 03",
+      "note": "basic=원형 체크박스 + 레이블 (약관 동의 형태), button=버튼 형태 (신규가입/번호이동 토글)"
+    },
+    "selected": {
+      "values": ["unselected", "selected"],
+      "default": "unselected",
+      "spec": "checkbox/04, 05"
+    },
+    "state": {
+      "values": ["default", "hover", "disabled"],
+      "default": "default",
+      "spec": "checkbox/04, 05",
+      "note": "hover 는 PC only"
+    },
+    "hierarchy": {
+      "values": ["parent", "child-icon"],
+      "appliesTo": ["basic"],
+      "note": "중첩 목록에서 하위 항목은 체크마크 icon 만 사용 (전체 체크박스 형태 X)",
+      "spec": "checkbox/07"
+    }
+  },
+
+  "sizes": {
+    "spec": "checkbox/06",
+    "tokens": {
+      "Default": { "height": 46 }
+    },
+    "default": "Default"
+  },
+
+  "width": {
+    "spec": "checkbox/06",
+    "policies": {
+      "flexible": { "description": "가용 폭 채움", "sidePadding": { "default": 20 } }
+    }
+  },
+
+  "colorMatrix": {
+    "spec": "checkbox/04, 05",
+    "basic": {
+      "unselected": {
+        "default":  { "fill": "background.default",  "border": "border.primary-01", "check": "icon.tertiary-01", "label": "text.primary" },
+        "hover":    { "fill": "background.default",  "border": "border.primary-hover-01", "check": "icon.tertiary-01", "label": "text.primary" },
+        "disabled": { "fill": "fill.disabled-01",    "border": "border.disabled-01", "check": "icon.disabled-01", "label": "text.disabled-01" }
+      },
+      "selected": {
+        "default":  { "fill": "fill.primary",         "border": "fill.primary",         "check": "icon.inverse", "label": "text.primary" },
+        "hover":    { "fill": "fill.primary-hover",   "border": "fill.primary-hover",   "check": "icon.inverse", "label": "text.primary" },
+        "disabled": { "fill": "fill.disabled-02",     "border": "fill.disabled-02",     "check": "icon.disabled-01", "label": "text.disabled-01" }
+      }
+    },
+    "button": {
+      "unselected": {
+        "default":  { "fill": "background.default", "border": "border.primary-01",       "label": "text.primary" },
+        "disabled": { "fill": "background.default", "border": "border.disabled-01",      "label": "text.disabled-01" }
+      },
+      "selected": {
+        "default":  { "fill": "background.default", "border": "border.primary-pressed",  "label": "text.primary", "labelWeight": "bold" }
+      }
+    }
+  },
+
+  "radius": {
+    "checkbox": "radius.circle",
+    "button": "radius.8"
+  },
+
+  "rules": [
+    {
+      "id": "nested-uses-icon",
+      "severity": "warning",
+      "spec": "checkbox/07",
+      "do": "체크박스 목록에서 하위 항목은 체크 아이콘 형태로 사용합니다.",
+      "dont": "상위·하위 항목에 동일한 형태의 체크박스를 사용하지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "heightTokenSet": [46],
+    "componentNameKeywords": ["checkbox", "check-box", "chk"]
+  }
+}

@@ -1,0 +1,35 @@
+# patterns-index
+
+Styleguide secondary navigation
+
+Patterns
+Overview
+Common UI
+Service Pattern
+Patterns
+Overview
+
+재사용 가능한 공통 UI / 업무 단위 기준입니다.
+
+Common UI
+입력 폼
+약관 동의
+빈 화면
+유의사항
+
+
+
+
+Service Pattern
+온보딩
+검색
+시스템 상태
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

@@ -1,0 +1,148 @@
+# radius
+
+## Usage
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Radius
+
+UI의 형태적 일관성을 유지하는 라운드 사용 기준입니다.
+
+시각적 부드러움과 브랜드 인상을 확립합니다.
+
+Usage
+Tokens
+Radius
+
+컴포넌트의 크기와 사용 맥락에 따라 단계별로 구분되며, 동일한 레벨에서는 일관된 값을 사용합니다.
+기본 값은 8px이며, 지나치게 둥근 형태의 사용은 지양합니다.
+
+
+
+
+Use Case
+6px
+
+툴팁 같이 작은 요소에 사용합니다.
+
+	
+8px
+
+기본이 되는 값으로, 버튼, 인풋, 드롭다운 등에 사용합니다.
+
+
+
+	
+
+
+16px
+
+바텀시트 같이 화면에서 큰 비율을 차지하는 요소에 사용합니다.
+
+	
+Circle
+
+칩, 인디케이터 같이 반원의 형태를 표현할 때 사용합니다.
+
+
+
+
+
+
+
+	
+
+ 
+
+Structure
+
+중첩된 컴포넌트의 곡률에 맞게 적용합니다.
+
+4px / 8px
+	
+8px / 12px
+
+
+	
+
+
+8px / 4px
+	
+16px / 8px
+
+
+
+
+
+
+	
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.
+
+## Tokens
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Radius
+
+UI의 형태적 일관성을 유지하는 라운드 사용 기준입니다.
+
+시각적 부드러움과 브랜드 인상을 확립합니다.
+
+Usage
+Tokens
+Primitive Token
+Table view
+JSON
+radius.0
+0
+radius.2
+2
+radius.4
+4
+radius.6
+6
+radius.8
+8
+radius.12
+12
+radius.16
+16
+radius.circle
+999
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

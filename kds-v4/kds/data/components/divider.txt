@@ -1,0 +1,58 @@
+# divider
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Divider
+
+정보 그룹 간의 계층과 관계를 명확히 구분합니다.
+
+Anatomy
+
+Inset Divider
+
+Full Width Divider
+
+
+
+
+
+
+
+Type
+1. Inset
+2. Full Width
+
+
+
+
+Spec
+Container
+Help us improve
+Copyright© KT Corp. All rights reserved.

@@ -1,0 +1,59 @@
+# motion
+
+## Usage
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Motion
+
+화면 전환과 상호작용을 자연스럽게 연결합니다.
+
+사용자의 주의를 유도하고 시스템의 상태를 명확하게 전달합니다.
+
+Usage
+Tokens
+Consideration
+
+
+
+
+Easing
+
+모션의 속도를 조절해 리듬을 정의합니다. 
+가속과 감속으로 자연스러운 흐름을 만들고 상황에 맞게 완급을 조절합니다.
+
+
+
+
+Duration
+
+모션의 지속 시간을 정의합니다.
+목적과 스타일에 따라 구분되며 안정된 경험을 제공합니다.
+
+
+
+
+Transition
+
+화면과 요소 간 변화를 연결합니다. 
+적절한 전환은 현재 위치와 다음 단계를 쉽게 이해하도록 돕습니다.
+
+
+
+
+Guideline
+Help us improve
+Copyright© KT Corp. All rights reserved.

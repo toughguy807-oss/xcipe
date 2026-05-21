@@ -1,0 +1,77 @@
+# chip
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Chip
+
+항목을 선택하거나 상태를 표시할 수 있습니다.
+
+Anatomy
+
+Container
+
+Label
+
+Icon (Optional)
+
+
+
+
+
+
+
+Type
+1. Select Chip
+2. Filter Chip
+3. Input Chip
+
+
+
+
+State
+
+
+
+
+Spec
+1. Container
+2. Label
+3. Folder Chip group
+
+
+
+
+Guideline
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

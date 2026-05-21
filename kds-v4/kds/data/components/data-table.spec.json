@@ -1,0 +1,122 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "data-table",
+  "version": "1.0",
+  "source": "kds/data/components/data-table/01~12.jpg",
+  "description": "데이터를 행과 열로 구조화하여 빠르게 탐색하고 비교할 수 있습니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Header Row", "required": true, "note": "전체 선택 체크박스 + 컬럼 헤더" },
+    { "id": 2, "name": "Body Row",   "required": true },
+    { "id": 3, "name": "Divider",    "required": true, "note": "Header/Body, Row 간 구분선" },
+    { "id": 4, "name": "Column",     "required": true },
+    { "id": 5, "name": "Cell",       "required": true }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["data-table", "list-table"],
+      "default": "data-table",
+      "spec": "data-table/02, 03",
+      "note": "data-table=고객/거래 데이터 표, list-table=게시판/리스트 (No+제목+작성자 등)"
+    },
+    "rowSize": {
+      "values": ["compact", "default", "wide"],
+      "default": "default",
+      "spec": "data-table/06"
+    },
+    "cellState": {
+      "values": ["default", "hover", "pressed", "focused", "editing", "complete", "error", "selected", "disabled"],
+      "default": "default",
+      "spec": "data-table/05"
+    }
+  },
+
+  "sizes": {
+    "spec": "data-table/06",
+    "tokens": {
+      "Compact": { "rowHeight": 40 },
+      "Default": { "rowHeight": 56 },
+      "Wide":    { "rowHeight": 72 }
+    },
+    "default": "Default"
+  },
+
+  "cellTypes": {
+    "spec": "data-table/04",
+    "values": [
+      { "name": "header",      "note": "Sortable indicator 가능 (↕)" },
+      { "name": "text",        "note": "단순 텍스트 셀" },
+      { "name": "dropdown",    "note": "셀 안 dropdown" },
+      { "name": "search",      "note": "Editable search input" },
+      { "name": "tree-cell",   "note": "▶ 펼침 인디케이터 + 들여쓰기" },
+      { "name": "post",        "note": "↳ 답글/포스트 (depth indicator + 카운트 뱃지)" },
+      { "name": "checkbox",    "note": "row 선택" },
+      { "name": "radio",       "note": "단일 선택" },
+      { "name": "switch",      "note": "row 단위 toggle" },
+      { "name": "attachment",  "note": "첨부 아이콘" },
+      { "name": "link",        "note": "Link 텍스트 (underline)" },
+      { "name": "tag",         "note": "Status/category tag" },
+      { "name": "button",      "note": "row 단위 액션 버튼" },
+      { "name": "profile",     "note": "원형 프로필 + 이름" }
+    ]
+  },
+
+  "colorMatrix": {
+    "spec": "data-table/01",
+    "default": {
+      "fill":         "background.default",
+      "headerFill":   "background.default",
+      "headerText":   "text.secondary-01",
+      "headerBorder": "border.primary-01",
+      "cellText":     "text.primary",
+      "divider":      "border.tertiary-01"
+    },
+    "row": {
+      "default":  { "fill": "background.default", "border": "border.tertiary-01" },
+      "hover":    { "fill": "fill.secondary-01" },
+      "selected": { "fill": "fill.secondary-01" }
+    }
+  },
+
+  "responsive": {
+    "spec": "data-table/07",
+    "mobile":  { "behavior": "horizontal-scroll", "note": "가로 스크롤로 전체 컬럼 확인" },
+    "desktop": { "behavior": "full-width" }
+  },
+
+  "pagination": {
+    "spec": "data-table/11, 12",
+    "controls": ["first", "prev", "1...N", "next", "last"],
+    "perPage": [10, 15, 20, 30, 50],
+    "note": "큰 데이터는 페이지네이션 활용"
+  },
+
+  "rules": [
+    {
+      "id": "amount-align-right",
+      "severity": "warning",
+      "spec": "data-table/08",
+      "do": "금액은 우측 정렬로 사용합니다.",
+      "dont": "금액을 좌측 정렬로 사용하지 않습니다."
+    },
+    {
+      "id": "title-body-same-align",
+      "severity": "warning",
+      "spec": "data-table/09",
+      "do": "헤더와 본문의 정렬을 동일하게 사용합니다.",
+      "dont": "헤더·본문 정렬을 혼용하여 사용하지 않습니다."
+    },
+    {
+      "id": "empty-state-clear-message",
+      "severity": "warning",
+      "spec": "data-table/10",
+      "do": "데이터가 없는 경우 명확한 메시지로 안내합니다 (예: '해당 없음', '적용 대상 아님').",
+      "dont": "빈 셀이나 기호(N/A, —)로만 상태를 표시하지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "componentNameKeywords": ["table", "data-table", "list-table", "datatable"]
+  }
+}

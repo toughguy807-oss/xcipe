@@ -1,0 +1,65 @@
+# process-indicator
+
+Styleguide secondary navigation
+
+AI Agent
+Principles
+Components
+Prompt Text Field
+Prompt Input
+Prompt Output
+Process Indicator
+Navigation Bar
+Context Panel
+Patterns
+Components
+Process Indicator
+
+AI가 결과를 생성하는 동안 진행 상황을 전달합니다.
+
+시각적인 피드백을 제공함으로써 사용자의 이탈을 방지합니다.
+
+Mobile
+Desktop
+Anatomy
+
+Processing Indicator
+
+Reasoning Indicator
+
+
+
+
+
+
+
+Type
+1. Processing
+
+학습한 데이터와 단순한 패턴을 기반으로 빠르게 답변할 때 사용합니다.
+
+2.  Reasoning
+
+외부 정보를 검색하거나 복잡하게 추론하여 답변할 때 사용합니다.
+
+3. Dropdown
+
+버블 타입 인터페이스 대화 방식의 에이전트에 사용합니다.
+
+
+
+
+State
+1. Processing
+2.  Reasoning
+
+
+
+
+Guideline
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

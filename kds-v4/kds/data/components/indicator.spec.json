@@ -1,0 +1,103 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "indicator",
+  "version": "1.0",
+  "source": "kds/data/components/indicator/01~14.jpg",
+  "description": "프로세스의 진행 상황 및 정보의 현재 위치를 안내합니다.",
+
+  "anatomy": {
+    "dot": [
+      { "id": 1, "name": "Active",   "required": true },
+      { "id": 2, "name": "Inactive", "required": true }
+    ],
+    "number": [
+      { "id": 3, "name": "Container",      "required": true },
+      { "id": 4, "name": "Current Number", "required": true },
+      { "id": 5, "name": "Total Number",   "required": true },
+      { "id": 6, "name": "Controller",     "required": false, "note": "Playback (play/pause), Selector (+ open) 등" }
+    ]
+  },
+
+  "variants": {
+    "type": {
+      "values": ["dot", "number", "progress"],
+      "default": "dot",
+      "spec": "indicator/02"
+    },
+    "dotMode": {
+      "values": ["default", "inverse"],
+      "appliesTo": ["dot"],
+      "spec": "indicator/03",
+      "note": "default=라이트 배경 위, inverse=다크/이미지 위"
+    },
+    "numberMode": {
+      "values": ["basic", "playback", "selector"],
+      "appliesTo": ["number"],
+      "spec": "indicator/04",
+      "note": "basic=1/6 만, playback=+play/pause 아이콘, selector=+더보기 아이콘"
+    },
+    "progressMode": {
+      "values": ["basic", "dot"],
+      "appliesTo": ["progress"],
+      "spec": "indicator/12",
+      "note": "basic=단순 width fill (active red bar), dot=단계 dot marker 가 트랙 위에"
+    }
+  },
+
+  "sizes": {
+    "spec": "indicator/06, 13",
+    "tokens": {
+      "DotActive":   { "width": 20, "height": 6, "note": "pill 형태 active dot" },
+      "DotInactive": { "width": 6,  "height": 6 },
+      "DotGap":      { "value": 4 },
+      "Progress":    { "height": 8, "activeBarHeight": 4 }
+    }
+  },
+
+  "colorMatrix": {
+    "spec": "indicator/03, 12",
+    "dot": {
+      "default":  { "active": "indicator-dot.fill-default-active",  "inactive": "indicator-dot.fill-default" },
+      "inverse":  { "active": "indicator-dot.fill-inverse-active",  "inactive": "indicator-dot.fill-inverse" }
+    },
+    "number": {
+      "container": "fill.opacity-white",
+      "text":      "text.inverse",
+      "note": "어두운 반투명 컨테이너 위 흰색 텍스트 (이미지 위에 떠 있음)"
+    },
+    "progress": {
+      "track":  "fill.disabled-01",
+      "active": "fill.accent-primary",
+      "note": "active 단계까지 red, 나머지는 회색"
+    }
+  },
+
+  "radius": {
+    "dotActive":   "radius.circle",
+    "dotInactive": "radius.circle",
+    "number":      "radius.circle",
+    "progress":    "radius.0"
+  },
+
+  "placement": {
+    "spec": "indicator/06, 10, 11, 13",
+    "dot":      { "context": "carousel-bottom",     "gap": 8 },
+    "number":   { "context": "image-bottom-right",  "edgeGap": 12 },
+    "progress": { "context": "top-navigation-bottom", "edgeGap": 20 }
+  },
+
+  "rules": [
+    {
+      "id": "use-number-for-many",
+      "severity": "warning",
+      "spec": "indicator/14",
+      "do": "항목이 6개 이상일 경우 number indicator 를 사용합니다.",
+      "dont": "2개 미만 또는 6개 이상 항목에 dot indicator 를 사용하지 않습니다.",
+      "rangeForDot": { "min": 2, "max": 5 }
+    }
+  ],
+
+  "lintHints": {
+    "componentNameKeywords": ["indicator", "page-indicator", "carousel-indicator", "progress-indicator"]
+  }
+}

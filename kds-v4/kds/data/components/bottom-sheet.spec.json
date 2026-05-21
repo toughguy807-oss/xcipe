@@ -1,0 +1,91 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "bottom-sheet",
+  "version": "1.0",
+  "source": "kds/data/components/bottom-sheet/01~09.jpg",
+  "description": "현재 화면의 맥락을 유지하면서 연관 정보를 확인하고 상호작용할 수 있습니다. 불필요한 화면 전환을 최소화할 수 있습니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Dim",          "required": true,  "note": "어두운 배경 overlay (상단부 노출)" },
+    { "id": 2, "name": "Container",    "required": true,  "note": "둥근 모서리 (top radius)" },
+    { "id": 3, "name": "Header Area",  "required": true,  "note": "Title + Close button. sticky" },
+    { "id": 4, "name": "Content Area", "required": true,  "note": "scrollable" },
+    { "id": 5, "name": "Footer Area",  "required": false, "note": "Action button. sticky" },
+    { "id": 6, "name": "Close Button", "required": true,  "note": "우측 상단 X 또는 Back ←" }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["text", "depth", "text-list", "icon-list", "check-list", "radio-list", "promotion", "search"],
+      "default": "text-list",
+      "spec": "bottom-sheet/02, 03, 04, 06",
+      "note": "text=텍스트 컨텐츠, depth=←뒤로+content, text/icon/check/radio-list=리스트 선택, promotion=풀이미지 프로모션, search=검색 input"
+    }
+  },
+
+  "sizes": {
+    "spec": "bottom-sheet/07, 09",
+    "tokens": {
+      "MobileFull": { "maxHeightRatio": 0.9, "maxHeightPx": 702, "headerHeight": 56, "footerHeight": 76 }
+    }
+  },
+
+  "width": {
+    "spec": "bottom-sheet/08",
+    "policy": "flexible",
+    "byViewport": {
+      "mobile-430": { "width": 354 },
+      "mobile-360": { "width": 284 },
+      "mobile-320": { "width": 244 }
+    },
+    "note": "데스크탑은 PC modal/centered modal 형태로 대체"
+  },
+
+  "scrollBehavior": {
+    "spec": "bottom-sheet/05, 07",
+    "stickyAreas": ["header", "footer"],
+    "scrollArea": "content",
+    "note": "콘텐츠가 길어질 때 헤더·푸터 sticky, 콘텐츠만 스크롤"
+  },
+
+  "colorMatrix": {
+    "spec": "bottom-sheet/01",
+    "default": {
+      "dim":       "dim.overlay",
+      "fill":      "background.default",
+      "title":     "text.primary",
+      "body":      "text.tertiary-01",
+      "close":     "icon.primary",
+      "elevation": "elevation.16-up"
+    }
+  },
+
+  "radius": {
+    "default": "radius.16",
+    "edges": "top-only",
+    "note": "상단 모서리만 둥글게 (radius.16)"
+  },
+
+  "padding": {
+    "header":  { "horizontal": 20, "vertical": 16 },
+    "content": { "horizontal": 20, "vertical": 8  },
+    "footer":  { "horizontal": 20, "vertical": 12, "bottomSafeArea": 16 }
+  },
+
+  "interaction": {
+    "spec": "bottom-sheet/01",
+    "dimDismiss": true,
+    "swipeDismiss": true,
+    "note": "Dim 터치 + 아래로 swipe 둘 다 닫힘"
+  },
+
+  "headerTitleConstraints": {
+    "spec": "bottom-sheet/02",
+    "maxLines": 2,
+    "maxCharsPerLine": 26
+  },
+
+  "lintHints": {
+    "componentNameKeywords": ["bottom-sheet", "bottomsheet", "sheet", "drawer-bottom"]
+  }
+}

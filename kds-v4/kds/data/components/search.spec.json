@@ -1,0 +1,90 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "search",
+  "version": "1.0",
+  "source": "kds/data/components/search/01~08.jpg",
+  "description": "키워드 입력만으로 원하는 정보에 빠르게 도달할 수 있습니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container",   "required": true },
+    { "id": 2, "name": "Placeholder", "required": false, "note": "값 없을 때 입력 가이드. 값 있을 때 Input Text 로 전환" },
+    { "id": 3, "name": "Search Icon", "required": true,  "note": "magnifier 아이콘 (우측). Typing 이상에서는 Clear X + Search 둘 다 표시" }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["outline", "underline"],
+      "default": "outline",
+      "spec": "search/02, 03",
+      "note": "outline=테두리 박스 (홈 검색), underline=밑줄 (Top-nav 검색)"
+    },
+    "state": {
+      "values": ["default", "hover", "focused", "typing", "complete", "disabled"],
+      "default": "default",
+      "spec": "search/04, 05",
+      "note": "hover 는 outline 한정 (PC). underline 에는 hover 별도 없음"
+    }
+  },
+
+  "sizes": {
+    "spec": "search/06",
+    "tokens": {
+      "Default": { "height": 48 }
+    },
+    "default": "Default"
+  },
+
+  "width": {
+    "spec": "search/06, 07",
+    "policies": {
+      "flexible": {
+        "description": "모바일 가용 폭 채움",
+        "sidePadding": { "default": 20 }
+      },
+      "fixed": {
+        "description": "320 해상도에서 212px",
+        "examples": { "mobile-320": 212 }
+      }
+    }
+  },
+
+  "colorMatrix": {
+    "spec": "search/04, 05",
+    "outline": {
+      "default":  { "fill": "background.default", "border": "border.primary-01",       "placeholder": "text.tertiary-01", "icon": "icon.primary" },
+      "hover":    { "fill": "background.default", "border": "border.primary-hover-01", "placeholder": "text.tertiary-01", "icon": "icon.primary" },
+      "focused":  { "fill": "background.default", "border": "border.primary-focused",  "placeholder": "text.tertiary-01", "icon": "icon.primary" },
+      "typing":   { "fill": "background.default", "border": "border.primary-focused",  "input": "text.primary", "icon": "icon.primary", "clear": "icon.tertiary-01" },
+      "complete": { "fill": "background.default", "border": "border.primary-01",       "input": "text.primary", "icon": "icon.primary", "clear": "icon.tertiary-01" },
+      "disabled": { "fill": "fill.disabled-01",   "border": "border.disabled-01",      "placeholder": "text.disabled-01", "icon": "icon.disabled-01" }
+    },
+    "underline": {
+      "default":  { "fill": "transparent", "border": "border.primary-01",        "placeholder": "text.tertiary-01", "icon": "icon.primary",      "borderEdges": "bottom-only" },
+      "focused":  { "fill": "transparent", "border": "border.primary-focused",   "placeholder": "text.tertiary-01", "icon": "icon.primary",      "borderEdges": "bottom-only" },
+      "typing":   { "fill": "transparent", "border": "border.primary-focused",   "input": "text.primary",           "icon": "icon.primary",      "clear": "icon.tertiary-01", "borderEdges": "bottom-only" },
+      "complete": { "fill": "transparent", "border": "border.primary-01",        "input": "text.primary",           "icon": "icon.primary",      "clear": "icon.tertiary-01", "borderEdges": "bottom-only" },
+      "disabled": { "fill": "transparent", "border": "border.disabled-01",       "placeholder": "text.disabled-01", "icon": "icon.disabled-01",  "borderEdges": "bottom-only" }
+    }
+  },
+
+  "radius": {
+    "outline":   "radius.8",
+    "underline": "radius.0"
+  },
+
+  "rules": [
+    {
+      "id": "highlight-matched-text",
+      "severity": "warning",
+      "spec": "search/08",
+      "do": "자동 완성·검색 결과에서 검색어와 일치하는 텍스트는 시각적으로 차별화합니다.",
+      "dont": "자동 완성 텍스트의 색상을 통일하지 않습니다 (검색어 매칭 부분 강조 필수).",
+      "matchColor": "text.feedback-info"
+    }
+  ],
+
+  "lintHints": {
+    "heightTokenSet": [48],
+    "componentNameKeywords": ["search", "search-bar", "searchbar"]
+  }
+}

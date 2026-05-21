@@ -1,0 +1,109 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "notification",
+  "version": "1.0",
+  "source": "kds/data/components/notification/01~12.jpg",
+  "description": "사용자에게 상태나 정보를 시각적으로 제공합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container", "required": true },
+    { "id": 2, "name": "Icon",      "required": false, "note": "Success(check) / Info(i) / Critical(warn-triangle)" },
+    { "id": 3, "name": "Text",      "required": true,  "note": "1줄 20자, 최대 2줄" },
+    { "id": 4, "name": "Button",    "required": false, "note": "Snackbar 또는 Action variant" }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["toast", "snackbar"],
+      "default": "toast",
+      "spec": "notification/02, 05",
+      "note": "toast=메시지만, 3초 자동 사라짐. snackbar=text + action button"
+    },
+    "toastSubtype": {
+      "values": ["basic", "icon"],
+      "appliesTo": ["toast"],
+      "spec": "notification/03"
+    },
+    "snackbarSubtype": {
+      "values": ["action", "close"],
+      "appliesTo": ["snackbar"],
+      "spec": "notification/06"
+    },
+    "semantic": {
+      "values": ["success", "info", "critical", "default"],
+      "default": "default",
+      "spec": "notification/04",
+      "note": "icon 색·상태 차별화 (success=check 흰색/green, info=i teal, critical=triangle red)"
+    }
+  },
+
+  "sizes": {
+    "spec": "notification/07, 09",
+    "tokens": {
+      "Single":  { "minHeight": 48,  "maxLines": 1, "maxCharsPerLine": 20 },
+      "Two-Line":{ "minHeight": 68,  "maxLines": 2, "maxCharsPerLine": 20 }
+    }
+  },
+
+  "width": {
+    "spec": "notification/07, 08",
+    "policies": {
+      "flexible": { "description": "좌우 화면 margin 20 안에서 자연 폭", "sidePadding": { "default": 20 } },
+      "fixed": { "description": "320 해상도에서 228px", "examples": { "mobile-320": 228 } }
+    }
+  },
+
+  "colorMatrix": {
+    "spec": "notification/01, 04",
+    "default": {
+      "fill":  "fill.primary",
+      "text":  "text.inverse",
+      "icon":  "icon.inverse",
+      "action":"text.inverse",
+      "elevation": "elevation.16-up"
+    },
+    "success":  { "iconColor": "icon.feedback-on-dark-success", "iconShape": "check" },
+    "info":     { "iconColor": "icon.feedback-on-dark-Info",    "iconShape": "info-circle" },
+    "critical": { "iconColor": "icon.feedback-on-dark-critical","iconShape": "warning-triangle" }
+  },
+
+  "radius": {
+    "default": "radius.circle",
+    "twoLine": "radius.16",
+    "note": "단일 줄은 pill (radius.circle), 두 줄은 radius.16"
+  },
+
+  "placement": {
+    "spec": "notification/02, 11",
+    "anchor": "screen-bottom",
+    "stickyOffset": { "aboveBottomNav": 16, "aboveSticky": 16 },
+    "note": "CTA·하단 고정 콘텐츠 위로 배치 (겹치지 않도록)"
+  },
+
+  "autoDismiss": {
+    "spec": "notification/02, 03",
+    "toast":    { "duration": 3000, "interactToDismiss": ["outside-tap"] },
+    "snackbar": { "duration": null, "interactToDismiss": ["close-button", "action-button"], "note": "snackbar 는 자동 사라짐 없음. action 또는 close 만" }
+  },
+
+  "rules": [
+    {
+      "id": "one-toast-at-a-time",
+      "severity": "error",
+      "spec": "notification/10",
+      "do": "한 화면에는 하나의 토스트만 표시합니다.",
+      "dont": "여러 개의 토스트를 동시에 표시하지 않습니다."
+    },
+    {
+      "id": "above-sticky",
+      "severity": "warning",
+      "spec": "notification/11",
+      "do": "CTA 등 하단에 고정되는 콘텐츠 위로 배치합니다.",
+      "dont": "고정 콘텐츠와 중첩해서 배치하지 않습니다."
+    }
+  ],
+
+  "lintHints": {
+    "componentNameKeywords": ["toast", "snackbar", "notification"]
+  }
+}

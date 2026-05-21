@@ -8,6 +8,8 @@ const KdsDesignPage = {
   _LS_JOB: 'kds-design.jobId',
 
   async render() {
+    // v25: 플러그인 설치 안내 dismiss 여부 (localStorage)
+    const pluginGuideSeen = localStorage.getItem('kds.pluginGuideSeen') === '1';
     Shell.render(`
       <div class="page-header">
         <div>
@@ -15,11 +17,24 @@ const KdsDesignPage = {
           <div class="page-subtitle">대화로 요구사항을 명확화한 뒤 KDS v4 워크플로우로 자동 생성. 파이프라인 무관.</div>
         </div>
         <div class="flex gap-2" style="position:relative">
+          <button id="kds-plugin-btn" class="btn btn-sm" title="Figma 플러그인 설치 가이드 + 다운로드">🧩 Figma 플러그인</button>
           <button id="kds-history-btn" class="btn btn-sm" title="과거 대화 목록">대화 목록 ▼</button>
           <div id="kds-history-list" style="display:none;position:absolute;right:0;top:32px;background:#fff;border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.1);min-width:340px;max-height:50vh;overflow-y:auto;z-index:50"></div>
           <button id="kds-new" class="btn btn-sm">새 대화</button>
         </div>
       </div>
+
+      ${pluginGuideSeen ? '' : `
+      <div id="kds-plugin-banner" class="card mb-3" style="padding:14px 16px;background:linear-gradient(90deg,#fff8e1 0%,#fff3cd 100%);border-left:4px solid #f59f00;display:flex;gap:12px;align-items:center">
+        <div style="font-size:24px">🧩</div>
+        <div style="flex:1">
+          <div style="font-weight:600;margin-bottom:2px">처음 사용하시나요? Figma 플러그인 설치가 필요합니다</div>
+          <div style="font-size:13px;color:#555;line-height:1.5">KDS 디자인을 Figma 캔버스로 가져오려면 전용 플러그인을 한 번 설치해야 합니다. 다운로드 후 Figma 데스크톱에 import 하시면 됩니다.</div>
+        </div>
+        <button id="kds-plugin-show" class="btn-primary" style="width:auto;padding:8px 16px">설치 가이드 보기</button>
+        <button id="kds-plugin-dismiss" class="btn btn-sm" title="다시 안 보기">✕</button>
+      </div>
+      `}
 
       <div class="grid" style="grid-template-columns: 1.5fr 1fr; gap: 16px">
         <!-- 좌: 채팅 영역 -->
@@ -60,6 +75,16 @@ const KdsDesignPage = {
     document.getElementById('kds-refresh').addEventListener('click', () => this.loadList());
     document.getElementById('kds-open-preview').addEventListener('click', () => this.openKdsPreview());
     document.getElementById('kds-history-btn').addEventListener('click', (e) => { e.stopPropagation(); this.toggleHistory(); });
+    // v25: Figma 플러그인 설치 가이드
+    document.getElementById('kds-plugin-btn').addEventListener('click', () => this.showPluginGuide());
+    const banner = document.getElementById('kds-plugin-banner');
+    if (banner) {
+      document.getElementById('kds-plugin-show').addEventListener('click', () => this.showPluginGuide());
+      document.getElementById('kds-plugin-dismiss').addEventListener('click', () => {
+        localStorage.setItem('kds.pluginGuideSeen', '1');
+        banner.remove();
+      });
+    }
     document.addEventListener('click', (e) => {
       const list = document.getElementById('kds-history-list');
       if (list && !list.contains(e.target) && e.target.id !== 'kds-history-btn') list.style.display = 'none';
@@ -510,5 +535,61 @@ const KdsDesignPage = {
     } catch (e) {
       el.innerHTML = `<div class="empty" style="padding:16px;font-size:13px">목록 로드 실패</div>`;
     }
+  },
+
+  // v25: Figma 플러그인 설치 가이드 모달
+  async showPluginGuide() {
+    let info = null;
+    try { info = await API.get('/kds-design/plugin/info'); } catch (e) {
+      alert(`플러그인 정보 조회 실패: ${e.message || e}`);
+      return;
+    }
+    const domainsList = (info.devAllowedDomains || []).map(d => `<code style="font-size:12px">${d}</code>`).join('<br>');
+    const stepsHtml = (info.installSteps || []).map((s, i) => `<li style="margin-bottom:6px">${escapeHtml ? escapeHtml(s) : s}</li>`).join('');
+
+    const wrap = document.createElement('div');
+    wrap.className = 'modal-backdrop';
+    wrap.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+    wrap.innerHTML = `
+      <div class="modal" style="max-width:640px;background:#fff;border-radius:12px;padding:24px;max-height:90vh;overflow-y:auto">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="font-size:32px">🧩</div>
+          <div>
+            <h3 style="margin:0;font-size:20px">${info.name || 'KDS Change Tracker'} 설치</h3>
+            <div style="font-size:13px;color:#666;margin-top:2px">Figma 데스크톱 앱 전용 (브라우저에서는 동작 안 함)</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px">
+          <a href="${info.downloadUrl}?access_token=${API.getToken ? API.getToken() : ''}" download="kds-figma-plugin.zip" class="btn-primary" style="display:inline-block;padding:12px 20px;text-decoration:none;font-weight:600">📥 플러그인 다운로드 (zip)</a>
+          <span style="font-size:12px;color:#666;margin-left:8px">압축 풀고 manifest.json 선택</span>
+        </div>
+
+        <h4 style="margin:16px 0 8px;font-size:15px">설치 단계</h4>
+        <ol style="margin:0 0 16px 20px;padding:0;font-size:14px;line-height:1.6">${stepsHtml}</ol>
+
+        <h4 style="margin:16px 0 8px;font-size:15px">플러그인이 허용된 도메인</h4>
+        <div style="padding:10px;background:#f5f5f5;border-radius:6px;font-size:12px;line-height:1.8">${domainsList || '<em>없음</em>'}</div>
+        <div style="font-size:12px;color:#666;margin-top:6px">현재 서버: <code>${info.currentOrigin || ''}</code></div>
+
+        ${info.currentOrigin && info.devAllowedDomains && !info.devAllowedDomains.includes(info.currentOrigin) ? `
+          <div style="margin-top:12px;padding:10px;background:#fff3cd;border-left:3px solid #f59f00;border-radius:4px;font-size:13px">
+            ⚠️ 현재 서버 도메인 <code>${info.currentOrigin}</code> 이 플러그인 manifest 의 devAllowedDomains 에 등록되지 않았습니다. 관리자에게 manifest 갱신을 요청하세요.
+          </div>
+        ` : ''}
+
+        <div style="display:flex;justify-content:flex-end;margin-top:20px">
+          <button id="kds-plugin-close" class="btn-primary" style="width:auto;padding:10px 24px">확인</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(wrap);
+    wrap.querySelector('#kds-plugin-close').addEventListener('click', () => {
+      localStorage.setItem('kds.pluginGuideSeen', '1');
+      wrap.remove();
+      const banner = document.getElementById('kds-plugin-banner');
+      if (banner) banner.remove();
+    });
+    wrap.addEventListener('click', (e) => { if (e.target === wrap) wrap.remove(); });
   }
 };

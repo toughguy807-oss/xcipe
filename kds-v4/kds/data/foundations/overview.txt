@@ -1,0 +1,37 @@
+# overview
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Overview
+
+디자인의 기반이 되는 핵심 요소 사용 기준입니다.
+
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

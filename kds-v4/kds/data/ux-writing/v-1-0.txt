@@ -1,0 +1,22 @@
+# v-1-0
+
+Styleguide secondary navigation
+
+Foundations
+컬러, 타이포그래피, 레이아웃 등 디자인의 기본 구조와 규칙을 정의
+Components
+사용자 인터페이스를 구성하는 재사용 가능한 요소
+Patterns
+반복되는 업무 단위와 문제를 해결하는 가이드라인
+Visual Communication
+KT의 모든 경험을 하나로 잇는 시각 언어 가이드라인
+AI Agent
+AI 도구와 사용자의 상호작용을 위한 원칙과 가이드라인
+UX Writing
+명확하고 일관된 메시지를 전달하기 위한 언어 원칙과 표현
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

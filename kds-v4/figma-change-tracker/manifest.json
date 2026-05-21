@@ -1,0 +1,16 @@
+{
+  "name": "Change Tracker",
+  "id": "change-tracker-plugin",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["none"],
+    "devAllowedDomains": [
+      "http://localhost:3939",
+      "http://localhost:3747",
+      "https://xcipe-production.up.railway.app"
+    ]
+  }
+}

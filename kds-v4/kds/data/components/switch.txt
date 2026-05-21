@@ -1,0 +1,72 @@
+# switch
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Switch
+
+항목의 상태를 즉시 제어할 때 사용합니다.
+
+Anatomy
+
+Track
+
+Handle
+
+
+
+
+
+
+
+Type
+
+
+
+
+State
+
+Disabled 상태에서는 텍스트와 스위치 모두 비활성 처리합니다.
+
+
+
+
+Spec
+Size
+
+
+
+
+Guideline
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

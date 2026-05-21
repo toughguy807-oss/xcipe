@@ -1,0 +1,74 @@
+# tag
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Tag
+
+항목의 상태를 쉽고 빠르게 인식할 수 있도록 돕습니다.
+
+Anatomy
+
+Container
+
+Label
+
+
+
+
+
+
+
+Type
+1. Membership
+
+서비스 내 등급을 나타낼 때 사용합니다.
+
+2. Status
+
+진행 · 완료 · 주의 등 상태를 표시 할 때 사용합니다.
+
+3. Category
+
+카테고리, 속성 등 정보의 성격을 구분할 때 사용합니다.
+
+
+
+
+Spec
+1. Size
+2. Placement
+3. Color
+
+
+
+
+Guideline
+Help us improve
+Copyright© KT Corp. All rights reserved.

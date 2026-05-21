@@ -1,0 +1,76 @@
+# checkbox
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Checkbox
+
+여러 항목 중 하나 이상을 선택하거나 해제합니다.
+
+Anatomy
+
+Checkbox
+
+Label
+
+
+
+
+
+
+
+Type
+1. Basic
+2. Button
+
+
+
+
+State
+1. Basic
+2. Button
+
+
+
+
+Spec
+Container
+
+
+
+
+Guideline
+
+
+
+
+Template
+약관 동의 / 주문서 작성
+Help us improve
+Copyright© KT Corp. All rights reserved.

@@ -1,0 +1,87 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "top-navigation",
+  "version": "1.0",
+  "source": "kds/data/components/top-navigation/01~08.jpg",
+  "description": "현재 위치를 안내하고 핵심 기능을 제공합니다. 화면 최상단에서 브랜드 아이덴티티를 유지합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container",        "required": true },
+    { "id": 2, "name": "Logo",             "required": false, "note": "로고형 — Logo Image" },
+    { "id": 3, "name": "Trailing Element", "required": false, "note": "우측 아이콘 버튼들 (최대 3개)" },
+    { "id": 4, "name": "Leading Button",   "required": false, "note": "좌측 chevron-back 또는 햄버거" },
+    { "id": 5, "name": "Title",            "required": false }
+  ],
+
+  "variants": {
+    "type": {
+      "values": ["logo", "menu", "sub-title", "sub-icon", "full-popup", "search"],
+      "default": "sub-title",
+      "spec": "top-navigation/02",
+      "note": "logo=Logo+icons, menu=햄버거+Title+icons, sub-title=back+Title+icons, sub-icon=back+icons, full-popup=X close 만, search=back+input+magnifier"
+    },
+    "state": {
+      "values": ["default", "scrolling"],
+      "default": "default",
+      "spec": "top-navigation/03",
+      "note": "scrolling 은 콘텐츠 스크롤 시 하단 divider 표시"
+    }
+  },
+
+  "sizes": {
+    "spec": "top-navigation/04",
+    "tokens": {
+      "Default": { "height": 52 }
+    },
+    "default": "Default"
+  },
+
+  "width": {
+    "policy": "flexible",
+    "spec": "top-navigation/04, 05",
+    "titleMaxWidth": {
+      "mobile-430": "flexible",
+      "mobile-360": "flexible",
+      "mobile-320": 141
+    }
+  },
+
+  "iconSize": {
+    "spec": "top-navigation/06",
+    "default": 24
+  },
+
+  "colorMatrix": {
+    "spec": "top-navigation/03",
+    "default":   { "fill": "background.default", "title": "text.primary", "icon": "icon.primary", "bottomDivider": "none" },
+    "scrolling": { "fill": "background.default", "title": "text.primary", "icon": "icon.primary", "bottomDivider": "border.tertiary-01" }
+  },
+
+  "rules": [
+    {
+      "id": "max-3-trailing",
+      "severity": "warning",
+      "spec": "top-navigation/07",
+      "do": "버튼은 최대 3개까지만 배치합니다. 4개 이상일 경우 오버플로 버튼을 사용합니다.",
+      "dont": "버튼을 4개 이상 배치하지 않습니다."
+    },
+    {
+      "id": "left-first-by-frequency",
+      "severity": "warning",
+      "spec": "top-navigation/08",
+      "do": "버튼은 좌측부터 사용 빈도가 높은 순서대로 배치합니다.",
+      "dont": "버튼을 사용 빈도와 상관없이 임의로 배치하지 않습니다."
+    }
+  ],
+
+  "placement": {
+    "context": "screen-top",
+    "anchor":  "top-edge",
+    "note": "iOS status bar / Android status bar 바로 아래 부착"
+  },
+
+  "lintHints": {
+    "heightTokenSet": [52],
+    "componentNameKeywords": ["top-nav", "top-navigation", "app-bar", "header"]
+  }
+}

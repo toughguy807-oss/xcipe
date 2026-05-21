@@ -1,0 +1,147 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "button",
+  "version": "1.0",
+  "source": "kds/data/components/button-spec-01~19.jpg",
+  "description": "사용자의 의도를 명확하게 전달하고 행동을 유도합니다. 버튼의 형태와 색은 우선순위를 시각적으로 구분합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Container", "required": true },
+    { "id": 2, "name": "Label",     "required": false, "note": "Icon-only 형태에서는 생략" },
+    { "id": 3, "name": "Icon",      "required": false, "note": "Solid 버튼 우측, Icon-only 버튼은 중앙" }
+  ],
+
+  "variants": {
+    "shape": {
+      "values": ["solid", "icon-only", "text", "fab", "extended-fab"],
+      "default": "solid",
+      "spec": "button-spec-03, 05, 07"
+    },
+    "textStyle": {
+      "values": ["chevron", "underline", "ghost"],
+      "appliesTo": ["text"],
+      "spec": "button-spec-05"
+    },
+    "style": {
+      "values": ["accent", "primary", "secondary", "tertiary", "tertiary-filled"],
+      "default": "primary",
+      "spec": "button-spec-08"
+    },
+    "state": {
+      "values": ["default", "hover", "pressed", "disabled"],
+      "default": "default",
+      "spec": "button-spec-08"
+    }
+  },
+
+  "sizes": {
+    "spec": "button-spec-11",
+    "tokens": {
+      "XLarge": { "height": 56 },
+      "Large":  { "height": 48 },
+      "Medium": { "height": 44 },
+      "Small":  { "height": 32 },
+      "XSmall": { "height": 24 }
+    },
+    "default": "Large"
+  },
+
+  "colorMatrix": {
+    "spec": "button-spec-08",
+    "note": "style × state 별 fill/label/border 시맨틱 토큰 매핑. -01 surface 컨텍스트 기준 (기본).",
+    "accent": {
+      "default":  { "fill": "fill.accent-primary",          "label": "text.inverse", "icon": "icon.inverse" },
+      "hover":    { "fill": "fill.accent-primary-hover",    "label": "text.inverse", "icon": "icon.inverse" },
+      "pressed":  { "fill": "fill.accent-primary-pressed",  "label": "text.inverse", "icon": "icon.inverse" },
+      "disabled": { "fill": "fill.disabled-01",             "label": "text.disabled-01", "icon": "icon.disabled-01" }
+    },
+    "primary": {
+      "default":  { "fill": "fill.primary",         "label": "text.inverse", "icon": "icon.inverse" },
+      "hover":    { "fill": "fill.primary-hover",   "label": "text.inverse", "icon": "icon.inverse" },
+      "pressed":  { "fill": "fill.primary-pressed", "label": "text.inverse", "icon": "icon.inverse" },
+      "disabled": { "fill": "fill.disabled-01",     "label": "text.disabled-01", "icon": "icon.disabled-01" }
+    },
+    "secondary": {
+      "default":  { "fill": "fill.secondary-01",         "label": "text.primary", "icon": "icon.primary" },
+      "hover":    { "fill": "fill.secondary-hover-01",   "label": "text.primary", "icon": "icon.primary" },
+      "pressed":  { "fill": "fill.secondary-pressed-01", "label": "text.primary", "icon": "icon.primary" },
+      "disabled": { "fill": "fill.disabled-01",          "label": "text.disabled-01", "icon": "icon.disabled-01" }
+    },
+    "tertiary": {
+      "default":  { "fill": "fill.tertiary",            "border": "border.primary-01",       "label": "text.primary", "icon": "icon.primary" },
+      "hover":    { "fill": "fill.tertiary-hover-01",   "border": "border.primary-hover-01", "label": "text.primary", "icon": "icon.primary" },
+      "pressed":  { "fill": "fill.tertiary-pressed-01", "border": "border.primary-pressed",  "label": "text.primary", "icon": "icon.primary" },
+      "disabled": { "fill": "fill.tertiary",            "border": "border.disabled-01",      "label": "text.disabled-01", "icon": "icon.disabled-01" }
+    },
+    "tertiary-filled": {
+      "default":  { "fill": "background.default",       "border": "border.primary-01",       "label": "text.primary", "icon": "icon.primary" },
+      "hover":    { "fill": "fill.tertiary-hover-01",   "border": "border.primary-hover-01", "label": "text.primary", "icon": "icon.primary" },
+      "pressed":  { "fill": "fill.tertiary-pressed-01", "border": "border.primary-pressed",  "label": "text.primary", "icon": "icon.primary" },
+      "disabled": { "fill": "background.default",       "border": "border.disabled-01",      "label": "text.disabled-01", "icon": "icon.disabled-01" }
+    }
+  },
+
+  "width": {
+    "spec": "button-spec-12, 14, 16, 17",
+    "policies": {
+      "flexible": {
+        "description": "좌우 화면 padding 안에서 가용 폭을 차지",
+        "sidePadding": { "mobile-430": 16, "mobile-360": 16, "mobile-320": 16, "default": 20 }
+      },
+      "fixed": {
+        "description": "고정 폭. 320 해상도에서 248px 사용",
+        "examples": { "mobile-320": 248, "web-pc-container": 610 }
+      }
+    }
+  },
+
+  "group": {
+    "spec": "button-spec-13",
+    "horizontal": { "split": "1/N + 1/N", "gap": 8 },
+    "rule": "Primary 버튼은 그룹당 하나만"
+  },
+
+  "placement": {
+    "spec": "button-spec-15",
+    "sticky": {
+      "bottomNavigationGap": 20,
+      "edgeGap": 24
+    }
+  },
+
+  "radius": {
+    "default": "radius.8",
+    "fab":     "radius.circle",
+    "extended-fab": "radius.circle",
+    "note": "shape 별 라운드 토큰. text 버튼은 radius 없음"
+  },
+
+  "typography": {
+    "default": "body-1.semibold",
+    "note": "사이즈별 typography 는 spec 이미지에 별도 표기 없음 — Large 기준 body-1.semibold 사용"
+  },
+
+  "rules": [
+    {
+      "id": "primary-one-per-group",
+      "severity": "error",
+      "spec": "button-spec-18",
+      "do": "버튼 그룹에서 Primary 버튼은 하나만 사용합니다.",
+      "dont": "Primary 버튼을 두 개 이상 사용하지 않습니다."
+    },
+    {
+      "id": "label-includes-verb",
+      "severity": "warning",
+      "spec": "button-spec-19",
+      "do": "버튼 레이블은 서술어를 포함합니다.",
+      "dont": "버튼 레이블을 주어만으로 구성하지 않습니다.",
+      "example": { "ok": "이용량 조회", "ng": "이용량" }
+    }
+  ],
+
+  "lintHints": {
+    "heightTokenSet": [24, 32, 44, 48, 56],
+    "buttonNameKeywords": ["btn", "button", "cta", "tab"],
+    "excludeNameKeywords": ["icon-box", "icon-wrap", "icon-container", "icon-frame", "stack", "group", "bar", "list", "strip", "row"]
+  }
+}

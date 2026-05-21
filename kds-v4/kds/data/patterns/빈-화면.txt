@@ -1,0 +1,47 @@
+# 빈-화면
+
+Styleguide secondary navigation
+
+Patterns
+Overview
+Common UI
+입력 폼
+약관 동의
+빈 화면
+유의사항
+Service Pattern
+Common UI
+빈 화면
+
+데이터가 존재하지 않는 상태를 안내하고, 다음 행동을 유도하여 이탈을 방지하는 패턴을 제공합니다.
+
+Anatomy
+
+Search
+
+Divider
+
+Button
+
+List 
+
+
+
+
+
+
+
+Related Components
+Search
+Divider
+Button
+List
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

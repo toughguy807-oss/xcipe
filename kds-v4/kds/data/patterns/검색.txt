@@ -1,0 +1,55 @@
+# 검색
+
+Styleguide secondary navigation
+
+Patterns
+Overview
+Common UI
+Service Pattern
+온보딩
+검색
+시스템 상태
+Service Pattern
+검색
+
+검색 전 · 중 · 후 상황과 검색 대상의 범위에 따른 검색 패턴을 제공합니다.
+
+Anatomy
+
+Search
+
+Tab
+
+Chip
+
+List
+
+Button
+
+Divider
+
+Bottom Sheet
+
+
+
+
+
+
+
+Related Components
+Search
+Tab
+Chip
+List
+Button
+Divider
+Bottom Sheet
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

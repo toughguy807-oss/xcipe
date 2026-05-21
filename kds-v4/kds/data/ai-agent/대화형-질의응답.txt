@@ -1,0 +1,51 @@
+# 대화형-질의응답
+
+Styleguide secondary navigation
+
+AI Agent
+Principles
+Components
+Patterns
+온보딩
+대화형 질의응답
+파일 분석
+이미지 생성
+음성입력
+Patterns
+대화형 질의응답
+
+사용자가 일상적인 언어로 질문하면 AI가 이를 이해하고 답변을 적절히 제시합니다.
+
+원하는 정보를 단계적으로 탐색할 수 있도록 지원합니다.
+
+Mobile
+Desktop
+Anatomy
+
+Prompt Text Field - Text
+
+Prompt Input
+
+Prompt Output
+
+
+
+
+
+
+
+Flow
+
+
+
+
+Related Components
+Prompt Text Field
+Prompt Input
+Prompt Output
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

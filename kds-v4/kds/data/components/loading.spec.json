@@ -1,0 +1,77 @@
+{
+  "$schema": "../spec.schema.json",
+  "name": "loading",
+  "version": "1.0",
+  "source": "kds/data/components/loading/01~04.jpg",
+  "description": "내용을 불러오는 동안 진행 상태를 시각적으로 안내합니다.",
+
+  "anatomy": [
+    { "id": 1, "name": "Loading Spinner", "required": true, "note": "원형 spinner — 360deg rotate animation" },
+    { "id": 2, "name": "Label",           "required": false, "note": "Medium 사이즈에서 안내 메시지 (최대 18자)" }
+  ],
+
+  "variants": {
+    "size": {
+      "values": ["small", "medium", "large"],
+      "default": "medium",
+      "spec": "loading/02",
+      "note": "small=리프레시 등 짧은 로딩 (콘텐츠와 동반). medium=전체 페이지 로딩 (메시지 함께). large=PC 넓은 화면 (비율 가변)"
+    },
+    "useCase": {
+      "values": ["spinner", "skeleton"],
+      "default": "spinner",
+      "spec": "loading/04",
+      "note": "skeleton 은 이미지/로딩 길 때 시간 단서를 줌"
+    }
+  },
+
+  "sizes": {
+    "spec": "loading/02",
+    "tokens": {
+      "Small":  { "width": 28, "height": 28 },
+      "Medium": { "width": 40, "height": 40 },
+      "Large":  { "width": 56, "height": 56 }
+    },
+    "default": "Medium"
+  },
+
+  "colorMatrix": {
+    "spec": "loading/01, 02",
+    "default": {
+      "trackBaseGradient": "from white to gray.300",
+      "trackHighlight":    "fill.primary",
+      "label":             "text.primary"
+    }
+  },
+
+  "stroke": {
+    "small":  3,
+    "medium": 4,
+    "large":  5
+  },
+
+  "labelConstraints": {
+    "spec": "loading/01",
+    "maxLength": 18,
+    "appliesTo": ["medium"],
+    "note": "Medium 사이즈만 라벨 사용. 예: '잠시만 기다려 주세요.'"
+  },
+
+  "placement": {
+    "spec": "loading/03",
+    "list": { "topGap": 16, "bottomGap": 24, "note": "리스트 안 인라인 로딩" },
+    "fullPage": { "alignment": "center", "note": "전체 페이지 로딩 시 화면 중앙" }
+  },
+
+  "skeleton": {
+    "spec": "loading/04",
+    "description": "이미지/카드 영역을 회색 placeholder + shimmer 그라디언트로 보여줌",
+    "fill": "fill.disabled-01",
+    "highlightAnimation": "fill.disabled-02 → fill.disabled-01 (좌→우 이동)"
+  },
+
+  "lintHints": {
+    "heightTokenSet": [28, 40, 56],
+    "componentNameKeywords": ["loading", "spinner", "skeleton"]
+  }
+}

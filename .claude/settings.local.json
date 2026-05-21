@@ -20,7 +20,13 @@
       "Bash(tasklist /FI \"IMAGENAME eq node.exe\" /FO CSV)",
       "Bash(findstr -v \"DESKTOP\")",
       "Bash(git init *)",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "Bash(git push *)",
+      "Bash(awk '{ *)",
+      "WebFetch(domain:docs.railway.com)",
+      "Bash(gh auth *)",
+      "Bash(mkdir -p d:/SYS_v4/kds-v4)",
+      "Bash(cp -r kds kds-rules scripts figma-change-tracker bridge-server.js CLAUDE.md README.md package.json package-lock.json d:/SYS_v4/kds-v4/)"
     ]
   }
 }

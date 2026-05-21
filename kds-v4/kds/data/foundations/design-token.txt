@@ -1,0 +1,100 @@
+# design-token
+
+## Usage
+
+Styleguide secondary navigation
+
+Foundations
+Overview
+Color
+Typography
+Elevation
+Breakpoint
+Radius
+Iconography
+Motion
+Accessibility
+Design Token
+Visual Communication
+Foundations
+Design Token
+
+디자이너와 개발자의 효율적인 협업을 위한 코드화된 기준입니다.
+
+시각적 속성을 유연하게 제어하고 확장할 수 있는 기반을 제공합니다.
+
+
+
+
+Design Token
+
+Raw Data를 참조해 스타일 속성을 정의한 프리미티브 토큰, 의미를 부여한 시맨틱 토큰, 
+컴포넌트 상태를 나타내는 컴포넌트 토큰까지 3가지 계층으로 분류합니다.
+
+W3C Standards
+
+W3C Design Tokens 표준을 준수하며, 디자인 속성을 구조화하여 일관된 시스템으로 관리합니다.
+
+“디자인 토큰은 플랫폼에 구애받지 않는 방식으로 디자인 결정을 표현하여 서로 다른 분야, 도구,
+기술 간에 공유할 수 있도록 하는 방법론입니다. 이는 조직 전반에 걸쳐 공통된 어휘를 확립하는 데 도움이 됩니다.”
+
+
+
+
+
+
+
+Token Format
+
+피그마에서 정의된 토큰은 플랫폼별 포맷으로 변환되어 적용하며, 모든 디지털 환경에 일관된 시각 경험을 제공합니다.
+
+Figma
+	
+Code
+
+
+	
+
+
+
+
+Token Tier
+Primitive Token
+
+프리미티브 토큰은 시각적 속성의 기본 단위를 정의하는 디자인 시스템의 Raw Data를 관리하며, 모든 토큰의 기초가 되는 기준입니다. 
+시맨틱 토큰이나 컴포넌트 토큰이 모두 이 값을 참조하여 구성됩니다.
+
+Semantic Token
+
+시맨틱 토큰은 의미 기반의 값으로, 제품의 맥락과 스크린 모드에 따라 프리미티브 값을 유연하게 전환합니다.
+테마 단위로 구성되어 제품 전반의 일관성과 접근성을 보장합니다.
+
+Component Token
+
+컴포넌트 토큰은 컴포넌트의 속성을 표현하는 독립적인 토큰입니다. 기본 값을 수정해도 다른 컴포넌트에 영향을 미치지 않습니다.
+주로 코드베이스에서 관리되며, 피그마 내에서는 직접 정의하지 않습니다.
+
+
+
+
+Use Case
+
+미리 정의된 프리미티브 컬러 값을 사용 목적과 역할에 따라 시맨틱 토큰으로 정의하여 사용합니다.
+각 토큰은 테마에 맞춰 자동으로 적절한 색상 값이 적용됩니다.
+
+
+
+
+Token 바로가기
+Color Token
+Foundations / Color
+Typography Token
+Foundations / Typography
+Elevation Token
+Foundations / Elevation
+Breakpoint Token
+Foundations / Breakpoint
+Radius Token
+Foundations / Radius
+Help us improve
+Copyright© KT Corp. All rights reserved.

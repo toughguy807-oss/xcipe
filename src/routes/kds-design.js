@@ -939,7 +939,9 @@ router.get('/list', async (req, res) => {
         html: htmlExists ? htmlName : null,
         mtime: stat.mtimeMs,
         size: stat.size,
-        previewUrl: htmlExists ? `http://localhost:3939/preview/${htmlName}` : null
+        // v25: Railway 단일 PORT 호환 — 외부에서는 /kds-bridge/preview/* 로 접근.
+        //   PUBLIC_BASE_URL 미설정 시 상대 경로 사용 → 브라우저가 현재 도메인 기준 자동 prefix.
+        previewUrl: htmlExists ? `${process.env.PUBLIC_BASE_URL || ''}/kds-bridge/preview/${htmlName}` : null
       };
     })
     .sort((a, b) => b.mtime - a.mtime);
@@ -990,6 +992,59 @@ router.get('/figma-history', (req, res) => {
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
+});
+
+// v25: GET /api/kds-design/plugin/info — 플러그인 설치 정보 (UI 가이드 표시용)
+//   응답에 zip 다운로드 URL, manifest 도메인 목록, 현재 Railway 도메인 포함
+router.get('/plugin/info', (req, res) => {
+  const kdsRoot = getKdsRoot();
+  const pluginDir = path.join(kdsRoot, 'figma-change-tracker');
+  if (!fs.existsSync(pluginDir)) {
+    return res.status(404).json({ error: 'plugin directory not found', dir: pluginDir });
+  }
+  let manifest = null;
+  try {
+    manifest = JSON.parse(fs.readFileSync(path.join(pluginDir, 'manifest.json'), 'utf8'));
+  } catch {}
+  res.json({
+    ok: true,
+    name: (manifest && manifest.name) || 'KDS Change Tracker',
+    pluginId: (manifest && manifest.id) || 'unknown',
+    devAllowedDomains: (manifest && manifest.networkAccess && manifest.networkAccess.devAllowedDomains) || [],
+    downloadUrl: '/api/kds-design/plugin/download',
+    currentOrigin: req.headers['x-forwarded-host']
+      ? `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['x-forwarded-host']}`
+      : `${req.protocol}://${req.get('host')}`,
+    installSteps: [
+      'Figma 데스크톱 앱 실행 (브라우저 불가)',
+      '메뉴 → Plugins → Development → "Import plugin from manifest..."',
+      '다운로드 받은 zip 압축 풀고 manifest.json 선택',
+      '플러그인 목록에 "KDS Change Tracker" 등재 확인',
+      'Figma 파일 열고 Plugins → Development → KDS Change Tracker 실행'
+    ]
+  });
+});
+
+// v25: GET /api/kds-design/plugin/download — figma-change-tracker/ 전체를 zip 으로 반환
+//   manifest.json + code.js + ui.html (보통 ~50KB 미만)
+router.get('/plugin/download', (req, res) => {
+  const kdsRoot = getKdsRoot();
+  const pluginDir = path.join(kdsRoot, 'figma-change-tracker');
+  if (!fs.existsSync(pluginDir)) {
+    return res.status(404).json({ error: 'plugin directory not found' });
+  }
+  let archiver;
+  try { archiver = require('archiver'); }
+  catch (e) {
+    return res.status(500).json({ error: 'archiver 미설치 — Dockerfile rebuild 필요', detail: e.message });
+  }
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', `attachment; filename="kds-figma-plugin.zip"`);
+  const zip = archiver('zip', { zlib: { level: 9 } });
+  zip.on('error', (err) => { try { res.status(500).end(err.message); } catch {} });
+  zip.pipe(res);
+  zip.directory(pluginDir, 'kds-figma-plugin');
+  zip.finalize();
 });
 
 module.exports = router;

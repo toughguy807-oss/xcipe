@@ -1,0 +1,62 @@
+# 이미지-생성
+
+Styleguide secondary navigation
+
+AI Agent
+Principles
+Components
+Patterns
+온보딩
+대화형 질의응답
+파일 분석
+이미지 생성
+음성입력
+Patterns
+이미지 생성
+
+사용자의 설명을 AI가 시각적으로 해석하여 이미지를 생성합니다.
+
+창의적인 아이디어를 구체화하고 독창적인 이미지를 제공합니다.
+
+Mobile
+Desktop
+Anatomy
+
+Prompt Text Field - Text
+
+Prompt Input
+
+Prompt Output
+
+Prompt Output - Image
+
+
+
+
+
+
+
+Flow
+
+
+
+
+
+
+
+Related Components
+Prompt Text Field
+Prompt Input
+Prompt Output
+
+
+
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

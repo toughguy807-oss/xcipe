@@ -1,0 +1,56 @@
+# 약관-동의
+
+Styleguide secondary navigation
+
+Patterns
+Overview
+Common UI
+입력 폼
+약관 동의
+빈 화면
+유의사항
+Service Pattern
+Common UI
+약관 동의
+
+약관에 대한 명확한 이해와 동의를 구하기 위한 패턴을 제공합니다.
+
+Anatomy
+
+Checkbox
+
+Dropdown
+
+Button
+
+Bottom Sheet
+
+Divider
+
+
+
+
+
+
+
+Related Components
+Checkbox
+Dropdown
+Button
+Bottom Sheet
+Divider
+
+
+
+
+
+
+
+
+
+
+
+
+
+Help us improve
+Copyright© KT Corp. All rights reserved.

@@ -1,0 +1,68 @@
+# card
+
+Styleguide secondary navigation
+
+Components
+Overview
+Button
+Bottom Navigation
+Bottom Sheet
+Card
+Checkbox
+Chip
+Data Visual
+Data Table
+Divider
+Dropdown
+Indicator
+List
+Loading
+Notification
+Popup
+Radio Button
+Search
+Slider
+Switch
+Tab
+Tag
+Text Field
+Tooltip
+Top Navigation
+Components
+Card
+
+공통된 정보를 시각적으로 묶어서 제공합니다.
+
+유연한 레이아웃을 사용하여 공간을 효율적으로 활용합니다.
+
+Anatomy
+
+Container
+
+Title Text
+
+Body Text
+
+
+
+
+
+
+
+Type
+1. Full Image
+2. Image + Text
+
+
+
+
+Guideline
+
+
+
+
+Template
+1. 이벤트/혜택 리스트
+2. 데이터
+Help us improve
+Copyright© KT Corp. All rights reserved.
