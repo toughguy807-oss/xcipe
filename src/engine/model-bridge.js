@@ -169,7 +169,15 @@ class FailingProvider {
 }
 
 function getProvider() {
-  const configured = getSetting('ai_provider') || 'mock';
+  let configured = getSetting('ai_provider') || 'mock';
+  // v26: 분산 워커 모드 — 서버는 claude-code 호출 불가 (OAuth 없음).
+  //   ai_provider='claude-code' 면 워커가 파이프라인 실행을 처리하고,
+  //   서버 측 직접 호출(analyzePrompt, intake 등)은 mock 로 fallback.
+  //   ClaudeCodeProvider spawn 시도 자체를 차단해 'Command failed: claude -p ...' 에러 방지.
+  const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
+  if (workerMode === 'queue-only' && configured === 'claude-code') {
+    configured = 'mock';
+  }
   if (_currentProviderName !== configured || !_currentProvider) {
     try {
       _currentProvider = createProvider(configured);
@@ -201,6 +209,31 @@ async function testConnection(providerName = null) {
 }
 
 async function analyzePrompt(prompt) {
+  // v26: 분산 워커 모드(queue-only) + claude-code 면 서버가 직접 호출 못 함.
+  //   동기 응답 필요한 짧은 분석이라 워커 위임 부적합 → 휴리스틱 fallback 반환.
+  //   사용자가 프로젝트 폼에서 필드를 직접 채우면 됨.
+  const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
+  const aiProvider = getSetting('ai_provider') || 'claude-code';
+  if (workerMode === 'queue-only' && aiProvider === 'claude-code') {
+    const text = String(prompt || '').trim();
+    const firstLine = text.split('\n')[0].slice(0, 30);
+    const slug = firstLine.replace(/[^a-zA-Z0-9가-힯]+/g, '_').toUpperCase().slice(0, 12) || 'NEW_PROJECT';
+    return {
+      ok: true,
+      data: {
+        name: firstLine || '새 프로젝트',
+        code: slug,
+        type: 'web',
+        industry: '',
+        target: '',
+        estimated_days: 0,
+        description: text.slice(0, 200)
+      },
+      tokens: null,
+      _fallback: 'queue-only-mode'
+    };
+  }
+
   const provider = getProvider();
   const systemPrompt = `You are a project analyzer. Extract structured metadata from a user prompt and return as JSON only.
 Schema: { "name": string (max 30 chars), "code": string (uppercase A-Z0-9_ max 12), "type": "web"|"ecommerce"|"booking"|"saas"|"tourism", "industry": string, "target": string, "estimated_days": number, "description": string }

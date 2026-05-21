@@ -476,6 +476,9 @@ const DashboardPage = {
     const step1 = !!(ob.my_claude_session && ob.my_claude_session.loggedIn);
     const step2 = !!ob.has_worker_token;
     const step3 = !!ob.my_worker_active;
+    const xcipeUser = (API.getUser && API.getUser()) || {};
+    const claudeUser = ob.my_claude_session || {};
+    const accountsDiffer = claudeUser.email && xcipeUser.email && claudeUser.email !== xcipeUser.email;
 
     const wrap = document.createElement('div');
     wrap.className = 'modal-backdrop';
@@ -483,7 +486,16 @@ const DashboardPage = {
     wrap.innerHTML = `
       <div class="modal" style="max-width:680px;background:#fff;border-radius:12px;padding:24px;max-height:90vh;overflow-y:auto">
         <h3 style="margin:0 0 8px;font-size:22px">🚀 xcipe 워커 설정</h3>
-        <p style="margin:0 0 20px;color:#666;font-size:14px">본인 PC 에서 본인 Claude 계정으로 파이프라인을 실행합니다. 3단계만 완료하면 됩니다.</p>
+        <p style="margin:0 0 16px;color:#666;font-size:14px">본인 PC 에서 본인 Claude 계정으로 파이프라인을 실행합니다. 3단계만 완료하면 됩니다.</p>
+
+        <div style="background:#f8f9fa;border-radius:8px;padding:12px 14px;margin-bottom:20px;font-size:13px">
+          <div style="font-weight:600;margin-bottom:6px;font-size:12px;color:#666">계정 정보 — 두 다른 시스템 (같지 않아도 정상)</div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <div>📋 <strong>xcipe 로그인</strong>: <code>${escapeHtml ? escapeHtml(xcipeUser.email || '-') : (xcipeUser.email || '-')}</code></div>
+            <div>🤖 <strong>Claude CLI 로그인</strong>: <code>${escapeHtml ? escapeHtml(claudeUser.email || '미감지') : (claudeUser.email || '미감지')}</code>${claudeUser.plan ? ` <span style="color:#666">(${claudeUser.plan})</span>` : ''}</div>
+          </div>
+          ${accountsDiffer ? `<div style="margin-top:8px;font-size:12px;color:#856404;background:#fff3cd;padding:6px 10px;border-radius:4px">💡 두 계정이 다릅니다. <strong>정상</strong> — xcipe 는 UI/권한, Claude 는 LLM 사용량/구독에 사용됩니다. 본인 Claude 구독으로 작업이 청구됩니다.</div>` : ''}
+        </div>
 
         <div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;${step1 ? 'opacity:0.6' : ''}">
           <div style="display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px">${checkMark(step1)} 1단계: Claude CLI 설치 + 로그인</div>
@@ -501,10 +513,12 @@ claude auth status    # 로그인 확인</pre>
         <div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;${step2 ? 'opacity:0.6' : ''}">
           <div style="display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px">${checkMark(step2)} 2단계: 워커 토큰 발급</div>
           ${step2
-            ? `<div style="color:#28a745;font-size:13px;padding-left:28px">완료 — 토큰 보유 중</div>`
+            ? `<div style="color:#28a745;font-size:13px;padding-left:28px">완료 — 토큰 보유 중 (분실 시 /admin/users 에서 재발급)</div>`
             : ob.is_admin
               ? `<div style="padding-left:28px;font-size:13px">
-                  <a href="#/admin/users" style="color:#007bff">/admin/users</a> 페이지에서 본인 row → [토큰 발급] 클릭 → 1회 노출되는 64자 hex 토큰 복사
+                  <p style="margin:4px 0">본인 admin 권한으로 원클릭 발급 가능:</p>
+                  <button class="btn-primary" onclick="DashboardPage.issueMyWorkerToken()" style="width:auto;padding:8px 14px">🔑 내 워커 토큰 발급</button>
+                  <span style="color:#666;margin-left:8px">또는 <a href="#/admin/users" style="color:#007bff">/admin/users</a> 에서 발급</span>
                 </div>`
               : `<div style="padding-left:28px;font-size:13px;color:#dc3545">
                   관리자에게 워커 토큰 발급 요청 필요. 발급된 토큰을 받아 3단계 환경변수에 사용하세요.
