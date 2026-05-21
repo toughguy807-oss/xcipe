@@ -499,12 +499,13 @@ module.exports.myDownloadHandler = (req, res) => {
     ].join('\n');
     const finalJs = jsHeader + daemonContent;
 
-    // 더블클릭 가능한 .cmd (Windows) — 같은 폴더의 xcipe-worker.js 실행
+    // 더블클릭 가능한 .cmd (Windows) — 무한 재시작 wrapper.
+    //   워커 daemon 이 죽으면 (self-update spawn 실패, claude crash, 예외 등) 3초 후 자동 재시작.
+    //   사용자는 .cmd 창 닫지만 않으면 됨. PowerShell 창 별도 띄울 필요 X.
     const cmdContent = [
       '@echo off',
       'chcp 65001 >nul',
-      'REM xcipe-worker auto-start (' + row.email + ')',
-      'REM 이 파일을 더블클릭하면 워커가 가동됩니다.',
+      'REM xcipe-worker auto-restart wrapper (' + row.email + ')',
       'title xcipe-worker - ' + row.email,
       'cd /d "%~dp0"',
       'where node >nul 2>nul',
@@ -519,8 +520,13 @@ module.exports.myDownloadHandler = (req, res) => {
       '  echo [INFO] claude CLI 자동 설치 중...',
       '  call npm install -g @anthropic-ai/claude-code',
       ')',
+      ':loop',
+      'echo.',
+      'echo [%date% %time%] xcipe-worker 시작',
       'node "%~dp0xcipe-worker.js"',
-      'pause'
+      'echo [%date% %time%] xcipe-worker 종료 (exit %errorlevel%). 3초 후 재시작...',
+      'timeout /t 3 /nobreak >nul',
+      'goto loop'
     ].join('\r\n');
 
     // 부팅 시 자동 실행 등록 (Windows startup 폴더 + 즉시 실행)

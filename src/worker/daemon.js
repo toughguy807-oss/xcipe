@@ -27,6 +27,15 @@ const path = require('path');
 const crypto = require('crypto');
 const { exec } = require('child_process');
 
+// v30: 비동기 예외로 워커가 silently 죽지 않도록 catch.
+//   .cmd wrapper 가 죽으면 재시작하니까 본 프로세스가 죽어도 회복되지만, 가능한 한 본 프로세스가 살아있게.
+process.on('uncaughtException', (e, origin) => {
+  console.error(`[xcipe-worker ${new Date().toISOString()}] FATAL uncaughtException origin=${origin}`, e && e.stack || e);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error(`[xcipe-worker ${new Date().toISOString()}] FATAL unhandledRejection`, reason && reason.stack || reason);
+});
+
 const SERVER         = (process.env.XCIPE_SERVER || '').replace(/\/+$/, '');
 const WORKER_TOKEN   = process.env.XCIPE_WORKER_TOKEN || '';
 const WORKER_ID      = process.env.XCIPE_WORKER_ID || `${os.hostname()}:${process.pid}`;
