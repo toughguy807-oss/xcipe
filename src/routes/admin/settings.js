@@ -138,16 +138,21 @@ router.put('/ai', async (req, res) => {
             myClaudeOk = !!sessionInfo.loggedIn;
           } catch {}
         }
-        const myWorkerActive = !!db.prepare(`
+        // v27: polling 활성 판정 — last_polled_at (워커 polling 자체) 또는 heartbeat_at (step 처리)
+        const lastPolledRow = db.prepare(`SELECT last_polled_at FROM users WHERE id = ?`).get(req.user.id);
+        const hasRecentPoll = !!(lastPolledRow && lastPolledRow.last_polled_at &&
+          new Date(lastPolledRow.last_polled_at).getTime() > Date.now() - 2 * 60 * 1000);
+        const hasActiveStep = !!db.prepare(`
           SELECT COUNT(*) AS n FROM pipeline_steps
           WHERE worker_id IS NOT NULL AND user_id = ?
             AND heartbeat_at > datetime('now', '-2 minutes')
         `).get(req.user.id).n;
+        const myWorkerActive = hasRecentPoll || hasActiveStep;
 
         if (!myWorkerActive) {
           return res.status(400).json({
             error: 'ESYS-SET-011',
-            message: '본인 PC 워커가 polling 중이 아닙니다. 본인 PC 에서 npm run worker (또는 xcipe-worker.js) 실행 후 다시 시도하세요. force:true 로 강제 저장 가능.',
+            message: '본인 PC 워커가 polling 중이 아닙니다. xcipe-worker 실행 확인 후 다시 시도하세요. force:true 로 강제 저장 가능.',
             hint: '대시보드 → 워커 설정 가이드 참고'
           });
         }

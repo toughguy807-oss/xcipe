@@ -66,6 +66,12 @@ router.post('/jobs/claim', (req, res) => {
   const claimToken = crypto.randomBytes(16).toString('hex');
   const nowIso = new Date().toISOString();
 
+  // v27: 워커 polling 활성 추적 — step claim 없어도 polling 자체로 활성 판정 가능
+  //   매 /jobs/claim 호출마다 users.last_polled_at 갱신
+  try {
+    db.prepare(`UPDATE users SET last_polled_at = datetime('now') WHERE id = ?`).run(userId);
+  } catch {}
+
   // atomic claim — better-sqlite3 는 동기라 db.transaction() 으로 묶기만 하면 race 없음
   const claim = db.transaction(() => {
     // admin 은 모든 작업 claim 가능. member 는 본인 작업 + 미배정 작업.

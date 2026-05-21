@@ -675,24 +675,42 @@ const CONCURRENCY = Math.max(1, parseInt(process.env.PIPELINE_WORKER_CONCURRENCY
 let _inflight = 0;
 
 // 워커 사이클: 가용 슬롯만큼 pending step 을 claim 해 병렬 실행
-// v25: 분산 워커 분기 — ai_provider 설정 기반 (admin/settings 에서 toggle 가능)
-//   claude-code  : OAuth 필요 → 서버 컨테이너에 토큰 없음 → 외부 워커에 위임 (queue-only 동작)
-//   claude-api   : API 키만 있으면 됨 → 서버가 직접 처리 (local 동작)
-//   mock         : 가짜 응답 → 서버가 직접 처리
-//
-// 환경변수 WORKER_MODE 는 deprecated — 호환을 위해 유지하되 ai_provider 가 우선.
-//   WORKER_MODE=queue-only 설정 시 ai_provider 무관하게 외부 워커 강제 (운영 비상용).
+// v25-26: 분산 워커 분기
+//   claude-code  : OAuth 필요. 컨테이너에 ~/.claude/credentials 없으면 워커 위임.
+//   claude-api   : API 키만 있으면 서버 직접 처리.
+//   mock         : 서버 직접 처리 (가짜 응답).
 const WORKER_MODE_ENV = (process.env.WORKER_MODE || '').toLowerCase();
 
+// 컨테이너에 ~/.claude/credentials 있는지 자동 감지 (캐시)
+let _cachedHasOAuth = null;
+function hasLocalClaudeOAuth() {
+  if (_cachedHasOAuth !== null) return _cachedHasOAuth;
+  try {
+    const fs = require('fs');
+    const os = require('os');
+    const path = require('path');
+    const home = os.homedir();
+    const candidates = [
+      path.join(home, '.claude', 'credentials.json'),
+      path.join(home, '.claude', '.credentials.json'),
+      path.join(home, '.claude', 'credentials')
+    ];
+    _cachedHasOAuth = candidates.some(p => fs.existsSync(p));
+  } catch {
+    _cachedHasOAuth = false;
+  }
+  return _cachedHasOAuth;
+}
+
 function shouldDelegateToWorker() {
-  // 환경변수 강제 override
   if (WORKER_MODE_ENV === 'queue-only') return true;
   if (WORKER_MODE_ENV === 'local') return false;
-  // ai_provider 기반 자동 결정 (기본)
   try {
     const { getSetting } = require('../db');
     const provider = getSetting('ai_provider') || 'mock';
-    return provider === 'claude-code';
+    if (provider !== 'claude-code') return false;
+    // claude-code + 컨테이너에 OAuth 없음 → 자동 위임
+    return !hasLocalClaudeOAuth();
   } catch {
     return false;
   }

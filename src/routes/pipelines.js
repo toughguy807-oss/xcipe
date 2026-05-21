@@ -51,13 +51,17 @@ router.post('/', requireRole('admin', 'member'), (req, res) => {
     }
   }
   if (aiProvider === 'claude-code') {
-    // 본인 워커가 polling 중인지 + claude CLI 인증 OK 인지 확인
-    const myWorkerActive = db.prepare(`
+    // v27: polling 활성 판정 — last_polled_at 또는 heartbeat_at
+    const lastPolledRow = db.prepare(`SELECT last_polled_at FROM users WHERE id = ?`).get(req.user.id);
+    const hasRecentPoll = !!(lastPolledRow && lastPolledRow.last_polled_at &&
+      new Date(lastPolledRow.last_polled_at).getTime() > Date.now() - 2 * 60 * 1000);
+    const hasActiveStep = !!db.prepare(`
       SELECT COUNT(*) AS n FROM pipeline_steps
       WHERE worker_id IS NOT NULL
         AND user_id = ?
         AND heartbeat_at > datetime('now', '-2 minutes')
     `).get(req.user.id).n;
+    const myWorkerActive = hasRecentPoll || hasActiveStep;
     const userRow = db.prepare('SELECT claude_session_info FROM users WHERE id = ?').get(req.user.id);
     let claudeOk = false;
     if (userRow && userRow.claude_session_info) {

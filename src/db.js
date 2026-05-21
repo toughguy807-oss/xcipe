@@ -1279,6 +1279,23 @@ function migrateV26_workerSession() {
 }
 migrateV26_workerSession();
 
+// v27 migration: 워커 polling 추적 — step claim 없어도 polling 활성 여부 알 수 있게
+//   users.last_polled_at TEXT — 워커가 마지막으로 /jobs/claim 호출한 시각
+//   작업이 없어도 polling 자체가 활성 판정에 사용
+function migrateV27_workerPolling() {
+  const userVersion = db.pragma('user_version', { simple: true });
+  if (userVersion >= 26) return;
+  if (userVersion < 25) return;
+  const cols = db.pragma('table_info(users)');
+  const has = (n) => cols.some(c => c.name === n);
+  if (!has('last_polled_at')) {
+    db.exec(`ALTER TABLE users ADD COLUMN last_polled_at TEXT`);
+  }
+  db.pragma('user_version = 26');
+  console.log('[DB] v27 migration applied (users.last_polled_at)');
+}
+migrateV27_workerPolling();
+
 function isAssetSyncReady() {
   try {
     const row = db.prepare(
