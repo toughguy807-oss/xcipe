@@ -13,13 +13,33 @@ router.use(requireRole('admin'));
 //           — shell.js AI pill 과 doctor 가 동일 데이터 공유
 router.get('/ai', async (req, res) => {
   const provider = getSetting('ai_provider') || 'mock';
+  const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
+
+  // v25: 분산 워커 모드 — 서버에서 직접 claude 호출 안 함. active worker token 보유 사용자가 있으면 ready.
+  const { db } = require('../../db');
+  const activeWorkers = workerMode === 'queue-only'
+    ? db.prepare(`
+        SELECT COUNT(DISTINCT user_id) AS n
+        FROM pipeline_steps
+        WHERE worker_id IS NOT NULL
+          AND heartbeat_at > datetime('now', '-2 minutes')
+      `).get().n
+    : 0;
+  const tokenIssued = db.prepare(`SELECT COUNT(*) AS n FROM users WHERE worker_token IS NOT NULL AND deleted_at IS NULL`).get().n;
+
   const payload = {
     provider,
     has_api_key: !!(getSetting('anthropic_api_key') || process.env.ANTHROPIC_API_KEY),
-    model: getSetting('anthropic_model') || 'claude-opus-4-7'
+    model: getSetting('anthropic_model') || 'claude-opus-4-7',
+    worker_mode: workerMode,                            // 'local' | 'queue-only'
+    // 정확한 ready 판정 — 실제 polling 중인 워커가 1명 이상 있어야 LLM 호출 가능
+    distributed_worker_ready: workerMode === 'queue-only' && activeWorkers > 0,
+    active_worker_count: activeWorkers,                  // 최근 2분 heartbeat 받은 워커 수
+    worker_token_issued_count: tokenIssued
   };
 
-  if (provider !== 'mock') {
+  // 서버사이드 session check 는 local 모드에서만 의미. queue-only 면 OAuth 토큰 없어서 항상 실패하므로 skip.
+  if (provider !== 'mock' && workerMode !== 'queue-only') {
     try {
       const session = await checkSession();
       payload.session = {
@@ -35,6 +55,24 @@ router.get('/ai', async (req, res) => {
     } catch (err) {
       payload.session = { ok: false, loggedIn: false, error: err.message };
     }
+  } else if (workerMode === 'queue-only') {
+    // queue-only: 워커 1개 이상이 polling 중이면 loggedIn 처리. UI 가 step1 통과시키도록.
+    let hintMsg;
+    if (tokenIssued === 0) {
+      hintMsg = '/admin/users 에서 본인 워커 토큰 발급 후 본인 PC 에서 npm run worker 실행';
+    } else if (activeWorkers > 0) {
+      hintMsg = '워커 토큰 ' + tokenIssued + '개 발급됨, 활성 ' + activeWorkers + '명 polling 중';
+    } else {
+      hintMsg = '워커 토큰 ' + tokenIssued + '개 발급됨, 폴링 워커 없음 (각자 PC 에서 npm run worker 실행)';
+    }
+    payload.session = {
+      ok: tokenIssued > 0,
+      loggedIn: tokenIssued > 0,
+      authMethod: 'distributed-worker',
+      email: null,
+      hint: hintMsg,
+      error: null
+    };
   }
 
   res.json(payload);

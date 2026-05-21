@@ -442,7 +442,10 @@ const DashboardPage = {
     // provider 별 ready 판정 — claude-api 는 키, claude-code 는 OS 세션 로그인이 기준
     const claudeApiReady  = provider === 'claude-api'  && hasKey;
     const claudeCodeReady = provider === 'claude-code' && session && session.loggedIn;
-    const aiReady = claudeApiReady || claudeCodeReady;
+    // v25: 분산 워커 모드 — Railway WORKER_MODE=queue-only + 워커 토큰 발급된 사용자 1명 이상
+    //   서버는 claude 직접 호출 안 함. 각 사용자 PC 워커가 본인 OAuth로 처리.
+    const distributedWorkerReady = aiState && aiState.worker_mode === 'queue-only' && aiState.distributed_worker_ready;
+    const aiReady = claudeApiReady || claudeCodeReady || distributedWorkerReady;
     const aiKnown = !!aiState; // admin이라 상태를 가져왔는지
     const step1Done = aiReady;
     const step1Active = !step1Done;
@@ -451,9 +454,16 @@ const DashboardPage = {
       ? ` · <code>${escapeHtml(session.email || '')}</code>${session.plan ? ` · plan <code>${escapeHtml(session.plan)}</code>` : ''}`
       : '';
 
+    // v25: 분산 워커 모드 표시 보강
+    const workerDetail = distributedWorkerReady
+      ? ` · 워커 토큰 <code>${aiState.worker_token_issued_count}개 발급</code>${aiState.active_worker_count > 0 ? ` · <strong>${aiState.active_worker_count}명 polling 중</strong>` : ' · <span class="text-muted">활성 워커 없음 — 본인 PC 에서 npm run worker 실행 필요</span>'}`
+      : '';
+
     const step1Body = !aiKnown
       ? `<p>AI provider 설정은 <strong>관리자(admin)</strong>가 진행해야 합니다. 관리자에게 <code>설정 → AI 연결</code> 화면에서 provider 설정을 요청하세요.</p>
          <p class="text-muted text-sm">현재 mock 모드면 실제 AI 호출 없이 더미 응답이 생성됩니다.</p>`
+      : distributedWorkerReady
+        ? `<p><strong>분산 워커 모드</strong> 연결됨${workerDetail}. 각 사용자가 본인 PC 에서 본인 Claude OAuth 로 처리합니다.</p>`
       : aiReady
         ? `<p><strong>${escapeHtml(provider)}</strong> 연결됨${aiState.model ? ` · 모델 <code>${escapeHtml(aiState.model)}</code>` : ''}${codeReadyDetail}. 다음 단계로 진행할 수 있습니다.</p>`
         : provider === 'claude-code'

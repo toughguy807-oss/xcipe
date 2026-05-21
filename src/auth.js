@@ -72,14 +72,19 @@ function requireRole(...roles) {
 }
 
 // Create initial admin (FN-032)
+//   Variables에 ADMIN_EMAIL/ADMIN_PASSWORD 미설정 시 정상 도메인 기본값 사용 (eluocnc.com)
+//   클라우드 배포 시 반드시 Variables 로 override 권장 (약한 기본 비밀번호 보안 위험)
 function ensureInitialAdmin() {
   const count = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
   if (count === 0) {
-    const email = process.env.ADMIN_EMAIL || 'admin@eluo.kr';
+    const email = process.env.ADMIN_EMAIL || 'admin@eluocnc.com';
     const password = process.env.ADMIN_PASSWORD || 'admin1234';
     const hash = hashPassword(password);
     db.prepare('INSERT INTO users (email, name, password_hash, role) VALUES (?, ?, ?, ?)').run(email, 'Admin', hash, 'admin');
     console.log(`[ESYS] Initial admin created: ${email}`);
+    if (!process.env.ADMIN_PASSWORD) {
+      console.warn('[ESYS] ⚠️  ADMIN_PASSWORD 미설정 — 기본 비밀번호 사용 중. Variables 설정 후 즉시 변경 권장.');
+    }
   }
 }
 

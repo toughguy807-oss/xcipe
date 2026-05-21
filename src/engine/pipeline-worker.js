@@ -675,22 +675,39 @@ const CONCURRENCY = Math.max(1, parseInt(process.env.PIPELINE_WORKER_CONCURRENCY
 let _inflight = 0;
 
 // 워커 사이클: 가용 슬롯만큼 pending step 을 claim 해 병렬 실행
-// v25: WORKER_MODE 환경변수 — 분산 워커 분기
-//   'local'      (기본): 현재 동작. 서버가 직접 step 을 claim 해서 처리.
-//   'queue-only'      : 서버는 claim 안 함. 외부 워커(/api/worker/jobs/claim)가 처리.
-//                       단 stale 회수·pipeline status 갱신·다음 step enqueue 는 그대로 수행.
-const WORKER_MODE = (process.env.WORKER_MODE || 'local').toLowerCase();
+// v25: 분산 워커 분기 — ai_provider 설정 기반 (admin/settings 에서 toggle 가능)
+//   claude-code  : OAuth 필요 → 서버 컨테이너에 토큰 없음 → 외부 워커에 위임 (queue-only 동작)
+//   claude-api   : API 키만 있으면 됨 → 서버가 직접 처리 (local 동작)
+//   mock         : 가짜 응답 → 서버가 직접 처리
+//
+// 환경변수 WORKER_MODE 는 deprecated — 호환을 위해 유지하되 ai_provider 가 우선.
+//   WORKER_MODE=queue-only 설정 시 ai_provider 무관하게 외부 워커 강제 (운영 비상용).
+const WORKER_MODE_ENV = (process.env.WORKER_MODE || '').toLowerCase();
+
+function shouldDelegateToWorker() {
+  // 환경변수 강제 override
+  if (WORKER_MODE_ENV === 'queue-only') return true;
+  if (WORKER_MODE_ENV === 'local') return false;
+  // ai_provider 기반 자동 결정 (기본)
+  try {
+    const { getSetting } = require('../db');
+    const provider = getSetting('ai_provider') || 'mock';
+    return provider === 'claude-code';
+  } catch {
+    return false;
+  }
+}
 
 async function tick() {
   if (_running) return;
   _running = true;
   try {
-    // 모드 무관 — heartbeat 끊긴 워커 작업 회수 (queue-only/local 모두 필요)
+    // 모드 무관 — heartbeat 끊긴 워커 작업 회수
     recoverStaleClaims();
 
-    // queue-only 모드: 서버는 claim 하지 않음. 외부 워커 polling 대기.
-    //   단 awaiting_approval 갱신·pipeline status 변경은 worker-finalize 가 처리하므로 추가 작업 불필요.
-    if (WORKER_MODE === 'queue-only') {
+    // claude-code 모드: 서버는 claim 하지 않음. 외부 워커가 OAuth 로 처리.
+    //   claude-api / mock 모드: 서버가 직접 처리 (아래 while 루프).
+    if (shouldDelegateToWorker()) {
       return;
     }
 
