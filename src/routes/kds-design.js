@@ -753,6 +753,7 @@ router.get('/chat/poll/:invocationId', async (req, res) => {
       break;
     }
   }
+  let chainingResult = null;  // [READY] 감지 시 generateDesign trigger 결과
   if (matchedSess) {
     // 이미 처리됐으면 (예: 이전 poll 응답에서 메시지 추가됨) skip
     const alreadyAppended = matchedSess.messages.some(m =>
@@ -767,6 +768,69 @@ router.get('/chat/poll/:invocationId', async (req, res) => {
       });
       delete matchedSess.pendingInvocation;
       persistSession(matchedSess);
+
+      // v30: [READY] 시그널 감지 → generateDesign 자동 trigger (동기 경로와 동일)
+      //   응답에 ready=true + jobId 포함 → 클라이언트가 _startGenerationPolling 시작
+      const readyLine = content.split('\n').reverse().find(l => l.trim().startsWith('[READY]'));
+      if (readyLine) {
+        const req2 = (readyLine.match(/requirement="([^"]+)"/) || [])[1]
+          || matchedSess.messages.filter(m => m.role === 'user').map(m => m.content).join(' / ');
+        const vpStr = (readyLine.match(/viewports=([\w+]+)/) || [])[1] || 'mobile';
+        const name = (readyLine.match(/name=([a-zA-Z0-9_-]+)/) || [])[1];
+        const viewports = vpStr.split('+').filter(Boolean);
+        const job = newJob();
+        job.requirement = req2;
+        job.viewports = viewports;
+        job.status = 'running';
+        attachJob(matchedSess, job.id);
+        persistSession(matchedSess);
+        startJobWatcher(job);
+        chainingResult = { ready: true, jobId: job.id, requirement: req2, viewports };
+        // fire-and-forget — generateDesign 처리 (비동기 워커로 위임됨)
+        (async () => {
+          try {
+            const r2 = await generateDesign({
+              requirement: req2,
+              viewports,
+              name,
+              conversationHistory: matchedSess.messages,
+              userId: req.user.id
+            });
+            job.finished_at = Date.now();
+            if (!r2.ok) {
+              job.status = 'failed';
+              job.error = r2.error;
+              job.raw_excerpt = (r2.raw || '').slice(0, 800);
+              job.phaseEvents.push({ ts: Date.now(), kind: 'failed', text: `실패: ${r2.error}` });
+              matchedSess.messages.push({ role: 'assistant', content: `❌ 시안 작업 실패: ${r2.error}`, at: Date.now() });
+            } else {
+              job.status = 'done';
+              job.generated = r2.generated;
+              job.raw_excerpt = r2.raw_excerpt;
+              if (Array.isArray(r2.postProcess)) {
+                const label = { 'inject-svg': 'SVG 아이콘 자동 치환', 'inject-images': '이미지 자동 삽입', 'lint:kds': '검증' };
+                r2.postProcess.forEach(p => {
+                  const txt = (label[p.label] || p.label) + (p.ok ? ' 완료' : ' 일부 위반');
+                  job.phaseEvents.push({ ts: Date.now(), kind: p.ok ? 'post_ok' : 'post_fail', text: txt });
+                });
+                job.postProcess = r2.postProcess;
+              }
+              job.phaseEvents.push({ ts: Date.now(), kind: 'done', text: `완료: ${r2.generated.length}개 파일` });
+              matchedSess.messages.push({ role: 'assistant', content: `✅ 시안 ${r2.generated.length}개 파일 생성 완료. Figma 에서 import 가능합니다.`, at: Date.now() });
+            }
+            persistSession(matchedSess);
+          } catch (e) {
+            job.status = 'failed';
+            job.error = e.message;
+            job.finished_at = Date.now();
+            job.phaseEvents.push({ ts: Date.now(), kind: 'failed', text: `예외: ${e.message}` });
+            matchedSess.messages.push({ role: 'assistant', content: `❌ 시안 작업 예외: ${e.message}`, at: Date.now() });
+            persistSession(matchedSess);
+          } finally {
+            stopJobWatcher(job);
+          }
+        })();
+      }
     }
   }
 
@@ -775,7 +839,10 @@ router.get('/chat/poll/:invocationId', async (req, res) => {
     status: 'done',
     sessionId: matchedSess && matchedSess.id,
     assistant: content,
-    ready: false
+    ready: !!(chainingResult && chainingResult.ready),
+    jobId: chainingResult && chainingResult.jobId,
+    requirement: chainingResult && chainingResult.requirement,
+    viewports: chainingResult && chainingResult.viewports
   });
 });
 

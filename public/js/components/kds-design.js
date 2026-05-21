@@ -381,6 +381,11 @@ const KdsDesignPage = {
         const result = await this._pollChatInvocation(r.invocationId, thinkingEl);
         if (result && result.status === 'done') {
           this._appendMessage('assistant', result.assistant || '(응답 없음)');
+          // chaining: [READY] 시그널 감지된 경우 generateDesign progress polling 시작
+          if (result.ready && result.jobId) {
+            localStorage.setItem(this._LS_JOB, result.jobId);
+            this._startGenerationPolling(result.jobId, result.requirement);
+          }
         } else if (result && result.status === 'failed') {
           this._appendMessage('assistant', `[오류] ${result.error || 'failed'}`);
         } else if (result && result.status === 'cancelled') {
