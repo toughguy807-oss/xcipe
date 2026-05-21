@@ -361,6 +361,52 @@ module.exports.myDownloadHandler = (req, res) => {
       'pause'
     ].join('\r\n');
 
+    // 부팅 시 자동 실행 등록 (Windows startup 폴더 + 즉시 실행)
+    //   admin 권한 불필요 — 사용자 본인 startup 폴더만 사용
+    const installContent = [
+      '@echo off',
+      'REM xcipe-worker 부팅 시 자동 실행 등록 (1회 실행)',
+      'title xcipe-worker install',
+      'echo ===================================================',
+      'echo  xcipe-worker 자동 시작 등록',
+      'echo ===================================================',
+      'echo.',
+      'set "SRC=%~dp0xcipe-worker.cmd"',
+      'set "DST=%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\xcipe-worker.cmd"',
+      'if not exist "%SRC%" (',
+      '  echo [ERROR] xcipe-worker.cmd 가 같은 폴더에 없습니다.',
+      '  pause',
+      '  exit /b 1',
+      ')',
+      'copy /Y "%SRC%" "%DST%" >nul',
+      'if errorlevel 1 (',
+      '  echo [ERROR] startup 폴더 복사 실패.',
+      '  pause',
+      '  exit /b 1',
+      ')',
+      'echo [OK] Windows 부팅 시 자동 실행 등록 완료',
+      'echo      등록 경로: %DST%',
+      'echo.',
+      'echo 워커를 지금 가동합니다...',
+      'echo (이 창은 닫지 마세요. 닫으면 워커도 종료됩니다)',
+      'echo.',
+      'timeout /t 2 /nobreak >nul',
+      'call "%SRC%"'
+    ].join('\r\n');
+
+    const uninstallContent = [
+      '@echo off',
+      'REM xcipe-worker 자동 실행 등록 해제',
+      'set "DST=%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\xcipe-worker.cmd"',
+      'if exist "%DST%" (',
+      '  del "%DST%"',
+      '  echo [OK] 자동 실행 등록 해제 완료',
+      ') else (',
+      '  echo [INFO] 자동 실행 등록되어 있지 않습니다.',
+      ')',
+      'pause'
+    ].join('\r\n');
+
     // 압축 (archiver 사용)
     let archiver;
     try { archiver = require('archiver'); }
@@ -372,17 +418,35 @@ module.exports.myDownloadHandler = (req, res) => {
     zip.pipe(res);
     zip.append(finalJs, { name: 'xcipe-worker.js' });
     zip.append(cmdContent, { name: 'xcipe-worker.cmd' });
+    zip.append(installContent, { name: 'install-autostart.cmd' });
+    zip.append(uninstallContent, { name: 'uninstall-autostart.cmd' });
     zip.append([
-      '# xcipe 워커 사용법',
+      '# xcipe 워커 사용 가이드',
       '',
       '계정: ' + row.email,
       '서버: ' + serverOrigin,
       '',
-      '## Windows (가장 단순)',
+      '## 권장 — 1회 설치 + 부팅 시 자동 실행 (Windows)',
       '',
       '1. 압축 풀기',
-      '2. **xcipe-worker.cmd** 더블클릭',
-      '3. PowerShell 창이 열리고 워커 가동 → 그대로 두기',
+      '2. **install-autostart.cmd** 더블클릭 (1회만)',
+      '   - Windows 부팅 시 자동 실행 등록',
+      '   - 워커도 즉시 가동',
+      '3. 끝 — 이후 PC 부팅 시 자동으로 워커 가동',
+      '',
+      '## 단순 실행 (자동 등록 안 함)',
+      '',
+      '**xcipe-worker.cmd** 더블클릭 → 그 세션만 가동. 창 닫으면 종료.',
+      '',
+      '## 자동 등록 해제',
+      '',
+      '**uninstall-autostart.cmd** 더블클릭',
+      '',
+      '## 처음 실행 시 자동 처리',
+      '',
+      '- Node.js 설치 확인 (없으면 https://nodejs.org 안내)',
+      '- claude CLI 자동 설치',
+      '- 첫 실행 후 `claude /login` 수동 한 번 (본인 Claude Max OAuth)',
       '',
       '## Mac / Linux',
       '',
@@ -390,15 +454,12 @@ module.exports.myDownloadHandler = (req, res) => {
       'node xcipe-worker.js',
       '```',
       '',
-      '## 처음 실행 시 자동 처리',
-      '',
-      '- Node.js 설치 확인 (없으면 안내)',
-      '- claude CLI 자동 설치 (없으면)',
-      '- ~/.claude OAuth 인증 (수동 — `claude /login`)',
+      '자동 등록은 Mac launchd / Linux systemd 별도 설정 필요 (지원 예정).',
       '',
       '## 종료',
       '',
-      'PowerShell 창 닫기 또는 Ctrl+C'
+      '- 일시 종료: PowerShell 창 닫기 또는 Ctrl+C',
+      '- 영구 종료: uninstall-autostart.cmd'
     ].join('\n'), { name: 'README.md' });
     zip.finalize();
   } catch (e) {
