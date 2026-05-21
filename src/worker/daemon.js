@@ -298,9 +298,35 @@ async function checkClaudeCli() {
       }
       let info = {};
       try { info = JSON.parse(stdout); } catch {}
-      resolve({ ok: true, loggedIn: info.loggedIn !== false, email: info.email, plan: info.subscriptionType });
+      resolve({
+        ok: true,
+        loggedIn: info.loggedIn !== false,
+        email: info.email || null,
+        plan: info.subscriptionType || null,
+        orgName: info.orgName || null,
+        authMethod: info.authMethod || null
+      });
     });
   });
+}
+
+// 워커 → 서버 보고 — 본인 PC 의 claude CLI 인증 상태를 대시보드가 표시 가능하게.
+// OAuth 토큰 자체는 절대 전송 X. loggedIn/email/plan 같은 메타데이터만.
+async function reportClaudeSession(cli) {
+  try {
+    await httpJson('POST', '/api/worker/me/session', {
+      body: {
+        loggedIn: !!cli.loggedIn,
+        email: cli.email,
+        plan: cli.plan,
+        orgName: cli.orgName,
+        authMethod: cli.authMethod,
+        workerId: WORKER_ID
+      }
+    });
+  } catch (e) {
+    warn(`session 보고 실패: ${e.message}`);
+  }
 }
 
 async function start() {
@@ -331,6 +357,10 @@ async function start() {
     err(e.message);
     process.exit(1);
   }
+
+  // 본인 claude session 정보를 서버에 보고 — 대시보드 step1 게이트 + 운영자 가시화
+  await reportClaudeSession(cli);
+  log('claude session 정보 서버 보고 완료');
 
   log(`polling 시작 (${POLL_INTERVAL}ms 간격, heartbeat ${HEARTBEAT_INT}ms)`);
 

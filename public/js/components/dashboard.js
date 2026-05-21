@@ -23,10 +23,21 @@ const DashboardPage = {
       try {
         aiState = await API.get('/admin/settings/ai');
       } catch { /* admin 아님 또는 미설정 */ }
+      // v26: 모든 user 용 onboarding 정보 (aiState 가 null 이어도 가이드 표시)
+      let onboarding = null;
+      try { onboarding = await API.get('/dashboard/onboarding'); } catch {}
       const user = (typeof API.getUser === 'function') ? API.getUser() : null;
-      Shell.render(this._renderOnboarding(aiState, user), 'dashboard');
+      Shell.render(this._renderOnboarding(aiState, user, onboarding), 'dashboard');
       return;
     }
+    // v26: 프로젝트 있어도 본인 워커가 polling 안 하면 상단 배너로 가이드 표시
+    try {
+      const onboarding = await API.get('/dashboard/onboarding');
+      if (onboarding && !onboarding.ai_ready) {
+        // 상단에 워커 미감지 배너 표시 (대시보드 렌더 후)
+        setTimeout(() => this._renderWorkerSetupBanner(onboarding), 100);
+      }
+    } catch {}
 
     const html = `
       <div class="page-header">
@@ -431,10 +442,111 @@ const DashboardPage = {
     return `<span class="badge ${tone}" title="${escapeHtml(detail)}" style="margin-right:0.5rem">${label} (${detail})</span>`;
   },
 
+  // v26: 워커 미감지 배너 (대시보드 상단에 동적 삽입)
+  _renderWorkerSetupBanner(ob) {
+    if (document.getElementById('xcipe-worker-banner')) return; // 이미 표시
+    const div = document.createElement('div');
+    div.id = 'xcipe-worker-banner';
+    div.className = 'alert alert-warning';
+    div.style.cssText = 'margin:16px 24px;padding:14px 18px;display:flex;gap:14px;align-items:center;border-left:4px solid #f59f00;background:linear-gradient(90deg,#fff8e1,#fff3cd)';
+    const myStatus = ob.my_claude_session && ob.my_claude_session.loggedIn
+      ? `✅ claude 로그인됨 (${ob.my_claude_session.email || ''})`
+      : '❌ claude CLI 로그인 미감지';
+    const workerStatus = ob.my_worker_active ? '✅ 워커 polling 중' : '❌ 워커 polling 안 함';
+    div.innerHTML = `
+      <div style="font-size:24px">⚠️</div>
+      <div style="flex:1">
+        <div style="font-weight:600;margin-bottom:4px">파이프라인 실행 불가 — 본인 PC 워커 설정 필요</div>
+        <div style="font-size:12px;color:#555">${myStatus} · ${workerStatus} · 토큰 발급: ${ob.has_worker_token ? '✅' : '❌'}</div>
+      </div>
+      <button class="btn-primary" onclick="DashboardPage.showWorkerSetup()" style="width:auto;padding:8px 14px">설정 가이드 ▶</button>
+      <button class="btn btn-sm" onclick="document.getElementById('xcipe-worker-banner').remove()" title="닫기">✕</button>
+    `;
+    const main = document.querySelector('main') || document.body;
+    main.insertBefore(div, main.firstChild);
+  },
+
+  // v26: 워커 설정 가이드 모달 — 단계별 실시간 체크
+  async showWorkerSetup() {
+    let ob;
+    try { ob = await API.get('/dashboard/onboarding'); }
+    catch (e) { alert('onboarding 정보 조회 실패: ' + (e.message || e)); return; }
+
+    const checkMark = (ok) => ok ? '<span style="color:#28a745;font-size:18px">✅</span>' : '<span style="color:#dc3545;font-size:18px">⭕</span>';
+    const step1 = !!(ob.my_claude_session && ob.my_claude_session.loggedIn);
+    const step2 = !!ob.has_worker_token;
+    const step3 = !!ob.my_worker_active;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'modal-backdrop';
+    wrap.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+    wrap.innerHTML = `
+      <div class="modal" style="max-width:680px;background:#fff;border-radius:12px;padding:24px;max-height:90vh;overflow-y:auto">
+        <h3 style="margin:0 0 8px;font-size:22px">🚀 xcipe 워커 설정</h3>
+        <p style="margin:0 0 20px;color:#666;font-size:14px">본인 PC 에서 본인 Claude 계정으로 파이프라인을 실행합니다. 3단계만 완료하면 됩니다.</p>
+
+        <div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;${step1 ? 'opacity:0.6' : ''}">
+          <div style="display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px">${checkMark(step1)} 1단계: Claude CLI 설치 + 로그인</div>
+          ${step1
+            ? `<div style="color:#28a745;font-size:13px;padding-left:28px">완료 — ${ob.my_claude_session.email} (${ob.my_claude_session.plan || 'plan unknown'})</div>`
+            : `<div style="padding-left:28px;font-size:13px">
+                <p style="margin:4px 0">본인 PC PowerShell 에서 실행:</p>
+                <pre style="background:#1a1a1a;color:#fff;padding:10px;border-radius:4px;font-size:12px;overflow:auto;margin:6px 0">npm install -g @anthropic-ai/claude-code
+claude /login    # 본인 Claude 계정 OAuth 로그인
+claude auth status    # 로그인 확인</pre>
+              </div>`
+          }
+        </div>
+
+        <div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;${step2 ? 'opacity:0.6' : ''}">
+          <div style="display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px">${checkMark(step2)} 2단계: 워커 토큰 발급</div>
+          ${step2
+            ? `<div style="color:#28a745;font-size:13px;padding-left:28px">완료 — 토큰 보유 중</div>`
+            : ob.is_admin
+              ? `<div style="padding-left:28px;font-size:13px">
+                  <a href="#/admin/users" style="color:#007bff">/admin/users</a> 페이지에서 본인 row → [토큰 발급] 클릭 → 1회 노출되는 64자 hex 토큰 복사
+                </div>`
+              : `<div style="padding-left:28px;font-size:13px;color:#dc3545">
+                  관리자에게 워커 토큰 발급 요청 필요. 발급된 토큰을 받아 3단계 환경변수에 사용하세요.
+                </div>`
+          }
+        </div>
+
+        <div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;${step3 ? 'opacity:0.6' : ''}">
+          <div style="display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px">${checkMark(step3)} 3단계: 워커 실행</div>
+          ${step3
+            ? `<div style="color:#28a745;font-size:13px;padding-left:28px">완료 — 워커가 polling 중</div>`
+            : `<div style="padding-left:28px;font-size:13px">
+                <p style="margin:4px 0">본인 PC 빈 폴더에서 (git clone 불필요, 파일 1개로 동작):</p>
+                <pre style="background:#1a1a1a;color:#fff;padding:10px;border-radius:4px;font-size:12px;overflow:auto;margin:6px 0">curl -O ${ob.server_origin}${ob.worker_download_url}
+$env:XCIPE_SERVER = "${ob.server_origin}"
+$env:XCIPE_WORKER_TOKEN = "발급받은_64자_hex"
+node xcipe-worker.js</pre>
+                <p style="margin:8px 0 0;font-size:12px;color:#666">성공 시 "polling 시작" 로그 출력. 이 모달을 열어둔 채로 실행하면 자동으로 상태가 갱신됩니다.</p>
+              </div>`
+          }
+        </div>
+
+        ${step1 && step2 && step3
+          ? `<div class="alert alert-success" style="padding:12px;border-radius:6px;background:#d4edda;color:#155724;text-align:center;font-weight:600">🎉 모든 설정 완료! 파이프라인 시작 가능합니다.</div>`
+          : ''
+        }
+
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+          <button class="btn btn-sm" onclick="DashboardPage.showWorkerSetup()" style="padding:8px 14px">🔄 새로고침</button>
+          <button class="btn-primary" id="kds-setup-close" style="width:auto;padding:8px 20px">닫기</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(wrap);
+    wrap.querySelector('#kds-setup-close').addEventListener('click', () => wrap.remove());
+    wrap.addEventListener('click', (e) => { if (e.target === wrap) wrap.remove(); });
+  },
+
   // U-G1: 4-step 온보딩 (AI키 → 프로젝트 → 실행 → 결과)
   //   1단계 미완료(키 없거나 mock) 시 "+ 새 프로젝트" 버튼 비활성화 + 안내
   //   admin이 아니면 1단계는 "관리자에게 요청" 메시지로 대체
-  _renderOnboarding(aiState, user) {
+  _renderOnboarding(aiState, user, onboarding) {
     const isAdmin = user && user.role === 'admin';
     const provider = aiState && aiState.provider;
     const hasKey = !!(aiState && aiState.has_api_key);
@@ -442,9 +554,10 @@ const DashboardPage = {
     // provider 별 ready 판정 — claude-api 는 키, claude-code 는 OS 세션 로그인이 기준
     const claudeApiReady  = provider === 'claude-api'  && hasKey;
     const claudeCodeReady = provider === 'claude-code' && session && session.loggedIn;
-    // v25: 분산 워커 모드 — Railway WORKER_MODE=queue-only + 워커 토큰 발급된 사용자 1명 이상
-    //   서버는 claude 직접 호출 안 함. 각 사용자 PC 워커가 본인 OAuth로 처리.
-    const distributedWorkerReady = aiState && aiState.worker_mode === 'queue-only' && aiState.distributed_worker_ready;
+    // v25-26: 분산 워커 모드 — 본인 워커 polling + claude session 둘 다 OK
+    //   admin 만 aiState 받을 수 있어 일반 user 는 onboarding 사용
+    const distributedWorkerReady = (aiState && aiState.worker_mode === 'queue-only' && aiState.distributed_worker_ready)
+      || (onboarding && onboarding.ai_ready && onboarding.provider === 'claude-code');
     const aiReady = claudeApiReady || claudeCodeReady || distributedWorkerReady;
     const aiKnown = !!aiState; // admin이라 상태를 가져왔는지
     const step1Done = aiReady;
@@ -477,8 +590,9 @@ const DashboardPage = {
 
     const newProjectBtn = step1Done
       ? `<button class="btn-primary mt-2" onclick="DashboardPage.startNewProject()">프로젝트 시작하기 →</button>`
-      : `<button class="btn-primary mt-2" disabled title="먼저 1단계 AI 연결을 완료하세요">프로젝트 시작하기 →</button>
-         <div class="text-muted text-sm mt-1">1단계 AI 연결(claude-code OS 로그인 또는 claude-api 키 등록)을 먼저 완료하세요.</div>`;
+      : `<button class="btn-primary mt-2" disabled title="먼저 워커 설정을 완료하세요">프로젝트 시작하기 →</button>
+         <div class="text-muted text-sm mt-1">본인 PC 에서 claude /login + 워커 실행이 필요합니다.</div>
+         <button class="btn-primary mt-2" onclick="DashboardPage.showWorkerSetup()" style="background:#f59f00">📖 워커 설정 가이드 보기</button>`;
 
     return `
       <div class="onboarding">

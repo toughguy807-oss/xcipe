@@ -12,7 +12,7 @@ router.use(requireRole('admin'));
 //   PR1-B6: claudeCodeSession (loggedIn / email / plan / orgName) 포함
 //           — shell.js AI pill 과 doctor 가 동일 데이터 공유
 router.get('/ai', async (req, res) => {
-  const provider = getSetting('ai_provider') || 'mock';
+  const provider = getSetting('ai_provider') || 'claude-code';
   const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
 
   // v25: 분산 워커 모드 — 서버에서 직접 claude 호출 안 함. active worker token 보유 사용자가 있으면 ready.
@@ -27,15 +27,34 @@ router.get('/ai', async (req, res) => {
     : 0;
   const tokenIssued = db.prepare(`SELECT COUNT(*) AS n FROM users WHERE worker_token IS NOT NULL AND deleted_at IS NULL`).get().n;
 
+  // v26: 본인 워커가 claude CLI 인증 OK 여부 — users.claude_session_info 조회
+  let myClaudeSession = null;
+  if (req.user && req.user.id) {
+    try {
+      const row = db.prepare('SELECT claude_session_info FROM users WHERE id = ? AND deleted_at IS NULL').get(req.user.id);
+      if (row && row.claude_session_info) {
+        try { myClaudeSession = JSON.parse(row.claude_session_info); } catch {}
+      }
+    } catch {}
+  }
+
   const payload = {
     provider,
     has_api_key: !!(getSetting('anthropic_api_key') || process.env.ANTHROPIC_API_KEY),
     model: getSetting('anthropic_model') || 'claude-opus-4-7',
     worker_mode: workerMode,                            // 'local' | 'queue-only'
-    // 정확한 ready 판정 — 실제 polling 중인 워커가 1명 이상 있어야 LLM 호출 가능
-    distributed_worker_ready: workerMode === 'queue-only' && activeWorkers > 0,
+    // v26: 본인 워커 polling + claude session 둘 다 OK 일 때 ready
+    distributed_worker_ready: workerMode === 'queue-only' && activeWorkers > 0
+      && !!(myClaudeSession && myClaudeSession.loggedIn),
     active_worker_count: activeWorkers,                  // 최근 2분 heartbeat 받은 워커 수
-    worker_token_issued_count: tokenIssued
+    worker_token_issued_count: tokenIssued,
+    my_claude_session: myClaudeSession,                  // 본인 워커 보고한 claude CLI 상태
+    my_worker_polling: !!(req.user && db.prepare(`
+      SELECT COUNT(*) AS n FROM pipeline_steps
+      WHERE worker_id IS NOT NULL
+        AND user_id = ?
+        AND heartbeat_at > datetime('now', '-2 minutes')
+    `).get(req.user.id).n) || false
   };
 
   // 서버사이드 session check 는 local 모드에서만 의미. queue-only 면 OAuth 토큰 없어서 항상 실패하므로 skip.

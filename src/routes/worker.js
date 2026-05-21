@@ -30,6 +30,29 @@ router.get('/me', (req, res) => {
   });
 });
 
+// ── /me/session — 워커가 claude auth status 결과를 서버에 보고 ─────────
+//   대시보드 step1 게이트가 본인 워커의 claude CLI 인증 상태를 표시 가능.
+//   본인 PC 의 OAuth 토큰은 절대 전송 X — loggedIn / email / plan / orgName 만.
+router.post('/me/session', (req, res) => {
+  const body = req.body || {};
+  const sessionInfo = {
+    loggedIn: !!body.loggedIn,
+    email: body.email || null,
+    plan: body.plan || null,
+    orgName: body.orgName || null,
+    authMethod: body.authMethod || null,
+    workerId: body.workerId || null,
+    checkedAt: new Date().toISOString()
+  };
+  try {
+    db.prepare('UPDATE users SET claude_session_info = ? WHERE id = ?')
+      .run(JSON.stringify(sessionInfo), req.workerUser.id);
+    res.json({ ok: true, saved: sessionInfo });
+  } catch (e) {
+    res.status(500).json({ error: 'ESYS-WRK-060', message: 'session 저장 실패', detail: e.message });
+  }
+});
+
 // ── /jobs/claim — atomic claim ────────────────────────────────────────
 //   본인(user_id = req.workerUser.id) 또는 user_id IS NULL 인 pending step 가장 오래된 것
 //   동시에 여러 워커가 호출해도 SQLite immediate 트랜잭션으로 1건만 claim
@@ -258,3 +281,24 @@ router.post('/jobs/:id/fail', (req, res) => {
 });
 
 module.exports = router;
+
+// 워커 daemon 단일 파일 다운로드 (인증 X — 공개 endpoint)
+//   curl -O https://xcipe.../api/worker/download/xcipe-worker.js
+//   node xcipe-worker.js   # 외부 npm 의존성 0, Node 내장 모듈만 사용
+//   server.js 에서 router mount 전에 별도 등록 — requireWorkerAuth 우회.
+module.exports.downloadHandler = (req, res) => {
+  try {
+    const path = require('path');
+    const fs = require('fs');
+    const daemonPath = path.resolve(__dirname, '..', 'worker', 'daemon.js');
+    if (!fs.existsSync(daemonPath)) {
+      return res.status(404).send('// worker daemon not found');
+    }
+    const content = fs.readFileSync(daemonPath, 'utf8');
+    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="xcipe-worker.js"');
+    res.send(content);
+  } catch (e) {
+    res.status(500).send(`// download failed: ${e.message}`);
+  }
+};

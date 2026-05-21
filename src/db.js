@@ -1262,6 +1262,23 @@ function migrateV25_distributedWorker() {
 }
 migrateV25_distributedWorker();
 
+// v26 migration: 워커 daemon 이 보고한 claude CLI 세션 정보를 저장
+//   users.claude_session_info TEXT (JSON) — { loggedIn, email, plan, orgName, checkedAt, workerId }
+//   대시보드 step1 게이트가 본인 워커의 claude CLI 인증 상태까지 확인 가능
+function migrateV26_workerSession() {
+  const userVersion = db.pragma('user_version', { simple: true });
+  if (userVersion >= 25) return;
+  if (userVersion < 24) return;
+  const cols = db.pragma('table_info(users)');
+  const has = (n) => cols.some(c => c.name === n);
+  if (!has('claude_session_info')) {
+    db.exec(`ALTER TABLE users ADD COLUMN claude_session_info TEXT`);
+  }
+  db.pragma('user_version = 25');
+  console.log('[DB] v26 migration applied (users.claude_session_info)');
+}
+migrateV26_workerSession();
+
 function isAssetSyncReady() {
   try {
     const row = db.prepare(
@@ -1290,8 +1307,12 @@ function isRagReady() {
 }
 
 // Default settings
+// v25 (2026-05-21): 기본값 'mock' → 'claude-code'.
+//   mock 은 더미 응답만 생성 → 실제 파이프라인 못 돌림. 분산 워커 시대에는
+//   본인 PC OAuth 가 1순위. ai_provider 를 처음부터 claude-code 로 두고
+//   사용자가 명시적으로 mock 또는 claude-api 로 전환하도록 한다.
 const defaultSettings = [
-  ['ai_provider', 'mock'],
+  ['ai_provider', 'claude-code'],
   ['anthropic_api_key', ''],
   ['anthropic_model', 'claude-opus-4-7']
 ];

@@ -99,7 +99,11 @@ app.use('/api/admin/assets', require('./routes/admin/assets'));
 app.use('/api/admin/teams', require('./routes/admin/teams'));
 app.use('/api/design-systems', require('./routes/design-systems'));
 app.use('/api/figma', require('./routes/figma'));  // 인커밍 webhook + 플러그인 수신
-app.use('/api/worker', require('./routes/worker')); // v25 분산 워커 — 사용자 PC daemon (X-Worker-Token)
+// v25 분산 워커 — 사용자 PC daemon (X-Worker-Token 필요).
+//   단 /download/xcipe-worker.js 는 인증 없이 공개 (코드 자체는 비밀 아님, npm i 불필요한 single-file)
+const workerRouter = require('./routes/worker');
+app.get('/api/worker/download/xcipe-worker.js', workerRouter.downloadHandler);
+app.use('/api/worker', workerRouter);
 app.use('/bridge', require('./routes/bridge'));    // KDS figma-change-tracker 플러그인 호환 endpoint (xcipe 내장)
 app.use('/kds-bridge', require('./routes/kds-bridge-proxy')); // v25 KDS bridge-server(3939) proxy (Railway 단일 PORT 호환)
 app.use('/api/kds-design', require('./routes/kds-design'));    // KDS 디자인 정식 메뉴 (파이프라인 무관 독립 기능)

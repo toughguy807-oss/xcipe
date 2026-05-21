@@ -27,6 +27,63 @@ router.post('/', requireRole('admin', 'member'), (req, res) => {
   const g = assertProjectAccess(req, project_id);
   if (!g.ok) return res.status(g.status).json(g.body);
 
+  // v26: AI provider 사전 검증 — mock 은 더미 응답이라 실제 파이프라인 불가
+  //   claude-api: API 키 필요
+  //   claude-code: 본인 워커가 polling + claude CLI 인증 OK 필요
+  const { getSetting } = require('../db');
+  const aiProvider = getSetting('ai_provider') || 'claude-code';
+  if (aiProvider === 'mock') {
+    return res.status(412).json({
+      error: 'ESYS-PIP-AI-001',
+      message: 'AI provider 가 mock 모드입니다. 실제 파이프라인 실행 불가.',
+      hint: '/admin/settings 에서 claude-code(분산 워커) 또는 claude-api(키 발급) 로 전환하세요.'
+    });
+  }
+  if (aiProvider === 'claude-api') {
+    const hasKey = !!(getSetting('anthropic_api_key') || process.env.ANTHROPIC_API_KEY);
+    const userKey = !!db.prepare('SELECT anthropic_api_key FROM users WHERE id = ?').get(req.user.id)?.anthropic_api_key;
+    if (!hasKey && !userKey) {
+      return res.status(412).json({
+        error: 'ESYS-PIP-AI-002',
+        message: 'claude-api 모드인데 ANTHROPIC_API_KEY 가 없습니다.',
+        hint: 'Variables 에 ANTHROPIC_API_KEY 추가 또는 본인 설정에 키 등록 필요.'
+      });
+    }
+  }
+  if (aiProvider === 'claude-code') {
+    // 본인 워커가 polling 중인지 + claude CLI 인증 OK 인지 확인
+    const myWorkerActive = db.prepare(`
+      SELECT COUNT(*) AS n FROM pipeline_steps
+      WHERE worker_id IS NOT NULL
+        AND user_id = ?
+        AND heartbeat_at > datetime('now', '-2 minutes')
+    `).get(req.user.id).n;
+    const userRow = db.prepare('SELECT claude_session_info FROM users WHERE id = ?').get(req.user.id);
+    let claudeOk = false;
+    if (userRow && userRow.claude_session_info) {
+      try { claudeOk = !!(JSON.parse(userRow.claude_session_info).loggedIn); } catch {}
+    }
+    // active worker 가 1명도 없으면 (어떤 사용자든) 일단 차단
+    const anyActiveWorker = db.prepare(`
+      SELECT COUNT(*) AS n FROM pipeline_steps
+      WHERE worker_id IS NOT NULL AND heartbeat_at > datetime('now', '-2 minutes')
+    `).get().n;
+    if (anyActiveWorker === 0 && req.user.role !== 'admin') {
+      return res.status(412).json({
+        error: 'ESYS-PIP-AI-003',
+        message: '활성 워커가 없습니다. 본인 PC 에서 npm run worker 실행 필요.',
+        hint: '/admin/users 에서 본인 토큰 발급 → PC 에서 워커 실행 → 새로고침 후 재시도.'
+      });
+    }
+    if (!claudeOk && myWorkerActive === 0) {
+      return res.status(412).json({
+        error: 'ESYS-PIP-AI-004',
+        message: '본인 워커가 polling 중이 아니거나 claude CLI 인증 OK 가 확인되지 않았습니다.',
+        hint: '본인 PC 에서 claude /login 확인 후 npm run worker 재시작.'
+      });
+    }
+  }
+
   const project = db.prepare('SELECT id, name, code, completion_level, optional_skills FROM projects WHERE id = ? AND deleted_at IS NULL').get(project_id);
   if (!project) return res.status(404).json({ error: 'ESYS-PIP-002', message: 'Project not found' });
 

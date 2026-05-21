@@ -234,4 +234,60 @@ router.get('/errors', requireRole('admin'), (req, res) => {
   res.json({ days, source, total, byCode, bySource, byDay, recent, budget: getErrorBudget() });
 });
 
+// v26: GET /api/dashboard/onboarding — 모든 user 의 onboarding 상태
+//   admin 전용 /api/admin/settings/ai 와 같은 로직이지만 본인 정보만 노출.
+//   대시보드가 step1 게이트 + 가이드 표시에 사용.
+router.get('/onboarding', (req, res) => {
+  const { getSetting } = require('../db');
+  const provider = getSetting('ai_provider') || 'claude-code';
+  const workerMode = (process.env.WORKER_MODE || 'local').toLowerCase();
+
+  const activeWorkers = db.prepare(`
+    SELECT COUNT(DISTINCT user_id) AS n
+    FROM pipeline_steps
+    WHERE worker_id IS NOT NULL
+      AND heartbeat_at > datetime('now', '-2 minutes')
+  `).get().n;
+
+  // 본인 워커 polling 여부
+  const myWorkerActive = !!db.prepare(`
+    SELECT COUNT(*) AS n FROM pipeline_steps
+    WHERE worker_id IS NOT NULL
+      AND user_id = ?
+      AND heartbeat_at > datetime('now', '-2 minutes')
+  `).get(req.user.id).n;
+
+  // 본인 claude session
+  let myClaudeSession = null;
+  try {
+    const row = db.prepare('SELECT claude_session_info, worker_token FROM users WHERE id = ? AND deleted_at IS NULL').get(req.user.id);
+    if (row) {
+      if (row.claude_session_info) {
+        try { myClaudeSession = JSON.parse(row.claude_session_info); } catch {}
+      }
+      var hasWorkerToken = !!row.worker_token;
+    }
+  } catch {}
+
+  // step1 통과 조건
+  const claudeApiReady = provider === 'claude-api' && !!(getSetting('anthropic_api_key') || process.env.ANTHROPIC_API_KEY);
+  const distributedWorkerReady = provider === 'claude-code' && myWorkerActive && !!(myClaudeSession && myClaudeSession.loggedIn);
+
+  res.json({
+    provider,
+    worker_mode: workerMode,
+    ai_ready: claudeApiReady || distributedWorkerReady,
+    active_worker_count: activeWorkers,
+    my_worker_active: myWorkerActive,
+    my_claude_session: myClaudeSession,
+    has_worker_token: !!hasWorkerToken,
+    is_admin: req.user.role === 'admin',
+    // 다운로드/실행에 쓸 정보
+    server_origin: req.headers['x-forwarded-host']
+      ? `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['x-forwarded-host']}`
+      : `${req.protocol}://${req.get('host')}`,
+    worker_download_url: '/api/worker/download/xcipe-worker.js'
+  });
+});
+
 module.exports = router;
