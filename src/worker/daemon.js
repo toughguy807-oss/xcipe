@@ -655,15 +655,11 @@ async function start() {
           const headerMatch = localBytes.toString('utf8').match(/^([\s\S]*?\n)\/\/ 분산 워커 daemon/);
           const header = headerMatch ? headerMatch[1] : '';
           fs.writeFileSync(selfPath, header + remoteRaw, 'utf8');
-          log('업데이트 완료. 5초 후 자동 재시작…');
-          setTimeout(() => {
-            const { spawn } = require('child_process');
-            const child = spawn(process.execPath, [selfPath], {
-              detached: true, stdio: 'inherit', env: process.env
-            });
-            child.unref();
-            process.exit(0);
-          }, 5000);
+          log('업데이트 완료. 깨끗하게 종료 (wrapper 가 자동 재시작)');
+          // Windows 에서 spawn detached + stdio:inherit 이 unreliable —
+          // .cmd wrapper 가 어차피 재시작하므로 그냥 exit(0) 으로 위임.
+          // exit code 0 = 정상 종료, wrapper 가 RESTART_COUNT 카운트 안 함.
+          setTimeout(() => process.exit(0), 2000);
           return;
         }
       }
