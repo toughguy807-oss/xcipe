@@ -769,6 +769,72 @@ router.get('/chat/poll/:invocationId', async (req, res) => {
       delete matchedSess.pendingInvocation;
       persistSession(matchedSess);
 
+      // v30: researcher 자동 chaining — designer 가 commit 표현 또는 "사용자에게 요청" 떠넘기는 경우 둘 다 감지.
+      //   동기 경로와 동일하지만 사용자 의도 정합성을 위해 "kds-researcher" + "extend" + 도메인 키워드도 감지.
+      const isAskingUser = /[?？]\s*$|확인이 필요|답변 주시면|어떻게 갈|원하시나|어느.{0,5}로|어떤.{0,10}(영역|화면|시안)|몇.{0,5}(개|종)/m.test(content);
+      const isAdvisory = /(있다면|없다면|있으면|없으면|존재하지 않으면|필요(시|할 때)|아직 없|만약)/.test(content);
+      const isCommitting = /(kds-researcher.{0,20}(호출하겠|호출합니다|진행하겠|진행합니다|시작합)|(brand\.md|brand-md).{0,20}(생성하겠|만들겠|생성합니다|만듭니다)|자동.{0,30}(researcher|brand\.md|chaining).{0,15}(시작|진행|호출))/i.test(content);
+      // 비동기 모드 보강: designer 가 "kds-researcher 를 ... 호출해주세요" 형식으로 사용자에게 떠넘긴 경우도 자동 trigger
+      const isDelegatingResearcher = /kds-researcher.{0,40}(호출해|실행해|만들어|생성해).{0,5}(주세요|줘)/i.test(content)
+                                  && /brand_mode\s*:\s*extend/i.test(content);
+      const needsResearcher = (isCommitting || isDelegatingResearcher) && !isAskingUser && !isAdvisory;
+      if (needsResearcher) {
+        // 도메인 추출 — 세션 내 URL 1개
+        const allText = matchedSess.messages.map(m => m.content || '').join(' ');
+        const urlMatch = allText.match(/https?:\/\/([^\/\s]+)/);
+        const domain = urlMatch ? urlMatch[1].replace(/^www\./, '') : null;
+        if (domain) {
+          const brandMdPath = path.join(getKdsRoot(), 'research', 'brands', domain, 'brand.md');
+          if (fs.existsSync(brandMdPath)) {
+            matchedSess.messages.push({
+              role: 'assistant',
+              content: `✅ brand.md 이미 있음 (${domain}) — researcher skip, 즉시 시안 작업 진행해주세요.`,
+              at: Date.now()
+            });
+            persistSession(matchedSess);
+          } else {
+            const startMsg = `▶ ${domain} brand.md 자동 생성 시작 (kds-researcher, brand_mode: extend) — 1~5분 소요.`;
+            matchedSess.messages.push({ role: 'assistant', content: startMsg, at: Date.now() });
+            persistSession(matchedSess);
+            // researcher fire-and-forget — invocation 큐로 위임
+            (async () => {
+              try {
+                const researcherPrompt = `KDS v4 kds-researcher 에이전트로 brand.md 생성 작업입니다.
+
+[작업 모드] brand_mode: extend
+[도메인] ${domain}
+
+[작업]
+1. .claude/agents/kds-researcher.md 가이드 따름
+2. ${domain} 사이트 분석 → 6가지 결론 + 포지셔닝 + 영역별 톤표
+3. research/brands/${domain}/brand.md 작성
+
+[최종 출력]
+\`\`\`json
+{ "brandMd": "research/brands/${domain}/brand.md", "areas": ["..."] }
+\`\`\`
+`;
+                const r2 = await execClaudeShort(researcherPrompt, {
+                  cwd: getKdsRoot(),
+                  timeout: 600000,
+                  userId: req.user && req.user.id,
+                  kind: 'kds-chat'
+                });
+                if (!r2.ok) {
+                  matchedSess.messages.push({ role: 'assistant', content: `❌ researcher 실패: ${r2.error}`, at: Date.now() });
+                } else {
+                  matchedSess.messages.push({ role: 'assistant', content: `✅ brand.md 생성 완료 (${domain}). 이제 시안 작업을 명시적으로 트리거해주세요 ("시안 만들어줘" 등).`, at: Date.now() });
+                }
+                persistSession(matchedSess);
+              } catch (e) {
+                matchedSess.messages.push({ role: 'assistant', content: `❌ researcher 예외: ${e.message}`, at: Date.now() });
+                persistSession(matchedSess);
+              }
+            })();
+          }
+        }
+      }
+
       // v30: [READY] 시그널 감지 → generateDesign 자동 trigger (동기 경로와 동일)
       //   응답에 ready=true + jobId 포함 → 클라이언트가 _startGenerationPolling 시작
       const readyLine = content.split('\n').reverse().find(l => l.trim().startsWith('[READY]'));
