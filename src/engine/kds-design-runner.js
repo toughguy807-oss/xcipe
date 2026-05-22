@@ -150,13 +150,27 @@ ${conversationBlock}
 [사용 가능 KDS 컴포넌트 카탈로그]
 ${componentCatalog || '(컴포넌트 디렉토리 읽기 실패 — kds/data/components/ 직접 조회)'}
 
-[작업 흐름 — 3 Phase 워크플로우 의무]
+[작업 흐름 — 4 Phase 워크플로우 의무]
 
-## Phase 1: RESEARCH (.claude/agents/kds-researcher.md 가이드 적용)
-- 요구사항의 도메인/사용 맥락 정리.
-- research/brands/ 에 유사 도메인 자료 있으면 참고. 없으면 일반 패턴.
+## Phase 0: LIVE CRAWL (조건부 — 요구사항 안에 https?:// URL 이 있을 때만)
+요구사항을 정규식 \`/https?:\\/\\/[^\\s\\)\\]]+/\` 으로 검사. 매치 없으면 Phase 0 skip 하고 Phase 1 로. 매치 있으면 아래 절차 의무.
+
+추측 우회 차단 안전망 — chaining (kds-design.js needsResearcher 분기) 가 정상 동작 시 이 Phase 는 이미 끝나있을 것 (research/brands/<domain>/brand.md + research/<slug>/brief.md 존재). **존재 확인 먼저** — 둘 다 있고 stale 신호 없으면 Phase 1 로 진행.
+
+둘 중 하나라도 부재하면 chaining 우회된 fallback 경로 — designer 가 직접 채운다:
+- URL 의 eTLD+1 도메인 추출 (예: shop.kt.com → kt.com)
+- 화면 slug 추출 (사용자 요구사항에서 메인/홈/로그인/장바구니/상품상세/마이페이지/주문/결제/검색 키워드 중 첫 매치 — 없으면 'main') → \`<domain>-<area>\`
+- Bash 도구로 Playwright headless Chromium 호출. 모바일 (375×812, isMobile) + 데스크탑 (1440×900) 두 viewport 모두 캡쳐. \`research/<slug>/screenshots/mobile.png\` / \`desktop.png\` 저장 + 각각 \`*.dom.json\` 에 메뉴 라벨/h1~h3/CTA/상품명/배너 카피 추출
+- 위 관찰 결과로 \`research/brands/<domain>/brand.md\` (없으면 신규, 있으면 보강) + \`research/<slug>/brief.md\` 작성
+- 라이브 크롤 실패 시 (Playwright timeout, 403 등) → 모바일 전용 URL (\`m.<domain>\`) 재시도. 그래도 실패면 작업 중단 (추측 시안 생성 금지). 부분 완료 상태로 종료하고 사용자 메시지에 실패 사유 보고
+
+Phase 0 의 brief.md / brand.md 가 Phase 2 의 카피·라벨·상품명·CTA 의 **유일한 출처**. "통신사면 보통..." 같은 일반 추측 0건.
+
+## Phase 1: RESEARCH PLAN (.claude/agents/kds-researcher.md 가이드 적용)
+- Phase 0 의 brief.md / brand.md 가 있으면 그 6가지 결론 + 영역별 톤 + 정보 위계 + 컴포넌트 구성 그대로 흡수.
+- URL 없는 요청이면 (Phase 0 skip 케이스): 요구사항의 도메인/사용 맥락 정리, research/brands/ 에 유사 도메인 자료 있으면 참고.
 - kds/data/foundations/ (spacing/grid/breakpoint/typography) 및 kds/data/patterns/ 검토.
-- 출력: "이번 화면은 X 컴포넌트 + Y 패턴 + Z 토큰 조합. layout 은 ..." 같은 plan 한 단락.
+- 출력: "이번 화면은 X 컴포넌트 + Y 패턴 + Z 토큰 조합. layout 은 ... brief.md 의 [메뉴/카피/상품명] 반영." plan 한 단락.
 
 ## Phase 2: DESIGN (.claude/agents/kds-designer.md 가이드 적용)
 - Phase 1 plan 에 따라 to-figma/<name>-<vp>.html + to-figma/<name>-<vp>.figma.json 페어 생성.

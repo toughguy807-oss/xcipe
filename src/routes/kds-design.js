@@ -553,7 +553,18 @@ router.post('/chat', async (req, res) => {
   const isAskingUser = /[?？]\s*$|확인이 필요|답변 주시면|어떻게 갈|원하시나|어느.{0,5}로|어떤.{0,10}(영역|화면|시안)|몇.{0,5}(개|종)/m.test(content);
   const isAdvisory = /(있다면|없다면|있으면|없으면|존재하지 않으면|필요(시|할 때)|아직 없|만약)/.test(content);
   const isCommitting = /(kds-researcher.{0,20}(호출하겠|호출합니다|진행하겠|진행합니다|시작합)|(brand\.md|brand-md).{0,20}(생성하겠|만들겠|생성합니다|만듭니다)|자동.{0,30}(researcher|brand\.md|chaining).{0,15}(시작|진행|호출))/i.test(content);
-  const needsResearcher = isCommitting && !isAskingUser && !isAdvisory;
+  // URL fast-path — 사용자 메시지에 https?:// URL 이 있고 brand.md 가 아직 없으면 어시스턴트 commitment 표현과 무관하게 researcher chaining 강제 발동.
+  //   배경: 어시스턴트가 [READY] 만 내고 commitment 키워드를 안 쓰는 짧은 흐름에서, designer 가 brand.md/brief.md 없이 호출되어 추측 시안 (예: ktshop-main-abc-mobile-* 의 "베스트 단말/추천 요금제" 류) 이 만들어지던 회귀를 차단.
+  const userHasUrl = sess.messages.some(m => m.role === 'user' && /https?:\/\//.test(m.content || ''));
+  let urlPathBrandMissing = false;
+  if (userHasUrl) {
+    const um = sess.messages.map(m => m.content || '').join(' ').match(/https?:\/\/([^\/\s]+)/);
+    const d = um ? um[1] : null;
+    if (d) {
+      try { urlPathBrandMissing = !fs.existsSync(path.join(getKdsRoot(), 'research', 'brands', d, 'brand.md')); } catch { urlPathBrandMissing = true; }
+    }
+  }
+  const needsResearcher = (isCommitting || urlPathBrandMissing) && !isAskingUser && !isAdvisory;
   if (needsResearcher) {
     // 도메인 추출 — 현재 세션 메시지에서 https?:// URL 1개
     const allText = sess.messages.map(m => m.content || '').join(' ');
@@ -605,23 +616,101 @@ router.post('/chat', async (req, res) => {
       // fire-and-forget — researcher → 자동 designer
       (async () => {
         try {
-          const researcherPrompt = `KDS v4 kds-researcher 에이전트로 brand.md 생성/보강 작업입니다.
+          // 화면 단위 slug — URL 의 path / 사용자 메시지에서 화면 키워드 추출
+          //   ex: shop.kt.com 의 메인 → slug="shop.kt.com-main", login.kt.com 의 로그인 → "login.kt.com-login"
+          const screenSlugSeed = (sess.messages.filter(m => m.role === 'user').map(m => m.content || '').join(' ').match(/(메인|홈|로그인|회원가입|장바구니|상품상세|마이페이지|주문|결제|검색|이벤트|혜택|상품목록)/) || [])[0] || 'main';
+          const screenSlug = `${domain}-${screenSlugSeed}`;
+          const brandMdRel = `research/brands/${domain}/brand.md`;
+          const brandShotsRel = `research/brands/${domain}/screenshots/`;
+          const briefMdRel = `research/${screenSlug}/brief.md`;
+          const screenShotsRel = `research/${screenSlug}/screenshots/`;
+          const tokensRel = `research/${screenSlug}/tokens-observed.md`;
 
-[작업 모드]
-brand_mode: extend
+          const researcherPrompt = `KDS v4 kds-researcher 단계 — 실제 사이트를 Playwright 로 크롤한 뒤 brand.md (도메인) + brief.md (화면) 둘 다 생성합니다. 추측 금지, 라이브 페이지 관찰 결과만 기록.
 
-[도메인]
-${domain}
+[입력]
+- URL: 첫 https?:// 출현 URL — 세션 메시지에서 직접 추출 (대화 흐름 그대로 보존)
+- 도메인 (eTLD+1): ${domain}
+- 화면 slug: ${screenSlug}
+- brand_mode: extend (브랜드 자료 점진적 누적 — 이미 있으면 보강·없으면 신규)
 
-[작업]
-1. .claude/agents/kds-researcher.md 가이드를 처음부터 끝까지 따릅니다.
-2. ${domain} 사이트 분석 → 6가지 결론 (Voice/Tone/UX 모티프/컬러 시그니처/비주얼 모티프/타이포 위계) + 포지셔닝 + 영역별 톤표 생성.
-3. research/brands/${domain}/brand.md 작성 (이미 있으면 보강).
-4. "관찰된 영역" 헤더에 이번 작업 화면 영역 추가.
+[Phase 0 — Playwright 크롤 (의무, 추측 우회 금지)]
+Bash 도구로 Playwright headless Chromium 을 직접 호출해 라이브 페이지를 가져옵니다. 가이드만 읽고 끝내지 마세요 — 아래 명령을 **실제로 실행**해야 합니다.
+
+\`\`\`bash
+mkdir -p ${brandShotsRel} ${screenShotsRel}
+\`\`\`
+
+그리고 Node 인라인 스크립트로 모바일·데스크탑 두 viewport 캡쳐 + 본문 텍스트/구조 추출. 예시 (필요 시 조정):
+
+\`\`\`bash
+node -e "
+const { chromium } = require('playwright');
+(async () => {
+  const url = process.env.TARGET_URL;
+  const browser = await chromium.launch({ headless: true });
+  for (const vp of [{ name: 'mobile', width: 375, height: 812, isMobile: true, ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15' },
+                    { name: 'desktop', width: 1440, height: 900, isMobile: false }]) {
+    const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.isMobile, userAgent: vp.ua });
+    const page = await ctx.newPage();
+    await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 }));
+    await page.waitForTimeout(2000);
+    await page.screenshot({ path: '${screenShotsRel}' + vp.name + '.png', fullPage: true });
+    // 본문 텍스트 (메뉴/카피/상품명) + 컬러·폰트 관찰
+    const dom = await page.evaluate(() => {
+      const pick = sel => Array.from(document.querySelectorAll(sel)).map(e => (e.innerText || '').trim()).filter(Boolean).slice(0, 50);
+      return {
+        title: document.title,
+        h: pick('h1,h2,h3'),
+        nav: pick('nav a, header a, [role=navigation] a'),
+        cta: pick('button, a.btn, [class*=btn], [class*=button]'),
+        prod: pick('[class*=product], [class*=goods], [class*=item] [class*=name], [class*=card] h3, [class*=card] strong'),
+        banner: pick('[class*=banner] strong, [class*=banner] em, [class*=hero] h1, [class*=hero] h2, [class*=promo]'),
+        body: (document.body.innerText || '').slice(0, 5000)
+      };
+    });
+    require('fs').writeFileSync('${screenShotsRel}' + vp.name + '.dom.json', JSON.stringify(dom, null, 2));
+    await ctx.close();
+  }
+  await browser.close();
+})().catch(e => { console.error(e); process.exit(1); });
+" TARGET_URL=<여기에 세션에서 추출한 실제 URL 박기>
+\`\`\`
+
+크롤 실패 시: 모바일 전용 URL (\`m.${domain}\` 등) 으로 재시도. 그래도 실패면 사용자에게 보고 후 중단 (추측으로 진행 금지).
+
+[Phase 1 — brand.md (도메인 단위, 영구 자산)]
+${brandMdRel} 작성 또는 보강.
+
+- 이미 있으면: 헤더의 "관찰된 영역" 에 이번 영역(${screenSlugSeed}) 추가, 2-b 영역별 톤표에 행 추가. 기존 6가지 결론 보존 (충돌 시 메모 추가)
+- 없으면 신규 생성. 6가지 결론 + 포지셔닝 + 영역별 톤표 — **모두 Phase 0 의 캡쳐·DOM 관찰 근거**로 작성:
+  · Voice / Tone — 카피 톤 (격식/친근/혜택강조 등)
+  · UX 모티프 — 일체형/단계형/큐레이션형 등
+  · 컬러 시그니처 — 헤더·CTA·강조 색 hex 관찰 결과 (KDS 토큰 매핑은 designer 단계에서)
+  · 비주얼 모티프 — 사진 강도·일러스트·그리드 성향
+  · 타이포 위계 — heading vs body 대비
+  · 포지셔닝 — 한 줄
+- 헤더에 "관찰된 영역: ${screenSlugSeed}" / "마지막 관찰: $(date +%Y-%m-%d)" 명시
+- 도메인 단위 메인·About·press 같은 추가 캡쳐가 있으면 ${brandShotsRel} 로도 복사
+
+[Phase 2 — brief.md (화면 단위)]
+${briefMdRel} 작성. Phase 0 의 dom.json + screenshot 직접 분석한 결과를 그대로 정리.
+
+필수 섹션:
+- 화면 식별: URL + 화면명 + viewport 패턴 (반응형/적응형/PC전용 판정)
+- 정보 위계: GNB 메뉴 라벨 전부 (관찰 그대로, 추측 금지) / hero 영역 카피 / 노출 상품·카테고리명 / 배너 문구
+- 컴포넌트 구성: 검색·캐러셀·탭·카드 등 어떤 컴포넌트가 어디에
+- 인터랙션 흐름: 가입·구매·검색 같은 주요 flow
+- UX 라이팅 톤: 실제 카피 인용 3~5개
+- 추가로 ${tokensRel} 에 관찰된 색·간격·타이포 패턴 기록 (KDS 치환 대상, 참고용)
+
+[금지]
+- 본인 추측·일반론 작성. "통신사면 보통 단말/요금제겠지" 류 0건. 모든 라벨/카피는 ${screenShotsRel} 의 dom.json 에서 인용
+- Phase 0 크롤 실패한 상태에서 brand.md/brief.md 작성
 
 [최종 출력]
 \`\`\`json
-{ "brandMd": "research/brands/${domain}/brand.md", "areas": ["..."] }
+{ "brandMd": "${brandMdRel}", "briefMd": "${briefMdRel}", "screenshots": ["${screenShotsRel}mobile.png", "${screenShotsRel}desktop.png"], "areas": ["${screenSlugSeed}"], "crawlOk": true }
 \`\`\`
 `;
           const r2 = await execClaudeShort(researcherPrompt, {
@@ -675,6 +764,17 @@ ${domain}
   // [READY] 시그널 추출
   const readyLine = content.split('\n').reverse().find(l => l.trim().startsWith('[READY]'));
   if (readyLine) {
+    // 안전망 — needsResearcher 매칭이 false positive 로 우회된 경우 (예: isAdvisory 가 "없다면" 같은 키워드를 잘못 잡음) 에도
+    //   URL 있고 brand.md 부재면 designer 호출 직전에 차단. 사용자에게 한 번 더 입력을 요청해 chaining 으로 재진입시킨다.
+    //   회귀 케이스: ktshop-main-abc-mobile-* 처럼 brand.md/brief.md 없이 designer 가 추측 시안 생성.
+    if (userHasUrl && urlPathBrandMissing) {
+      const um = sess.messages.map(m => m.content || '').join(' ').match(/https?:\/\/([^\/\s]+)/);
+      const blockedDomain = um ? um[1] : '(unknown)';
+      const msg = `⏸ [READY] 받았으나 ${blockedDomain} 의 brand.md / brief.md 가 아직 없습니다 — 시안 추측 회귀를 막기 위해 designer 호출을 보류합니다.\n\n다음 메시지에 "kds-researcher 로 ${blockedDomain} brand.md 와 brief.md 를 먼저 생성하겠습니다" 라고 한 번 더 입력해 주세요. Playwright 크롤 → 시안 작업이 자동 chaining 됩니다.`;
+      sess.messages.push({ role: 'assistant', content: msg, at: Date.now() });
+      persistSession(sess);
+      return res.json({ sessionId: sess.id, assistant: msg, ready: false, blocked: 'brand-md-missing' });
+    }
     const req2 = (readyLine.match(/requirement="([^"]+)"/) || [])[1] || sess.messages.filter(m => m.role==='user').map(m=>m.content).join(' / ');
     const vpStr = (readyLine.match(/viewports=([\w+]+)/) || [])[1] || 'mobile';
     const name = (readyLine.match(/name=([a-zA-Z0-9_-]+)/) || [])[1];

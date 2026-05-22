@@ -501,14 +501,15 @@ async function processInvocation(inv) {
         userPrompt: payload.userPrompt || payload.prompt || ''
       }, opts);
 
-      // KDS 산출물 자동 회수 — claude 가 to-figma/ 에 만든 새 파일을 서버로 업로드
-      if (r && r.ok && kdsRoot && beforeFiles) {
+      // v31: KDS 산출물 자동 회수 강화 — r.ok 조건 제거 (claude timeout 후에도 부분 결과 회수)
+      //   + 3회 retry + 10초 backoff
+      if (kdsRoot && beforeFiles) {
         try {
           const toFigmaDir = path.join(kdsRoot, 'to-figma');
           const afterFiles = fs.existsSync(toFigmaDir) ? fs.readdirSync(toFigmaDir) : [];
           const newFiles = afterFiles.filter(f => !beforeFiles.has(f));
           if (newFiles.length > 0) {
-            log(`KDS 산출물 ${newFiles.length}개 감지 — 서버로 업로드`);
+            log(`KDS 산출물 ${newFiles.length}개 감지 — 서버로 업로드 (claude ${r && r.ok ? 'ok' : 'timeout/fail'})`);
             const filesPayload = newFiles.map(name => {
               try {
                 const abs = path.join(toFigmaDir, name);
@@ -528,15 +529,25 @@ async function processInvocation(inv) {
             }).filter(Boolean);
 
             if (filesPayload.length) {
-              const up = await httpJson('POST', '/api/worker/kds-artifacts', {
-                body: { files: filesPayload }
-              });
-              if (up.ok) {
-                log(`KDS 산출물 ${filesPayload.length}개 서버 업로드 OK`);
-              } else {
-                warn(`KDS 산출물 업로드 실패 status=${up.status}`, up.body);
+              let uploaded = false;
+              for (let attempt = 1; attempt <= 3; attempt++) {
+                const up = await httpJson('POST', '/api/worker/kds-artifacts', {
+                  body: { files: filesPayload }
+                });
+                if (up.ok) {
+                  log(`KDS 산출물 ${filesPayload.length}개 서버 업로드 OK (attempt ${attempt})`);
+                  uploaded = true;
+                  break;
+                }
+                warn(`KDS 산출물 업로드 실패 attempt ${attempt}/3 status=${up.status}`, up.body);
+                if (attempt < 3) await new Promise(r => setTimeout(r, 10_000));
+              }
+              if (!uploaded) {
+                err(`KDS 산출물 업로드 3회 실패 — 워커 PC 에는 보존됨. 수동 업로드 필요.`);
               }
             }
+          } else {
+            log(`KDS 작업 후 새 파일 0개 (claude 가 to-figma/ 에 작성 안 함)`);
           }
         } catch (e) {
           warn(`KDS 산출물 회수 예외: ${e.message}`);
@@ -632,6 +643,23 @@ async function start() {
 
   log(`서버: ${SERVER}`);
   log(`워커 ID: ${WORKER_ID}`);
+
+  // v31: local/클라우드 분리 가드 — 같은 PC 에서 localhost:3747 + Railway 워커 동시 가동 시 충돌 경고.
+  //   localhost 가 떠 있으면 그쪽이 claude 직접 호출 (local 모드) → to-figma/ 폴더에 직접 작성.
+  //   동시에 Railway 워커도 to-figma/ 를 cwd 로 claude 실행 → 같은 폴더 동시 쓰기 = 파일 충돌.
+  //   경고만 표시 (사용자가 의도적으로 둘 다 켤 수 있음 — 단 KDS 작업은 한 쪽만 권장).
+  try {
+    const localCheck = await fetch('http://localhost:3747/', { signal: AbortSignal.timeout(2000) });
+    if (localCheck && localCheck.ok) {
+      warn('=== local/클라우드 동시 가동 감지 ===');
+      warn('  localhost:3747 (로컬 xcipe) 가 떠 있습니다.');
+      warn('  Railway 워커와 같은 PC 에서 KDS 작업 시 to-figma/ 폴더 동시 쓰기 충돌 가능.');
+      warn('  권장: 한 모드만 사용하세요.');
+      warn('    - 로컬 모드 (localhost:3747 사용)  → 이 워커 종료');
+      warn('    - 클라우드 모드 (Railway 사용)     → localhost:3747 종료');
+      warn('====================================');
+    }
+  } catch { /* localhost 안 떠있음 = 정상 */ }
 
   // v28+: self-update — 시작 시 서버 최신 daemon.js 와 비교, 다르면 교체 후 자동 재시작
   //   매번 zip 새로 받지 않아도 됨. 환경변수 XCIPE_NO_UPDATE=1 로 비활성 가능.
