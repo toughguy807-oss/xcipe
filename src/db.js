@@ -100,6 +100,8 @@ db.exec(`
   );
   CREATE INDEX IF NOT EXISTS idx_steps_pipeline ON pipeline_steps(pipeline_id);
   CREATE INDEX IF NOT EXISTS idx_steps_status ON pipeline_steps(status);
+  -- v28: my_pending_steps 쿼리 (status='pending' AND user_id=?) 가속화 + stale 회수 쿼리 가속화
+  CREATE INDEX IF NOT EXISTS idx_steps_user_status ON pipeline_steps(user_id, status);
 
   -- IA-D006: artifacts
   CREATE TABLE IF NOT EXISTS artifacts (

@@ -79,6 +79,7 @@ const { validateArtifactContent, saveArtifact } = require('./pipeline/artifact-s
 
 let _running = false;
 let _interval = null;
+let _staleInterval = null;  // v28: stale claim 회수 별도 인터벌 (30s) — tick(2s) 과 분리
 
 // A7: 비용 한도 체크 — 한도가 설정된 경우만 동작. 임계 초과/한도 초과 시 admin 알림
 function checkCostLimits() {
@@ -1085,15 +1086,57 @@ function recoverZombies() {
   _running = false;
 }
 
+// v28: 운영 중 stale claim 회수 — 분산 워커가 heartbeat 끊긴 채로 running 상태에 묶인 step 복원
+//   recoverZombies (서버 부팅 시 1회) 와 다름. 본 함수는 30초마다 호출되어 워커가 죽어도 자동 복구.
+//   임계: heartbeat_at 또는 started_at 이 5분 이상 끊긴 running step (doctor 의 stale 임계와 일치)
+const STALE_THRESHOLD_MIN = 5;
+function recoverStaleClaims() {
+  const stale = db.prepare(`
+    SELECT id, pipeline_id, retry_count, worker_id, heartbeat_at
+    FROM pipeline_steps
+    WHERE status = 'running'
+      AND (heartbeat_at IS NULL OR heartbeat_at < datetime('now', ?))
+      AND (started_at IS NULL OR started_at < datetime('now', ?))
+  `).all(`-${STALE_THRESHOLD_MIN} minutes`, `-${STALE_THRESHOLD_MIN} minutes`);
+  if (stale.length === 0) return;
+  console.log(`[pipeline-worker] Recovering ${stale.length} stale claim(s) — heartbeat ${STALE_THRESHOLD_MIN}min+ 미수신`);
+  for (const z of stale) {
+    const retryCount = z.retry_count || 0;
+    const canRecover = retryCount < 3;
+    const workerLabel = z.worker_id || 'unknown';
+    if (canRecover) {
+      db.prepare(`
+        UPDATE pipeline_steps
+        SET status='pending', retry_count=?, error_message=?, started_at=NULL, worker_id=NULL, heartbeat_at=NULL
+        WHERE id=?
+      `).run(retryCount + 1, `[stale-recovered] worker ${workerLabel} heartbeat ${STALE_THRESHOLD_MIN}min+ 미수신`, z.id);
+      logActivity('pipeline_step', z.id, 'stale_recovered', `running → pending (retry ${retryCount + 1}/3) worker=${workerLabel}`, null);
+    } else {
+      db.prepare(`
+        UPDATE pipeline_steps
+        SET status='failed', error_message=?, completed_at=datetime('now')
+        WHERE id=?
+      `).run(`[stale-failed] 재시도 한도 초과 (worker ${workerLabel} heartbeat ${STALE_THRESHOLD_MIN}min+ 미수신)`, z.id);
+      logActivity('pipeline_step', z.id, 'stale_failed', `재시도 한도 초과 (${retryCount}/3) worker=${workerLabel}`, null);
+    }
+    updatePipelineStatus(z.pipeline_id);
+  }
+}
+
 function start() {
   if (_interval) return;
   recoverZombies();
-  console.log(`[pipeline-worker] Started (polling every 2s, concurrency=${CONCURRENCY})`);
+  console.log(`[pipeline-worker] Started (polling every 2s, concurrency=${CONCURRENCY}, stale-recovery every 30s)`);
   _interval = setInterval(() => { tick().catch(console.error); }, 2000);
+  // v28: stale claim 회수 — 워커가 죽어 heartbeat 끊긴 running step 을 30초마다 검사
+  _staleInterval = setInterval(() => {
+    try { recoverStaleClaims(); } catch (e) { console.error('[pipeline-worker] recoverStaleClaims error:', e); }
+  }, 30000);
 }
 
 function stop() {
   if (_interval) { clearInterval(_interval); _interval = null; }
+  if (_staleInterval) { clearInterval(_staleInterval); _staleInterval = null; }
 }
 
 module.exports = { start, stop, tick, approveStep, rejectStep, retryStep, retryFailedSteps, updatePipelineStatus, pausePipeline, resumePipeline, cancelPipeline };

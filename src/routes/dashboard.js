@@ -277,6 +277,13 @@ router.get('/onboarding', (req, res) => {
   const claudeApiReady = provider === 'claude-api' && !!(getSetting('anthropic_api_key') || process.env.ANTHROPIC_API_KEY);
   const distributedWorkerReady = provider === 'claude-code' && myWorkerActive && !!(myClaudeSession && myClaudeSession.loggedIn);
 
+  // v28: 본인 user 의 pending step 수 (큐 적체 감지)
+  //   3건+ 적체 + 워커 미가동 시 클라이언트에서 알림 트리거 가능
+  let myPendingSteps = 0;
+  try {
+    myPendingSteps = db.prepare(`SELECT COUNT(*) AS n FROM pipeline_steps WHERE status = 'pending' AND user_id = ?`).get(req.user.id).n;
+  } catch {}
+
   res.json({
     provider,
     worker_mode: workerMode,
@@ -285,12 +292,13 @@ router.get('/onboarding', (req, res) => {
     my_worker_active: myWorkerActive,
     my_claude_session: myClaudeSession,
     has_worker_token: !!hasWorkerToken,
+    my_pending_steps: myPendingSteps,  // v28
     is_admin: req.user.role === 'admin',
     // 다운로드/실행에 쓸 정보
     server_origin: req.headers['x-forwarded-host']
       ? `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['x-forwarded-host']}`
       : `${req.protocol}://${req.get('host')}`,
-    worker_download_url: '/api/worker/download/xcipe-worker.js'
+    worker_download_url: '/api/worker/my-download'  // v28: 인증된 사용자용 zip 다운로드로 통일
   });
 });
 
