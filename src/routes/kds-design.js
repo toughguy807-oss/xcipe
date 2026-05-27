@@ -1341,9 +1341,13 @@ router.delete('/item/:name', (req, res) => {
   const html = path.join(toFigmaDir, name + '.html');
   const spec = path.join(toFigmaDir, name + '.figma.json');
   const removed = [];
+  const failed = [];
   for (const f of [html, spec]) {
-    if (fs.existsSync(f)) { fs.unlinkSync(f); removed.push(path.basename(f)); }
+    if (!fs.existsSync(f)) continue;
+    try { fs.unlinkSync(f); removed.push(path.basename(f)); }
+    catch (e) { failed.push({ file: path.basename(f), code: e.code, msg: e.message }); }
   }
+  if (failed.length) return res.status(500).json({ ok: false, removed, failed });
   return res.json({ ok: true, removed });
 });
 

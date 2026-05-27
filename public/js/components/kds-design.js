@@ -627,7 +627,7 @@ const KdsDesignPage = {
       el.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
         const n = b.getAttribute('data-del');
         if (!confirm(`삭제: ${n}\n(html + figma.json 2 파일)`)) return;
-        await API.delete(`/kds-design/item/${encodeURIComponent(n)}`);
+        await API.del(`/kds-design/item/${encodeURIComponent(n)}`);
         await this.loadList();
       }));
       // 전체 선택 토글
@@ -642,7 +642,7 @@ const KdsDesignPage = {
         if (!picked.length) { alert('삭제할 파일을 선택하세요'); return; }
         if (!confirm(`${picked.length}개 파일 삭제 (각 html + figma.json):\n\n${picked.join('\n')}`)) return;
         for (const n of picked) {
-          try { await API.delete(`/kds-design/item/${encodeURIComponent(n)}`); } catch {}
+          try { await API.del(`/kds-design/item/${encodeURIComponent(n)}`); } catch {}
         }
         await this.loadList();
       });
