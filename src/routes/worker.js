@@ -598,6 +598,18 @@ module.exports.myDownloadHandler = (req, res) => {
     let archiver;
     try { archiver = require('archiver'); }
     catch { return res.status(500).send('archiver 미설치 — Dockerfile rebuild 필요'); }
+    // v28: 백그라운드 invisible 실행 (cmd 창 안 뜸) — 더블클릭 시 vbs 가 cmd 를 hidden 으로 spawn
+    //   사용자 부담 최소: 더블클릭 1번 → 끝. 로그는 worker.log 파일로 남음.
+    const vbsContent = [
+      "' xcipe-worker background launcher",
+      "' 더블클릭 시 cmd 창 없이 백그라운드로 워커 가동. 로그는 worker.log.",
+      "' 종료: 작업관리자에서 node.exe / cmd.exe 강제 종료 (또는 시스템 트레이 향후 지원)",
+      'Dim shell',
+      'Set shell = CreateObject("Wscript.Shell")',
+      'shell.CurrentDirectory = CreateObject("Scripting.FileSystemObject").GetParentFolderName(Wscript.ScriptFullName)',
+      "shell.Run \"cmd /c xcipe-worker.cmd > worker.log 2>&1\", 0, False"
+    ].join('\r\n');
+
     res.setHeader('Content-Type', 'application/zip');
     res.setHeader('Content-Disposition', 'attachment; filename="xcipe-worker.zip"');
     const zip = archiver('zip', { zlib: { level: 9 } });
@@ -605,6 +617,7 @@ module.exports.myDownloadHandler = (req, res) => {
     zip.pipe(res);
     zip.append(finalJs, { name: 'xcipe-worker.js' });
     zip.append(cmdContent, { name: 'xcipe-worker.cmd' });
+    zip.append(vbsContent, { name: 'run-worker-hidden.vbs' });          // v28: invisible 실행 옵션
     zip.append(installContent, { name: 'install-autostart.cmd' });
     zip.append(uninstallContent, { name: 'uninstall-autostart.cmd' });
     zip.append([
@@ -613,21 +626,26 @@ module.exports.myDownloadHandler = (req, res) => {
       '계정: ' + row.email,
       '서버: ' + serverOrigin,
       '',
-      '## 권장 — 1회 설치 + 부팅 시 자동 실행 (Windows)',
+      '압축 풀고 **3가지 실행 옵션 중 하나** 선택:',
       '',
-      '1. 압축 풀기',
-      '2. **install-autostart.cmd** 더블클릭 (1회만)',
-      '   - Windows 부팅 시 자동 실행 등록',
-      '   - 워커도 즉시 가동',
-      '3. 끝 — 이후 PC 부팅 시 자동으로 워커 가동',
+      '## 옵션 1 — 백그라운드 invisible (권장, cmd 창 없음)',
       '',
-      '## 단순 실행 (자동 등록 안 함)',
+      '**run-worker-hidden.vbs** 더블클릭',
+      '- cmd 창 자체가 안 뜸. 백그라운드 가동.',
+      '- 로그는 같은 폴더의 `worker.log` 파일',
+      '- PC 재부팅 시에는 다시 더블클릭 필요',
       '',
-      '**xcipe-worker.cmd** 더블클릭 → 그 세션만 가동. 창 닫으면 종료.',
+      '## 옵션 2 — cmd 창 띄워서 실시간 로그 확인',
       '',
-      '## 자동 등록 해제',
+      '**xcipe-worker.cmd** 더블클릭',
+      '- 창이 떠있어야 워커 동작. 창 닫으면 종료.',
+      '- 디버깅 / 첫 동작 확인용',
       '',
-      '**uninstall-autostart.cmd** 더블클릭',
+      '## 옵션 3 — 부팅 시 자동 실행 (선택, 침투적)',
+      '',
+      '**install-autostart.cmd** 더블클릭',
+      '- Windows Startup 폴더에 등록 → 매 부팅 시 자동 가동',
+      '- 해제: **uninstall-autostart.cmd** 더블클릭',
       '',
       '## 처음 실행 시 자동 처리',
       '',
@@ -645,8 +663,13 @@ module.exports.myDownloadHandler = (req, res) => {
       '',
       '## 종료',
       '',
-      '- 일시 종료: PowerShell 창 닫기 또는 Ctrl+C',
-      '- 영구 종료: uninstall-autostart.cmd'
+      '- 옵션 1 (vbs): 작업 관리자에서 `node.exe` + `cmd.exe` 종료',
+      '- 옵션 2 (cmd): 창 닫기 또는 Ctrl+C',
+      '- 옵션 3 (autostart): **uninstall-autostart.cmd** 더블클릭',
+      '',
+      '## 상태 확인',
+      '',
+      'Railway 대시보드 → 상단 워커 인디케이터 (🟢/🟡/🔴) 로 polling 활성 확인 가능.'
     ].join('\n'), { name: 'README.md' });
     zip.finalize();
   } catch (e) {
