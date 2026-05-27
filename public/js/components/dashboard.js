@@ -30,10 +30,12 @@ const DashboardPage = {
       Shell.render(this._renderOnboarding(aiState, user, onboarding), 'dashboard');
       return;
     }
-    // v26: 프로젝트 있어도 본인 워커가 polling 안 하면 상단 배너로 가이드 표시
+    // v28: 본인 워커 polling 활성이 아니면 상단 배너 (Claude 연결 여부와 무관)
+    //   v26 의 ai_ready 기준은 claude_session_info(과거 보고) loggedIn=true 만으로도 true 가 되어
+    //   "워커가 죽었는데 배너가 안 뜨는" 사각지대 발생 → my_worker_active 직접 검사로 변경
     try {
       const onboarding = await API.get('/dashboard/onboarding');
-      if (onboarding && !onboarding.ai_ready) {
+      if (onboarding && !onboarding.my_worker_active) {
         // 상단에 워커 미감지 배너 표시 (대시보드 렌더 후)
         setTimeout(() => this._renderWorkerSetupBanner(onboarding), 100);
       }
@@ -573,17 +575,20 @@ claude auth status    # 로그인 확인</pre>
     //   분산 워커 모드는 사용자 본인이 PC 에 워커 다운로드 + 실행하면 됨.
     //   admin/settings 안내 제거 (일반 user 권한 없음).
     const myToken = API.getToken ? API.getToken() : '';
-    const step1Body = distributedWorkerReady || aiReady
-      ? `<p>✅ <strong>연결됨</strong> — 본인 Claude 계정으로 작업이 처리됩니다. 다음 단계로 진행하세요.</p>`
+    // v28: 워커가 실제로 polling 중일 때만 "연결됨" 표시 (Claude 로그인 흔적만으로 판단하지 않음)
+    //   v26 까지는 aiReady (claude_session_info 보고) 만 보고 step1 완료 표시 → 워커 죽어도 다운로드 버튼 사라지는 사각지대
+    const workerActuallyRunning = !!(onboarding && onboarding.my_worker_active);
+    const claudeLoginDone = !!(onboarding && onboarding.my_claude_session && onboarding.my_claude_session.loggedIn);
+    const step1Body = workerActuallyRunning
+      ? `<p>✅ <strong>워커 polling 중</strong> — 본인 Claude 계정으로 작업이 처리됩니다. 다음 단계로 진행하세요.</p>`
       : `<p>본인 PC 에서 <strong>워커</strong> 를 한 번만 띄우면 됩니다. 본인 Claude Max 구독으로 작업이 처리됩니다.</p>
          <div style="background:#f8f9fa;border-radius:8px;padding:14px;margin:10px 0">
-           <div style="font-weight:600;margin-bottom:8px">1. 본인 PC 에 claude CLI 로그인 (1회)</div>
-           <pre style="background:#1a1a1a;color:#fff;padding:8px 10px;border-radius:4px;font-size:12px;margin:4px 0">npm install -g @anthropic-ai/claude-code
-claude /login</pre>
-           <div style="font-weight:600;margin:12px 0 8px">2. 본인 워커 다운로드 (토큰·서버 URL 자동 박힘)</div>
-           <a href="/api/worker/my-download?access_token=${myToken}" download="xcipe-worker.js" class="btn-primary" style="display:inline-block;padding:10px 18px;text-decoration:none;font-weight:600">📥 내 워커 다운로드</a>
-           <div style="font-weight:600;margin:12px 0 8px">3. 본인 PC 에서 한 줄 실행</div>
-           <pre style="background:#1a1a1a;color:#fff;padding:8px 10px;border-radius:4px;font-size:12px;margin:4px 0">node xcipe-worker.js</pre>
+           <div style="font-weight:600;margin-bottom:8px">${claudeLoginDone ? '✅' : '1.'} 본인 PC 에 claude CLI 로그인 ${claudeLoginDone ? '(완료)' : '(1회)'}</div>
+           ${claudeLoginDone ? '' : `<pre style="background:#1a1a1a;color:#fff;padding:8px 10px;border-radius:4px;font-size:12px;margin:4px 0">npm install -g @anthropic-ai/claude-code
+claude /login</pre>`}
+           <div style="font-weight:600;margin:12px 0 8px">${claudeLoginDone ? '2.' : '2.'} 본인 워커 다운로드 (토큰·서버 URL 자동 박힘)</div>
+           <a href="/api/worker/my-download?access_token=${myToken}" download="xcipe-worker.zip" class="btn-primary" style="display:inline-block;padding:10px 18px;text-decoration:none;font-weight:600">📥 내 워커 다운로드 (zip)</a>
+           <div style="font-weight:600;margin:12px 0 8px">3. 압축 풀고 <code>xcipe-worker.cmd</code> 더블클릭</div>
            <p style="margin:8px 0 0;font-size:12px;color:#666">"polling 시작" 로그 출력 후 이 페이지 새로고침. ✅ 표시되면 끝.</p>
          </div>`;
 
