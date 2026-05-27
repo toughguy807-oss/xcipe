@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KT 마이알뜰폰 FAQ — 시안 B (듀얼 액센트 + 답변 펼침 teal 극대화)</title>
+<style>
+  /* ===== KDS 토큰 ===== */
+  :root {
+    /* Accent (KDS Brand Color Case 1 — teal Primary + purple Secondary) */
+    --color-accent-primary: #007f7f;       /* teal.500 — fill.accent-primary (brand override) */
+    --color-accent-primary-50: #e1f5f5;    /* teal.100 — accent tint surface */
+    --color-accent-primary-150: #cdeeee;   /* teal.150 — 답변 surface */
+    --color-accent-primary-200: #a9e5e1;   /* teal.200 — border accent */
+    --color-accent-primary-300: #4cc8c3;   /* teal.300 — bar accent */
+    --color-accent-primary-600: #005e66;   /* teal.600 — accent hover/pressed */
+    --color-accent-secondary: #6941ff;     /* purple.500 — Accent Secondary (Case 1) */
+    --color-accent-secondary-50: #efebff;  /* purple.100 — accent secondary tint */
+    --color-accent-secondary-600: #4c00e5; /* purple.600 — accent secondary 텍스트 */
+
+    /* Surface / Background */
+    --color-background-default: #ffffff;       /* background.default */
+    --color-surface-on-white-inverse: #f8f9fa; /* gray.25 */
+    --color-surface-02: #f3f4f6;               /* gray.50 */
+
+    /* Text */
+    --color-text-primary: #191a1b;         /* text.primary (gray.900) */
+    --color-text-secondary: #55585d;       /* text.secondary-01 (gray.600) */
+    --color-text-tertiary: #6f737b;        /* text.tertiary-01 (gray.500) */
+    --color-text-inverse: #ffffff;         /* text.inverse */
+
+    /* Icon */
+    --color-icon-primary: #191a1b;         /* icon.primary */
+    --color-icon-secondary: #55585d;       /* icon.secondary-01 */
+    --color-icon-tertiary: #6f737b;        /* icon.tertiary-01 */
+
+    /* Border */
+    --color-border-secondary: #e9eaee;     /* gray.100 — border.secondary-01 */
+    --color-border-tertiary: #f3f4f6;      /* gray.50 — border.tertiary-01 */
+    --color-border-primary: #8b8f97;       /* gray.400 — border.primary-01 */
+
+    /* Fill (secondary) */
+    --color-fill-secondary: #e9eaee;       /* fill.secondary-01 (gray.100) */
+
+    /* Spacing */
+    --space-2: 2px; --space-4: 4px; --space-8: 8px; --space-12: 12px;
+    --space-16: 16px; --space-20: 20px; --space-24: 24px;
+    --space-32: 32px; --space-40: 40px; --space-48: 48px; --space-56: 56px;
+
+    /* Radius */
+    --radius-4: 4px; --radius-6: 6px; --radius-8: 8px;
+    --radius-12: 12px; --radius-16: 16px; --radius-999: 999px;
+
+    /* Font */
+    --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* ===== Reset / Base ===== */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-gutter: stable; }
+  html, body {
+    background: var(--color-surface-on-white-inverse);
+    font-family: var(--font-family);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body, p, h1, h2, h3, h4, h5, h6, span, div, button, a, li, label {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { background: none; border: none; cursor: pointer; font: inherit; color: inherit; }
+
+  /* ===== Screen ===== */
+  .screen {
+    width: 375px;
+    min-height: 812px;
+    margin: 0 auto;
+    background: var(--color-background-default);
+    display: flex; flex-direction: column;
+  }
+
+  /* ===== TopNav ===== */
+  .top-nav {
+    height: 52px;
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-border-tertiary);
+    display: flex; align-items: center;
+    padding: 0 var(--space-8);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .top-nav-back {
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--radius-8);
+  }
+  .top-nav-back-icon-box { width: 24px; height: 24px; display: flex; }
+  .top-nav-back svg { width: 24px; height: 24px; color: var(--color-icon-primary); }
+  .top-nav-title {
+    flex: 1;
+    font-size: 17px; /* label-1 */
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-align: center;
+    padding-right: calc(var(--space-40) + var(--space-4));
+  }
+
+  /* ===== Page Hero ===== */
+  .page-hero {
+    padding: var(--space-40) var(--space-20) var(--space-24);
+    background: var(--color-background-default);
+  }
+  .hero-eyebrow {
+    font-size: 13px; /* label-3 */
+    font-weight: 600;
+    color: var(--color-accent-primary);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    margin-bottom: var(--space-12);
+  }
+  .hero-title {
+    width: 335px;
+    font-size: 32px; /* heading-1 */
+    line-height: 148%;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.6px;
+  }
+  .hero-sub {
+    width: 335px;
+    margin-top: var(--space-16);
+    font-size: 15px; /* body-2 */
+    line-height: 158%;
+    color: var(--color-text-tertiary);
+    font-weight: 400;
+  }
+
+  /* ===== Search (KDS search outline default) ===== */
+  .search-wrap {
+    padding: 0 var(--space-20);
+    margin-top: var(--space-24);
+  }
+  .search-bar {
+    width: 335px;
+    height: 48px;
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-8);
+    display: flex; align-items: center;
+    padding: 0 var(--space-16);
+    gap: var(--space-12);
+  }
+  .search-placeholder {
+    flex: 1;
+    font-size: 15px; /* body-2 */
+    font-weight: 400;
+    color: var(--color-text-tertiary);
+    line-height: 1;
+  }
+  .search-icon-box {
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--color-icon-primary);
+  }
+  .search-icon-box svg { width: 24px; height: 24px; }
+
+  /* ===== Tone bar (Accent Primary 강조 — teal 단색) ===== */
+  .tone-bar {
+    margin: var(--space-24) var(--space-20) var(--space-32);
+    display: flex; gap: var(--space-8); align-items: center;
+  }
+  .tone-segment {
+    height: 4px;
+    border-radius: var(--radius-999);
+  }
+  .tone-segment.primary {
+    flex: 1;
+    background: var(--color-accent-primary);
+  }
+
+  /* ===== Category chip row ===== */
+  .category-row {
+    display: flex;
+    gap: var(--space-8);
+    padding: 0 var(--space-20) var(--space-24);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .category-row::-webkit-scrollbar { display: none; }
+  .chip {
+    height: 36px;
+    padding: 0 var(--space-16);
+    border-radius: var(--radius-999);
+    display: inline-flex; align-items: center;
+    font-size: 15px; /* label-2 */
+    font-weight: 600;
+    line-height: 1;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .chip.is-default {
+    background: var(--color-fill-secondary);
+    color: var(--color-text-primary);
+  }
+  .chip.is-active {
+    background: var(--color-accent-secondary);
+    color: var(--color-text-inverse);
+  }
+
+  /* ===== Result count header ===== */
+  .result-head {
+    padding: 0 var(--space-20) var(--space-20);
+    display: flex; align-items: baseline; gap: var(--space-12);
+  }
+  .result-title {
+    font-size: 24px; /* heading-2 */
+    line-height: 148%;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.4px;
+  }
+  .result-count {
+    font-size: 15px; /* body-2 */
+    font-weight: 600;
+    color: var(--color-accent-secondary);
+  }
+
+  /* ===== FAQ list ===== */
+  .faq-list {
+    display: flex; flex-direction: column;
+    padding: 0 var(--space-20) var(--space-32);
+    gap: var(--space-12);
+  }
+  .faq-card {
+    width: 335px;
+    background: var(--color-background-default);
+    border: 1px solid var(--color-border-secondary);
+    border-radius: var(--radius-12);
+    padding: var(--space-20);
+    display: flex; flex-direction: column;
+    gap: var(--space-12);
+  }
+  .faq-card-head {
+    display: flex; align-items: flex-start; gap: var(--space-12);
+  }
+  .faq-card-q {
+    width: 28px; height: 28px;
+    border-radius: var(--radius-999);
+    background: var(--color-fill-secondary);
+    color: var(--color-text-primary);
+    font-size: 14px; /* body-3 */
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .faq-card-body {
+    flex: 1;
+    display: flex; flex-direction: column; gap: var(--space-8);
+    min-width: 0;
+  }
+  .faq-tag {
+    display: inline-flex; align-self: flex-start;
+    height: 20px;
+    padding: 0 var(--space-8);
+    border-radius: var(--radius-4);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    align-items: center;
+    background: var(--color-accent-primary-50);
+    color: var(--color-accent-primary-600);
+  }
+  .faq-question {
+    width: 235px;
+    font-size: 16px; /* body-1 */
+    line-height: 148%;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    letter-spacing: -0.2px;
+  }
+  .faq-chevron-box {
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--color-icon-tertiary);
+  }
+  .faq-chevron-box svg { width: 20px; height: 20px; }
+
+  /* === expanded state — teal 강조 극대화 === */
+  .faq-card.is-expanded {
+    border: 1.5px solid var(--color-accent-primary);
+    background: var(--color-background-default);
+    padding: 0;
+    overflow: hidden;
+  }
+  .faq-card.is-expanded .faq-card-head {
+    padding: var(--space-20);
+    background: var(--color-background-default);
+    border-bottom: 1px solid var(--color-accent-primary-200);
+    margin-bottom: 0;
+  }
+  .faq-card.is-expanded .faq-card-q {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+  }
+  .faq-card.is-expanded .faq-question {
+    color: var(--color-accent-primary);
+  }
+  .faq-card.is-expanded .faq-chevron-box {
+    color: var(--color-accent-primary);
+  }
+
+  .faq-answer {
+    background: var(--color-accent-primary-50);
+    padding: var(--space-20);
+    display: flex; flex-direction: column;
+    gap: var(--space-16);
+  }
+  .faq-answer-head {
+    display: flex; gap: var(--space-12); align-items: flex-start;
+  }
+  .faq-answer-a {
+    width: 28px; height: 28px;
+    border-radius: var(--radius-999);
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+    font-size: 14px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .faq-answer-text {
+    width: 254px;
+    font-size: 15px; /* body-2 */
+    line-height: 158%;
+    font-weight: 400;
+    color: var(--color-text-primary);
+  }
+  .faq-answer-divider {
+    height: 1px;
+    background: var(--color-accent-primary-200);
+    width: 100%;
+  }
+  .faq-feedback {
+    display: flex; align-items: center; gap: var(--space-12);
+  }
+  .faq-feedback-label {
+    flex: 1;
+    font-size: 13px; /* label-3 */
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+  .faq-feedback-btn {
+    height: 32px;
+    padding: 0 var(--space-12);
+    border-radius: var(--radius-999);
+    background: var(--color-background-default);
+    border: 1px solid var(--color-accent-primary-200);
+    color: var(--color-accent-primary-600);
+    display: inline-flex; align-items: center; gap: var(--space-4);
+    font-size: 13px; /* label-3 */
+    font-weight: 600;
+    line-height: 1;
+  }
+  .faq-feedback-icon-box { width: 16px; height: 16px; display: flex; }
+  .faq-feedback-btn svg { width: 16px; height: 16px; }
+
+  /* ===== Pagination ===== */
+  .pagination {
+    padding: 0 var(--space-20) var(--space-32);
+    display: flex; align-items: center; justify-content: center;
+    gap: var(--space-4);
+  }
+  .page-btn {
+    width: 36px; height: 36px;
+    border-radius: var(--radius-8);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; /* body-3 */
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: transparent;
+  }
+  .page-btn.is-current {
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+    font-weight: 700;
+  }
+  .page-btn-icon-box { width: 20px; height: 20px; display: flex; }
+  .page-btn svg { width: 20px; height: 20px; }
+
+  /* ===== Bottom help (CTA) ===== */
+  .bottom-help {
+    margin: 0 var(--space-20) var(--space-40);
+    width: 335px;
+    background: var(--color-accent-primary-50);
+    border: 1px solid var(--color-accent-primary-200);
+    border-radius: var(--radius-16);
+    padding: var(--space-24) var(--space-20);
+    display: flex; flex-direction: column; gap: var(--space-16);
+    align-items: center;
+  }
+  .help-title {
+    width: 295px;
+    font-size: 18px; /* title-2 */
+    line-height: 148%;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    text-align: center;
+    letter-spacing: -0.3px;
+  }
+  .help-sub {
+    width: 295px;
+    font-size: 14px; /* body-3 */
+    line-height: 158%;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+  .help-cta {
+    width: 295px;
+    height: 48px;
+    border-radius: var(--radius-8);
+    background: var(--color-accent-primary);
+    color: var(--color-text-inverse);
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: var(--space-8);
+    font-size: 16px; /* body-1 */
+    font-weight: 700;
+    line-height: 1;
+  }
+  .help-cta-icon-box { width: 20px; height: 20px; display: flex; }
+  .help-cta svg { width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+<div class="screen" data-kds-id="screen-cctr-faq-b">
+  <!-- TopNav -->
+  <nav class="top-nav" data-kds-id="top-nav">
+    <button class="top-nav-back" data-kds-id="top-nav-back" aria-label="뒤로가기">
+      <span class="top-nav-back-icon-box" data-kds-id="top-nav-back-icon-box">
+        <svg data-kds-icon="chevron-left" width="24" height="24"></svg>
+      </span>
+    </button>
+    <div class="top-nav-title" data-kds-id="top-nav-title">FAQ</div>
+  </nav>
+
+  <!-- Page Hero -->
+  <section class="page-hero" data-kds-id="page-hero">
+    <div class="hero-eyebrow" data-kds-id="hero-eyebrow">CUSTOMER SUPPORT</div>
+    <h1 class="hero-title" data-kds-id="hero-title">자주 묻는 질문</h1>
+    <p class="hero-sub" data-kds-id="hero-sub">고객님이 가장 많이 찾으시는 질문을 모았어요. 카테고리를 선택해 빠르게 확인해 보세요.</p>
+  </section>
+
+  <!-- Search (KDS search outline default — UX 축 복원) -->
+  <div class="search-wrap" data-kds-id="search-wrap">
+    <div class="search-bar" data-kds-id="search-bar">
+      <span class="search-placeholder" data-kds-id="search-placeholder">검색어를 입력해 주세요</span>
+      <span class="search-icon-box" data-kds-id="search-icon-box">
+        <svg data-kds-icon="search" width="24" height="24"></svg>
+      </span>
+    </div>
+  </div>
+
+  <!-- Tone bar (Accent Primary 강조 — teal 단색) -->
+  <div class="tone-bar" data-kds-id="tone-bar">
+    <span class="tone-segment primary" data-kds-id="tone-segment-primary"></span>
+  </div>
+
+  <!-- Category chip row (horizontal scroll) -->
+  <div class="category-row" data-kds-id="category-row">
+    <button class="chip is-default" data-kds-id="chip-all">전체</button>
+    <button class="chip is-active" data-kds-id="chip-top10">TOP10</button>
+    <button class="chip is-default" data-kds-id="chip-usim">유심</button>
+    <button class="chip is-default" data-kds-id="chip-device">단말기</button>
+    <button class="chip is-default" data-kds-id="chip-roaming">로밍</button>
+    <button class="chip is-default" data-kds-id="chip-plan">요금제</button>
+    <button class="chip is-default" data-kds-id="chip-self">셀프개통</button>
+    <button class="chip is-default" data-kds-id="chip-billing">요금/납부</button>
+  </div>
+
+  <!-- Result count header -->
+  <div class="result-head" data-kds-id="result-head">
+    <h2 class="result-title" data-kds-id="result-title">TOP10</h2>
+    <span class="result-count" data-kds-id="result-count">10건</span>
+  </div>
+
+  <!-- FAQ list -->
+  <div class="faq-list" data-kds-id="faq-list">
+    <!-- Item 1 (collapsed) -->
+    <article class="faq-card" data-kds-id="faq-item-1">
+      <div class="faq-card-head" data-kds-id="faq-item-1-head">
+        <span class="faq-card-q" data-kds-id="faq-item-1-q">Q</span>
+        <div class="faq-card-body" data-kds-id="faq-item-1-body">
+          <span class="faq-tag" data-kds-id="faq-item-1-tag">셀프개통</span>
+          <p class="faq-question" data-kds-id="faq-item-1-question">셀프개통은 어떤 환경에서 진행해야 하나요?</p>
+        </div>
+        <span class="faq-chevron-box" data-kds-id="faq-item-1-chevron-box">
+          <svg data-kds-icon="chevron-down" width="20" height="20"></svg>
+        </span>
+      </div>
+    </article>
+
+    <!-- Item 2 (collapsed) -->
+    <article class="faq-card" data-kds-id="faq-item-2">
+      <div class="faq-card-head" data-kds-id="faq-item-2-head">
+        <span class="faq-card-q" data-kds-id="faq-item-2-q">Q</span>
+        <div class="faq-card-body" data-kds-id="faq-item-2-body">
+          <span class="faq-tag" data-kds-id="faq-item-2-tag">요금제</span>
+          <p class="faq-question" data-kds-id="faq-item-2-question">완전 무제한 요금제는 어떻게 신청하나요?</p>
+        </div>
+        <span class="faq-chevron-box" data-kds-id="faq-item-2-chevron-box">
+          <svg data-kds-icon="chevron-down" width="20" height="20"></svg>
+        </span>
+      </div>
+    </article>
+
+    <!-- Item 3 (EXPANDED — teal 강조 극대화) -->
+    <article class="faq-card is-expanded" data-kds-id="faq-item-3">
+      <div class="faq-card-head" data-kds-id="faq-item-3-head">
+        <span class="faq-card-q" data-kds-id="faq-item-3-q">Q</span>
+        <div class="faq-card-body" data-kds-id="faq-item-3-body">
+          <span class="faq-tag" data-kds-id="faq-item-3-tag">유심</span>
+          <p class="faq-question" data-kds-id="faq-item-3-question">eSIM 과 물리 유심의 차이가 무엇인가요?</p>
+        </div>
+        <span class="faq-chevron-box" data-kds-id="faq-item-3-chevron-box">
+          <svg data-kds-icon="chevron-up" width="20" height="20"></svg>
+        </span>
+      </div>
+      <div class="faq-answer" data-kds-id="faq-item-3-answer">
+        <div class="faq-answer-head" data-kds-id="faq-item-3-answer-head">
+          <span class="faq-answer-a" data-kds-id="faq-item-3-answer-a">A</span>
+          <p class="faq-answer-text" data-kds-id="faq-item-3-answer-text">물리 유심은 칩 형태로 단말기에 직접 삽입하는 방식이고, eSIM 은 단말기 내부에 내장된 칩에 정보를 다운로드해 사용하는 방식이에요. eSIM 은 별도 칩 없이 QR 코드만으로 바로 개통할 수 있어 편리해요.</p>
+        </div>
+        <div class="faq-answer-divider" data-kds-id="faq-item-3-answer-divider"></div>
+        <div class="faq-feedback" data-kds-id="faq-item-3-feedback">
+          <span class="faq-feedback-label" data-kds-id="faq-item-3-feedback-label">이 답변이 도움이 되었나요?</span>
+          <button class="faq-feedback-btn" data-kds-id="faq-item-3-feedback-yes">
+            <span class="faq-feedback-icon-box" data-kds-id="faq-item-3-feedback-yes-icon-box">
+              <svg data-kds-icon="heart" width="16" height="16"></svg>
+            </span>
+            <span data-kds-id="faq-item-3-feedback-yes-label">도움됨</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Item 4 (collapsed) -->
+    <article class="faq-card" data-kds-id="faq-item-4">
+      <div class="faq-card-head" data-kds-id="faq-item-4-head">
+        <span class="faq-card-q" data-kds-id="faq-item-4-q">Q</span>
+        <div class="faq-card-body" data-kds-id="faq-item-4-body">
+          <span class="faq-tag" data-kds-id="faq-item-4-tag">가입/변경/해지</span>
+          <p class="faq-question" data-kds-id="faq-item-4-question">번호이동 신청 후 셀프개통 제한이 있나요?</p>
+        </div>
+        <span class="faq-chevron-box" data-kds-id="faq-item-4-chevron-box">
+          <svg data-kds-icon="chevron-down" width="20" height="20"></svg>
+        </span>
+      </div>
+    </article>
+
+    <!-- Item 5 (collapsed) -->
+    <article class="faq-card" data-kds-id="faq-item-5">
+      <div class="faq-card-head" data-kds-id="faq-item-5-head">
+        <span class="faq-card-q" data-kds-id="faq-item-5-q">Q</span>
+        <div class="faq-card-body" data-kds-id="faq-item-5-body">
+          <span class="faq-tag" data-kds-id="faq-item-5-tag">단말기</span>
+          <p class="faq-question" data-kds-id="faq-item-5-question">자급제 단말등록은 어디서 하나요?</p>
+        </div>
+        <span class="faq-chevron-box" data-kds-id="faq-item-5-chevron-box">
+          <svg data-kds-icon="chevron-down" width="20" height="20"></svg>
+        </span>
+      </div>
+    </article>
+
+    <!-- Item 6 (collapsed) -->
+    <article class="faq-card" data-kds-id="faq-item-6">
+      <div class="faq-card-head" data-kds-id="faq-item-6-head">
+        <span class="faq-card-q" data-kds-id="faq-item-6-q">Q</span>
+        <div class="faq-card-body" data-kds-id="faq-item-6-body">
+          <span class="faq-tag" data-kds-id="faq-item-6-tag">부가서비스</span>
+          <p class="faq-question" data-kds-id="faq-item-6-question">데이터 쉐어링은 어떻게 신청하나요?</p>
+        </div>
+        <span class="faq-chevron-box" data-kds-id="faq-item-6-chevron-box">
+          <svg data-kds-icon="chevron-down" width="20" height="20"></svg>
+        </span>
+      </div>
+    </article>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" data-kds-id="pagination">
+    <button class="page-btn" data-kds-id="page-prev" aria-label="이전 페이지">
+      <span class="page-btn-icon-box" data-kds-id="page-prev-icon-box">
+        <svg data-kds-icon="chevron-left" width="20" height="20"></svg>
+      </span>
+    </button>
+    <button class="page-btn is-current" data-kds-id="page-1">1</button>
+    <button class="page-btn" data-kds-id="page-2">2</button>
+    <button class="page-btn" data-kds-id="page-3">3</button>
+    <button class="page-btn" data-kds-id="page-4">4</button>
+    <button class="page-btn" data-kds-id="page-5">5</button>
+    <button class="page-btn" data-kds-id="page-next" aria-label="다음 페이지">
+      <span class="page-btn-icon-box" data-kds-id="page-next-icon-box">
+        <svg data-kds-icon="chevron-right" width="20" height="20"></svg>
+      </span>
+    </button>
+  </div>
+
+  <!-- Bottom help (CTA) -->
+  <section class="bottom-help" data-kds-id="bottom-help">
+    <h3 class="help-title" data-kds-id="help-title">원하는 답변을 못 찾으셨나요?</h3>
+    <p class="help-sub" data-kds-id="help-sub">상담사가 친절하게 도와드릴게요. 지금 바로 상담을 신청해 보세요.</p>
+    <a class="help-cta" data-kds-id="help-cta" href="#">
+      <span class="help-cta-icon-box" data-kds-id="help-cta-icon-box">
+        <svg data-kds-icon="headset" width="20" height="20"></svg>
+      </span>
+      <span data-kds-id="help-cta-label">상담사 연결</span>
+    </a>
+  </section>
+</div>
+</body>
+</html>

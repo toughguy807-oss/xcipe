@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, initial-scale=1">
+<title>B · 다크 강조 hero + teal accent (톤) · desktop</title>
+<style>*, *::before, *::after { box-sizing: border-box; }
+html { scrollbar-gutter: stable; }
+body { margin: 0; font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #191a1b; background: #ffffff; word-break: keep-all; overflow-wrap: break-word; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: transparent; }
+:root { --teal: #007f7f; --teal-bg: #e1f5f5; --teal-mid: #4cc8c3; --text-primary: #191a1b; --text-sub: #55585d; --text-mute: #6f737b; --bg: #f8f9fa; --border: #e9eaee; --border-dark: #d5d8dd; --white: #ffffff; --dark: #232425; }
+.kds-stack { display: flex; flex-direction: column; }
+.kds-row { display: flex; flex-direction: row; align-items: center; }
+.kds-card { background: var(--white); border-radius: 12px; }
+.kds-pill { display: inline-flex; align-items: center; padding:4px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: -0.2px; }
+.kds-pill.teal { background: var(--teal); color: var(--white); }
+.kds-pill.teal-bg { background: var(--teal-bg); color: var(--teal); }
+.kds-btn { display: inline-flex; align-items: center; justify-content: center; gap:8px; height: 56px; padding: 0 24px; border-radius: 12px; font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+.kds-btn.primary { background: var(--teal); color: var(--white); }
+.kds-btn.dark-bg { background: var(--white); color: var(--text-primary); }
+.kds-btn.disabled { background: #adb1b9; color: var(--white); cursor: not-allowed; }
+header.top-nav { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; height: 52px; padding: 0 16px; background: var(--white); border-bottom: 1px solid var(--border); }
+.top-nav .actions { display: flex; gap:16px; }
+.top-nav .icon-btn { width: 24px; height: 24px; color: var(--text-primary); display: inline-flex; align-items: center; justify-content: center; }
+.section-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin: 0; }
+.section-sub { font-size: 13px; color: var(--text-sub); margin:4px 0 0 0; line-height: 1.55; }
+.bot-nav { display: flex; justify-content: space-between; align-items: center; height: 56px; background: var(--white); border-top: 1px solid var(--border); position: sticky; bottom: 0; }
+.bot-nav a { flex: 1; display: flex; flex-direction: column; align-items: center; gap:2px; font-size: 10px; color: var(--text-sub); letter-spacing: -0.2px; }
+.bot-nav a.active { color: var(--teal); font-weight: 700; }
+.guide-list { display: flex; flex-direction: column; gap:8px; }
+.guide-step { display: flex; gap:12px; align-items: center; padding:16px; background: var(--bg); border-radius: 12px; }
+.guide-num { width: 36px; height: 36px; border-radius: 999px; background: var(--teal); color: var(--white); font-weight: 700; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.guide-step h3 { margin: 0 0 2px 0; font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+.guide-step p { margin: 0; font-size: 12px; color: var(--text-sub); line-height: 1.55; letter-spacing: -0.2px; }
+.plan-row { display: flex; gap:16px; }
+.plan-card { flex: 1; padding:20px; border: 1px solid var(--border); border-radius: 12px; background: var(--white); }
+.plan-card .pill { display: inline-flex; padding:4px 8px; background: var(--teal-bg); color: var(--teal); font-size: 12px; font-weight: 600; border-radius: 999px; }
+.plan-card h3 { margin:12px 0 4px 0; font-size: 18px; font-weight: 700; }
+.plan-card p { margin: 0 0 16px 0; font-size: 13px; color: var(--text-sub); }
+.plan-card strong { font-size: 20px; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; }
+.faq-list { display: flex; flex-direction: column; gap:8px; }
+.faq-item { display: flex; justify-content: space-between; align-items: center; padding:16px 20px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; gap:8px; }
+.faq-q { font-size: 14px; font-weight: 600; flex: 1; letter-spacing: -0.3px; }
+.notice-card { margin-top:32px; padding:20px; background: var(--bg); border-radius: 8px; }
+.notice-card h4 { margin: 0 0 8px 0; font-size: 14px; font-weight: 700; }
+.notice-card ul { margin: 0; padding-left:16px; }
+.notice-card li { font-size: 12px; color: var(--text-sub); line-height: 1.65; letter-spacing: -0.2px; }
+.usim-row { display: flex; gap:12px; }
+.usim-card { flex: 1; padding:16px; background: var(--white); border-radius: 12px; }
+.usim-card .icon { width: 32px; height: 32px; background: var(--teal-bg); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--teal); margin-bottom:8px; }
+.usim-card .eyebrow { font-size: 12px; color: var(--text-sub); font-weight: 500; letter-spacing: -0.2px; }
+.usim-card h4 { margin:4px 0 0 0; font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+@media (min-width: 1025px) { .desktop-only-pad { padding-left:64px; padding-right:64px; } }</style>
+</head>
+<body data-kds-id="screen-b-pc" style="min-height:2800px;">
+<header class="top-nav" data-kds-id="b-pc-top-nav">
+  <div data-kds-id="b-pc-top-nav-left">
+    <svg data-kds-logo="kt-mvno" width="89" height="32" data-kds-id="b-pc-top-nav-logo"></svg>
+  </div>
+  <div class="actions" data-kds-id="b-pc-top-nav-right">
+    <span class="icon-btn" data-kds-id="b-pc-top-nav-search-box"><svg data-kds-icon="search" width="24" height="24"></svg></span>
+    <span class="icon-btn" data-kds-id="b-pc-top-nav-bell-box"><svg data-kds-icon="bell" width="24" height="24"></svg></span>
+    <span class="icon-btn" data-kds-id="b-pc-top-nav-menu-box"><svg data-kds-icon="menu" width="24" height="24"></svg></span>
+  </div>
+</header>
+
+<section data-kds-id="b-pc-page-title" style="padding:32px 64px 24px;"><h1 style="margin:0;font-size:32px;font-weight:700;letter-spacing:-0.5px;" data-kds-id="b-pc-page-title-text">셀프개통 (USIM/eSIM)</h1></section>
+
+<section data-kds-id="b-pc-hero" style="background:var(--text-primary);color:var(--white);padding:64px;min-height:680px;">
+  <span class="kds-pill teal" data-kds-id="b-pc-hero-pill" style="font-size:16px;padding:8px 16px;"><span data-kds-id="b-pc-hero-pill-text">KT 마이알뜰폰 셀프개통</span></span>
+  <p data-kds-id="b-pc-hero-t1" style="margin:40px 0 0 0;font-size:44px;color:var(--teal-mid);letter-spacing:-1.2px;font-weight:500;">eSIM 또는 USIM 으로</p>
+  <p data-kds-id="b-pc-hero-t2" style="margin:8px 0 0 0;font-size:88px;font-weight:700;letter-spacing:-2px;line-height:1.1;">5분 만에 누구나</p>
+  <p data-kds-id="b-pc-hero-t3" style="margin:0;font-size:88px;font-weight:700;letter-spacing:-2px;line-height:1.1;color:var(--teal);">셀프로 개통</p>
+  <p data-kds-id="b-pc-hero-sub" style="margin:32px 0 0 0;font-size:20px;color:#adb1b9;line-height:1.55;">단계별 안내로 누구나 쉽게 가입·등록·개통까지</p>
+  <div data-kds-id="b-pc-hero-cta-row" style="display:flex;gap:16px;margin-top:48px;">
+    <button class="kds-btn primary" data-kds-id="b-pc-hero-cta" style="width:280px;"><span data-kds-id="b-pc-hero-cta-text">5분 만에 셀프개통 하기</span><span data-kds-id="b-pc-hero-cta-arrow"><svg data-kds-icon="chevron-right" width="20" height="20"></svg></span></button>
+    <button class="kds-btn" data-kds-id="b-pc-hero-cta-time" style="width:240px;border:1px solid #3d3f43;color:var(--white);"><span data-kds-id="b-pc-hero-cta-time-icon"><svg data-kds-icon="clock" width="20" height="20"></svg></span><span data-kds-id="b-pc-hero-cta-time-text">가능시간 보기</span></button>
+  </div>
+</section>
+<section data-kds-id="b-pc-time-strip" style="background:var(--bg);padding:24px 64px;display:flex;gap:24px;">
+  <div data-kds-id="b-pc-time-mv" style="flex:1;display:flex;gap:16px;align-items:center;">
+    <span data-kds-id="b-pc-time-mv-label" style="font-size:14px;color:var(--text-sub);font-weight:500;">번호이동 가능시간</span>
+    <span data-kds-id="b-pc-time-mv-time" style="font-size:18px;font-weight:700;color:var(--teal);">10:00 ~ 19:50</span>
+    <span data-kds-id="b-pc-time-mv-note" style="flex:1;font-size:13px;color:var(--text-mute);">일요일·신정/구정/추석 당일 불가</span>
+  </div>
+  <div data-kds-id="b-pc-time-nw" style="flex:1;display:flex;gap:16px;align-items:center;">
+    <span data-kds-id="b-pc-time-nw-label" style="font-size:14px;color:var(--text-sub);font-weight:500;">신규가입 가능시간</span>
+    <span data-kds-id="b-pc-time-nw-time" style="font-size:18px;font-weight:700;color:var(--teal);">08:00 ~ 21:50</span>
+    <span data-kds-id="b-pc-time-nw-note" style="flex:1;font-size:13px;color:var(--text-mute);">매일 가능</span>
+  </div>
+</section>
+
+<section class="" data-kds-id="b-pc-usim" style="background:var(--bg);padding:48px 64px;">
+  <h2 class="section-title" data-kds-id="b-pc-usim-title" style="font-size:22px;">유심이 없으신가요?</h2>
+  <p class="section-sub" data-kds-id="b-pc-usim-desc">셀프개통을 위해서는 유심이 필요해요. 빠르고 간편하게 구매하세요.</p>
+  <div class="usim-row" data-kds-id="b-pc-usim-row" style="margin-top:16px;">
+    <a class="usim-card" data-kds-id="b-pc-usim-dlv" href="/fe/service/usim/dlvr/usimDlvrMain.do">
+      <span class="icon" data-kds-id="b-pc-usim-dlv-icon"><svg data-kds-icon="truck" width="20" height="20"></svg></span>
+      <p class="eyebrow" data-kds-id="b-pc-usim-dlv-eyebrow">2시간 내 도착하는</p>
+      <h4 data-kds-id="b-pc-usim-dlv-title">바로배송유심</h4>
+    </a>
+    <a class="usim-card" data-kds-id="b-pc-usim-store" href="/fe/service/svc/usimGuide.do">
+      <span class="icon" data-kds-id="b-pc-usim-store-icon"><svg data-kds-icon="map-pin" width="20" height="20"></svg></span>
+      <p class="eyebrow" data-kds-id="b-pc-usim-store-eyebrow">내 근처 편의점에서</p>
+      <h4 data-kds-id="b-pc-usim-store-title">바로유심 구매</h4>
+    </a>
+  </div>
+</section>
+
+<section class="" data-kds-id="b-pc-guide" style="padding:64px 64px 48px;"><h2 class="section-title" data-kds-id="b-pc-guide-title" style="font-size:32px;">셀프개통, 5분 만에 끝내는 가이드</h2><div class="guide-list" data-kds-id="b-pc-guide-list" style="margin-top:20px;"><div class="guide-step" data-kds-id="b-pc-step-01"><span class="guide-num" data-kds-id="b-pc-step-01-num"><span data-kds-id="b-pc-step-01-num-text">01</span></span><div data-kds-id="b-pc-step-01-content"><h3 data-kds-id="b-pc-step-01-title">사전 준비물</h3><p data-kds-id="b-pc-step-01-desc">유심·본인인증 수단·신분증·납부 수단을 미리 준비</p></div></div><div class="guide-step" data-kds-id="b-pc-step-02"><span class="guide-num" data-kds-id="b-pc-step-02-num"><span data-kds-id="b-pc-step-02-num-text">02</span></span><div data-kds-id="b-pc-step-02-content"><h3 data-kds-id="b-pc-step-02-title">요금제·부가서비스</h3><p data-kds-id="b-pc-step-02-desc">나에게 맞는 요금제·부가서비스를 선택</p></div></div><div class="guide-step" data-kds-id="b-pc-step-03"><span class="guide-num" data-kds-id="b-pc-step-03-num"><span data-kds-id="b-pc-step-03-num-text">03</span></span><div data-kds-id="b-pc-step-03-content"><h3 data-kds-id="b-pc-step-03-title">본인 인증</h3><p data-kds-id="b-pc-step-03-desc">PASS·신용카드 + 신분증 + 안면 인증</p></div></div><div class="guide-step" data-kds-id="b-pc-step-04"><span class="guide-num" data-kds-id="b-pc-step-04-num"><span data-kds-id="b-pc-step-04-num-text">04</span></span><div data-kds-id="b-pc-step-04-content"><h3 data-kds-id="b-pc-step-04-title">신규/번호이동</h3><p data-kds-id="b-pc-step-04-desc">신규는 새 번호, 번이는 사용 중인 번호 확인</p></div></div><div class="guide-step" data-kds-id="b-pc-step-05"><span class="guide-num" data-kds-id="b-pc-step-05-num"><span data-kds-id="b-pc-step-05-num-text">05</span></span><div data-kds-id="b-pc-step-05-content"><h3 data-kds-id="b-pc-step-05-title">유심 정보 확인</h3><p data-kds-id="b-pc-step-05-desc">USIM 또는 eSIM 정보를 입력해 개통 여부 확인</p></div></div><div class="guide-step" data-kds-id="b-pc-step-06"><span class="guide-num" data-kds-id="b-pc-step-06-num"><span data-kds-id="b-pc-step-06-num-text">06</span></span><div data-kds-id="b-pc-step-06-content"><h3 data-kds-id="b-pc-step-06-title">납부 정보 입력</h3><p data-kds-id="b-pc-step-06-desc">납부 유형과 명세서 수단을 선택</p></div></div></div></section>
+
+<section data-kds-id="b-pc-plan" style="background:var(--bg);padding:56px 64px;"><div data-kds-id="b-pc-plan-head" style="display:flex;justify-content:space-between;align-items:center;"><h2 class="section-title" data-kds-id="b-pc-plan-title" style="font-size:32px;">추천 요금제</h2><a data-kds-id="b-pc-plan-seeall" href="/fe/mypage/ppl/pplList.do" style="font-size:14px;color:var(--text-sub);font-weight:500;">전체보기 ></a></div><div class="plan-row" data-kds-id="b-pc-plan-row" style="margin-top:20px;"><div class="plan-card" data-kds-id="b-pc-plan-card-1"><span class="pill" data-kds-id="b-pc-plan-1-pill"><span data-kds-id="b-pc-plan-1-eyebrow">LTE 7GB+</span></span><h3 data-kds-id="b-pc-plan-1-title">LTE 데이터</h3><p data-kds-id="b-pc-plan-1-desc">데이터 7GB / 소진 후 3Mbps</p><strong data-kds-id="b-pc-plan-1-price">월 14,300원</strong></div><div class="plan-card" data-kds-id="b-pc-plan-card-2"><span class="pill" data-kds-id="b-pc-plan-2-pill"><span data-kds-id="b-pc-plan-2-eyebrow">5G 110GB</span></span><h3 data-kds-id="b-pc-plan-2-title">5G 알뜰 무제한</h3><p data-kds-id="b-pc-plan-2-desc">5G 110GB / 소진 후 5Mbps</p><strong data-kds-id="b-pc-plan-2-price">월 38,500원</strong></div><div class="plan-card" data-kds-id="b-pc-plan-card-3"><span class="pill" data-kds-id="b-pc-plan-3-pill"><span data-kds-id="b-pc-plan-3-eyebrow">LTE 11GB</span></span><h3 data-kds-id="b-pc-plan-3-title">데이터 쉐어링</h3><p data-kds-id="b-pc-plan-3-desc">회선 등록 후 데이터 공유</p><strong data-kds-id="b-pc-plan-3-price">월 17,600원</strong></div></div></section>
+
+<section data-kds-id="b-pc-faq" style="padding:56px 64px 64px;"><h2 class="section-title" data-kds-id="b-pc-faq-title" style="font-size:32px;">셀프개통 FAQ</h2><div class="faq-list" data-kds-id="b-pc-faq-list" style="margin-top:20px;"><div class="faq-item" data-kds-id="b-pc-faq-1"><span class="faq-q" data-kds-id="b-pc-faq-1-q">Q. 셀프개통은 누가 이용할 수 있나요?</span><span data-kds-id="b-pc-faq-1-toggle" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-mute);"><svg data-kds-icon="chevron-down" width="20" height="20"></svg></span></div><div class="faq-item" data-kds-id="b-pc-faq-2"><span class="faq-q" data-kds-id="b-pc-faq-2-q">Q. eSIM 셀프개통도 가능한가요?</span><span data-kds-id="b-pc-faq-2-toggle" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-mute);"><svg data-kds-icon="chevron-down" width="20" height="20"></svg></span></div><div class="faq-item" data-kds-id="b-pc-faq-3"><span class="faq-q" data-kds-id="b-pc-faq-3-q">Q. 셀프개통 중 데이터가 끊기면 어떻게 하나요?</span><span data-kds-id="b-pc-faq-3-toggle" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-mute);"><svg data-kds-icon="chevron-down" width="20" height="20"></svg></span></div></div><div class="notice-card" data-kds-id="b-pc-notice-card"><h4 data-kds-id="b-pc-notice-title">셀프개통 유의사항</h4><ul><li data-kds-id="b-pc-notice-1">셀프개통에 문제가 있는 경우 각 알뜰폰 사업자 고객센터를 통해 개통할 수 있어요.</li><li data-kds-id="b-pc-notice-2">Wi-Fi 환경에서 개통하는 것을 권장합니다.</li><li data-kds-id="b-pc-notice-3">미성년자는 셀프개통 대상에서 제외됩니다.</li><li data-kds-id="b-pc-notice-4">데이터 쉐어링 요금제는 셀프개통이 불가합니다.</li><li data-kds-id="b-pc-notice-5">단기간 다수의 회선을 개통하는 경우 셀프개통 제한이 될 수 있습니다.</li></ul></div></section>
+</body>
+</html>

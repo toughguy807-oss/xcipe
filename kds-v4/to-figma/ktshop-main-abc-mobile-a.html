@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KT 샵 메인 — 시안 A (레이아웃)</title>
+<style>
+  /* === KDS Tokens === */
+  :root {
+    /* color.semantic.light-default */
+    --background-default: #ffffff;        /* background.default = static.white */
+    --surface-primary-01: #ffffff;        /* surface.primary-01 */
+    --surface-primary-02: #f8f9fa;        /* surface.primary-02 = gray.25 */
+    --fill-accent-primary: #e0282f;       /* fill.accent-primary = red.500 (KT Red 매핑) */
+    --fill-accent-primary-hover: #bb1b21; /* red.600 */
+    --fill-primary: #191a1b;              /* fill.primary = gray.900 */
+    --fill-secondary-01: #e9eaee;         /* fill.secondary-01 = gray.100 */
+    --text-primary: #191a1b;              /* text.primary = gray.900 */
+    --text-secondary-01: #55585d;         /* text.secondary-01 = gray.600 */
+    --text-tertiary-01: #6f737b;          /* text.tertiary-01 = gray.500 */
+    --text-inverse: #ffffff;              /* text.inverse */
+    --text-feedback-critical: #e0282f;    /* text.feedback-critical-01 = red.500 */
+    --icon-primary: #191a1b;              /* icon.primary */
+    --icon-secondary-01: #55585d;         /* icon.secondary-01 */
+    --icon-inverse: #ffffff;              /* icon.inverse */
+    --border-secondary-01: #e9eaee;       /* border.secondary-01 = gray.100 */
+    --border-tertiary-01: #f3f4f6;        /* border.tertiary-01 = gray.50 */
+    --tag-sale-fill: #fce9e9;             /* tag.category.fill.sale = red.100 */
+    --tag-sale-text: #bb1b21;             /* tag.category.text.sale = red.600 */
+    --tag-new-fill: #efebff;              /* tag.category.fill.new = purple.100 */
+    --tag-new-text: #4c00e5;              /* tag.category.text.new = purple.600 */
+  }
+
+  /* === reset === */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-gutter: stable; }       /* 함정 #15 */
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--surface-primary-02);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* 한글 어절 줄바꿈 안전망 (의무) */
+  body, p, h1, h2, h3, h4, h5, h6, span, div, button, a, li, label, dt, dd {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  button { background: none; border: none; cursor: pointer; font: inherit; color: inherit; }
+  a { color: inherit; text-decoration: none; }
+
+  .screen {
+    width: 375px;
+    min-height: 812px;
+    background: var(--background-default);
+    margin: 0 auto;
+    display: flex; flex-direction: column;
+  }
+
+  /* === Top Navigation === */
+  .top-nav {
+    height: 52px;                              /* top-navigation 토큰 = 52 */
+    padding: 0 16px;                           /* space-16 */
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface-primary-01);
+    border-bottom: 1px solid var(--border-tertiary-01); /* border.tertiary-01 */
+  }
+  .top-nav-logo { display: flex; align-items: center; gap: 4px; }
+  .top-nav-logo-mark { width: 28px; height: 22px; color: var(--fill-accent-primary); }
+  .top-nav-logo-text {
+    font-size: 17px; font-weight: 700; letter-spacing: -0.3px;
+    color: var(--text-primary);
+  }
+  .top-nav-actions { display: flex; align-items: center; gap: 16px; }
+  .top-nav-icon {
+    width: 24px; height: 24px;                  /* iconography 24×24 */
+    color: var(--icon-primary);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .top-nav-icon-badge { position: relative; }
+  .top-nav-icon-badge::after {
+    content: '';
+    position: absolute; top: -2px; right: -2px;
+    width: 8px; height: 8px;
+    background: var(--fill-accent-primary);
+    border-radius: 999px;                       /* radius.circle */
+    border: 1.5px solid var(--surface-primary-01);
+  }
+
+  /* === Search === */
+  .search-wrap {
+    padding: 12px 16px;                         /* space-12 / space-16 */
+    background: var(--surface-primary-01);
+  }
+  .search-field {
+    height: 48px;                               /* search 토큰 = 48 */
+    background: var(--surface-primary-02);
+    border-radius: 12px;                        /* radius.12 */
+    display: flex; align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+  }
+  .search-icon { width: 20px; height: 20px; color: var(--icon-secondary-01); flex: 0 0 20px; }
+  .search-placeholder {
+    flex: 1;
+    font-size: 15px;                            /* body-2 */
+    line-height: 1.48;
+    color: var(--text-tertiary-01);
+    letter-spacing: -0.3px;
+  }
+
+  /* === Hero Split === */
+  .hero-split {
+    padding: 12px 16px 16px;
+    background: var(--surface-primary-01);
+    display: flex; gap: 8px;
+  }
+  .hero-card {
+    flex: 1;
+    border-radius: 12px;                        /* radius.12 */
+    overflow: hidden;
+    position: relative;
+    display: flex; flex-direction: column;
+  }
+  .hero-card-main {
+    background: var(--fill-primary);            /* gray.900 surface */
+    color: var(--text-inverse);
+    padding: 20px 16px 16px;
+    min-height: 220px;
+  }
+  .hero-card-sub {
+    background: var(--surface-primary-02);
+    color: var(--text-primary);
+    padding: 20px 16px 16px;
+    min-height: 220px;
+  }
+  .hero-eyebrow {
+    font-size: 12px; font-weight: 600;          /* caption */
+    line-height: 1.48; letter-spacing: -0.2px;
+    display: inline-flex; align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;                         /* radius.4 */
+    background: var(--fill-accent-primary);
+    color: var(--text-inverse);
+    margin-bottom: 12px;
+  }
+  .hero-eyebrow.sub {
+    background: var(--tag-new-fill);
+    color: var(--tag-new-text);
+  }
+  .hero-title {
+    font-size: 18px;                            /* title-2 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+  .hero-sub {
+    font-size: 13px;                            /* label-3 */
+    font-weight: 500; line-height: 1.48;
+    letter-spacing: -0.2px;
+    opacity: 0.78;
+    margin-bottom: 16px;
+  }
+  .hero-card-sub .hero-sub { opacity: 1; color: var(--text-secondary-01); }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 13px;                            /* label-3 */
+    font-weight: 600; letter-spacing: -0.2px;
+  }
+  .hero-cta-icon { width: 16px; height: 16px; }
+  .hero-card-main .hero-cta { color: var(--text-inverse); }
+  .hero-card-sub .hero-cta { color: var(--text-primary); }
+  .hero-product-thumb {
+    margin-top: auto;
+    width: 100%; aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+    border-radius: 8px;                         /* radius.8 */
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    color: var(--text-inverse);
+    opacity: 0.78;
+  }
+  .hero-card-sub .hero-product-thumb {
+    background: linear-gradient(135deg, rgba(224,40,47,0.08) 0%, rgba(224,40,47,0.02) 100%);
+    color: var(--fill-accent-primary);
+    opacity: 1;
+  }
+
+  /* === Category Grid (3×2) === */
+  .category-grid {
+    padding: 24px 16px 16px;
+    background: var(--surface-primary-01);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 8px;
+    row-gap: 16px;
+  }
+  .category-cell {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 8px 0;
+  }
+  .category-icon-box {
+    width: 48px; height: 48px;
+    background: var(--surface-primary-02);
+    border-radius: 16px;                        /* radius.16 */
+    display: flex; align-items: center; justify-content: center;
+    color: var(--icon-primary);
+  }
+  .category-icon-box svg { width: 24px; height: 24px; }
+  .category-label {
+    font-size: 13px;                            /* label-3 */
+    font-weight: 600; line-height: 1.48;
+    letter-spacing: -0.2px;
+    color: var(--text-primary);
+  }
+
+  /* === Section Title === */
+  .section-head {
+    padding: 24px 16px 12px;
+    background: var(--surface-primary-01);
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .section-title-block { display: flex; flex-direction: column; gap: 2px; }
+  .section-title {
+    font-size: 22px;                            /* heading-3 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.4px;
+    color: var(--text-primary);
+  }
+  .section-sub {
+    font-size: 13px;                            /* label-3 */
+    font-weight: 500; line-height: 1.48;
+    letter-spacing: -0.2px;
+    color: var(--text-tertiary-01);
+  }
+  .section-more {
+    font-size: 13px;                            /* label-3 */
+    font-weight: 600; letter-spacing: -0.2px;
+    color: var(--text-secondary-01);
+    display: inline-flex; align-items: center; gap: 2px;
+  }
+  .section-more-icon { width: 16px; height: 16px; }
+
+  /* === Hot Pick Carousel === */
+  .hot-pick {
+    padding: 0 0 24px;
+    background: var(--surface-primary-01);
+  }
+  .hot-pick-track {
+    display: flex; gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 16px 8px;
+    scrollbar-width: none;
+  }
+  .hot-pick-track::-webkit-scrollbar { display: none; }
+  .pick-card {
+    flex: 0 0 156px;
+    background: var(--surface-primary-01);
+    border: 1px solid var(--border-secondary-01);
+    border-radius: 12px;                        /* radius.12 */
+    padding: 12px;
+    scroll-snap-align: start;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .pick-thumb {
+    width: 100%; aspect-ratio: 1 / 1;
+    background: var(--surface-primary-02);
+    border-radius: 8px;                         /* radius.8 */
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    color: var(--text-tertiary-01);
+  }
+  .pick-tag {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px;
+    background: var(--tag-sale-fill);
+    color: var(--tag-sale-text);
+    border-radius: 4px;                         /* radius.4 */
+    font-size: 10px;                            /* label-4 */
+    font-weight: 700; letter-spacing: 0;
+    width: fit-content;
+  }
+  .pick-name {
+    font-size: 13px;                            /* label-3 */
+    font-weight: 600; line-height: 1.48;
+    letter-spacing: -0.2px;
+    color: var(--text-primary);
+    min-height: 38px;
+  }
+  .pick-price-block { display: flex; flex-direction: column; gap: 2px; }
+  .pick-price-unit {
+    font-size: 11px; font-weight: 500;
+    color: var(--text-tertiary-01);
+    letter-spacing: -0.2px;
+  }
+  .pick-price {
+    font-size: 15px;                            /* body-2 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.3px;
+    color: var(--text-primary);
+  }
+
+  /* === Plan Card Stack === */
+  .plan-stack {
+    padding: 0 16px 24px;
+    background: var(--surface-primary-01);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .plan-card {
+    background: var(--surface-primary-01);
+    border: 1px solid var(--border-secondary-01);
+    border-radius: 12px;                        /* radius.12 */
+    padding: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .plan-card-head { display: flex; align-items: center; justify-content: space-between; }
+  .plan-card-name {
+    font-size: 15px;                            /* body-2 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.3px;
+    color: var(--text-primary);
+  }
+  .plan-card-tag {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px;
+    background: var(--tag-sale-fill);
+    color: var(--tag-sale-text);
+    border-radius: 4px;                         /* radius.4 */
+    font-size: 10px;                            /* label-4 */
+    font-weight: 700;
+  }
+  .plan-card-meta {
+    font-size: 13px;                            /* label-3 */
+    font-weight: 500; line-height: 1.48;
+    letter-spacing: -0.2px;
+    color: var(--text-secondary-01);
+  }
+  .plan-card-price-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-top: 4px;
+  }
+  .plan-card-price {
+    font-size: 18px;                            /* title-2 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.3px;
+    color: var(--text-primary);
+  }
+  .plan-card-price-unit {
+    font-size: 13px; font-weight: 600;
+    color: var(--text-secondary-01);
+    letter-spacing: -0.2px;
+  }
+  .plan-card-cta {
+    height: 32px;                               /* button Small = 32 */
+    padding: 0 12px;
+    border-radius: 6px;                         /* radius.6 */
+    background: var(--fill-primary);
+    color: var(--text-inverse);
+    font-size: 13px;                            /* label-3 */
+    font-weight: 600; letter-spacing: -0.2px;
+    display: inline-flex; align-items: center;
+  }
+
+  /* === Bottom Navigation === */
+  .bottom-nav-spacer { height: 16px; background: var(--surface-primary-01); }
+  .bottom-nav {
+    height: 56px;                               /* bottom-navigation 토큰 */
+    background: var(--surface-primary-01);
+    border-top: 1px solid var(--border-tertiary-01);
+    display: flex; align-items: stretch;
+    padding: 0 8px;
+  }
+  .bottom-nav-item {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px;
+    color: var(--text-tertiary-01);
+  }
+  .bottom-nav-item.active { color: var(--text-primary); }
+  .bottom-nav-icon { width: 24px; height: 24px; }
+  .bottom-nav-label {
+    font-size: 10px;                            /* label-4 */
+    font-weight: 600; letter-spacing: -0.2px;
+  }
+</style>
+</head>
+<body>
+
+<section class="screen" data-kds-id="screen-a">
+
+  <!-- ===== Top Navigation ===== -->
+  <header class="top-nav" data-kds-id="a-top-nav">
+    <div class="top-nav-logo" data-kds-id="a-top-nav-logo">
+      <span class="top-nav-logo-mark" data-kds-id="a-top-nav-logo-mark">
+        <svg viewBox="0 0 28 22" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 0H28V4H17V22H11V4H0V0Z"/>
+        </svg>
+      </span>
+      <span class="top-nav-logo-text" data-kds-id="a-top-nav-logo-text">샵</span>
+    </div>
+    <div class="top-nav-actions" data-kds-id="a-top-nav-actions">
+      <span class="top-nav-icon top-nav-icon-badge" data-kds-id="a-top-nav-bell-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+        </svg>
+      </span>
+      <span class="top-nav-icon" data-kds-id="a-top-nav-cart-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1.5"/>
+          <circle cx="19" cy="21" r="1.5"/>
+          <path d="M3 4h2l2.6 12.3a2 2 0 0 0 2 1.7h8.8a2 2 0 0 0 2-1.6L22 7H6"/>
+        </svg>
+      </span>
+    </div>
+  </header>
+
+  <!-- ===== Search ===== -->
+  <section class="search-wrap" data-kds-id="a-search-wrap">
+    <div class="search-field" data-kds-id="a-search-field">
+      <span class="search-icon" data-kds-id="a-search-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m20 20-3.5-3.5"/>
+        </svg>
+      </span>
+      <span class="search-placeholder" data-kds-id="a-search-placeholder">단말명·요금제를 검색하세요</span>
+    </div>
+  </section>
+
+  <!-- ===== Hero Split (좌우 분할) ===== -->
+  <section class="hero-split" data-kds-id="a-hero-split">
+    <div class="hero-card hero-card-main" data-kds-id="a-hero-main">
+      <span class="hero-eyebrow" data-kds-id="a-hero-main-eyebrow">단독 사전예약</span>
+      <h2 class="hero-title" data-kds-id="a-hero-main-title">Galaxy S26 Ultra</h2>
+      <p class="hero-sub" data-kds-id="a-hero-main-sub">최대 50만원 공시지원</p>
+      <span class="hero-cta" data-kds-id="a-hero-main-cta">
+        <span data-kds-id="a-hero-main-cta-text">자세히 보기</span>
+        <span class="hero-cta-icon" data-kds-id="a-hero-main-cta-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 6 6 6-6 6"/>
+          </svg>
+        </span>
+      </span>
+      <div class="hero-product-thumb" data-kds-id="a-hero-main-thumb">📱</div>
+    </div>
+    <div class="hero-card hero-card-sub" data-kds-id="a-hero-sub">
+      <span class="hero-eyebrow sub" data-kds-id="a-hero-sub-eyebrow">NEW</span>
+      <h2 class="hero-title" data-kds-id="a-hero-sub-title">Watch 7 동시구매</h2>
+      <p class="hero-sub" data-kds-id="a-hero-sub-sub">단말+워치 7% 추가 할인</p>
+      <span class="hero-cta" data-kds-id="a-hero-sub-cta">
+        <span data-kds-id="a-hero-sub-cta-text">혜택 보기</span>
+        <span class="hero-cta-icon" data-kds-id="a-hero-sub-cta-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 6 6 6-6 6"/>
+          </svg>
+        </span>
+      </span>
+      <div class="hero-product-thumb" data-kds-id="a-hero-sub-thumb">⌚</div>
+    </div>
+  </section>
+
+  <!-- ===== Category Grid 3×2 ===== -->
+  <section class="category-grid" data-kds-id="a-cat-grid">
+    <div class="category-cell" data-kds-id="a-cat-phone">
+      <span class="category-icon-box" data-kds-id="a-cat-phone-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="7" y="2" width="10" height="20" rx="2"/>
+          <path d="M11 18h2"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="a-cat-phone-label">휴대폰</span>
+    </div>
+    <div class="category-cell" data-kds-id="a-cat-plan">
+      <span class="category-icon-box" data-kds-id="a-cat-plan-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="6" width="18" height="14" rx="2"/>
+          <path d="M3 11h18M8 16h3"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="a-cat-plan-label">요금제</span>
+    </div>
+    <div class="category-cell" data-kds-id="a-cat-mvno">
+      <span class="category-icon-box" data-kds-id="a-cat-mvno-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="a-cat-mvno-label">알뜰폰</span>
+    </div>
+    <div class="category-cell" data-kds-id="a-cat-combo">
+      <span class="category-icon-box" data-kds-id="a-cat-combo-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17V8a3 3 0 1 1 6 0v9a3 3 0 1 0 6 0V8"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="a-cat-combo-label">결합</span>
+    </div>
+    <div class="category-cell" data-kds-id="a-cat-watch">
+      <span class="category-icon-box" data-kds-id="a-cat-watch-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="6" y="6" width="12" height="12" rx="3"/>
+          <path d="M9 6V3h6v3M9 18v3h6v-3M12 9v3l2 1"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="a-cat-watch-label">워치</span>
+    </div>
+    <div class="category-cell" data-kds-id="a-cat-event">
+      <span class="category-icon-box" data-kds-id="a-cat-event-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 12V8H4v12h16v-4"/>
+          <path d="M20 12a2 2 0 1 0 0-4M20 12a2 2 0 1 1 0 4"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="a-cat-event-label">이벤트</span>
+    </div>
+  </section>
+
+  <!-- ===== Hot Pick Section Head ===== -->
+  <header class="section-head" data-kds-id="a-hot-head">
+    <div class="section-title-block" data-kds-id="a-hot-title-block">
+      <h3 class="section-title" data-kds-id="a-hot-title">베스트 단말</h3>
+      <span class="section-sub" data-kds-id="a-hot-sub">이번 주 가장 많이 찾은 5종</span>
+    </div>
+    <a class="section-more" data-kds-id="a-hot-more">
+      <span data-kds-id="a-hot-more-text">전체</span>
+      <span class="section-more-icon" data-kds-id="a-hot-more-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m9 6 6 6-6 6"/>
+        </svg>
+      </span>
+    </a>
+  </header>
+
+  <!-- ===== Hot Pick Carousel ===== -->
+  <section class="hot-pick" data-kds-id="a-hot-pick">
+    <div class="hot-pick-track" data-kds-id="a-hot-pick-track">
+      <article class="pick-card" data-kds-id="a-pick-1">
+        <div class="pick-thumb" data-kds-id="a-pick-1-thumb">📱</div>
+        <span class="pick-tag" data-kds-id="a-pick-1-tag">SALE</span>
+        <span class="pick-name" data-kds-id="a-pick-1-name">Galaxy S26 Ultra 256GB</span>
+        <div class="pick-price-block" data-kds-id="a-pick-1-price-block">
+          <span class="pick-price-unit" data-kds-id="a-pick-1-price-unit">월 납부 부담금</span>
+          <span class="pick-price" data-kds-id="a-pick-1-price">39,900원</span>
+        </div>
+      </article>
+      <article class="pick-card" data-kds-id="a-pick-2">
+        <div class="pick-thumb" data-kds-id="a-pick-2-thumb">📱</div>
+        <span class="pick-tag" data-kds-id="a-pick-2-tag">단독</span>
+        <span class="pick-name" data-kds-id="a-pick-2-name">iPhone 16 Pro 128GB</span>
+        <div class="pick-price-block" data-kds-id="a-pick-2-price-block">
+          <span class="pick-price-unit" data-kds-id="a-pick-2-price-unit">월 납부 부담금</span>
+          <span class="pick-price" data-kds-id="a-pick-2-price">45,800원</span>
+        </div>
+      </article>
+      <article class="pick-card" data-kds-id="a-pick-3">
+        <div class="pick-thumb" data-kds-id="a-pick-3-thumb">📱</div>
+        <span class="pick-tag" data-kds-id="a-pick-3-tag">NEW</span>
+        <span class="pick-name" data-kds-id="a-pick-3-name">Galaxy Z Fold 6 256GB</span>
+        <div class="pick-price-block" data-kds-id="a-pick-3-price-block">
+          <span class="pick-price-unit" data-kds-id="a-pick-3-price-unit">월 납부 부담금</span>
+          <span class="pick-price" data-kds-id="a-pick-3-price">62,400원</span>
+        </div>
+      </article>
+      <article class="pick-card" data-kds-id="a-pick-4">
+        <div class="pick-thumb" data-kds-id="a-pick-4-thumb">📱</div>
+        <span class="pick-tag" data-kds-id="a-pick-4-tag">HOT</span>
+        <span class="pick-name" data-kds-id="a-pick-4-name">Galaxy Z Flip 6 256GB</span>
+        <div class="pick-price-block" data-kds-id="a-pick-4-price-block">
+          <span class="pick-price-unit" data-kds-id="a-pick-4-price-unit">월 납부 부담금</span>
+          <span class="pick-price" data-kds-id="a-pick-4-price">31,900원</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== Plan Section Head ===== -->
+  <header class="section-head" data-kds-id="a-plan-head">
+    <div class="section-title-block" data-kds-id="a-plan-title-block">
+      <h3 class="section-title" data-kds-id="a-plan-title">추천 요금제</h3>
+      <span class="section-sub" data-kds-id="a-plan-sub">사용 패턴별 맞춤 제안</span>
+    </div>
+    <a class="section-more" data-kds-id="a-plan-more">
+      <span data-kds-id="a-plan-more-text">전체</span>
+      <span class="section-more-icon" data-kds-id="a-plan-more-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m9 6 6 6-6 6"/>
+        </svg>
+      </span>
+    </a>
+  </header>
+
+  <!-- ===== Plan Card Stack ===== -->
+  <section class="plan-stack" data-kds-id="a-plan-stack">
+    <article class="plan-card" data-kds-id="a-plan-1">
+      <div class="plan-card-head" data-kds-id="a-plan-1-head">
+        <span class="plan-card-name" data-kds-id="a-plan-1-name">5G 슈퍼플랜 베이직</span>
+        <span class="plan-card-tag" data-kds-id="a-plan-1-tag">인기</span>
+      </div>
+      <span class="plan-card-meta" data-kds-id="a-plan-1-meta">데이터 110GB · 음성 무제한 · OTT 1종</span>
+      <div class="plan-card-price-row" data-kds-id="a-plan-1-price-row">
+        <span class="plan-card-price" data-kds-id="a-plan-1-price"><span class="plan-card-price-unit" data-kds-id="a-plan-1-price-prefix">월 </span>69,000원</span>
+        <button class="plan-card-cta" data-kds-id="a-plan-1-cta">선택</button>
+      </div>
+    </article>
+    <article class="plan-card" data-kds-id="a-plan-2">
+      <div class="plan-card-head" data-kds-id="a-plan-2-head">
+        <span class="plan-card-name" data-kds-id="a-plan-2-name">5G 세이브 30GB</span>
+        <span class="plan-card-tag" data-kds-id="a-plan-2-tag">알뜰</span>
+      </div>
+      <span class="plan-card-meta" data-kds-id="a-plan-2-meta">데이터 30GB · 음성 200분</span>
+      <div class="plan-card-price-row" data-kds-id="a-plan-2-price-row">
+        <span class="plan-card-price" data-kds-id="a-plan-2-price"><span class="plan-card-price-unit" data-kds-id="a-plan-2-price-prefix">월 </span>33,000원</span>
+        <button class="plan-card-cta" data-kds-id="a-plan-2-cta">선택</button>
+      </div>
+    </article>
+  </section>
+
+  <div class="bottom-nav-spacer" data-kds-id="a-bottom-spacer"></div>
+
+  <!-- ===== Bottom Navigation ===== -->
+  <nav class="bottom-nav" data-kds-id="a-bottom-nav">
+    <a class="bottom-nav-item active" data-kds-id="a-bnav-home">
+      <span class="bottom-nav-icon" data-kds-id="a-bnav-home-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="a-bnav-home-label">홈</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="a-bnav-cat">
+      <span class="bottom-nav-icon" data-kds-id="a-bnav-cat-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="a-bnav-cat-label">카테고리</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="a-bnav-search">
+      <span class="bottom-nav-icon" data-kds-id="a-bnav-search-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m20 20-3.5-3.5"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="a-bnav-search-label">검색</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="a-bnav-cart">
+      <span class="bottom-nav-icon" data-kds-id="a-bnav-cart-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1.5"/>
+          <circle cx="19" cy="21" r="1.5"/>
+          <path d="M3 4h2l2.6 12.3a2 2 0 0 0 2 1.7h8.8a2 2 0 0 0 2-1.6L22 7H6"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="a-bnav-cart-label">장바구니</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="a-bnav-my">
+      <span class="bottom-nav-icon" data-kds-id="a-bnav-my-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21a8 8 0 1 1 16 0"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="a-bnav-my-label">MY</span>
+    </a>
+  </nav>
+
+</section>
+
+</body>
+</html>

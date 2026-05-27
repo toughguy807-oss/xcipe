@@ -40,12 +40,14 @@ const TicketsPage = {
     this._users = Array.isArray(usersRes) ? usersRes : (usersRes.data || [user]);
 
     const projFilter = document.getElementById('project-filter');
+    if (!projFilter) return;  // await 도중 KDS 등 다른 페이지로 navigate 시 DOM 사라짐
     this._projects.forEach(p => {
       const opt = document.createElement('option');
       opt.value = p.id; opt.textContent = `${p.name} (${p.code})`;
       projFilter.appendChild(opt);
     });
     const aFilter = document.getElementById('assignee-filter');
+    if (!aFilter) return;
     this._users.forEach(u => {
       const opt = document.createElement('option');
       opt.value = u.id; opt.textContent = u.email;

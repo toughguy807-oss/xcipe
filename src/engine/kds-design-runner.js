@@ -14,19 +14,18 @@ const path = require('path');
 const crypto = require('crypto');
 
 function getKdsRoot() {
-  // 우선순위: env > settings > 컨테이너 내 통합 경로 > 레거시 Windows 경로 (로컬 fallback)
-  try {
-    const { getSetting } = require('../db/settings');
-    const s = getSetting && getSetting('kds_v4_root');
-    if (s) return s;
-  } catch {}
+  // 우선순위 (2026-05-22): env > 원본(.claude·research 자산 완비) > 컨테이너 번들 > 마지막 fallback
+  //   ※ 이전엔 ../db/settings 를 첫 번째로 시도했으나 모듈 미존재 → 항상 catch 로 빠짐. 제거.
+  //   ※ 원본 디렉토리(AX_KDS_design system-v4)는 .claude/agents · research/brands screenshots · brief.md 완비.
+  //     SYS_v4 통합 사본(kds-v4)에는 .claude/ 누락 + research 자산 빈약 → researcher 가 매번 처음부터 크롤
+  //     → 사용자 결정(2026-05-22): 로컬 모드에선 원본을 정본으로 사용. SYS_v4/kds-v4 는 백업 보존.
   if (process.env.KDS_V4_ROOT) return process.env.KDS_V4_ROOT;
-  // v25: xcipe repo 안에 통합된 경로 우선 (Railway 컨테이너 + 로컬 동일)
-  const fs = require('fs');
+  const fsLocal = require('fs');
+  const original = 'C:/Users/hj.moon/Downloads/AX_KDS_design system-v4/AX_KDS_design system-v4';
+  try { if (fsLocal.existsSync(path.join(original, '.claude'))) return original; } catch {}
   const bundledKds = path.resolve(__dirname, '..', '..', 'kds-v4');
-  if (fs.existsSync(bundledKds)) return bundledKds;
-  // legacy: 사용자 PC 외부 경로 (분리 운영 환경)
-  return 'C:/Users/hj.moon/Downloads/AX_KDS_design system-v4/AX_KDS_design system-v4';
+  if (fsLocal.existsSync(bundledKds)) return bundledKds;
+  return original;
 }
 
 function _execClaude(prompt, { cwd, timeout = 300000, command = 'claude', userId = null } = {}) {

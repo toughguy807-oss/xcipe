@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KT 마이알뜰폰 FAQ — 시안 C (검색 hero + 추천 키워드 + TOP 질문 + 카테고리 dropdown)</title>
+  <style>
+    /* :root — KDS 토큰 (시맨틱 매핑 주석) */
+    :root {
+      /* color — surface / background */
+      --color-background-default: #ffffff;          /* background.default (static.white) */
+      --color-surface-subtle: #f8f9fa;              /* surface.on-white-inverse (gray.25) — 페이지 배경 */
+      --color-fill-secondary-01: #e9eaee;           /* fill.secondary-01 (gray.100) — chip / divider */
+      --color-fill-secondary-tint: #f3f4f6;         /* gray.50 — 답변 surface */
+
+      /* color — text */
+      --color-text-primary: #191a1b;                /* text.primary (gray.900) */
+      --color-text-secondary: #55585d;              /* text.secondary-01 (gray.600) */
+      --color-text-tertiary: #6f737b;               /* text.tertiary-01 (gray.500) */
+      --color-text-inverse: #ffffff;                /* text.inverse (static.white) */
+
+      /* color — accent (KDS Brand Color Case 1: Teal Primary + Purple Secondary — UX 우선 시안이라 teal 만 사용, purple 거의 안 씀) */
+      --color-accent-primary: #007f7f;              /* fill.accent-primary 대체 (teal.500) — ktmyr brand */
+      --color-accent-primary-50: #e1f5f5;           /* teal.100 — accent tint */
+      --color-accent-primary-300: #4cc8c3;          /* teal.300 — accent 강조 line */
+      --color-accent-primary-600: #005e66;          /* teal.600 — accent 텍스트 */
+      --color-accent-secondary-tint: #efebff;       /* purple.100 — Accent Secondary tint (추천 라벨 1자리만) */
+      --color-accent-secondary-600: #4c00e5;        /* purple.600 — secondary 텍스트 (추천 라벨) */
+
+      /* color — border */
+      --color-border-primary: #8b8f97;              /* border.primary-01 (gray.400) */
+      --color-border-secondary: #e9eaee;            /* border.secondary-01 (gray.100) */
+      --color-border-focused: #191a1b;              /* border.primary-focused (gray.900) */
+
+      /* color — tag (status info — teal calibration) */
+      --color-tag-info-fill: #e1f5f5;               /* tag.status.fill.info (teal.100) */
+      --color-tag-info-text: #005e66;               /* tag.status.text.info (teal.600) */
+      --color-tag-default-fill: #e9eaee;            /* tag.status.fill.default (gray.100) */
+      --color-tag-default-text: #55585d;            /* tag.status.text.default (gray.600) */
+
+      /* spacing */
+      --space-2: 2px;
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-32: 32px;
+      --space-40: 40px;
+      --space-48: 48px;
+
+      /* radius */
+      --radius-4: 4px;
+      --radius-8: 8px;
+      --radius-12: 12px;
+      --radius-circle: 999px;
+    }
+
+    /* reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scrollbar-gutter: stable; }              /* 함정 #15 — overlay scrollbar 보정 */
+    html, body {
+      background: var(--color-surface-subtle);
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--color-text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+    /* 함정 #8 — 한글 어절 줄바꿈 안전망 */
+    body, p, h1, h2, h3, h4, h5, h6, span, div, button, a, li, label, dt, dd {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { border: none; background: none; cursor: pointer; font-family: inherit; color: inherit; }
+    ul, ol { list-style: none; }
+    input { font-family: inherit; }
+
+    /* 화면 컨테이너 — 모바일 375 */
+    .screen {
+      width: 375px;
+      min-height: 812px;
+      margin: 0 auto;
+      background: var(--color-background-default);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========== Top Navigation (52px) ========== */
+    .top-nav {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-8);
+      background: var(--color-background-default);
+      border-bottom: 1px solid var(--color-border-secondary);
+    }
+    .top-nav-back {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-primary);              /* icon.primary */
+    }
+    .top-nav-title {
+      flex: 1;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      text-align: center;
+      margin-right: var(--space-40);                 /* back 폭 보정 */
+    }
+
+    /* ========== Search Hero (UX 우선 시안의 무게 중심) ========== */
+    .search-hero {
+      padding: var(--space-24) var(--space-20) var(--space-20);
+      background: var(--color-background-default);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+    }
+    .hero-heading {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .hero-title {
+      font-size: 22px;                               /* heading-small */
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+    }
+    .hero-subtitle {
+      font-size: 14px;                               /* body-small */
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--color-text-tertiary);
+    }
+
+    /* KDS search (height 48, outline) — brand override default state
+       NOTE: KDS search.spec.json 표준 focused state border 는 border.primary-focused (gray.900 #191a1b).
+       시안 C 는 검색 hero 무게 중심 강조 + brand 노출 의도로 default state 자체를 teal border 로 변형 (brand override).
+       즉 이 border 는 표준 focused 가 아니라 "default with brand accent" variant. 시각 자체는 유지. */
+    .search-bar {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-16);
+      gap: var(--space-12);
+      background: var(--color-background-default);
+      border: 1.5px solid var(--color-accent-primary);  /* brand override default — teal.500 (KDS Brand Color Case 1 대체 accent) */
+      border-radius: var(--radius-8);
+    }
+    .search-icon-box {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-primary);
+    }
+    .search-input {
+      flex: 1;
+      height: 100%;
+      border: none;
+      background: transparent;
+      font-size: 15px;                               /* body-medium */
+      color: var(--color-text-primary);
+      outline: none;
+    }
+    .search-input::placeholder { color: var(--color-text-tertiary); }
+
+    /* 추천 키워드 — chip Small 자연폭 + wrap (KDS chip 36 height — Small 변형은 토큰 없음, 표준 36 사용) */
+    .keyword-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .keyword-label {
+      font-size: 13px;                               /* label-small */
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+    .keyword-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-8);
+    }
+    .chip {
+      height: 36px;                                  /* KDS chip 36 */
+      display: inline-flex;
+      align-items: center;
+      padding: 0 var(--space-12);
+      background: var(--color-fill-secondary-01);   /* fill.secondary-01 unselected */
+      border-radius: var(--radius-circle);           /* pill */
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+    }
+
+    /* ========== TOP 질문 영역 (인기 순위) ========== */
+    .top-section {
+      padding: var(--space-32) var(--space-20) var(--space-24);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+      background: var(--color-background-default);
+    }
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-title {
+      font-size: 18px;                               /* title-medium */
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+    }
+    /* 추천 라벨 — purple 단 1자리 (Accent Secondary) */
+    .recommend-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-2) var(--space-8);
+      background: var(--color-accent-secondary-tint);  /* purple.100 */
+      color: var(--color-accent-secondary-600);         /* purple.600 */
+      font-size: 12px;                                  /* caption */
+      font-weight: 600;
+      border-radius: var(--radius-4);
+    }
+
+    .top-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .top-card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-16);
+      padding: var(--space-16);
+      background: var(--color-fill-secondary-tint);   /* gray.50 surface */
+      border-radius: var(--radius-8);
+    }
+    .top-rank {
+      width: 28px;
+      flex-shrink: 0;
+      font-size: 20px;                                /* title-large */
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--color-accent-primary);             /* teal — brand */
+      text-align: center;
+    }
+    .top-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      min-width: 0;
+    }
+    .top-tag {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      padding: 0 var(--space-8);
+      height: 20px;                                   /* tag Medium */
+      background: var(--color-tag-info-fill);          /* teal.100 */
+      color: var(--color-tag-info-text);               /* teal.600 */
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: var(--radius-4);
+    }
+    .top-q {
+      font-size: 15px;                                /* body-medium */
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+    }
+
+    /* ========== Category Dropdown (KDS dropdown 52) ========== */
+    .filter-section {
+      padding: var(--space-24) var(--space-20) var(--space-12);
+      background: var(--color-background-default);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+    .filter-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .filter-title {
+      font-size: 18px;                                /* title-medium */
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+    .filter-count {
+      font-size: 13px;                                /* label-small */
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+    }
+    /* KDS dropdown — height 52, outline, complete state */
+    .dropdown {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-16);
+      gap: var(--space-12);
+      background: var(--color-background-default);
+      border: 1px solid var(--color-border-primary); /* border.primary-01 */
+      border-radius: var(--radius-8);
+    }
+    .dropdown-label {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      min-width: 0;
+    }
+    .dropdown-label-top {
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: var(--color-text-secondary);             /* label complete state */
+    }
+    .dropdown-value {
+      font-size: 15px;                                /* body-medium */
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+    }
+    .dropdown-icon-box {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-primary);               /* icon.primary */
+    }
+
+    /* ========== FAQ 리스트 (accordion) ========== */
+    .faq-list {
+      padding: var(--space-8) var(--space-20) var(--space-32);
+      background: var(--color-background-default);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .faq-item {
+      background: var(--color-background-default);
+      border: 1px solid var(--color-border-secondary);
+      border-radius: var(--radius-8);
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-12);
+      padding: var(--space-16);
+      text-align: left;
+    }
+    .faq-q-leading {
+      width: 24px;
+      flex-shrink: 0;
+      font-size: 17px;                                /* label-large — "Q" */
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--color-accent-primary);             /* teal — brand */
+      text-align: center;
+    }
+    .faq-q-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .faq-q-tag {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      padding: 0 var(--space-8);
+      height: 20px;                                   /* tag Medium */
+      background: var(--color-tag-default-fill);
+      color: var(--color-tag-default-text);
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: var(--radius-4);
+    }
+    .faq-q-text {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--color-text-primary);
+    }
+    .faq-q-icon-box {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+    }
+
+    /* 펼친 상태 (item-2) — teal 강조 */
+    .faq-item.is-open {
+      border-color: var(--color-accent-primary-300); /* teal.300 — accent border */
+    }
+    .faq-item.is-open .faq-q-text {
+      color: var(--color-accent-primary);             /* teal — brand */
+      font-weight: 600;
+    }
+    .faq-item.is-open .faq-q-tag {
+      background: var(--color-tag-info-fill);          /* teal.100 */
+      color: var(--color-tag-info-text);
+    }
+    .faq-item.is-open .faq-q-icon-box {
+      color: var(--color-accent-primary);
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      padding: var(--space-16) var(--space-16) var(--space-20) var(--space-48);
+      background: var(--color-fill-secondary-tint);   /* gray.50 — 답변 surface */
+      border-top: 1px solid var(--color-border-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+    .faq-a-leading {
+      position: absolute;
+      width: 24px;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--color-text-secondary);
+      text-align: center;
+      margin-left: calc(-1 * (24px + var(--space-12)));
+    }
+    .faq-a-text {
+      font-size: 14px;                                /* body-small */
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-primary);
+    }
+    .faq-helpful {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding-top: var(--space-12);
+      border-top: 1px dashed var(--color-border-secondary);
+    }
+    .faq-helpful-label {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+    .helpful-btn {
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: 0 var(--space-12);
+      background: var(--color-background-default);
+      border: 1px solid var(--color-border-secondary);
+      border-radius: var(--radius-circle);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+    .helpful-btn .helpful-icon-box {
+      width: 14px;
+      height: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+    }
+
+    /* ========== Footer helper (컴팩트) ========== */
+    .helper-wrap {
+      padding: 0 var(--space-20) var(--space-24);
+    }
+    .helper-box {
+      padding: var(--space-16);
+      background: var(--color-fill-secondary-tint);
+      border-radius: var(--radius-8);
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+    }
+    .helper-icon-box {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent-primary);
+    }
+    .helper-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .helper-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.4;
+    }
+    .helper-sub {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--color-text-tertiary);
+      line-height: 1.4;
+    }
+    .helper-cta-icon-box {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <main class="screen" data-kds-id="screen-cctr-faq-c">
+
+    <!-- ========== Top Navigation ========== -->
+    <header class="top-nav" data-kds-id="top-nav">
+      <button class="top-nav-back" data-kds-id="top-nav-back" aria-label="뒤로 가기">
+        <span class="top-nav-back-icon-box" data-kds-id="top-nav-back-icon-box">
+          <svg data-kds-icon="chevron-left" width="24" height="24"></svg>
+        </span>
+      </button>
+      <h1 class="top-nav-title" data-kds-id="top-nav-title">FAQ</h1>
+    </header>
+
+    <!-- ========== Search Hero (검색 hero + 추천 키워드) ========== -->
+    <section class="search-hero" data-kds-id="search-hero">
+      <div class="hero-heading" data-kds-id="hero-heading">
+        <h2 class="hero-title" data-kds-id="hero-title">무엇을 도와드릴까요?</h2>
+        <p class="hero-subtitle" data-kds-id="hero-subtitle">궁금한 키워드를 입력하면 답을 빠르게 찾아드려요.</p>
+      </div>
+
+      <!-- KDS search 48 — default state + brand accent border variant (brand override) -->
+      <div class="search-bar" data-kds-id="search-bar" role="search">
+        <span class="search-icon-box" data-kds-id="search-bar-icon-box">
+          <svg data-kds-icon="search" width="24" height="24"></svg>
+        </span>
+        <input class="search-input" data-kds-id="search-bar-input" type="text" placeholder="찾고 싶은 질문을 입력해 주세요" aria-label="검색어 입력">
+      </div>
+
+      <!-- 추천 키워드 (chip wrap) -->
+      <div class="keyword-section" data-kds-id="keyword-section">
+        <span class="keyword-label" data-kds-id="keyword-label">인기 검색어</span>
+        <div class="keyword-chips" data-kds-id="keyword-chips">
+          <span class="chip" data-kds-id="kw-chip-1">셀프개통</span>
+          <span class="chip" data-kds-id="kw-chip-2">유심 재발급</span>
+          <span class="chip" data-kds-id="kw-chip-3">eSIM</span>
+          <span class="chip" data-kds-id="kw-chip-4">데이터 초과</span>
+          <span class="chip" data-kds-id="kw-chip-5">로밍</span>
+          <span class="chip" data-kds-id="kw-chip-6">요금제 변경</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TOP 질문 별도 영역 (인기 순위) ========== -->
+    <section class="top-section" data-kds-id="top-section">
+      <div class="section-heading" data-kds-id="top-section-heading">
+        <h2 class="section-title" data-kds-id="top-section-title">지금 가장 많이 찾아요</h2>
+        <span class="recommend-label" data-kds-id="top-recommend-label">TOP 5</span>
+      </div>
+
+      <div class="top-list" data-kds-id="top-list">
+        <article class="top-card" data-kds-id="top-card-1">
+          <span class="top-rank" data-kds-id="top-card-1-rank">1</span>
+          <div class="top-body" data-kds-id="top-card-1-body">
+            <span class="top-tag" data-kds-id="top-card-1-tag">셀프개통</span>
+            <p class="top-q" data-kds-id="top-card-1-q">셀프개통은 어떻게 진행하나요?</p>
+          </div>
+        </article>
+
+        <article class="top-card" data-kds-id="top-card-2">
+          <span class="top-rank" data-kds-id="top-card-2-rank">2</span>
+          <div class="top-body" data-kds-id="top-card-2-body">
+            <span class="top-tag" data-kds-id="top-card-2-tag">유심</span>
+            <p class="top-q" data-kds-id="top-card-2-q">유심 분실 시 재발급 절차가 궁금해요</p>
+          </div>
+        </article>
+
+        <article class="top-card" data-kds-id="top-card-3">
+          <span class="top-rank" data-kds-id="top-card-3-rank">3</span>
+          <div class="top-body" data-kds-id="top-card-3-body">
+            <span class="top-tag" data-kds-id="top-card-3-tag">요금제</span>
+            <p class="top-q" data-kds-id="top-card-3-q">완전 무제한 요금제는 어떤 종류가 있나요?</p>
+          </div>
+        </article>
+
+        <article class="top-card" data-kds-id="top-card-4">
+          <span class="top-rank" data-kds-id="top-card-4-rank">4</span>
+          <div class="top-body" data-kds-id="top-card-4-body">
+            <span class="top-tag" data-kds-id="top-card-4-tag">eSIM</span>
+            <p class="top-q" data-kds-id="top-card-4-q">eSIM 과 물리 유심의 차이는 무엇인가요?</p>
+          </div>
+        </article>
+
+        <article class="top-card" data-kds-id="top-card-5">
+          <span class="top-rank" data-kds-id="top-card-5-rank">5</span>
+          <div class="top-body" data-kds-id="top-card-5-body">
+            <span class="top-tag" data-kds-id="top-card-5-tag">가입/변경/해지</span>
+            <p class="top-q" data-kds-id="top-card-5-q">번호이동 후 셀프개통 제한 기간이 있나요?</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========== Category Dropdown + Result Count ========== -->
+    <section class="filter-section" data-kds-id="filter-section">
+      <div class="filter-heading" data-kds-id="filter-heading">
+        <h2 class="filter-title" data-kds-id="filter-title">전체 질문</h2>
+        <span class="filter-count" data-kds-id="filter-count">총 248건</span>
+      </div>
+
+      <!-- KDS dropdown 52 — complete state -->
+      <button class="dropdown" data-kds-id="category-dropdown" type="button" aria-haspopup="listbox">
+        <span class="dropdown-label" data-kds-id="dropdown-label">
+          <span class="dropdown-label-top" data-kds-id="dropdown-label-top">카테고리</span>
+          <span class="dropdown-value" data-kds-id="dropdown-value">전체</span>
+        </span>
+        <span class="dropdown-icon-box" data-kds-id="dropdown-icon-box">
+          <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+        </span>
+      </button>
+    </section>
+
+    <!-- ========== FAQ 리스트 (accordion — 2번째 펼침) ========== -->
+    <section class="faq-list" data-kds-id="faq-list">
+
+      <!-- item 1 — 접힘 -->
+      <article class="faq-item" data-kds-id="faq-item-1">
+        <button class="faq-question" data-kds-id="faq-item-1-question" type="button">
+          <span class="faq-q-leading" data-kds-id="faq-item-1-leading">Q</span>
+          <span class="faq-q-body" data-kds-id="faq-item-1-body">
+            <span class="faq-q-tag" data-kds-id="faq-item-1-tag">유심</span>
+            <span class="faq-q-text" data-kds-id="faq-item-1-text">바로배송유심과 편의점 바로유심은 어떻게 다른가요?</span>
+          </span>
+          <span class="faq-q-icon-box" data-kds-id="faq-item-1-icon-box">
+            <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+          </span>
+        </button>
+      </article>
+
+      <!-- item 2 — 펼침 (시안 강조 상태) -->
+      <article class="faq-item is-open" data-kds-id="faq-item-2">
+        <button class="faq-question" data-kds-id="faq-item-2-question" type="button" aria-expanded="true">
+          <span class="faq-q-leading" data-kds-id="faq-item-2-leading">Q</span>
+          <span class="faq-q-body" data-kds-id="faq-item-2-body">
+            <span class="faq-q-tag" data-kds-id="faq-item-2-tag">셀프개통</span>
+            <span class="faq-q-text" data-kds-id="faq-item-2-text">셀프개통은 어떻게 진행하나요?</span>
+          </span>
+          <span class="faq-q-icon-box" data-kds-id="faq-item-2-icon-box">
+            <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+          </span>
+        </button>
+        <div class="faq-answer" data-kds-id="faq-item-2-answer">
+          <p class="faq-a-text" data-kds-id="faq-item-2-a-text">셀프개통은 본인 인증과 유심 준비가 끝나면 앱 또는 웹에서 직접 진행할 수 있어요. 전 통신사 해지 시 모바일 데이터가 일시적으로 끊길 수 있으니 안정적인 Wi-Fi 환경에서 개통하는 것을 권장합니다. 미성년자는 셀프개통이 제한되며, 번호이동 셀프개통은 1일 7회 사전 인증 한도가 있어요.</p>
+          <div class="faq-helpful" data-kds-id="faq-item-2-helpful">
+            <span class="faq-helpful-label" data-kds-id="faq-item-2-helpful-label">이 답변이 도움이 되었나요?</span>
+            <button class="helpful-btn" data-kds-id="faq-item-2-helpful-yes" type="button">
+              <span class="helpful-icon-box" data-kds-id="faq-item-2-helpful-yes-icon-box">
+                <svg data-kds-icon="heart" width="14" height="14"></svg>
+              </span>
+              <span data-kds-id="faq-item-2-helpful-yes-label">도움됐어요</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- item 3 — 접힘 -->
+      <article class="faq-item" data-kds-id="faq-item-3">
+        <button class="faq-question" data-kds-id="faq-item-3-question" type="button">
+          <span class="faq-q-leading" data-kds-id="faq-item-3-leading">Q</span>
+          <span class="faq-q-body" data-kds-id="faq-item-3-body">
+            <span class="faq-q-tag" data-kds-id="faq-item-3-tag">요금제</span>
+            <span class="faq-q-text" data-kds-id="faq-item-3-text">제휴혜택 요금제 종류와 가입 조건이 궁금해요</span>
+          </span>
+          <span class="faq-q-icon-box" data-kds-id="faq-item-3-icon-box">
+            <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+          </span>
+        </button>
+      </article>
+
+      <!-- item 4 — 접힘 -->
+      <article class="faq-item" data-kds-id="faq-item-4">
+        <button class="faq-question" data-kds-id="faq-item-4-question" type="button">
+          <span class="faq-q-leading" data-kds-id="faq-item-4-leading">Q</span>
+          <span class="faq-q-body" data-kds-id="faq-item-4-body">
+            <span class="faq-q-tag" data-kds-id="faq-item-4-tag">단말기</span>
+            <span class="faq-q-text" data-kds-id="faq-item-4-text">자급제 단말 등록은 어떻게 하나요?</span>
+          </span>
+          <span class="faq-q-icon-box" data-kds-id="faq-item-4-icon-box">
+            <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+          </span>
+        </button>
+      </article>
+
+      <!-- item 5 — 접힘 -->
+      <article class="faq-item" data-kds-id="faq-item-5">
+        <button class="faq-question" data-kds-id="faq-item-5-question" type="button">
+          <span class="faq-q-leading" data-kds-id="faq-item-5-leading">Q</span>
+          <span class="faq-q-body" data-kds-id="faq-item-5-body">
+            <span class="faq-q-tag" data-kds-id="faq-item-5-tag">로밍</span>
+            <span class="faq-q-text" data-kds-id="faq-item-5-text">해외 로밍 서비스를 신청하려면 어떻게 해야 하나요?</span>
+          </span>
+          <span class="faq-q-icon-box" data-kds-id="faq-item-5-icon-box">
+            <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+          </span>
+        </button>
+      </article>
+
+      <!-- item 6 — 접힘 -->
+      <article class="faq-item" data-kds-id="faq-item-6">
+        <button class="faq-question" data-kds-id="faq-item-6-question" type="button">
+          <span class="faq-q-leading" data-kds-id="faq-item-6-leading">Q</span>
+          <span class="faq-q-body" data-kds-id="faq-item-6-body">
+            <span class="faq-q-tag" data-kds-id="faq-item-6-tag">부가서비스</span>
+            <span class="faq-q-text" data-kds-id="faq-item-6-text">데이터 쉐어링 서비스는 어떤 조건에서 가능한가요?</span>
+          </span>
+          <span class="faq-q-icon-box" data-kds-id="faq-item-6-icon-box">
+            <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+          </span>
+        </button>
+      </article>
+
+    </section>
+
+    <!-- ========== Footer helper (컴팩트 — 시안 B 와 달리 강조 안 함) ========== -->
+    <div class="helper-wrap" data-kds-id="helper-wrap">
+    <aside class="helper-box" data-kds-id="helper-box">
+      <span class="helper-icon-box" data-kds-id="helper-icon-box">
+        <svg data-kds-icon="headset" width="32" height="32"></svg>
+      </span>
+      <div class="helper-body" data-kds-id="helper-body">
+        <span class="helper-title" data-kds-id="helper-title">답을 찾지 못하셨나요?</span>
+        <span class="helper-sub" data-kds-id="helper-sub">고객상담으로 바로 문의하기</span>
+      </div>
+      <span class="helper-cta-icon-box" data-kds-id="helper-cta-icon-box">
+        <svg data-kds-icon="chevron-right" width="20" height="20"></svg>
+      </span>
+    </aside>
+    </div>
+
+  </main>
+</body>
+</html>

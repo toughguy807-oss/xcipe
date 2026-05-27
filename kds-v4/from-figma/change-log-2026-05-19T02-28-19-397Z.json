@@ -1,0 +1,208 @@
+{
+  "exportedAt": "2026-05-19T02:28:19.384Z",
+  "fileName": "Untitled",
+  "filteredFor": {
+    "nodeId": "31:1738",
+    "name": "Screen — Self-open Main (C, desktop)",
+    "kdsId": "screen-c-desktop"
+  },
+  "totalChanges": 10,
+  "changes": [
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "height"
+      ],
+      "values": {
+        "height": 304
+      },
+      "detail": "속성 변경 · height: 304",
+      "nodeId": "31:1795",
+      "nodeName": "Hero CTA Card",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop) > Hero CTA Wrap (C-1)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "x",
+        "width"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,48],[0,1,48]]",
+        "x": 48,
+        "width": 1104
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,48],[0,1,48]], x: 48, width: 1104",
+      "nodeId": "31:1796",
+      "nodeName": "Left",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop) > Hero CTA Wrap (C-1) > Hero CTA Card",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "height"
+      ],
+      "values": {
+        "height": 352
+      },
+      "detail": "속성 변경 · height: 352",
+      "nodeId": "31:1794",
+      "nodeName": "Hero CTA Wrap (C-1)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "height"
+      ],
+      "values": {
+        "height": 3427
+      },
+      "detail": "속성 변경 · height: 3427",
+      "nodeId": "31:1738",
+      "nodeName": "Screen — Self-open Main (C, desktop)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,672]]",
+        "y": 672
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,672]], y: 672",
+      "nodeId": "31:1816",
+      "nodeName": "Precheck Wrap (C-2)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,872]]",
+        "y": 872
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,872]], y: 872",
+      "nodeId": "31:1834",
+      "nodeName": "FAQ Top Wrap (C-3)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,1424]]",
+        "y": 1424
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,1424]], y: 1424",
+      "nodeId": "31:1878",
+      "nodeName": "Guide Wrap (C-4 — Step 02 with Plan Integration)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,2638]]",
+        "y": 2638
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,2638]], y: 2638",
+      "nodeId": "31:1981",
+      "nodeName": "Helper Wrap (C-5)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,2964]]",
+        "y": 2964
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,2964]], y: 2964",
+      "nodeId": "31:2009",
+      "nodeName": "Notice Wrap",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "11:28:14 AM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,3285]]",
+        "y": 3285
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,3285]], y: 3285",
+      "nodeId": "31:2025",
+      "nodeName": "Footer",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    }
+  ]
+}

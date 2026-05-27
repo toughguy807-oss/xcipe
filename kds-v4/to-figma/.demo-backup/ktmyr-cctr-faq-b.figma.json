@@ -1,0 +1,3288 @@
+{
+  "version": 1,
+  "name": "KT 마이알뜰폰 FAQ — 시안 B (듀얼 액센트 + 답변 펼침 teal 극대화)",
+  "root": {
+    "type": "FRAME",
+    "name": "Screen — FAQ (B)",
+    "kdsId": "screen-cctr-faq-b",
+    "width": 375,
+    "fills": [
+      {
+        "type": "SOLID",
+        "color": "#ffffff",
+        "opacity": 1
+      }
+    ],
+    "clipsContent": false,
+    "layout": {
+      "mode": "VERTICAL",
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "itemSpacing": 0,
+      "primaryAxisSizing": "AUTO",
+      "counterAxisSizing": "FIXED",
+      "primaryAxisAlign": "MIN",
+      "counterAxisAlign": "CENTER",
+      "minHeight": 812
+    },
+    "children": [
+      {
+        "type": "FRAME",
+        "name": "Top Nav",
+        "kdsId": "top-nav",
+        "width": 375,
+        "height": 52,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff",
+            "opacity": 1
+          }
+        ],
+        "strokes": [
+          {
+            "type": "SOLID",
+            "color": "#f3f4f6",
+            "opacity": 1
+          }
+        ],
+        "strokeWeight": 1,
+        "strokeAlign": "INSIDE",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "FIXED",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "CENTER"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Back Button",
+            "kdsId": "top-nav-back",
+            "width": 44,
+            "height": 44,
+            "fills": [],
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Back Icon Box",
+                "kdsId": "top-nav-back-icon-box",
+                "width": 24,
+                "height": 24,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "top-nav-back-icon-box-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 18 L9 12 L15 6\"/></svg>"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "name": "Top Nav Title",
+            "kdsId": "top-nav-title",
+            "width": 271,
+            "characters": "FAQ",
+            "fontSize": 17,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "SemiBold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "textAlignHorizontal": "CENTER",
+            "textAlignVertical": "CENTER",
+            "textAutoResize": "HEIGHT",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b",
+                "opacity": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Page Hero",
+        "kdsId": "page-hero",
+        "width": 375,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff",
+            "opacity": 1
+          }
+        ],
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 40,
+          "paddingBottom": 24,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Hero Eyebrow",
+            "kdsId": "hero-eyebrow",
+            "width": 335,
+            "characters": "CUSTOMER SUPPORT",
+            "fontSize": 13,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "SemiBold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": {
+              "unit": "PIXELS",
+              "value": 0.4
+            },
+            "textCase": "UPPER",
+            "textAutoResize": "HEIGHT",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#007f7f",
+                "opacity": 1
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Hero Eyebrow Spacer",
+            "kdsId": "hero-eyebrow-spacer",
+            "width": 335,
+            "height": 12,
+            "fills": [],
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": []
+          },
+          {
+            "type": "TEXT",
+            "name": "Hero Title",
+            "kdsId": "hero-title",
+            "width": 335,
+            "characters": "자주 묻는 질문",
+            "fontSize": 32,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Bold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": {
+              "unit": "PIXELS",
+              "value": -0.6
+            },
+            "textAutoResize": "HEIGHT",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b",
+                "opacity": 1
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Hero Title Spacer",
+            "kdsId": "hero-title-spacer",
+            "width": 335,
+            "height": 16,
+            "fills": [],
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": []
+          },
+          {
+            "type": "TEXT",
+            "name": "Hero Sub",
+            "kdsId": "hero-sub",
+            "width": 335,
+            "characters": "고객님이 가장 많이 찾으시는 질문을 모았어요. 카테고리를 선택해 빠르게 확인해 보세요.",
+            "fontSize": 15,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Regular"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 158
+            },
+            "textAutoResize": "HEIGHT",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#6f737b",
+                "opacity": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Search Wrap",
+        "kdsId": "search-wrap",
+        "width": 375,
+        "fills": [],
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 24,
+          "paddingBottom": 0,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Search Bar (outline · default)",
+            "kdsId": "search-bar",
+            "width": 335,
+            "height": 48,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff",
+                "opacity": 1
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#8b8f97",
+                "opacity": 1
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Placeholder",
+                "kdsId": "search-placeholder",
+                "characters": "검색어를 입력해 주세요",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "layoutGrow": 1,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#6f737b",
+                    "opacity": 1
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Search Icon Box",
+                "kdsId": "search-icon-box",
+                "width": 24,
+                "height": 24,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "search-icon-box-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"M16.5 16.5 L21 21\"/></svg>"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Tone Bar",
+        "kdsId": "tone-bar",
+        "width": 375,
+        "fills": [],
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 24,
+          "paddingBottom": 32,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 8,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "CENTER"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Tone Segment Primary (Teal)",
+            "kdsId": "tone-segment-primary",
+            "height": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#007f7f",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 999,
+            "layoutGrow": 1,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Category Row",
+        "kdsId": "category-row",
+        "width": 375,
+        "fills": [],
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 0,
+          "paddingBottom": 24,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 8,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "CENTER"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Chip — 전체",
+            "kdsId": "chip-all",
+            "height": 36,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 999,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "chip-all-label",
+                "characters": "전체",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "SemiBold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Chip — TOP10 (active, purple)",
+            "kdsId": "chip-top10",
+            "height": 36,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#6941ff",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 999,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "chip-top10-label",
+                "characters": "TOP10",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "SemiBold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Chip — 유심",
+            "kdsId": "chip-usim",
+            "height": 36,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 999,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "chip-usim-label",
+                "characters": "유심",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "SemiBold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Chip — 단말기",
+            "kdsId": "chip-device",
+            "height": 36,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 999,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "chip-device-label",
+                "characters": "단말기",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "SemiBold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Chip — 로밍",
+            "kdsId": "chip-roaming",
+            "height": 36,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 999,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "chip-roaming-label",
+                "characters": "로밍",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "SemiBold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Chip — 요금제",
+            "kdsId": "chip-plan",
+            "height": 36,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 999,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "chip-plan-label",
+                "characters": "요금제",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "SemiBold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Chip — 셀프개통",
+            "kdsId": "chip-self",
+            "height": 36,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 999,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "chip-self-label",
+                "characters": "셀프개통",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "SemiBold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Chip — 요금/납부",
+            "kdsId": "chip-billing",
+            "height": 36,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 999,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "chip-billing-label",
+                "characters": "요금/납부",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "SemiBold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Result Head",
+        "kdsId": "result-head",
+        "width": 375,
+        "fills": [],
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 0,
+          "paddingBottom": 20,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 12,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Result Title",
+            "kdsId": "result-title",
+            "characters": "TOP10",
+            "fontSize": 24,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Bold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": {
+              "unit": "PIXELS",
+              "value": -0.4
+            },
+            "textAutoResize": "WIDTH_AND_HEIGHT",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b",
+                "opacity": 1
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "name": "Result Count",
+            "kdsId": "result-count",
+            "characters": "10건",
+            "fontSize": 15,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "SemiBold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "textAutoResize": "WIDTH_AND_HEIGHT",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#6941ff",
+                "opacity": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "FAQ List",
+        "kdsId": "faq-list",
+        "width": 375,
+        "fills": [],
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 0,
+          "paddingBottom": 32,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 12,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "FAQ Item 1 (collapsed)",
+            "kdsId": "faq-item-1",
+            "width": 335,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff",
+                "opacity": 1
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 12,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 20,
+              "paddingBottom": 20,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Head",
+                "kdsId": "faq-item-1-head",
+                "width": 295,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Q Badge",
+                    "kdsId": "faq-item-1-q",
+                    "width": 28,
+                    "height": 28,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e9eaee",
+                        "opacity": 1
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Q",
+                        "kdsId": "faq-item-1-q-text",
+                        "characters": "Q",
+                        "fontSize": 14,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "textAutoResize": "WIDTH_AND_HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Body",
+                    "kdsId": "faq-item-1-body",
+                    "fills": [],
+                    "layoutGrow": 1,
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 8,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "Tag",
+                        "kdsId": "faq-item-1-tag",
+                        "height": 20,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e1f5f5",
+                            "opacity": 1
+                          }
+                        ],
+                        "cornerRadius": 4,
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "itemSpacing": 0,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "FIXED",
+                          "primaryAxisAlign": "CENTER",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "Tag Label",
+                            "kdsId": "faq-item-1-tag-label",
+                            "characters": "셀프개통",
+                            "fontSize": 11,
+                            "fontName": {
+                              "family": "Pretendard",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": {
+                              "unit": "PERCENT",
+                              "value": 100
+                            },
+                            "textAutoResize": "WIDTH_AND_HEIGHT",
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#005e66",
+                                "opacity": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Question",
+                        "kdsId": "faq-item-1-question",
+                        "width": 235,
+                        "characters": "셀프개통은 어떤 환경에서 진행해야 하나요?",
+                        "fontSize": 16,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "SemiBold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": {
+                          "unit": "PIXELS",
+                          "value": -0.2
+                        },
+                        "textAutoResize": "HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Chevron Box",
+                    "kdsId": "faq-item-1-chevron-box",
+                    "width": 24,
+                    "height": 24,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "faq-item-1-chevron-box-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 9 L12 15 L18 9\"/></svg>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "FAQ Item 2 (collapsed)",
+            "kdsId": "faq-item-2",
+            "width": 335,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff",
+                "opacity": 1
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 12,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 20,
+              "paddingBottom": 20,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Head",
+                "kdsId": "faq-item-2-head",
+                "width": 295,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Q Badge",
+                    "kdsId": "faq-item-2-q",
+                    "width": 28,
+                    "height": 28,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e9eaee",
+                        "opacity": 1
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Q",
+                        "kdsId": "faq-item-2-q-text",
+                        "characters": "Q",
+                        "fontSize": 14,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "textAutoResize": "WIDTH_AND_HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Body",
+                    "kdsId": "faq-item-2-body",
+                    "fills": [],
+                    "layoutGrow": 1,
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 8,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "Tag",
+                        "kdsId": "faq-item-2-tag",
+                        "height": 20,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e1f5f5",
+                            "opacity": 1
+                          }
+                        ],
+                        "cornerRadius": 4,
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "itemSpacing": 0,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "FIXED",
+                          "primaryAxisAlign": "CENTER",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "Tag Label",
+                            "kdsId": "faq-item-2-tag-label",
+                            "characters": "요금제",
+                            "fontSize": 11,
+                            "fontName": {
+                              "family": "Pretendard",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": {
+                              "unit": "PERCENT",
+                              "value": 100
+                            },
+                            "textAutoResize": "WIDTH_AND_HEIGHT",
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#005e66",
+                                "opacity": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Question",
+                        "kdsId": "faq-item-2-question",
+                        "width": 235,
+                        "characters": "완전 무제한 요금제는 어떻게 신청하나요?",
+                        "fontSize": 16,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "SemiBold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": {
+                          "unit": "PIXELS",
+                          "value": -0.2
+                        },
+                        "textAutoResize": "HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Chevron Box",
+                    "kdsId": "faq-item-2-chevron-box",
+                    "width": 24,
+                    "height": 24,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "faq-item-2-chevron-box-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 9 L12 15 L18 9\"/></svg>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "FAQ Item 3 (EXPANDED — teal 강조 극대화)",
+            "kdsId": "faq-item-3",
+            "width": 335,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff",
+                "opacity": 1
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#007f7f",
+                "opacity": 1
+              }
+            ],
+            "strokeWeight": 1.5,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 12,
+            "clipsContent": true,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Head (expanded — teal Q + teal question)",
+                "kdsId": "faq-item-3-head",
+                "width": 335,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#a9e5e1",
+                    "opacity": 1
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 20,
+                  "paddingBottom": 20,
+                  "paddingLeft": 20,
+                  "paddingRight": 20,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Q Badge (teal fill)",
+                    "kdsId": "faq-item-3-q",
+                    "width": 28,
+                    "height": 28,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#007f7f",
+                        "opacity": 1
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Q",
+                        "kdsId": "faq-item-3-q-text",
+                        "characters": "Q",
+                        "fontSize": 14,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "textAutoResize": "WIDTH_AND_HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Body",
+                    "kdsId": "faq-item-3-body",
+                    "fills": [],
+                    "layoutGrow": 1,
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 8,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "Tag",
+                        "kdsId": "faq-item-3-tag",
+                        "height": 20,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e1f5f5",
+                            "opacity": 1
+                          }
+                        ],
+                        "cornerRadius": 4,
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "itemSpacing": 0,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "FIXED",
+                          "primaryAxisAlign": "CENTER",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "Tag Label",
+                            "kdsId": "faq-item-3-tag-label",
+                            "characters": "유심",
+                            "fontSize": 11,
+                            "fontName": {
+                              "family": "Pretendard",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": {
+                              "unit": "PERCENT",
+                              "value": 100
+                            },
+                            "textAutoResize": "WIDTH_AND_HEIGHT",
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#005e66",
+                                "opacity": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Question (teal accent)",
+                        "kdsId": "faq-item-3-question",
+                        "width": 235,
+                        "characters": "eSIM 과 물리 유심의 차이가 무엇인가요?",
+                        "fontSize": 16,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "SemiBold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": {
+                          "unit": "PIXELS",
+                          "value": -0.2
+                        },
+                        "textAutoResize": "HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#007f7f",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Chevron Box (teal)",
+                    "kdsId": "faq-item-3-chevron-box",
+                    "width": 24,
+                    "height": 24,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "faq-item-3-chevron-box-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 15 L12 9 L18 15\"/></svg>"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Answer (teal-tint surface)",
+                "kdsId": "faq-item-3-answer",
+                "width": 335,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#e1f5f5",
+                    "opacity": 1
+                  }
+                ],
+                "layout": {
+                  "mode": "VERTICAL",
+                  "paddingTop": 20,
+                  "paddingBottom": 20,
+                  "paddingLeft": 20,
+                  "paddingRight": 20,
+                  "itemSpacing": 16,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Answer Head",
+                    "kdsId": "faq-item-3-answer-head",
+                    "width": 295,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 12,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "A Badge (teal)",
+                        "kdsId": "faq-item-3-answer-a",
+                        "width": 28,
+                        "height": 28,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#007f7f",
+                            "opacity": 1
+                          }
+                        ],
+                        "cornerRadius": 999,
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                          "itemSpacing": 0,
+                          "primaryAxisSizing": "FIXED",
+                          "counterAxisSizing": "FIXED",
+                          "primaryAxisAlign": "CENTER",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "A",
+                            "kdsId": "faq-item-3-answer-a-text",
+                            "characters": "A",
+                            "fontSize": 14,
+                            "fontName": {
+                              "family": "Pretendard",
+                              "style": "Bold"
+                            },
+                            "lineHeight": {
+                              "unit": "PERCENT",
+                              "value": 100
+                            },
+                            "textAutoResize": "WIDTH_AND_HEIGHT",
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#ffffff",
+                                "opacity": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Answer Text",
+                        "kdsId": "faq-item-3-answer-text",
+                        "width": 254,
+                        "characters": "물리 유심은 칩 형태로 단말기에 직접 삽입하는 방식이고, eSIM 은 단말기 내부에 내장된 칩에 정보를 다운로드해 사용하는 방식이에요. eSIM 은 별도 칩 없이 QR 코드만으로 바로 개통할 수 있어 편리해요.",
+                        "fontSize": 15,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Regular"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 158
+                        },
+                        "textAutoResize": "HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Divider",
+                    "kdsId": "faq-item-3-answer-divider",
+                    "width": 295,
+                    "height": 1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#a9e5e1",
+                        "opacity": 1
+                      }
+                    ],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": []
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Feedback",
+                    "kdsId": "faq-item-3-feedback",
+                    "width": 295,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 12,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Feedback Label",
+                        "kdsId": "faq-item-3-feedback-label",
+                        "characters": "이 답변이 도움이 되었나요?",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Medium"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "textAutoResize": "WIDTH_AND_HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d",
+                            "opacity": 1
+                          }
+                        ],
+                        "layoutGrow": 1
+                      },
+                      {
+                        "type": "FRAME",
+                        "name": "Feedback Yes Button",
+                        "kdsId": "faq-item-3-feedback-yes",
+                        "height": 32,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff",
+                            "opacity": 1
+                          }
+                        ],
+                        "strokes": [
+                          {
+                            "type": "SOLID",
+                            "color": "#a9e5e1",
+                            "opacity": 1
+                          }
+                        ],
+                        "strokeWeight": 1,
+                        "strokeAlign": "INSIDE",
+                        "cornerRadius": 999,
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "paddingLeft": 12,
+                          "paddingRight": 12,
+                          "itemSpacing": 4,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "FIXED",
+                          "primaryAxisAlign": "CENTER",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "FRAME",
+                            "name": "Yes Icon Box",
+                            "kdsId": "faq-item-3-feedback-yes-icon-box",
+                            "width": 16,
+                            "height": 16,
+                            "fills": [],
+                            "layout": {
+                              "mode": "HORIZONTAL",
+                              "paddingTop": 0,
+                              "paddingBottom": 0,
+                              "paddingLeft": 0,
+                              "paddingRight": 0,
+                              "itemSpacing": 0,
+                              "primaryAxisSizing": "FIXED",
+                              "counterAxisSizing": "FIXED",
+                              "primaryAxisAlign": "CENTER",
+                              "counterAxisAlign": "CENTER"
+                            },
+                            "children": [
+                              {
+                                "type": "SVG",
+                                "name": "Icon",
+                                "kdsId": "faq-item-3-feedback-yes-icon-box-icon",
+                                "width": 16,
+                                "height": 16,
+                                "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 21 C12 21 3 14 3 8 a5 5 0 0 1 9-3 a5 5 0 0 1 9 3 c0 6-9 13-9 13 Z\"/></svg>"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "TEXT",
+                            "name": "Yes Label",
+                            "kdsId": "faq-item-3-feedback-yes-label",
+                            "characters": "도움됨",
+                            "fontSize": 13,
+                            "fontName": {
+                              "family": "Pretendard",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": {
+                              "unit": "PERCENT",
+                              "value": 100
+                            },
+                            "textAutoResize": "WIDTH_AND_HEIGHT",
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#005e66",
+                                "opacity": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "FAQ Item 4 (collapsed)",
+            "kdsId": "faq-item-4",
+            "width": 335,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff",
+                "opacity": 1
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 12,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 20,
+              "paddingBottom": 20,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Head",
+                "kdsId": "faq-item-4-head",
+                "width": 295,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Q Badge",
+                    "kdsId": "faq-item-4-q",
+                    "width": 28,
+                    "height": 28,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e9eaee",
+                        "opacity": 1
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Q",
+                        "kdsId": "faq-item-4-q-text",
+                        "characters": "Q",
+                        "fontSize": 14,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "textAutoResize": "WIDTH_AND_HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Body",
+                    "kdsId": "faq-item-4-body",
+                    "fills": [],
+                    "layoutGrow": 1,
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 8,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "Tag",
+                        "kdsId": "faq-item-4-tag",
+                        "height": 20,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e1f5f5",
+                            "opacity": 1
+                          }
+                        ],
+                        "cornerRadius": 4,
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "itemSpacing": 0,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "FIXED",
+                          "primaryAxisAlign": "CENTER",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "Tag Label",
+                            "kdsId": "faq-item-4-tag-label",
+                            "characters": "가입/변경/해지",
+                            "fontSize": 11,
+                            "fontName": {
+                              "family": "Pretendard",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": {
+                              "unit": "PERCENT",
+                              "value": 100
+                            },
+                            "textAutoResize": "WIDTH_AND_HEIGHT",
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#005e66",
+                                "opacity": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Question",
+                        "kdsId": "faq-item-4-question",
+                        "width": 235,
+                        "characters": "번호이동 신청 후 셀프개통 제한이 있나요?",
+                        "fontSize": 16,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "SemiBold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": {
+                          "unit": "PIXELS",
+                          "value": -0.2
+                        },
+                        "textAutoResize": "HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Chevron Box",
+                    "kdsId": "faq-item-4-chevron-box",
+                    "width": 24,
+                    "height": 24,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "faq-item-4-chevron-box-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 9 L12 15 L18 9\"/></svg>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "FAQ Item 5 (collapsed)",
+            "kdsId": "faq-item-5",
+            "width": 335,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff",
+                "opacity": 1
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 12,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 20,
+              "paddingBottom": 20,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Head",
+                "kdsId": "faq-item-5-head",
+                "width": 295,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Q Badge",
+                    "kdsId": "faq-item-5-q",
+                    "width": 28,
+                    "height": 28,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e9eaee",
+                        "opacity": 1
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Q",
+                        "kdsId": "faq-item-5-q-text",
+                        "characters": "Q",
+                        "fontSize": 14,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "textAutoResize": "WIDTH_AND_HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Body",
+                    "kdsId": "faq-item-5-body",
+                    "fills": [],
+                    "layoutGrow": 1,
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 8,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "Tag",
+                        "kdsId": "faq-item-5-tag",
+                        "height": 20,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e1f5f5",
+                            "opacity": 1
+                          }
+                        ],
+                        "cornerRadius": 4,
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "itemSpacing": 0,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "FIXED",
+                          "primaryAxisAlign": "CENTER",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "Tag Label",
+                            "kdsId": "faq-item-5-tag-label",
+                            "characters": "단말기",
+                            "fontSize": 11,
+                            "fontName": {
+                              "family": "Pretendard",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": {
+                              "unit": "PERCENT",
+                              "value": 100
+                            },
+                            "textAutoResize": "WIDTH_AND_HEIGHT",
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#005e66",
+                                "opacity": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Question",
+                        "kdsId": "faq-item-5-question",
+                        "width": 235,
+                        "characters": "자급제 단말등록은 어디서 하나요?",
+                        "fontSize": 16,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "SemiBold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": {
+                          "unit": "PIXELS",
+                          "value": -0.2
+                        },
+                        "textAutoResize": "HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Chevron Box",
+                    "kdsId": "faq-item-5-chevron-box",
+                    "width": 24,
+                    "height": 24,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "faq-item-5-chevron-box-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 9 L12 15 L18 9\"/></svg>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "FAQ Item 6 (collapsed)",
+            "kdsId": "faq-item-6",
+            "width": 335,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff",
+                "opacity": 1
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee",
+                "opacity": 1
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 12,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 20,
+              "paddingBottom": 20,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Head",
+                "kdsId": "faq-item-6-head",
+                "width": 295,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Q Badge",
+                    "kdsId": "faq-item-6-q",
+                    "width": 28,
+                    "height": 28,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e9eaee",
+                        "opacity": 1
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Q",
+                        "kdsId": "faq-item-6-q-text",
+                        "characters": "Q",
+                        "fontSize": 14,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "textAutoResize": "WIDTH_AND_HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Body",
+                    "kdsId": "faq-item-6-body",
+                    "fills": [],
+                    "layoutGrow": 1,
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 8,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "Tag",
+                        "kdsId": "faq-item-6-tag",
+                        "height": 20,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e1f5f5",
+                            "opacity": 1
+                          }
+                        ],
+                        "cornerRadius": 4,
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "paddingTop": 0,
+                          "paddingBottom": 0,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "itemSpacing": 0,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "FIXED",
+                          "primaryAxisAlign": "CENTER",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "Tag Label",
+                            "kdsId": "faq-item-6-tag-label",
+                            "characters": "부가서비스",
+                            "fontSize": 11,
+                            "fontName": {
+                              "family": "Pretendard",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": {
+                              "unit": "PERCENT",
+                              "value": 100
+                            },
+                            "textAutoResize": "WIDTH_AND_HEIGHT",
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#005e66",
+                                "opacity": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Question",
+                        "kdsId": "faq-item-6-question",
+                        "width": 235,
+                        "characters": "데이터 쉐어링은 어떻게 신청하나요?",
+                        "fontSize": 16,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "SemiBold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": {
+                          "unit": "PIXELS",
+                          "value": -0.2
+                        },
+                        "textAutoResize": "HEIGHT",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Chevron Box",
+                    "kdsId": "faq-item-6-chevron-box",
+                    "width": 24,
+                    "height": 24,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "faq-item-6-chevron-box-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 9 L12 15 L18 9\"/></svg>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Pagination",
+        "kdsId": "pagination",
+        "width": 375,
+        "fills": [],
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 0,
+          "paddingBottom": 32,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 4,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "CENTER",
+          "counterAxisAlign": "CENTER"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Prev",
+            "kdsId": "page-prev",
+            "width": 36,
+            "height": 36,
+            "fills": [],
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Prev Icon Box",
+                "kdsId": "page-prev-icon-box",
+                "width": 20,
+                "height": 20,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "page-prev-icon-box-icon",
+                    "width": 20,
+                    "height": 20,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 18 L9 12 L15 6\"/></svg>"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Page 1 (current — teal)",
+            "kdsId": "page-1",
+            "width": 36,
+            "height": 36,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#007f7f",
+                "opacity": 1
+              }
+            ],
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "1",
+                "kdsId": "page-1-label",
+                "characters": "1",
+                "fontSize": 14,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Bold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Page 2",
+            "kdsId": "page-2",
+            "width": 36,
+            "height": 36,
+            "fills": [],
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "2",
+                "kdsId": "page-2-label",
+                "characters": "2",
+                "fontSize": 14,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Medium"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Page 3",
+            "kdsId": "page-3",
+            "width": 36,
+            "height": 36,
+            "fills": [],
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "3",
+                "kdsId": "page-3-label",
+                "characters": "3",
+                "fontSize": 14,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Medium"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Page 4",
+            "kdsId": "page-4",
+            "width": 36,
+            "height": 36,
+            "fills": [],
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "4",
+                "kdsId": "page-4-label",
+                "characters": "4",
+                "fontSize": 14,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Medium"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Page 5",
+            "kdsId": "page-5",
+            "width": 36,
+            "height": 36,
+            "fills": [],
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "5",
+                "kdsId": "page-5-label",
+                "characters": "5",
+                "fontSize": 14,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Medium"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 100
+                },
+                "textAutoResize": "WIDTH_AND_HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d",
+                    "opacity": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Next",
+            "kdsId": "page-next",
+            "width": 36,
+            "height": 36,
+            "fills": [],
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Next Icon Box",
+                "kdsId": "page-next-icon-box",
+                "width": 20,
+                "height": 20,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "page-next-icon-box-icon",
+                    "width": 20,
+                    "height": 20,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 6 L15 12 L9 18\"/></svg>"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Bottom Help (CTA)",
+        "kdsId": "bottom-help",
+        "width": 375,
+        "fills": [],
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 0,
+          "paddingBottom": 40,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "CENTER"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Help Box",
+            "kdsId": "bottom-help-box",
+            "width": 335,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e1f5f5",
+                "opacity": 1
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#a9e5e1",
+                "opacity": 1
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 16,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 24,
+              "paddingBottom": 24,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "itemSpacing": 16,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Help Title",
+                "kdsId": "help-title",
+                "width": 295,
+                "characters": "원하는 답변을 못 찾으셨나요?",
+                "fontSize": 18,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Bold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": {
+                  "unit": "PIXELS",
+                  "value": -0.3
+                },
+                "textAlignHorizontal": "CENTER",
+                "textAutoResize": "HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b",
+                    "opacity": 1
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "name": "Help Sub",
+                "kdsId": "help-sub",
+                "width": 295,
+                "characters": "상담사가 친절하게 도와드릴게요. 지금 바로 상담을 신청해 보세요.",
+                "fontSize": 14,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 158
+                },
+                "textAlignHorizontal": "CENTER",
+                "textAutoResize": "HEIGHT",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d",
+                    "opacity": 1
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Help CTA (button Large 48)",
+                "kdsId": "help-cta",
+                "width": 295,
+                "height": 48,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#007f7f",
+                    "opacity": 1
+                  }
+                ],
+                "cornerRadius": 8,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 8,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "CTA Icon Box",
+                    "kdsId": "help-cta-icon-box",
+                    "width": 20,
+                    "height": 20,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "help-cta-icon-box-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 14 v-2 a9 9 0 0 1 18 0 v2\"/><path d=\"M21 14 v3 a2 2 0 0 1-2 2 h-2 v-7 h2 a2 2 0 0 1 2 2 Z\"/><path d=\"M3 14 v3 a2 2 0 0 0 2 2 h2 v-7 H5 a2 2 0 0 0-2 2 Z\"/></svg>",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "CTA Label",
+                    "kdsId": "help-cta-label",
+                    "characters": "상담사 연결",
+                    "fontSize": 16,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 100
+                    },
+                    "textAutoResize": "WIDTH_AND_HEIGHT",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#ffffff",
+                        "opacity": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

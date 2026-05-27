@@ -1,0 +1,94 @@
+{
+  "exportedAt": "2026-05-19T08:02:38.680Z",
+  "fileName": "Untitled",
+  "filteredFor": null,
+  "totalChanges": 5,
+  "changes": [
+    {
+      "timestamp": "05:02:36 PM",
+      "type": "DELETE",
+      "nodeId": "31:1878",
+      "nodeName": "(unknown)",
+      "nodeType": "(deleted)",
+      "detail": "요소 삭제됨"
+    },
+    {
+      "timestamp": "05:02:36 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "height"
+      ],
+      "values": {
+        "height": 2213
+      },
+      "detail": "속성 변경 · height: 2213",
+      "nodeId": "31:1738",
+      "nodeName": "Screen — Self-open Main (C, desktop)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "05:02:36 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,1424]]",
+        "y": 1424
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,1424]], y: 1424",
+      "nodeId": "31:1981",
+      "nodeName": "Helper Wrap (C-5)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "05:02:36 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,1750]]",
+        "y": 1750
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,1750]], y: 1750",
+      "nodeId": "31:2009",
+      "nodeName": "Notice Wrap",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    },
+    {
+      "timestamp": "05:02:36 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,2071]]",
+        "y": 2071
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,2071]], y: 2071",
+      "nodeId": "31:2025",
+      "nodeName": "Footer",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, desktop)",
+      "screenNodeId": "31:1738",
+      "screenName": "Screen — Self-open Main (C, desktop)",
+      "screenKdsId": "screen-c-desktop"
+    }
+  ]
+}

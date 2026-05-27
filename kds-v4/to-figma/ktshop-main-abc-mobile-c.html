@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KT 샵 메인 — 시안 C (UX·구조)</title>
+<style>
+  :root {
+    --background-default: #ffffff;
+    --surface-primary-01: #ffffff;
+    --surface-primary-02: #f8f9fa;
+    --fill-accent-primary: #e0282f;
+    --fill-accent-primary-hover: #bb1b21;
+    --fill-accent-light: #fce9e9;
+    --fill-primary: #191a1b;
+    --fill-secondary-01: #e9eaee;
+    --text-primary: #191a1b;
+    --text-secondary-01: #55585d;
+    --text-tertiary-01: #6f737b;
+    --text-disabled-01: #adb1b9;
+    --text-inverse: #ffffff;
+    --text-feedback-critical: #e0282f;
+    --icon-primary: #191a1b;
+    --icon-secondary-01: #55585d;
+    --icon-inverse: #ffffff;
+    --border-secondary-01: #e9eaee;
+    --border-tertiary-01: #f3f4f6;
+    --border-primary-focused: #191a1b;
+    --tag-sale-fill: #fce9e9;
+    --tag-sale-text: #bb1b21;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-gutter: stable; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--surface-primary-02);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+  body, p, h1, h2, h3, h4, h5, h6, span, div, button, a, li, label, dt, dd {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  button { background: none; border: none; cursor: pointer; font: inherit; color: inherit; }
+  a { color: inherit; text-decoration: none; }
+
+  .screen {
+    width: 375px;
+    min-height: 812px;
+    background: var(--background-default);
+    margin: 0 auto;
+    display: flex; flex-direction: column;
+  }
+
+  /* === Top Navigation === */
+  .top-nav {
+    height: 52px;
+    padding: 0 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface-primary-01);
+    border-bottom: 1px solid var(--border-tertiary-01);
+  }
+  .top-nav-logo { display: flex; align-items: center; gap: 4px; }
+  .top-nav-logo-mark { width: 28px; height: 22px; color: var(--fill-accent-primary); }
+  .top-nav-logo-text { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; color: var(--text-primary); }
+  .top-nav-actions { display: flex; align-items: center; gap: 16px; }
+  .top-nav-icon { width: 24px; height: 24px; color: var(--icon-primary); display: inline-flex; align-items: center; justify-content: center; }
+  .top-nav-icon-badge { position: relative; }
+  .top-nav-icon-badge::after {
+    content: '';
+    position: absolute; top: -2px; right: -2px;
+    width: 8px; height: 8px;
+    background: var(--fill-accent-primary);
+    border-radius: 999px;
+    border: 1.5px solid var(--surface-primary-01);
+  }
+
+  /* === Search Hero (C 의 UX 변형 시그니처) === */
+  .search-hero {
+    background: var(--surface-primary-01);
+    padding: 20px 16px 16px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .search-hero-title {
+    font-size: 24px;                       /* heading-2 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.4px;
+    color: var(--text-primary);
+  }
+  .search-hero-sub {
+    font-size: 13px;                       /* label-3 */
+    font-weight: 500; line-height: 1.48;
+    letter-spacing: -0.2px;
+    color: var(--text-secondary-01);
+  }
+  .search-field-large {
+    height: 48px;                          /* search 토큰 = 48 */
+    background: var(--surface-primary-02);
+    border: 1px solid var(--border-secondary-01);
+    border-radius: 12px;
+    display: flex; align-items: center;
+    padding: 0 16px; gap: 8px;
+    margin-top: 4px;
+  }
+  .search-field-large-icon { width: 20px; height: 20px; color: var(--icon-primary); flex: 0 0 20px; }
+  .search-field-large-placeholder {
+    flex: 1;
+    font-size: 15px; line-height: 1.48;
+    color: var(--text-tertiary-01);
+    letter-spacing: -0.3px;
+  }
+  .quick-keywords {
+    display: flex; gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .quick-keyword-label {
+    font-size: 12px; font-weight: 600;     /* caption SemiBold */
+    line-height: 1.48; letter-spacing: -0.2px;
+    color: var(--text-tertiary-01);
+    align-self: center;
+  }
+  .quick-keyword-chip {
+    height: 28px;                          /* chip 작은 사이즈 */
+    padding: 0 12px;
+    background: var(--surface-primary-02);
+    border: 1px solid var(--border-secondary-01);
+    border-radius: 999px;                  /* radius.circle (pill) */
+    font-size: 12px; font-weight: 600;
+    line-height: 1.48; letter-spacing: -0.2px;
+    color: var(--text-primary);
+    display: inline-flex; align-items: center;
+  }
+
+  /* === Flow Indicator (단계형 UX 시그니처) === */
+  .flow-wrap { padding: 24px 16px 16px; background: var(--surface-primary-01); }
+  .flow-card {
+    background: var(--surface-primary-02);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .flow-card-title {
+    font-size: 13px; font-weight: 600;
+    line-height: 1.48; letter-spacing: -0.2px;
+    color: var(--text-secondary-01);
+  }
+  .flow-steps {
+    display: flex; align-items: center;
+    gap: 8px;
+  }
+  .flow-step {
+    display: flex; align-items: center; gap: 8px;
+    flex-shrink: 0;
+  }
+  .flow-step-circle {
+    width: 24px; height: 24px;
+    border-radius: 999px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    line-height: 1;
+  }
+  .flow-step.current .flow-step-circle {
+    background: var(--fill-accent-primary);
+    color: var(--text-inverse);
+  }
+  .flow-step.pending .flow-step-circle {
+    background: var(--surface-primary-01);
+    border: 1px solid var(--border-secondary-01);
+    color: var(--text-tertiary-01);
+  }
+  .flow-step-label {
+    font-size: 13px; font-weight: 600;
+    line-height: 1.48; letter-spacing: -0.2px;
+  }
+  .flow-step.current .flow-step-label { color: var(--text-primary); }
+  .flow-step.pending .flow-step-label { color: var(--text-tertiary-01); }
+  .flow-step-divider {
+    flex: 1; height: 1px;
+    background: var(--border-secondary-01);
+  }
+
+  /* === Tab Bar === */
+  .tab-bar {
+    background: var(--surface-primary-01);
+    display: flex;
+    padding: 0 16px;
+    gap: 24px;
+    position: relative;
+  }
+  .tab-bar::after {
+    content: '';
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--border-tertiary-01);
+  }
+  .tab-item {
+    height: 48px;                          /* tab 토큰 = 48 */
+    display: inline-flex; align-items: center;
+    font-size: 15px;                       /* label-2 */
+    font-weight: 600; letter-spacing: -0.3px;
+    color: var(--text-tertiary-01);
+    border-bottom: 2px solid transparent;
+    position: relative;
+    z-index: 1;
+  }
+  .tab-item.active {
+    color: var(--fill-accent-primary);
+    border-bottom-color: var(--fill-accent-primary);
+    font-weight: 700;
+  }
+
+  /* === Section Head (작게 — 톤 baseline) === */
+  .section-head {
+    padding: 24px 16px 12px;
+    background: var(--surface-primary-01);
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .section-title-block { display: flex; flex-direction: column; gap: 2px; }
+  .section-title {
+    font-size: 22px;                       /* heading-3 — baseline */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.4px;
+    color: var(--text-primary);
+  }
+  .section-sub {
+    font-size: 13px; font-weight: 500;
+    line-height: 1.48; letter-spacing: -0.2px;
+    color: var(--text-tertiary-01);
+  }
+
+  /* === Device List (1열 가로 카드 — C 의 큐레이션 시그니처) === */
+  .device-list {
+    background: var(--surface-primary-01);
+    padding: 0 16px 16px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .device-row {
+    background: var(--surface-primary-01);
+    border: 1px solid var(--border-secondary-01);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex; gap: 12px;
+    align-items: stretch;
+  }
+  .device-row-thumb {
+    width: 80px; height: 80px;
+    background: var(--surface-primary-02);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    color: var(--text-tertiary-01);
+    flex-shrink: 0;
+  }
+  .device-row-body {
+    flex: 1;
+    display: flex; flex-direction: column;
+    gap: 4px;
+  }
+  .device-row-tag-area { display: flex; gap: 4px; }
+  .device-row-tag {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px;
+    background: var(--tag-sale-fill);
+    color: var(--tag-sale-text);
+    border-radius: 4px;
+    font-size: 10px; font-weight: 700;
+  }
+  .device-row-name {
+    font-size: 15px;                       /* body-2 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.3px;
+    color: var(--text-primary);
+  }
+  .device-row-meta {
+    font-size: 12px;                       /* caption */
+    font-weight: 500; line-height: 1.48;
+    letter-spacing: -0.2px;
+    color: var(--text-tertiary-01);
+  }
+  .device-row-price-line {
+    display: flex; align-items: baseline; gap: 4px;
+    margin-top: auto;
+  }
+  .device-row-price-unit {
+    font-size: 11px; font-weight: 500;
+    color: var(--text-tertiary-01);
+    letter-spacing: -0.2px;
+  }
+  .device-row-price {
+    font-size: 15px; font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+  .device-row-compare {
+    width: 32px; height: 32px;             /* button Small */
+    border-radius: 8px;
+    border: 1px solid var(--border-secondary-01);
+    color: var(--icon-secondary-01);
+    display: flex; align-items: center; justify-content: center;
+    align-self: center;
+    flex-shrink: 0;
+  }
+  .device-row-compare svg { width: 20px; height: 20px; }
+
+  /* === Compare CTA Card === */
+  .compare-cta {
+    background: var(--surface-primary-01);
+    padding: 12px 16px 24px;
+  }
+  .compare-card {
+    background: var(--fill-accent-light);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .compare-card-icon-box {
+    width: 40px; height: 40px;
+    background: var(--fill-accent-primary);
+    border-radius: 12px;
+    color: var(--icon-inverse);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .compare-card-icon-box svg { width: 20px; height: 20px; }
+  .compare-card-text {
+    flex: 1;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .compare-card-title {
+    font-size: 14px;                       /* body-3 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.2px;
+    color: var(--text-primary);
+  }
+  .compare-card-sub {
+    font-size: 12px; font-weight: 500;
+    line-height: 1.48; letter-spacing: -0.2px;
+    color: var(--text-secondary-01);
+  }
+  .compare-card-cta {
+    height: 32px;                          /* button Small */
+    padding: 0 12px;
+    border-radius: 6px;
+    background: var(--fill-primary);
+    color: var(--text-inverse);
+    font-size: 13px; font-weight: 600;
+    letter-spacing: -0.2px;
+    display: inline-flex; align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* === Bottom Navigation === */
+  .bottom-nav-spacer { height: 16px; background: var(--surface-primary-01); }
+  .bottom-nav {
+    height: 56px;
+    background: var(--surface-primary-01);
+    border-top: 1px solid var(--border-tertiary-01);
+    display: flex; align-items: stretch;
+    padding: 0 8px;
+  }
+  .bottom-nav-item {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px;
+    color: var(--text-tertiary-01);
+  }
+  .bottom-nav-item.active { color: var(--text-primary); }
+  .bottom-nav-icon { width: 24px; height: 24px; }
+  .bottom-nav-label { font-size: 10px; font-weight: 600; letter-spacing: -0.2px; }
+</style>
+</head>
+<body>
+
+<section class="screen" data-kds-id="screen-c">
+
+  <header class="top-nav" data-kds-id="c-top-nav">
+    <div class="top-nav-logo" data-kds-id="c-top-nav-logo">
+      <span class="top-nav-logo-mark" data-kds-id="c-top-nav-logo-mark">
+        <svg viewBox="0 0 28 22" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 0H28V4H17V22H11V4H0V0Z"/>
+        </svg>
+      </span>
+      <span class="top-nav-logo-text" data-kds-id="c-top-nav-logo-text">샵</span>
+    </div>
+    <div class="top-nav-actions" data-kds-id="c-top-nav-actions">
+      <span class="top-nav-icon top-nav-icon-badge" data-kds-id="c-top-nav-bell-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+        </svg>
+      </span>
+      <span class="top-nav-icon" data-kds-id="c-top-nav-cart-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1.5"/>
+          <circle cx="19" cy="21" r="1.5"/>
+          <path d="M3 4h2l2.6 12.3a2 2 0 0 0 2 1.7h8.8a2 2 0 0 0 2-1.6L22 7H6"/>
+        </svg>
+      </span>
+    </div>
+  </header>
+
+  <!-- ===== Search Hero (C 의 시그니처) ===== -->
+  <section class="search-hero" data-kds-id="c-search-hero">
+    <h2 class="search-hero-title" data-kds-id="c-search-hero-title">어떤 상품을<br/>찾고 계신가요?</h2>
+    <p class="search-hero-sub" data-kds-id="c-search-hero-sub">단말명·요금제·서비스를 한 번에 검색하세요</p>
+    <div class="search-field-large" data-kds-id="c-search-field">
+      <span class="search-field-large-icon" data-kds-id="c-search-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m20 20-3.5-3.5"/>
+        </svg>
+      </span>
+      <span class="search-field-large-placeholder" data-kds-id="c-search-placeholder">예: Galaxy S26 Ultra</span>
+    </div>
+    <div class="quick-keywords" data-kds-id="c-quick-keywords">
+      <span class="quick-keyword-label" data-kds-id="c-quick-keyword-label">인기</span>
+      <span class="quick-keyword-chip" data-kds-id="c-quick-keyword-1">S26 Ultra</span>
+      <span class="quick-keyword-chip" data-kds-id="c-quick-keyword-2">iPhone 16</span>
+      <span class="quick-keyword-chip" data-kds-id="c-quick-keyword-3">알뜰폰</span>
+    </div>
+  </section>
+
+  <!-- ===== Flow Indicator (3 step) ===== -->
+  <section class="flow-wrap" data-kds-id="c-flow-wrap">
+    <div class="flow-card" data-kds-id="c-flow-card">
+      <span class="flow-card-title" data-kds-id="c-flow-card-title">3 단계로 끝내는 KT 가입</span>
+      <div class="flow-steps" data-kds-id="c-flow-steps">
+        <div class="flow-step current" data-kds-id="c-flow-step-1">
+          <span class="flow-step-circle" data-kds-id="c-flow-step-1-circle">1</span>
+          <span class="flow-step-label" data-kds-id="c-flow-step-1-label">단말 선택</span>
+        </div>
+        <span class="flow-step-divider" data-kds-id="c-flow-divider-1"></span>
+        <div class="flow-step pending" data-kds-id="c-flow-step-2">
+          <span class="flow-step-circle" data-kds-id="c-flow-step-2-circle">2</span>
+          <span class="flow-step-label" data-kds-id="c-flow-step-2-label">요금제</span>
+        </div>
+        <span class="flow-step-divider" data-kds-id="c-flow-divider-2"></span>
+        <div class="flow-step pending" data-kds-id="c-flow-step-3">
+          <span class="flow-step-circle" data-kds-id="c-flow-step-3-circle">3</span>
+          <span class="flow-step-label" data-kds-id="c-flow-step-3-label">개통</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Tab Bar ===== -->
+  <nav class="tab-bar" data-kds-id="c-tab-bar">
+    <a class="tab-item active" data-kds-id="c-tab-device">단말기</a>
+    <a class="tab-item" data-kds-id="c-tab-plan">요금제</a>
+    <a class="tab-item" data-kds-id="c-tab-combo">결합</a>
+    <a class="tab-item" data-kds-id="c-tab-benefit">혜택</a>
+  </nav>
+
+  <header class="section-head" data-kds-id="c-list-head">
+    <div class="section-title-block" data-kds-id="c-list-title-block">
+      <h3 class="section-title" data-kds-id="c-list-title">이번 주 인기 단말</h3>
+      <span class="section-sub" data-kds-id="c-list-sub">월 부담금 낮은 순</span>
+    </div>
+  </header>
+
+  <!-- ===== Device List (1열 가로 카드) ===== -->
+  <section class="device-list" data-kds-id="c-device-list">
+    <article class="device-row" data-kds-id="c-device-1">
+      <div class="device-row-thumb" data-kds-id="c-device-1-thumb">📱</div>
+      <div class="device-row-body" data-kds-id="c-device-1-body">
+        <div class="device-row-tag-area" data-kds-id="c-device-1-tag-area">
+          <span class="device-row-tag" data-kds-id="c-device-1-tag">단독</span>
+        </div>
+        <span class="device-row-name" data-kds-id="c-device-1-name">Galaxy Z Flip 6</span>
+        <span class="device-row-meta" data-kds-id="c-device-1-meta">256GB · 4 컬러</span>
+        <div class="device-row-price-line" data-kds-id="c-device-1-price-line">
+          <span class="device-row-price-unit" data-kds-id="c-device-1-price-unit">월</span>
+          <span class="device-row-price" data-kds-id="c-device-1-price">31,900원</span>
+        </div>
+      </div>
+      <button class="device-row-compare" data-kds-id="c-device-1-compare">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="6" width="8" height="14" rx="1"/>
+          <rect x="13" y="6" width="8" height="14" rx="1"/>
+          <path d="M7 10v6M17 10v6"/>
+        </svg>
+      </button>
+    </article>
+    <article class="device-row" data-kds-id="c-device-2">
+      <div class="device-row-thumb" data-kds-id="c-device-2-thumb">📱</div>
+      <div class="device-row-body" data-kds-id="c-device-2-body">
+        <div class="device-row-tag-area" data-kds-id="c-device-2-tag-area">
+          <span class="device-row-tag" data-kds-id="c-device-2-tag">SALE</span>
+        </div>
+        <span class="device-row-name" data-kds-id="c-device-2-name">Galaxy S26 Ultra</span>
+        <span class="device-row-meta" data-kds-id="c-device-2-meta">256GB · 5 컬러</span>
+        <div class="device-row-price-line" data-kds-id="c-device-2-price-line">
+          <span class="device-row-price-unit" data-kds-id="c-device-2-price-unit">월</span>
+          <span class="device-row-price" data-kds-id="c-device-2-price">39,900원</span>
+        </div>
+      </div>
+      <button class="device-row-compare" data-kds-id="c-device-2-compare">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="6" width="8" height="14" rx="1"/>
+          <rect x="13" y="6" width="8" height="14" rx="1"/>
+          <path d="M7 10v6M17 10v6"/>
+        </svg>
+      </button>
+    </article>
+    <article class="device-row" data-kds-id="c-device-3">
+      <div class="device-row-thumb" data-kds-id="c-device-3-thumb">📱</div>
+      <div class="device-row-body" data-kds-id="c-device-3-body">
+        <div class="device-row-tag-area" data-kds-id="c-device-3-tag-area">
+          <span class="device-row-tag" data-kds-id="c-device-3-tag">HOT</span>
+        </div>
+        <span class="device-row-name" data-kds-id="c-device-3-name">iPhone 16 Pro</span>
+        <span class="device-row-meta" data-kds-id="c-device-3-meta">128GB · 4 컬러</span>
+        <div class="device-row-price-line" data-kds-id="c-device-3-price-line">
+          <span class="device-row-price-unit" data-kds-id="c-device-3-price-unit">월</span>
+          <span class="device-row-price" data-kds-id="c-device-3-price">45,800원</span>
+        </div>
+      </div>
+      <button class="device-row-compare" data-kds-id="c-device-3-compare">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="6" width="8" height="14" rx="1"/>
+          <rect x="13" y="6" width="8" height="14" rx="1"/>
+          <path d="M7 10v6M17 10v6"/>
+        </svg>
+      </button>
+    </article>
+  </section>
+
+  <!-- ===== Compare CTA ===== -->
+  <section class="compare-cta" data-kds-id="c-compare-cta">
+    <div class="compare-card" data-kds-id="c-compare-card">
+      <span class="compare-card-icon-box" data-kds-id="c-compare-card-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="6" width="8" height="14" rx="1"/>
+          <rect x="13" y="6" width="8" height="14" rx="1"/>
+          <path d="M7 10v6M17 10v6"/>
+        </svg>
+      </span>
+      <div class="compare-card-text" data-kds-id="c-compare-card-text">
+        <span class="compare-card-title" data-kds-id="c-compare-card-title">단말 + 요금제 비교</span>
+        <span class="compare-card-sub" data-kds-id="c-compare-card-sub">같은 단말, 다른 요금제로 한눈에</span>
+      </div>
+      <button class="compare-card-cta" data-kds-id="c-compare-card-cta">
+        <span data-kds-id="c-compare-card-cta-text">시작</span>
+      </button>
+    </div>
+  </section>
+
+  <div class="bottom-nav-spacer" data-kds-id="c-bottom-spacer"></div>
+
+  <nav class="bottom-nav" data-kds-id="c-bottom-nav">
+    <a class="bottom-nav-item active" data-kds-id="c-bnav-home">
+      <span class="bottom-nav-icon" data-kds-id="c-bnav-home-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="c-bnav-home-label">홈</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="c-bnav-cat">
+      <span class="bottom-nav-icon" data-kds-id="c-bnav-cat-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="c-bnav-cat-label">카테고리</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="c-bnav-search">
+      <span class="bottom-nav-icon" data-kds-id="c-bnav-search-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m20 20-3.5-3.5"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="c-bnav-search-label">검색</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="c-bnav-cart">
+      <span class="bottom-nav-icon" data-kds-id="c-bnav-cart-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1.5"/>
+          <circle cx="19" cy="21" r="1.5"/>
+          <path d="M3 4h2l2.6 12.3a2 2 0 0 0 2 1.7h8.8a2 2 0 0 0 2-1.6L22 7H6"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="c-bnav-cart-label">장바구니</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="c-bnav-my">
+      <span class="bottom-nav-icon" data-kds-id="c-bnav-my-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21a8 8 0 1 1 16 0"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="c-bnav-my-label">MY</span>
+    </a>
+  </nav>
+
+</section>
+
+</body>
+</html>

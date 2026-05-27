@@ -1333,6 +1333,23 @@ function migrateV28_workerInvocations() {
 }
 migrateV28_workerInvocations();
 
+// v29: users.shutdown_requested_at — 워커 종료 신호 (UI 의 "워커 종료" 버튼)
+//   claim 처리 시 30초 이내 마킹된 경우만 active 로 간주 (auto-expire)
+//   daemon 이 받으면 process.exit(2) → cmd wrapper 가 5회 재시작 후 자동 종료
+function migrateV29_workerShutdown() {
+  const userVersion = db.pragma('user_version', { simple: true });
+  if (userVersion >= 28) return;
+  if (userVersion < 27) return;
+  const cols = db.pragma('table_info(users)');
+  const has = (n) => cols.some(c => c.name === n);
+  if (!has('shutdown_requested_at')) {
+    db.exec(`ALTER TABLE users ADD COLUMN shutdown_requested_at TEXT`);
+  }
+  db.pragma('user_version = 28');
+  console.log('[DB] v29 migration applied (users.shutdown_requested_at)');
+}
+migrateV29_workerShutdown();
+
 function isAssetSyncReady() {
   try {
     const row = db.prepare(

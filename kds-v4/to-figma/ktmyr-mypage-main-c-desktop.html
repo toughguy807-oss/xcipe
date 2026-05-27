@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>마이페이지 메인 — 시안 C 데스크탑 (큐레이션 챗봇 hero 우선)</title>
+<style>
+:root{
+  --background-default:#ffffff;
+  --surface-primary-02:#f8f9fa;
+  --fill-accent-primary:#6941ff;
+  --fill-primary:#191a1b;
+  --fill-secondary-01:#e9eaee;
+  --fill-disabled-01:#f3f4f6;
+  --text-primary:#191a1b;
+  --text-secondary-01:#55585d;
+  --text-tertiary-01:#6f737b;
+  --text-inverse:#ffffff;
+  --text-accent-primary:#6941ff;
+  --border-secondary-01:#e9eaee;
+  --border-tertiary-01:#f3f4f6;
+  --purple-100:#e1d8ff;
+  --purple-light-bg:#f5f2ff;
+  --purple-300:#af99ff;
+  --radius-8:8px; --radius-12:12px; --radius-16:16px; --radius-circle:999px;
+  --space-4:4px; --space-8:8px; --space-12:12px; --space-16:16px;
+  --space-20:20px; --space-24:24px; --space-32:32px; --space-40:40px;
+  --space-48:48px; --space-56:56px; --space-64:64px;
+  --font:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scrollbar-gutter:stable; }
+html,body{ margin:0; padding:0; background:var(--surface-primary-02); font-family:var(--font); color:var(--text-primary); }
+*{ word-break:keep-all; overflow-wrap:break-word; }
+button{ background:none; border:0; padding:0; font:inherit; color:inherit; cursor:pointer; }
+a{ color:inherit; text-decoration:none; }
+svg{ display:block; }
+
+.screen{ width:1920px; margin:0 auto; background:var(--background-default); display:flex; flex-direction:column; }
+
+.top-nav{ height:80px; display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-64); background:var(--background-default); border-bottom:1px solid var(--border-tertiary-01); }
+.top-nav-left{ display:flex; align-items:center; gap:var(--space-48); }
+.gnb{ display:flex; gap:var(--space-32); }
+.gnb-item{ font-size:16px; font-weight:600; color:var(--text-primary); padding:var(--space-12) 0; }
+.gnb-item.active{ color:var(--text-accent-primary); }
+.top-nav-right{ display:flex; gap:var(--space-16); align-items:center; }
+.top-nav-action{ width:44px; height:44px; display:flex; align-items:center; justify-content:center; }
+.btn-login-top{ height:44px; padding:0 var(--space-20); border-radius:var(--radius-8); background:var(--fill-primary); color:var(--text-inverse); font-size:14px; font-weight:700; display:flex; align-items:center; }
+
+.container{ max-width:1440px; margin:0 auto; padding:var(--space-48) var(--space-64); }
+
+/* C 의 핵심: HERO = 큐레이션 챗봇 큰 영역 + 추천 결과 1순위 우측 */
+.hero-chatbot-row{ display:grid; grid-template-columns:1fr 480px; gap:var(--space-32); margin-bottom:var(--space-48); }
+.hero-chatbot{ padding:var(--space-48); border-radius:var(--radius-16); background:linear-gradient(135deg,#6941ff 0%,#af99ff 100%); color:var(--text-inverse); display:flex; flex-direction:column; gap:var(--space-24); position:relative; overflow:hidden; min-height:480px; }
+.chatbot-shape{ position:absolute; right:-100px; bottom:-100px; width:400px; height:400px; border-radius:50%; background:rgba(255,255,255,0.08); }
+.chatbot-tag{ display:inline-flex; padding:6px var(--space-16); background:rgba(255,255,255,0.25); border-radius:var(--radius-circle); font-size:13px; font-weight:700; width:fit-content; letter-spacing:0.5px; }
+.chatbot-title{ font-size:42px; font-weight:700; line-height:120%; letter-spacing:-0.5px; }
+.chatbot-sub{ font-size:16px; line-height:148%; opacity:0.92; margin-top:var(--space-12); }
+.chatbot-progress-row{ display:flex; gap:var(--space-12); align-items:center; }
+.chatbot-step-label{ font-size:14px; font-weight:700; }
+.chatbot-progress-bar{ flex:1; height:6px; background:rgba(255,255,255,0.25); border-radius:var(--radius-circle); overflow:hidden; position:relative; }
+.chatbot-progress-bar::after{ content:""; position:absolute; left:0; top:0; width:50%; height:100%; background:#fff; border-radius:var(--radius-circle); }
+.chatbot-question{ font-size:20px; font-weight:600; line-height:140%; }
+.chatbot-options{ display:grid; grid-template-columns:repeat(5,1fr); gap:var(--space-12); }
+.chatbot-option{ padding:var(--space-16) var(--space-8); background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); border-radius:var(--radius-12); display:flex; flex-direction:column; align-items:center; gap:var(--space-4); color:var(--text-inverse); cursor:pointer; }
+.chatbot-option.active{ background:#fff; color:var(--text-primary); border-color:#fff; }
+.chatbot-option-label{ font-size:15px; font-weight:700; }
+.chatbot-option-desc{ font-size:12px; opacity:0.88; line-height:140%; text-align:center; }
+.chatbot-option.active .chatbot-option-desc{ opacity:0.75; }
+.chatbot-cta-row{ display:flex; gap:var(--space-16); margin-top:auto; }
+.chatbot-cta-row .chatbot-cta-prev{ height:56px; padding:0 var(--space-32); background:transparent; color:var(--text-inverse); border:1px solid rgba(255,255,255,0.5); border-radius:var(--radius-8); font-size:16px; font-weight:700; display:flex; align-items:center; }
+.chatbot-cta-row .chatbot-cta-next{ flex:1; height:56px; border-radius:var(--radius-8); background:#fff; color:var(--text-accent-primary); font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:var(--space-8); }
+
+.recommend-aside{ height:auto; padding:var(--space-32); border-radius:var(--radius-16); background:var(--background-default); border:2px solid var(--purple-100); display:flex; flex-direction:column; gap:var(--space-20); }
+.recommend-tag{ display:inline-flex; padding:6px var(--space-12); background:var(--purple-light-bg); color:var(--text-accent-primary); border-radius:var(--radius-circle); font-size:13px; font-weight:700; width:fit-content; }
+.recommend-name{ font-size:22px; font-weight:700; line-height:140%; }
+.recommend-brand{ font-size:13px; color:var(--text-tertiary-01); font-weight:600; }
+.recommend-price{ font-size:32px; font-weight:700; color:var(--text-accent-primary); line-height:120%; }
+.recommend-price-old{ font-size:13px; color:var(--text-tertiary-01); text-decoration:line-through; }
+.recommend-spec-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-12); padding:var(--space-16); background:var(--surface-primary-02); border-radius:var(--radius-12); }
+.recommend-spec{ display:flex; flex-direction:column; align-items:center; gap:var(--space-4); }
+.recommend-spec-label{ font-size:12px; color:var(--text-tertiary-01); }
+.recommend-spec-value{ font-size:14px; font-weight:700; color:var(--text-primary); }
+.recommend-cta-row{ display:flex; gap:var(--space-8); }
+.recommend-cta-row .btn-primary{ flex:1; height:52px; border-radius:var(--radius-8); background:var(--fill-accent-primary); color:var(--text-inverse); font-size:15px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.recommend-cta-row .btn-secondary-outline{ flex:1; height:52px; border-radius:var(--radius-8); background:var(--background-default); color:var(--text-primary); font-size:15px; font-weight:700; display:flex; align-items:center; justify-content:center; border:1px solid var(--fill-secondary-01); }
+
+/* 로그인 strip */
+.login-strip{ margin-bottom:var(--space-48); padding:var(--space-16) var(--space-24); border-radius:var(--radius-12); background:var(--surface-primary-02); display:flex; justify-content:space-between; align-items:center; gap:var(--space-12); }
+.login-strip-text{ font-size:14px; color:var(--text-secondary-01); }
+.login-strip-btn{ height:44px; padding:0 var(--space-24); border-radius:var(--radius-8); background:var(--fill-primary); color:var(--text-inverse); font-size:14px; font-weight:700; }
+
+/* Quick Action */
+.quick-section{ margin-bottom:var(--space-48); }
+.quick-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-16); }
+.quick-item{ display:flex; flex-direction:column; align-items:center; gap:var(--space-16); padding:var(--space-40) var(--space-16); background:var(--surface-primary-02); border-radius:var(--radius-16); cursor:pointer; }
+.quick-icon{ width:64px; height:64px; border-radius:var(--radius-circle); background:var(--purple-light-bg); display:flex; align-items:center; justify-content:center; color:var(--text-accent-primary); }
+.quick-label{ font-size:16px; font-weight:600; color:var(--text-primary); text-align:center; line-height:140%; }
+
+.section{ margin-bottom:var(--space-64); }
+.section-header{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:var(--space-32); }
+.section-title{ font-size:32px; font-weight:300; color:var(--text-primary); line-height:130%; letter-spacing:-0.5px; }
+.section-title strong{ font-weight:700; color:var(--text-accent-primary); }
+.section-link{ font-size:15px; color:var(--text-tertiary-01); }
+
+/* 다른 추천 후보 (보조) */
+.plan-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-16); }
+.plan-card{ padding:var(--space-24); border-radius:var(--radius-12); background:var(--background-default); border:1px solid var(--border-secondary-01); display:flex; flex-direction:column; gap:var(--space-16); }
+.plan-card-brand{ font-size:12px; color:var(--text-tertiary-01); font-weight:600; }
+.plan-card-name{ font-size:18px; font-weight:700; line-height:140%; }
+.plan-spec-row{ display:flex; gap:var(--space-16); padding:var(--space-16) 0; border-top:1px solid var(--border-tertiary-01); border-bottom:1px solid var(--border-tertiary-01); }
+.plan-spec{ flex:1; display:flex; flex-direction:column; gap:var(--space-4); }
+.plan-spec-label{ font-size:12px; color:var(--text-tertiary-01); }
+.plan-spec-value{ font-size:14px; font-weight:600; color:var(--text-primary); }
+.plan-price-row{ display:flex; justify-content:space-between; align-items:flex-end; }
+.plan-price-old{ font-size:12px; color:var(--text-tertiary-01); text-decoration:line-through; }
+.plan-price-new{ font-size:24px; font-weight:700; color:var(--text-accent-primary); }
+.plan-cta-group{ display:flex; gap:var(--space-8); }
+.plan-cta{ height:40px; padding:0 var(--space-16); border-radius:var(--radius-8); background:var(--fill-accent-primary); color:var(--text-inverse); font-size:14px; font-weight:700; display:flex; align-items:center; }
+.plan-compare{ height:40px; padding:0 var(--space-12); border-radius:var(--radius-8); border:1px solid var(--fill-secondary-01); color:var(--text-secondary-01); font-size:14px; display:flex; align-items:center; }
+
+.steps-card{ padding:var(--space-48); border-radius:var(--radius-16); background:linear-gradient(135deg,#f0ebff 0%,#fff 100%); display:flex; flex-direction:column; gap:var(--space-32); }
+.steps-title{ font-size:28px; font-weight:700; color:var(--text-primary); line-height:130%; }
+.steps-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-16); }
+.step-item{ padding:var(--space-24); background:var(--background-default); border-radius:var(--radius-12); display:flex; flex-direction:column; gap:var(--space-12); }
+.step-num{ width:40px; height:40px; border-radius:var(--radius-circle); background:var(--fill-accent-primary); color:var(--text-inverse); font-size:15px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.step-label{ font-size:16px; font-weight:700; }
+.step-desc{ font-size:13px; color:var(--text-tertiary-01); line-height:148%; }
+.steps-cta-row{ display:flex; gap:var(--space-16); justify-content:center; }
+.btn-primary-lg{ flex:0 0 280px; height:56px; border-radius:var(--radius-8); background:var(--fill-accent-primary); color:var(--text-inverse); font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.btn-secondary-outline-lg{ flex:0 0 280px; height:56px; border-radius:var(--radius-8); background:var(--background-default); color:var(--text-primary); font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; border:1px solid var(--fill-secondary-01); }
+
+.event-row-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-16); }
+.event-card{ padding:var(--space-24); border-radius:var(--radius-12); background:linear-gradient(135deg,#ebf6ff 0%,#f5f2ff 100%); display:flex; flex-direction:column; gap:var(--space-12); min-height:180px; }
+.event-tag{ font-size:12px; color:var(--text-accent-primary); font-weight:700; }
+.event-title{ font-size:16px; font-weight:700; line-height:140%; }
+.event-period{ font-size:12px; color:var(--text-tertiary-01); margin-top:auto; }
+
+.footer{ background:#191a1b; color:#9fa4ad; padding:var(--space-48) var(--space-64); font-size:13px; line-height:160%; }
+.footer-logo{ margin-bottom:var(--space-20); }
+</style>
+</head>
+<body>
+<div class="screen">
+
+  <header class="top-nav">
+    <div class="top-nav-left">
+      <svg data-kds-logo="kt-mvno" width="108" height="38"></svg>
+      <nav class="gnb">
+        <a class="gnb-item active" href="#">홈</a>
+        <a class="gnb-item" href="#">요금제</a>
+        <a class="gnb-item" href="#">부가서비스</a>
+        <a class="gnb-item" href="#">이벤트</a>
+        <a class="gnb-item" href="#">셀프개통</a>
+        <a class="gnb-item" href="#">고객지원</a>
+      </nav>
+    </div>
+    <div class="top-nav-right">
+      <button class="top-nav-action" aria-label="검색"><svg data-kds-icon="search" width="24" height="24"></svg></button>
+      <button class="btn-login-top">로그인 / 회원가입</button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- HERO 큐레이션 챗봇 + 추천 결과 -->
+    <div class="hero-chatbot-row">
+      <section class="hero-chatbot">
+        <span class="chatbot-shape"></span>
+        <span class="chatbot-tag">PLAN FINDER</span>
+        <div>
+          <div class="chatbot-title">두 번 클릭으로<br>내 요금제를 찾아보세요!</div>
+          <div class="chatbot-sub">데이터 + 통화 두 가지만 선택하면 250+ 요금제 중 맞춤 추천</div>
+        </div>
+        <div class="chatbot-progress-row">
+          <span class="chatbot-step-label">1 / 2</span>
+          <span class="chatbot-progress-bar"></span>
+        </div>
+        <div class="chatbot-question">한 달에 데이터를 얼마나 사용하시나요?</div>
+        <div class="chatbot-options">
+          <button class="chatbot-option"><span class="chatbot-option-label">2GB 이하</span><span class="chatbot-option-desc">데이터 잘 안 써요</span></button>
+          <button class="chatbot-option"><span class="chatbot-option-label">2~10GB</span><span class="chatbot-option-desc">웹 서핑·카톡만</span></button>
+          <button class="chatbot-option active"><span class="chatbot-option-label">10~20GB</span><span class="chatbot-option-desc">출근길에 음악</span></button>
+          <button class="chatbot-option"><span class="chatbot-option-label">20~100GB</span><span class="chatbot-option-desc">매일 영상</span></button>
+          <button class="chatbot-option"><span class="chatbot-option-label">100GB 이상</span><span class="chatbot-option-desc">맘껏 쓰고 싶어요</span></button>
+        </div>
+        <div class="chatbot-cta-row">
+          <button class="chatbot-cta-prev">처음으로</button>
+          <button class="chatbot-cta-next">다음 단계 (통화)<svg data-kds-icon="chevron-right" width="20" height="20"></svg></button>
+        </div>
+      </section>
+
+      <aside class="recommend-aside">
+        <span class="recommend-tag">★ 추천 1순위</span>
+        <div>
+          <div class="recommend-brand">토스 마이알뜰</div>
+          <div class="recommend-name">토스 마이알뜰 CU15GB+</div>
+        </div>
+        <div class="recommend-spec-row">
+          <div class="recommend-spec"><span class="recommend-spec-label">데이터</span><span class="recommend-spec-value">15 GB</span></div>
+          <div class="recommend-spec"><span class="recommend-spec-label">통화</span><span class="recommend-spec-value">무제한</span></div>
+          <div class="recommend-spec"><span class="recommend-spec-label">문자</span><span class="recommend-spec-value">무제한</span></div>
+        </div>
+        <div>
+          <div class="recommend-price-old">정가 월 25,000원</div>
+          <div class="recommend-price">월 18,000원</div>
+        </div>
+        <div class="recommend-cta-row">
+          <button class="btn-secondary-outline">상세보기</button>
+          <button class="btn-primary">가입하기</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Login strip (보조) -->
+    <div class="login-strip">
+      <span class="login-strip-text">이미 가입하셨나요? 로그인하고 내 사용량을 확인하세요.</span>
+      <button class="login-strip-btn">로그인</button>
+    </div>
+
+    <!-- Quick Action 4 -->
+    <section class="quick-section">
+      <div class="quick-grid">
+        <button class="quick-item"><span class="quick-icon"><svg data-kds-icon="truck" width="32" height="32"></svg></span><span class="quick-label">바로배송 유심</span></button>
+        <button class="quick-item"><span class="quick-icon"><svg data-kds-icon="star" width="32" height="32"></svg></span><span class="quick-label">인기 요금제</span></button>
+        <button class="quick-item"><span class="quick-icon"><svg data-kds-icon="smartphone" width="32" height="32"></svg></span><span class="quick-label">셀프개통</span></button>
+        <button class="quick-item"><span class="quick-icon"><svg data-kds-icon="gift" width="32" height="32"></svg></span><span class="quick-label">이벤트</span></button>
+      </div>
+    </section>
+
+    <!-- 다른 추천 후보 -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title"><strong>10~20GB</strong> 사용자에게 맞는 다른 후보</h2>
+        <a class="section-link" href="#">전체보기 ›</a>
+      </div>
+      <div class="plan-grid">
+        <article class="plan-card">
+          <div><div class="plan-card-brand">모두</div><div class="plan-card-name">모두다 맘껏 15GB+</div></div>
+          <div class="plan-spec-row">
+            <div class="plan-spec"><span class="plan-spec-label">데이터</span><span class="plan-spec-value">15 GB+1Mbps</span></div>
+            <div class="plan-spec"><span class="plan-spec-label">통화</span><span class="plan-spec-value">무제한</span></div>
+            <div class="plan-spec"><span class="plan-spec-label">문자</span><span class="plan-spec-value">무제한</span></div>
+          </div>
+          <div class="plan-price-row">
+            <div><div class="plan-price-old">정가 월 28,000원</div><div class="plan-price-new">월 20,900원</div></div>
+            <div class="plan-cta-group"><button class="plan-compare">+ 비교</button><button class="plan-cta">가입하기</button></div>
+          </div>
+        </article>
+        <article class="plan-card">
+          <div><div class="plan-card-brand">EG</div><div class="plan-card-name">EG CU 무제한 100G+5</div></div>
+          <div class="plan-spec-row">
+            <div class="plan-spec"><span class="plan-spec-label">데이터</span><span class="plan-spec-value">100 GB+5Mbps</span></div>
+            <div class="plan-spec"><span class="plan-spec-label">통화</span><span class="plan-spec-value">무제한</span></div>
+            <div class="plan-spec"><span class="plan-spec-label">문자</span><span class="plan-spec-value">무제한</span></div>
+          </div>
+          <div class="plan-price-row">
+            <div><div class="plan-price-old">정가 월 44,000원</div><div class="plan-price-new">월 21,001원</div></div>
+            <div class="plan-cta-group"><button class="plan-compare">+ 비교</button><button class="plan-cta">가입하기</button></div>
+          </div>
+        </article>
+        <article class="plan-card">
+          <div><div class="plan-card-brand">모두</div><div class="plan-card-name">모두 충분 7GB+(밀리의서재)</div></div>
+          <div class="plan-spec-row">
+            <div class="plan-spec"><span class="plan-spec-label">데이터</span><span class="plan-spec-value">7 GB+1Mbps</span></div>
+            <div class="plan-spec"><span class="plan-spec-label">통화</span><span class="plan-spec-value">무제한</span></div>
+            <div class="plan-spec"><span class="plan-spec-label">문자</span><span class="plan-spec-value">무제한</span></div>
+          </div>
+          <div class="plan-price-row">
+            <div><div class="plan-price-old">정가 월 22,000원</div><div class="plan-price-new">월 16,300원</div></div>
+            <div class="plan-cta-group"><button class="plan-compare">+ 비교</button><button class="plan-cta">가입하기</button></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 셀프개통 -->
+    <section class="section">
+      <div class="steps-card">
+        <div class="steps-title">결정하셨나요?<br>셀프개통은 <strong style="color:var(--text-accent-primary);">4단계로 끝</strong>납니다.</div>
+        <div class="steps-grid">
+          <div class="step-item"><span class="step-num">01</span><span class="step-label">유심 준비</span><span class="step-desc">바로배송유심 / 편의점·마트</span></div>
+          <div class="step-item"><span class="step-num">02</span><span class="step-label">사전 준비</span><span class="step-desc">결제수단 / 신분증 / PASS 인증서</span></div>
+          <div class="step-item"><span class="step-num">03</span><span class="step-label">가입 정보 입력</span><span class="step-desc">요금제 · 부가서비스 · 납부 정보</span></div>
+          <div class="step-item"><span class="step-num">04</span><span class="step-label">가입 완료</span><span class="step-desc">유심 장착하면 바로 사용</span></div>
+        </div>
+        <div class="steps-cta-row">
+          <button class="btn-secondary-outline-lg">바로배송유심 주문</button>
+          <button class="btn-primary-lg">셀프개통 하러가기</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 이벤트 -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">진행 중인 <strong>이벤트</strong></h2>
+        <a class="section-link" href="#">전체보기 ›</a>
+      </div>
+      <div class="event-row-grid">
+        <article class="event-card"><span class="event-tag">친구 초대</span><span class="event-title">마이알뜰폰에 친구 초대하면<br>무제한 혜택 제공</span><span class="event-period">~ 2026.06.30</span></article>
+        <article class="event-card"><span class="event-tag">앱 설치</span><span class="event-title">마이알뜰폰 앱 설치하면<br>밀리의 서재 구독권 증정</span><span class="event-period">~ 2026.07.31</span></article>
+        <article class="event-card"><span class="event-tag">제휴</span><span class="event-title">바로유심으로 개통하면<br>최대 3만원 상품권 증정</span><span class="event-period">~ 2026.08.31</span></article>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-logo"><svg data-kds-logo="kt-mvno-black" width="108" height="38"></svg></div>
+    <div>(주)케이티 | 대표 : 김영섭 | 사업자등록번호 : 102-81-42945</div>
+    <div>주소 : 경기도 성남시 분당구 불정로 90 | 고객센터 : 100 / 1588-0010</div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -174,6 +174,7 @@
   - `node kds/lint.js <파일>` — 단일 파일/폴더
   - 에러: 0 (통과) / 1 (위반 있음) / 2 (실행 오류)
   - 검사 항목: 색·간격·라운드 토큰 준수, **kdsId duplicate**(`kind: kdsId-duplicate` — 같은 화면 안에서 kdsId 중복 시 매칭 충돌 위험), **버튼 height KDS 사이즈 토큰 준수**(`kind: button-size` — XLarge 56 / Large 48 / Medium 44 / Small 32 / XSmall 24 외 값은 위반. figma.json 의 `FRAME` + kdsId/name 에 `btn`/`button` 키워드 + label TEXT 또는 아이콘 SVG 자식이 있을 때 발화. `*-icon-box` 같은 아이콘 컨테이너는 제외), **TEXT 노드 width 누락**(함정 #8 · `kds-rules/traps.md` 참고), **오토레이아웃 부모 + 자식 절대좌표**(함정 #1 · 좌표 무시), **`<circle>`/`<ellipse>` + stroke-dasharray 조합**(Figma 파서가 progress arc 를 점선으로 그려 끊어짐 — `<path>` 의 arc 명령으로 직접 그리기), **stroke-dasharray 단일 값**(다른 태그여도 dash 반복 패턴으로 그려짐)
+  - **lint 결과 보고 시 표현 규칙**: `kds/lint.js` 는 정책상 "수동 실행 + 경고만" — 자동 게이트 아님. `bridge-server.js` 의 자동 인젝션 chain (inject-svg → inject-images → fix-icon-placement → verify-spacers → build-compare) 에 lint 호출 없음. 결과 요약 시 "검증 일부 위반" 같은 강한 표현 금지. 사실 표기 (`에러 N건 / 경고 N건`) 또는 액션 표기 (`디자이너 토큰 점검 N건`) 사용. 차단되는 게이트가 아니므로 "위반"은 진짜 차단 게이트가 있는 룰 (예: BOM, parse error) 에만 사용.
 - **에이전트 2종** (`.claude/agents/`):
   - `kds-designer` — 화면·플로우 생성/수정. KDS 토큰·컴포넌트·UX 라이팅 전부 참고. Write 가능. 작업 끝에 kds/lint 통과 필수.
   - `kds-reviewer` — 의미·맥락 검수 (시맨틱 역할, 컴포넌트 선택, UX 라이팅, 접근성, 플로우 일관성). Write 금지, 리포트만 반환.

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Galaxy S26 사전예약 — KT샵</title>
+<style>
+:root {
+  --static-white: #ffffff;
+  --gray-25: #f8f9fa;
+  --gray-50: #f3f4f6;
+  --gray-100: #e9eaee;
+  --gray-150: #d5d8dd;
+  --gray-300: #adb1b9;
+  --gray-500: #6f737b;
+  --gray-600: #55585d;
+  --gray-700: #3d3f43;
+  --gray-900: #191a1b;
+  --red-100: #fce9e9;
+  --red-500: #e0282f;
+  --red-600: #bb1b21;
+  --radius-4: 4px; --radius-8: 8px; --radius-12: 12px;
+  --radius-circle: 999px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scrollbar-gutter: stable; }
+body, p, h1, h2, h3, h4, h5, h6, span, div, button, a, li, label, dt, dd {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+body { font-family: "Pretendard", -apple-system, sans-serif; background: var(--gray-25); color: var(--gray-900); }
+img { max-width: 100%; height: auto; display: block; }
+.screen { width: 375px; min-height: 812px; margin: 0 auto; background: var(--static-white); position: relative; display: flex; flex-direction: column; }
+.top-nav { width: 375px; height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 8px; background: var(--static-white); border-bottom: 1px solid var(--gray-50); }
+.nav-btn { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 0; cursor: pointer; color: var(--gray-900); }
+.nav-title { font-size: 17px; font-weight: 600; line-height: 148%; letter-spacing: -0.3px; color: var(--gray-900); }
+.hero { width: 375px; background: var(--gray-900); color: var(--static-white); padding: 24px 20px 32px; display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden; }
+.hero-tag { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; background: var(--red-500); color: var(--static-white); border-radius: var(--radius-4); font-size: 12px; font-weight: 600; line-height: 24px; }
+.hero-title { margin-top: 12px; font-size: 32px; font-weight: 700; line-height: 130%; letter-spacing: -0.6px; color: var(--static-white); text-align: center; width: 335px; }
+.hero-sub { margin-top: 8px; font-size: 14px; font-weight: 400; line-height: 158%; color: var(--gray-300); text-align: center; width: 335px; }
+.hero-visual { margin-top: 20px; width: 240px; height: 200px; display: flex; align-items: center; justify-content: center; color: var(--static-white); }
+.hero-visual svg { width: 240px; height: 200px; }
+.countdown { margin-top: 24px; width: 335px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-12); padding: 16px; display: flex; flex-direction: column; align-items: center; }
+.countdown-label { font-size: 13px; font-weight: 500; line-height: 148%; color: var(--gray-300); }
+.countdown-grid { margin-top: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; }
+.countdown-cell { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.08); border-radius: var(--radius-8); padding: 12px 0; }
+.countdown-num { font-size: 22px; font-weight: 700; line-height: 1; color: var(--static-white); }
+.countdown-unit { margin-top: 4px; font-size: 12px; font-weight: 500; line-height: 148%; color: var(--gray-300); }
+.quick-benefits { margin: 24px 20px 0; display: flex; flex-wrap: wrap; gap: 8px; width: 335px; }
+.chip { display: inline-flex; align-items: center; height: 36px; padding: 0 12px; border-radius: var(--radius-circle); background: var(--gray-50); color: var(--gray-900); font-size: 13px; font-weight: 600; line-height: 36px; }
+.chip.is-accent { background: var(--red-100); color: var(--red-600); }
+.section { margin: 32px 20px 0; width: 335px; }
+.section-head { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
+.section-eyebrow { font-size: 12px; font-weight: 600; line-height: 148%; color: var(--red-500); text-transform: uppercase; }
+.section-title { font-size: 22px; font-weight: 700; line-height: 148%; letter-spacing: -0.4px; color: var(--gray-900); width: 335px; }
+.section-desc { font-size: 14px; font-weight: 400; line-height: 158%; color: var(--gray-600); width: 335px; }
+.option-card { background: var(--static-white); border: 1px solid var(--gray-100); border-radius: var(--radius-12); padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.option-row { display: flex; flex-direction: column; gap: 8px; }
+.option-label { font-size: 13px; font-weight: 600; line-height: 148%; color: var(--gray-600); width: 303px; }
+.color-list { display: flex; gap: 8px; flex-wrap: wrap; }
+.color-swatch { width: 32px; height: 32px; border-radius: var(--radius-circle); border: 1px solid var(--gray-150); display: inline-flex; align-items: center; justify-content: center; }
+.color-swatch.is-active { border: 2px solid var(--gray-900); }
+.color-swatch-inner { width: 24px; height: 24px; border-radius: var(--radius-circle); }
+.storage-list { display: flex; gap: 8px; flex-wrap: wrap; }
+.storage-pill { display: inline-flex; align-items: center; height: 36px; padding: 0 12px; border-radius: var(--radius-8); background: var(--static-white); border: 1px solid var(--gray-150); color: var(--gray-900); font-size: 13px; font-weight: 600; line-height: 36px; }
+.storage-pill.is-active { border: 2px solid var(--gray-900); background: var(--gray-25); }
+.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 335px; }
+.spec-cell { background: var(--static-white); border: 1px solid var(--gray-100); border-radius: var(--radius-12); padding: 16px; display: flex; flex-direction: column; gap: 8px; min-height: 124px; }
+.spec-icon-box { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; color: var(--red-500); }
+.spec-icon-box svg { width: 24px; height: 24px; }
+.spec-label { font-size: 12px; font-weight: 600; line-height: 148%; color: var(--gray-500); width: 127px; }
+.spec-value { font-size: 17px; font-weight: 700; line-height: 148%; letter-spacing: -0.3px; color: var(--gray-900); width: 127px; }
+.benefit-list { display: flex; flex-direction: column; gap: 8px; }
+.benefit-card { background: var(--static-white); border: 1px solid var(--gray-100); border-radius: var(--radius-12); padding: 16px; display: flex; align-items: flex-start; gap: 12px; }
+.benefit-icon-box { width: 44px; height: 44px; flex-shrink: 0; border-radius: var(--radius-8); background: var(--red-100); display: inline-flex; align-items: center; justify-content: center; color: var(--red-600); }
+.benefit-icon-box svg { width: 24px; height: 24px; }
+.benefit-body { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.benefit-title { font-size: 15px; font-weight: 700; line-height: 148%; color: var(--gray-900); width: 235px; }
+.benefit-desc { font-size: 13px; font-weight: 400; line-height: 158%; color: var(--gray-600); width: 235px; }
+.notice { margin: 24px 20px 64px; width: 335px; background: var(--gray-25); border-radius: var(--radius-12); padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+.notice-title { font-size: 13px; font-weight: 600; line-height: 148%; color: var(--gray-700); width: 303px; }
+.notice-item { font-size: 12px; font-weight: 400; line-height: 158%; color: var(--gray-600); width: 303px; display: flex; gap: 4px; }
+.notice-bullet { color: var(--gray-300); flex-shrink: 0; }
+.notice-text { width: 285px; }
+.sticky-bottom { position: fixed; left: 50%; bottom: 0; transform: translateX(-50%); width: 375px; background: var(--static-white); border-top: 1px solid var(--gray-50); padding: 12px 20px 16px; display: flex; align-items: center; gap: 8px; box-shadow: 0 -2px 4px rgba(20,20,20,0.05); }
+.sticky-summary { flex: 1; display: flex; flex-direction: column; gap: 2px; width: 119px; }
+.sticky-price-label { font-size: 11px; font-weight: 500; line-height: 148%; color: var(--gray-500); width: 119px; }
+.sticky-price { font-size: 15px; font-weight: 700; line-height: 148%; letter-spacing: -0.3px; color: var(--gray-900); width: 119px; }
+.cta-btn { flex-shrink: 0; height: 56px; min-width: 196px; padding: 0 20px; border: 0; border-radius: var(--radius-8); background: var(--red-500); color: var(--static-white); font-size: 17px; font-weight: 700; line-height: 148%; letter-spacing: -0.3px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+<div class="screen" data-kds-id="screen-galaxy-s26-preorder">
+<div class="top-nav" data-kds-id="top-nav">
+  <button class="nav-btn" data-kds-id="nav-back" aria-label="뒤로">
+    <span class="nav-back-icon-box" data-kds-id="nav-back-icon-box">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+    </span>
+  </button>
+  <div class="nav-title" data-kds-id="nav-title">사전예약</div>
+  <button class="nav-btn" data-kds-id="nav-cart" aria-label="장바구니">
+    <span class="nav-cart-icon-box" data-kds-id="nav-cart-icon-box">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.5L21.5 8H6"/></svg>
+    </span>
+  </button>
+</div>
+<section class="hero" data-kds-id="hero">
+  <span class="hero-tag" data-kds-id="hero-tag">사전예약 진행중</span>
+  <h1 class="hero-title" data-kds-id="hero-title">Galaxy S26 Ultra 사전예약 오픈</h1>
+  <p class="hero-sub" data-kds-id="hero-sub">한정 수량 KT샵 단독 혜택으로 가장 먼저 만나보세요</p>
+  <div class="hero-visual" data-kds-id="hero-visual">
+    <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="80" y="20" width="80" height="160" rx="16" stroke="currentColor" stroke-width="2"/>
+      <rect x="86" y="32" width="68" height="136" rx="10" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+      <circle cx="120" cy="178" r="2.5" fill="currentColor" opacity="0.6"/>
+      <rect x="112" y="26" width="16" height="3" rx="1.5" fill="currentColor" opacity="0.6"/>
+      <circle cx="100" cy="60" r="9" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="100" cy="60" r="4" fill="currentColor" opacity="0.5"/>
+      <circle cx="124" cy="60" r="9" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="124" cy="60" r="4" fill="currentColor" opacity="0.5"/>
+      <circle cx="112" cy="80" r="6" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M40 60 L70 100 L40 140" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M200 60 L170 100 L200 140" stroke="currentColor" stroke-width="1" opacity="0.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+  </div>
+  <div class="countdown" data-kds-id="countdown">
+    <div class="countdown-label" data-kds-id="countdown-label">사전예약 마감까지</div>
+    <div class="countdown-grid" data-kds-id="countdown-grid">
+      <div class="countdown-cell" data-kds-id="countdown-cell-days"><div class="countdown-num" data-kds-id="countdown-num-days">07</div><div class="countdown-unit" data-kds-id="countdown-unit-days">일</div></div>
+      <div class="countdown-cell" data-kds-id="countdown-cell-hours"><div class="countdown-num" data-kds-id="countdown-num-hours">12</div><div class="countdown-unit" data-kds-id="countdown-unit-hours">시간</div></div>
+      <div class="countdown-cell" data-kds-id="countdown-cell-mins"><div class="countdown-num" data-kds-id="countdown-num-mins">34</div><div class="countdown-unit" data-kds-id="countdown-unit-mins">분</div></div>
+      <div class="countdown-cell" data-kds-id="countdown-cell-secs"><div class="countdown-num" data-kds-id="countdown-num-secs">21</div><div class="countdown-unit" data-kds-id="countdown-unit-secs">초</div></div>
+    </div>
+  </div>
+</section>
+<div class="quick-benefits" data-kds-id="quick-benefits">
+  <span class="chip is-accent" data-kds-id="chip-discount">공시지원금 최대 70만원</span>
+  <span class="chip" data-kds-id="chip-gift">사은품 4종</span>
+  <span class="chip" data-kds-id="chip-installment">무이자 24개월</span>
+  <span class="chip" data-kds-id="chip-trade">중고보상 +15만원</span>
+</div>
+<section class="section" data-kds-id="section-option">
+  <div class="section-head" data-kds-id="section-option-head">
+    <span class="section-eyebrow" data-kds-id="section-option-eyebrow">STEP 1</span>
+    <h2 class="section-title" data-kds-id="section-option-title">색상 및 용량 선택</h2>
+    <p class="section-desc" data-kds-id="section-option-desc">선호하는 모델 옵션을 미리 등록할 수 있습니다.</p>
+  </div>
+  <div class="option-card" data-kds-id="option-card">
+    <div class="option-row" data-kds-id="option-row-color">
+      <div class="option-label" data-kds-id="option-color-label">색상 · Titanium Phantom Black</div>
+      <div class="color-list" data-kds-id="color-list">
+        <span class="color-swatch is-active" data-kds-id="color-swatch-black"><span class="color-swatch-inner" data-kds-id="color-swatch-black-inner" style="background:#191a1b"></span></span>
+        <span class="color-swatch" data-kds-id="color-swatch-silver"><span class="color-swatch-inner" data-kds-id="color-swatch-silver-inner" style="background:#c7cad1"></span></span>
+        <span class="color-swatch" data-kds-id="color-swatch-gold"><span class="color-swatch-inner" data-kds-id="color-swatch-gold-inner" style="background:#ffb870"></span></span>
+        <span class="color-swatch" data-kds-id="color-swatch-violet"><span class="color-swatch-inner" data-kds-id="color-swatch-violet-inner" style="background:#af99ff"></span></span>
+      </div>
+    </div>
+    <div class="option-row" data-kds-id="option-row-storage">
+      <div class="option-label" data-kds-id="option-storage-label">용량 · 512GB 선택</div>
+      <div class="storage-list" data-kds-id="storage-list">
+        <span class="storage-pill" data-kds-id="storage-pill-256">256GB</span>
+        <span class="storage-pill is-active" data-kds-id="storage-pill-512">512GB</span>
+        <span class="storage-pill" data-kds-id="storage-pill-1tb">1TB</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" data-kds-id="section-spec">
+  <div class="section-head" data-kds-id="section-spec-head">
+    <span class="section-eyebrow" data-kds-id="section-spec-eyebrow">CORE SPEC</span>
+    <h2 class="section-title" data-kds-id="section-spec-title">한눈에 보는 핵심 스펙</h2>
+  </div>
+  <div class="spec-grid" data-kds-id="spec-grid">
+    <div class="spec-cell" data-kds-id="spec-cell-cpu">
+      <span class="spec-icon-box" data-kds-id="spec-cell-cpu-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span>
+      <div class="spec-label" data-kds-id="spec-cell-cpu-label">프로세서</div>
+      <div class="spec-value" data-kds-id="spec-cell-cpu-value">Snapdragon 8 Gen 4</div>
+    </div>
+    <div class="spec-cell" data-kds-id="spec-cell-cam">
+      <span class="spec-icon-box" data-kds-id="spec-cell-cam-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="4"/></svg></span>
+      <div class="spec-label" data-kds-id="spec-cell-cam-label">카메라</div>
+      <div class="spec-value" data-kds-id="spec-cell-cam-value">200MP 쿼드 카메라</div>
+    </div>
+    <div class="spec-cell" data-kds-id="spec-cell-display">
+      <span class="spec-icon-box" data-kds-id="spec-cell-display-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 19h2"/></svg></span>
+      <div class="spec-label" data-kds-id="spec-cell-display-label">디스플레이</div>
+      <div class="spec-value" data-kds-id="spec-cell-display-value">6.9형 Dynamic AMOLED</div>
+    </div>
+    <div class="spec-cell" data-kds-id="spec-cell-battery">
+      <span class="spec-icon-box" data-kds-id="spec-cell-battery-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M19 11v2"/><path d="M21 11v2"/></svg></span>
+      <div class="spec-label" data-kds-id="spec-cell-battery-label">배터리</div>
+      <div class="spec-value" data-kds-id="spec-cell-battery-value">5,500mAh 고속충전</div>
+    </div>
+  </div>
+</section>
+<section class="section" data-kds-id="section-benefit">
+  <div class="section-head" data-kds-id="section-benefit-head">
+    <span class="section-eyebrow" data-kds-id="section-benefit-eyebrow">KT샵 단독 혜택</span>
+    <h2 class="section-title" data-kds-id="section-benefit-title">사전예약 고객 사은품</h2>
+    <p class="section-desc" data-kds-id="section-benefit-desc">개통 완료 시 사은품을 100% 증정해 드립니다.</p>
+  </div>
+  <div class="benefit-list" data-kds-id="benefit-list">
+    <div class="benefit-card" data-kds-id="benefit-card-buds">
+      <span class="benefit-icon-box" data-kds-id="benefit-card-buds-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="14" r="3"/><circle cx="17" cy="14" r="3"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg></span>
+      <div class="benefit-body" data-kds-id="benefit-card-buds-body">
+        <div class="benefit-title" data-kds-id="benefit-card-buds-title">Galaxy Buds3 Pro 증정</div>
+        <div class="benefit-desc" data-kds-id="benefit-card-buds-desc">정가 27만원 상당의 무선 이어버드를 함께 드립니다.</div>
+      </div>
+    </div>
+    <div class="benefit-card" data-kds-id="benefit-card-case">
+      <span class="benefit-icon-box" data-kds-id="benefit-card-case-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 6h4"/></svg></span>
+      <div class="benefit-body" data-kds-id="benefit-card-case-body">
+        <div class="benefit-title" data-kds-id="benefit-card-case-title">정품 실리콘 케이스</div>
+        <div class="benefit-desc" data-kds-id="benefit-card-case-desc">색상 선택 가능한 Galaxy S26 전용 정품 케이스.</div>
+      </div>
+    </div>
+    <div class="benefit-card" data-kds-id="benefit-card-pay">
+      <span class="benefit-icon-box" data-kds-id="benefit-card-pay-icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/></svg></span>
+      <div class="benefit-body" data-kds-id="benefit-card-pay-body">
+        <div class="benefit-title" data-kds-id="benefit-card-pay-title">5만원 KT샵 머니 즉시 적립</div>
+        <div class="benefit-desc" data-kds-id="benefit-card-pay-desc">사전예약 신청 즉시 KT샵에서 사용 가능한 머니를 드립니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="notice" data-kds-id="notice">
+  <div class="notice-title" data-kds-id="notice-title">유의사항</div>
+  <div class="notice-item" data-kds-id="notice-item-1"><span class="notice-bullet" data-kds-id="notice-bullet-1">•</span><span class="notice-text" data-kds-id="notice-text-1">사전예약 기간은 출시일 전일까지이며 한정 수량으로 조기 마감될 수 있습니다.</span></div>
+  <div class="notice-item" data-kds-id="notice-item-2"><span class="notice-bullet" data-kds-id="notice-bullet-2">•</span><span class="notice-text" data-kds-id="notice-text-2">사은품은 개통 완료 후 영업일 기준 14일 이내에 순차 발송됩니다.</span></div>
+  <div class="notice-item" data-kds-id="notice-item-3"><span class="notice-bullet" data-kds-id="notice-bullet-3">•</span><span class="notice-text" data-kds-id="notice-text-3">공시지원금·요금할인 등 혜택은 요금제 가입 조건에 따라 달라집니다.</span></div>
+</div>
+<div class="sticky-bottom" data-kds-id="sticky-bottom">
+  <div class="sticky-summary" data-kds-id="sticky-summary">
+    <div class="sticky-price-label" data-kds-id="sticky-price-label">출고가</div>
+    <div class="sticky-price" data-kds-id="sticky-price">1,649,800원~</div>
+  </div>
+  <button class="cta-btn" data-kds-id="cta-preorder">사전예약 신청하기</button>
+</div>
+</div>
+</body>
+</html>

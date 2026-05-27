@@ -51,14 +51,13 @@ test/screenshots/
 # 단 agent-memory 는 PC별 상태라 제외
 .claude/agent-memory/
 
-# KDS v4 — 코드와 SVG 라이브러리는 commit, 산출물·로그·node_modules 는 Volume/local 만
+# KDS v4 — 2026-05-26: to-figma / from-figma / research 추적 (새 PC git clone 한 방 동기화)
+# 로그·node_modules 는 PC별 local 유지
 kds-v4/node_modules/
-kds-v4/to-figma/
-kds-v4/from-figma/
-kds-v4/research/
 kds-v4/logs/
 kds-v4/*.log
 kds-v4/bridge.log
+kds-v4/output/
 
 # 민감 정보
 *.pem

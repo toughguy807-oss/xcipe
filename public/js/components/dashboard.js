@@ -512,16 +512,19 @@ claude auth status    # 로그인 확인</pre>
           }
         </div>
 
-        <div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;${step3 ? 'opacity:0.6' : ''}">
+        <div style="border:1px solid #eee;border-radius:8px;padding:16px;margin-bottom:12px;${step3 ? 'opacity:0.85' : ''}">
           <div style="display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px">${checkMark(step3)} 2단계: 워커 다운로드 + 실행 (토큰 자동 발급)</div>
           ${step3
-            ? `<div style="color:#28a745;font-size:13px;padding-left:28px">완료 — 워커가 polling 중</div>`
+            ? `<div style="padding-left:28px;font-size:13px">
+                <div style="color:#28a745">완료 — 워커가 polling 중</div>
+                <button onclick="DashboardPage.shutdownWorker()" style="margin-top:10px;padding:6px 14px;border:1px solid #dc3545;background:#fff;color:#dc3545;border-radius:4px;cursor:pointer;font-size:12px">⏹ 워커 종료</button>
+                <span style="margin-left:8px;font-size:11px;color:#666">신호 전송 후 약 15초 내 자동 종료</span>
+              </div>`
             : `<div style="padding-left:28px;font-size:13px">
-                <p style="margin:4px 0">아래 버튼 클릭 → 본인 토큰 자동 발급 + 서버 URL 박힌 워커 파일 다운로드.</p>
-                <a class="btn-primary" href="/api/worker/my-download?access_token=${(API.getToken && API.getToken()) || ''}" download="xcipe-worker.js" style="display:inline-block;padding:10px 18px;text-decoration:none;font-weight:600;margin:6px 0">📥 내 워커 다운로드</a>
-                <p style="margin:8px 0 4px">다운받은 파일이 있는 폴더에서 실행:</p>
-                <pre style="background:#1a1a1a;color:#fff;padding:10px;border-radius:4px;font-size:12px;overflow:auto;margin:6px 0">node xcipe-worker.js</pre>
-                <p style="margin:8px 0 0;font-size:12px;color:#666">⚙️ 사용자가 환경변수 설정·토큰 복사할 필요 없음 (다운로드 파일 안에 자동 박힘). polling 시작 후 이 모달 새로고침하면 ✅ 표시.</p>
+                <p style="margin:4px 0">아래 버튼 클릭 → 본인 토큰 자동 발급 + 서버 URL 박힌 워커 파일 다운로드 (zip).</p>
+                <a class="btn-primary" href="/api/worker/my-download?access_token=${(API.getToken && API.getToken()) || ''}" download="xcipe-worker.zip" style="display:inline-block;padding:10px 18px;text-decoration:none;font-weight:600;margin:6px 0">📥 내 워커 다운로드 (zip)</a>
+                <p style="margin:8px 0 4px">압축 풀고 <strong>run-worker-hidden.vbs</strong> 더블클릭 (cmd 창 없이 백그라운드 가동)</p>
+                <p style="margin:8px 0 0;font-size:12px;color:#666">⚙️ 토큰·서버 URL 자동 박힘. polling 시작 후 이 모달 새로고침하면 ✅ 표시.</p>
               </div>`
           }
         </div>
@@ -540,6 +543,21 @@ claude auth status    # 로그인 확인</pre>
     document.body.appendChild(wrap);
     wrap.querySelector('#kds-setup-close').addEventListener('click', () => wrap.remove());
     wrap.addEventListener('click', (e) => { if (e.target === wrap) wrap.remove(); });
+  },
+
+  // v29: 본인 워커 종료 신호 전송
+  //   서버 user.shutdown_requested_at 마킹 → daemon 이 다음 claim 응답으로 받음 → process.exit(2)
+  //   cmd wrapper 가 5회 재시작 후 자동 종료 (약 15초). 사용자 부담 0.
+  async shutdownWorker() {
+    if (!confirm('본인 워커를 종료합니다.\n\n약 15초 동안 자동 재시작 5회 후 완전 종료됩니다.\n진행할까요?')) return;
+    try {
+      const r = await API.post('/worker/shutdown-self', {});
+      // 열린 모달 모두 닫기
+      document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+      alert(r.message || '워커 종료 신호 전송됨. 약 15초 내 자동 종료됩니다.');
+    } catch (e) {
+      alert('워커 종료 실패: ' + (e.message || e));
+    }
   },
 
   // U-G1: 4-step 온보딩 (AI키 → 프로젝트 → 실행 → 결과)

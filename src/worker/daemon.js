@@ -95,6 +95,13 @@ async function claimNextJob() {
     warn(`claim 실패 status=${r.status}`, r.body);
     return null;
   }
+  // v29: shutdown 신호 수신 시 종료 (UI 의 "워커 종료" 버튼이 트리거)
+  //   cmd wrapper 는 비정상 종료로 간주 → 5회 재시작 후 자동 종료 (약 15초)
+  if (r.body && r.body.shutdown) {
+    log('shutdown signal 수신 — 종료 (process.exit(2))');
+    stopHeartbeat();
+    process.exit(2);
+  }
   return r.body;
 }
 
@@ -197,8 +204,13 @@ function buildPrompt({ skill_name, skill_content, project, previous_artifacts, r
 let _cachedKdsRoot = undefined;
 function detectKdsRootLocal() {
   if (process.env.XCIPE_KDS_ROOT) return process.env.XCIPE_KDS_ROOT;
+  if (process.env.KDS_V4_ROOT) return process.env.KDS_V4_ROOT;
   const home = os.homedir();
+  // 2026-05-22: 원본 KDS 디렉토리(.claude·research 자산 완비)를 SYS_v4 사본보다 먼저 검사.
+  //   사용자 결정 — 로컬은 원본을 정본으로. SYS_v4/kds-v4 는 회수·백업 보존만.
   const candidates = [
+    path.join(home, 'Downloads', 'AX_KDS_design system-v4', 'AX_KDS_design system-v4'),
+    'C:/Users/hj.moon/Downloads/AX_KDS_design system-v4/AX_KDS_design system-v4',
     'd:/SYS_v4/kds-v4',
     'D:/SYS_v4/kds-v4',
     path.join(home, 'SYS_v4', 'kds-v4'),

@@ -573,7 +573,8 @@ function scheduleBuildCompareDirect(base) {
 
 function runScript(script, target, done) {
   const args = [script, target];
-  const proc = spawn('node', args, { cwd: ROOT });
+  // windowsHide: Windows 에서 child process 마다 별도 콘솔 창이 떠 작업 흐름을 방해하는 문제 회피
+  const proc = spawn('node', args, { cwd: ROOT, windowsHide: true });
   let stderr = '';
   proc.stderr.on('data', (d) => { stderr += d; });
   proc.on('error', (err) => {

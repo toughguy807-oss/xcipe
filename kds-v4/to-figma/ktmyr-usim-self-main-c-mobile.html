@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375, initial-scale=1">
+<title>C · 체크리스트 우선 (UX·구조) · mobile</title>
+<style>*, *::before, *::after { box-sizing: border-box; }
+html { scrollbar-gutter: stable; }
+body { margin: 0; font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #191a1b; background: #ffffff; word-break: keep-all; overflow-wrap: break-word; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: transparent; }
+:root { --teal: #007f7f; --teal-bg: #e1f5f5; --teal-mid: #4cc8c3; --text-primary: #191a1b; --text-sub: #55585d; --text-mute: #6f737b; --bg: #f8f9fa; --border: #e9eaee; --border-dark: #d5d8dd; --white: #ffffff; --dark: #232425; }
+.kds-stack { display: flex; flex-direction: column; }
+.kds-row { display: flex; flex-direction: row; align-items: center; }
+.kds-card { background: var(--white); border-radius: 12px; }
+.kds-pill { display: inline-flex; align-items: center; padding:4px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: -0.2px; }
+.kds-pill.teal { background: var(--teal); color: var(--white); }
+.kds-pill.teal-bg { background: var(--teal-bg); color: var(--teal); }
+.kds-btn { display: inline-flex; align-items: center; justify-content: center; gap:8px; height: 56px; padding: 0 24px; border-radius: 12px; font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+.kds-btn.primary { background: var(--teal); color: var(--white); }
+.kds-btn.dark-bg { background: var(--white); color: var(--text-primary); }
+.kds-btn.disabled { background: #adb1b9; color: var(--white); cursor: not-allowed; }
+header.top-nav { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; height: 52px; padding: 0 16px; background: var(--white); border-bottom: 1px solid var(--border); }
+.top-nav .actions { display: flex; gap:16px; }
+.top-nav .icon-btn { width: 24px; height: 24px; color: var(--text-primary); display: inline-flex; align-items: center; justify-content: center; }
+.section-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin: 0; }
+.section-sub { font-size: 13px; color: var(--text-sub); margin:4px 0 0 0; line-height: 1.55; }
+.bot-nav { display: flex; justify-content: space-between; align-items: center; height: 56px; background: var(--white); border-top: 1px solid var(--border); position: sticky; bottom: 0; }
+.bot-nav a { flex: 1; display: flex; flex-direction: column; align-items: center; gap:2px; font-size: 10px; color: var(--text-sub); letter-spacing: -0.2px; }
+.bot-nav a.active { color: var(--teal); font-weight: 700; }
+.guide-list { display: flex; flex-direction: column; gap:8px; }
+.guide-step { display: flex; gap:12px; align-items: center; padding:16px; background: var(--bg); border-radius: 12px; }
+.guide-num { width: 36px; height: 36px; border-radius: 999px; background: var(--teal); color: var(--white); font-weight: 700; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.guide-step h3 { margin: 0 0 2px 0; font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+.guide-step p { margin: 0; font-size: 12px; color: var(--text-sub); line-height: 1.55; letter-spacing: -0.2px; }
+.plan-row { display: flex; gap:16px; }
+.plan-card { flex: 1; padding:20px; border: 1px solid var(--border); border-radius: 12px; background: var(--white); }
+.plan-card .pill { display: inline-flex; padding:4px 8px; background: var(--teal-bg); color: var(--teal); font-size: 12px; font-weight: 600; border-radius: 999px; }
+.plan-card h3 { margin:12px 0 4px 0; font-size: 18px; font-weight: 700; }
+.plan-card p { margin: 0 0 16px 0; font-size: 13px; color: var(--text-sub); }
+.plan-card strong { font-size: 20px; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; }
+.faq-list { display: flex; flex-direction: column; gap:8px; }
+.faq-item { display: flex; justify-content: space-between; align-items: center; padding:16px 20px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; gap:8px; }
+.faq-q { font-size: 14px; font-weight: 600; flex: 1; letter-spacing: -0.3px; }
+.notice-card { margin-top:32px; padding:20px; background: var(--bg); border-radius: 8px; }
+.notice-card h4 { margin: 0 0 8px 0; font-size: 14px; font-weight: 700; }
+.notice-card ul { margin: 0; padding-left:16px; }
+.notice-card li { font-size: 12px; color: var(--text-sub); line-height: 1.65; letter-spacing: -0.2px; }
+.usim-row { display: flex; gap:12px; }
+.usim-card { flex: 1; padding:16px; background: var(--white); border-radius: 12px; }
+.usim-card .icon { width: 32px; height: 32px; background: var(--teal-bg); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--teal); margin-bottom:8px; }
+.usim-card .eyebrow { font-size: 12px; color: var(--text-sub); font-weight: 500; letter-spacing: -0.2px; }
+.usim-card h4 { margin:4px 0 0 0; font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+@media (min-width: 1025px) { .desktop-only-pad { padding-left:64px; padding-right:64px; } }</style>
+</head>
+<body data-kds-id="screen-c-mo" style="min-height:2400px;">
+<header class="top-nav" data-kds-id="c-mo-top-nav">
+  <div data-kds-id="c-mo-top-nav-left">
+    <svg data-kds-logo="kt-mvno" width="89" height="32" data-kds-id="c-mo-top-nav-logo"></svg>
+  </div>
+  <div class="actions" data-kds-id="c-mo-top-nav-right">
+    <span class="icon-btn" data-kds-id="c-mo-top-nav-search-box"><svg data-kds-icon="search" width="24" height="24"></svg></span>
+    <span class="icon-btn" data-kds-id="c-mo-top-nav-bell-box"><svg data-kds-icon="bell" width="24" height="24"></svg></span>
+    <span class="icon-btn" data-kds-id="c-mo-top-nav-menu-box"><svg data-kds-icon="menu" width="24" height="24"></svg></span>
+  </div>
+</header>
+
+<section data-kds-id="c-mo-page-title" style="padding:20px 16px 12px;"><h1 style="margin:0;font-size:22px;font-weight:700;letter-spacing:-0.5px;" data-kds-id="c-mo-page-title-text">셀프개통 (USIM/eSIM)</h1></section>
+
+<section data-kds-id="c-mo-hero" style="padding:16px 16px 8px;">
+  <span data-kds-id="c-mo-hero-eyebrow" style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:-0.2px;">STEP 0 / 6 — 사전 준비</span>
+  <p data-kds-id="c-mo-hero-t1" style="margin:8px 0 0 0;font-size:18px;color:var(--text-sub);font-weight:500;letter-spacing:-0.3px;">준비물이 모두 갖춰지면</p>
+  <p data-kds-id="c-mo-hero-t2" style="margin:0;font-size:22px;font-weight:700;letter-spacing:-0.5px;">5분 안에 셀프개통할 수 있어요</p>
+  <div data-kds-id="c-mo-hero-progress" style="margin-top:12px;height:6px;background:var(--border);border-radius:999px;overflow:hidden;"><div data-kds-id="c-mo-hero-progress-fill" style="width:50%;height:100%;background:var(--teal);border-radius:999px;"></div></div>
+  <p data-kds-id="c-mo-hero-progress-label" style="margin:8px 0 0 0;font-size:12px;color:var(--text-mute);font-weight:500;">2 / 4 준비 완료</p>
+</section>
+<section data-kds-id="c-mo-checklist" style="padding:16px;display:flex;flex-direction:column;gap:8px;"><div data-kds-id="c-mo-check-1" style="display:flex;gap:12px;align-items:center;padding:12px;border-radius:8px;background:var(--teal-bg);border:2px solid var(--teal);"><span data-kds-id="c-mo-check-1-box" style="width:22px;height:22px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--teal);color:var(--white);"><span data-kds-id="c-mo-check-1-icon"><svg data-kds-icon="check" width="14" height="14"></svg></span></span><div data-kds-id="c-mo-check-1-body" style="flex:1;"><h4 data-kds-id="c-mo-check-1-title" style="margin:0;font-size:14px;font-weight:700;">유심 (USIM/eSIM)</h4><p data-kds-id="c-mo-check-1-desc" style="margin:2px 0 0 0;font-size:12px;color:var(--text-sub);">바로배송 또는 편의점에서 구매</p></div></div><div data-kds-id="c-mo-check-2" style="display:flex;gap:12px;align-items:center;padding:12px;border-radius:8px;background:var(--teal-bg);border:2px solid var(--teal);"><span data-kds-id="c-mo-check-2-box" style="width:22px;height:22px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--teal);color:var(--white);"><span data-kds-id="c-mo-check-2-icon"><svg data-kds-icon="check" width="14" height="14"></svg></span></span><div data-kds-id="c-mo-check-2-body" style="flex:1;"><h4 data-kds-id="c-mo-check-2-title" style="margin:0;font-size:14px;font-weight:700;">본인 인증 수단</h4><p data-kds-id="c-mo-check-2-desc" style="margin:2px 0 0 0;font-size:12px;color:var(--text-sub);">PASS 또는 신용카드 1개</p></div></div><div data-kds-id="c-mo-check-3" style="display:flex;gap:12px;align-items:center;padding:12px;border-radius:8px;background:var(--white);border:1px solid var(--border);"><span data-kds-id="c-mo-check-3-box" style="width:22px;height:22px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--white);border:2px solid var(--border-dark);"><span data-kds-id="c-mo-check-3-icon"></span></span><div data-kds-id="c-mo-check-3-body" style="flex:1;"><h4 data-kds-id="c-mo-check-3-title" style="margin:0;font-size:14px;font-weight:700;">신분증</h4><p data-kds-id="c-mo-check-3-desc" style="margin:2px 0 0 0;font-size:12px;color:var(--text-sub);">주민등록증 또는 운전면허증</p></div></div><div data-kds-id="c-mo-check-4" style="display:flex;gap:12px;align-items:center;padding:12px;border-radius:8px;background:var(--white);border:1px solid var(--border);"><span data-kds-id="c-mo-check-4-box" style="width:22px;height:22px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--white);border:2px solid var(--border-dark);"><span data-kds-id="c-mo-check-4-icon"></span></span><div data-kds-id="c-mo-check-4-body" style="flex:1;"><h4 data-kds-id="c-mo-check-4-title" style="margin:0;font-size:14px;font-weight:700;">납부 수단</h4><p data-kds-id="c-mo-check-4-desc" style="margin:2px 0 0 0;font-size:12px;color:var(--text-sub);">신용·체크카드 또는 통장</p></div></div></section>
+<section data-kds-id="c-mo-cta-block" style="padding:8px 16px 24px;">
+  <button class="kds-btn disabled" data-kds-id="c-mo-cta" style="width:100%;"><span data-kds-id="c-mo-cta-text">준비물 2개 더 체크 후 가능</span></button>
+  <p data-kds-id="c-mo-cta-helper" style="margin:8px 0 0 0;font-size:12px;color:var(--text-mute);line-height:1.55;">준비가 어렵다면 아래 ·유심이 없으신가요?· 카드를 확인하세요.</p>
+</section>
+
+<section class="" data-kds-id="c-mo-usim" style="background:var(--bg);padding:24px 16px;">
+  <h2 class="section-title" data-kds-id="c-mo-usim-title" style="font-size:18px;">유심이 없으신가요?</h2>
+  <p class="section-sub" data-kds-id="c-mo-usim-desc">셀프개통을 위해서는 유심이 필요해요. 빠르고 간편하게 구매하세요.</p>
+  <div class="usim-row" data-kds-id="c-mo-usim-row" style="margin-top:16px;">
+    <a class="usim-card" data-kds-id="c-mo-usim-dlv" href="/fe/service/usim/dlvr/usimDlvrMain.do">
+      <span class="icon" data-kds-id="c-mo-usim-dlv-icon"><svg data-kds-icon="truck" width="20" height="20"></svg></span>
+      <p class="eyebrow" data-kds-id="c-mo-usim-dlv-eyebrow">2시간 내 도착하는</p>
+      <h4 data-kds-id="c-mo-usim-dlv-title">바로배송유심</h4>
+    </a>
+    <a class="usim-card" data-kds-id="c-mo-usim-store" href="/fe/service/svc/usimGuide.do">
+      <span class="icon" data-kds-id="c-mo-usim-store-icon"><svg data-kds-icon="map-pin" width="20" height="20"></svg></span>
+      <p class="eyebrow" data-kds-id="c-mo-usim-store-eyebrow">내 근처 편의점에서</p>
+      <h4 data-kds-id="c-mo-usim-store-title">바로유심 구매</h4>
+    </a>
+  </div>
+</section>
+
+<section class="" data-kds-id="c-mo-guide" style="padding:32px 16px 24px;"><h2 class="section-title" data-kds-id="c-mo-guide-title" style="font-size:22px;">셀프개통, 5분 만에 끝내는 가이드</h2><div class="guide-list" data-kds-id="c-mo-guide-list" style="margin-top:20px;"><div class="guide-step" data-kds-id="c-mo-step-01"><span class="guide-num" data-kds-id="c-mo-step-01-num"><span data-kds-id="c-mo-step-01-num-text">01</span></span><div data-kds-id="c-mo-step-01-content"><h3 data-kds-id="c-mo-step-01-title">사전 준비물</h3><p data-kds-id="c-mo-step-01-desc">유심·본인인증 수단·신분증·납부 수단을 미리 준비</p></div></div><div class="guide-step" data-kds-id="c-mo-step-02"><span class="guide-num" data-kds-id="c-mo-step-02-num"><span data-kds-id="c-mo-step-02-num-text">02</span></span><div data-kds-id="c-mo-step-02-content"><h3 data-kds-id="c-mo-step-02-title">요금제·부가서비스</h3><p data-kds-id="c-mo-step-02-desc">나에게 맞는 요금제·부가서비스를 선택</p></div></div><div class="guide-step" data-kds-id="c-mo-step-03"><span class="guide-num" data-kds-id="c-mo-step-03-num"><span data-kds-id="c-mo-step-03-num-text">03</span></span><div data-kds-id="c-mo-step-03-content"><h3 data-kds-id="c-mo-step-03-title">본인 인증</h3><p data-kds-id="c-mo-step-03-desc">PASS·신용카드 + 신분증 + 안면 인증</p></div></div><div class="guide-step" data-kds-id="c-mo-step-04"><span class="guide-num" data-kds-id="c-mo-step-04-num"><span data-kds-id="c-mo-step-04-num-text">04</span></span><div data-kds-id="c-mo-step-04-content"><h3 data-kds-id="c-mo-step-04-title">신규/번호이동</h3><p data-kds-id="c-mo-step-04-desc">신규는 새 번호, 번이는 사용 중인 번호 확인</p></div></div><div class="guide-step" data-kds-id="c-mo-step-05"><span class="guide-num" data-kds-id="c-mo-step-05-num"><span data-kds-id="c-mo-step-05-num-text">05</span></span><div data-kds-id="c-mo-step-05-content"><h3 data-kds-id="c-mo-step-05-title">유심 정보 확인</h3><p data-kds-id="c-mo-step-05-desc">USIM 또는 eSIM 정보를 입력해 개통 여부 확인</p></div></div><div class="guide-step" data-kds-id="c-mo-step-06"><span class="guide-num" data-kds-id="c-mo-step-06-num"><span data-kds-id="c-mo-step-06-num-text">06</span></span><div data-kds-id="c-mo-step-06-content"><h3 data-kds-id="c-mo-step-06-title">납부 정보 입력</h3><p data-kds-id="c-mo-step-06-desc">납부 유형과 명세서 수단을 선택</p></div></div></div></section>
+
+<section data-kds-id="c-mo-plan" style="background:var(--bg);padding:24px 16px;"><div data-kds-id="c-mo-plan-head" style="display:flex;justify-content:space-between;align-items:center;"><h2 class="section-title" data-kds-id="c-mo-plan-title" style="font-size:22px;">추천 요금제</h2><a data-kds-id="c-mo-plan-seeall" href="/fe/mypage/ppl/pplList.do" style="font-size:14px;color:var(--text-sub);font-weight:500;">전체보기 ></a></div><div class="plan-row" data-kds-id="c-mo-plan-row" style="margin-top:20px;"><div class="plan-card" data-kds-id="c-mo-plan-card-1"><span class="pill" data-kds-id="c-mo-plan-1-pill"><span data-kds-id="c-mo-plan-1-eyebrow">LTE 7GB+</span></span><h3 data-kds-id="c-mo-plan-1-title">LTE 데이터</h3><p data-kds-id="c-mo-plan-1-desc">데이터 7GB / 소진 후 3Mbps</p><strong data-kds-id="c-mo-plan-1-price">월 14,300원</strong></div><div class="plan-card" data-kds-id="c-mo-plan-card-2"><span class="pill" data-kds-id="c-mo-plan-2-pill"><span data-kds-id="c-mo-plan-2-eyebrow">5G 110GB</span></span><h3 data-kds-id="c-mo-plan-2-title">5G 알뜰 무제한</h3><p data-kds-id="c-mo-plan-2-desc">5G 110GB / 소진 후 5Mbps</p><strong data-kds-id="c-mo-plan-2-price">월 38,500원</strong></div></div></section>
+
+<section data-kds-id="c-mo-faq" style="padding:32px 16px 40px;"><h2 class="section-title" data-kds-id="c-mo-faq-title" style="font-size:22px;">셀프개통 FAQ</h2><div class="faq-list" data-kds-id="c-mo-faq-list" style="margin-top:20px;"><div class="faq-item" data-kds-id="c-mo-faq-1"><span class="faq-q" data-kds-id="c-mo-faq-1-q">Q. 셀프개통은 누가 이용할 수 있나요?</span><span data-kds-id="c-mo-faq-1-toggle" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-mute);"><svg data-kds-icon="chevron-down" width="20" height="20"></svg></span></div><div class="faq-item" data-kds-id="c-mo-faq-2"><span class="faq-q" data-kds-id="c-mo-faq-2-q">Q. eSIM 셀프개통도 가능한가요?</span><span data-kds-id="c-mo-faq-2-toggle" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-mute);"><svg data-kds-icon="chevron-down" width="20" height="20"></svg></span></div><div class="faq-item" data-kds-id="c-mo-faq-3"><span class="faq-q" data-kds-id="c-mo-faq-3-q">Q. 셀프개통 중 데이터가 끊기면 어떻게 하나요?</span><span data-kds-id="c-mo-faq-3-toggle" style="width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-mute);"><svg data-kds-icon="chevron-down" width="20" height="20"></svg></span></div></div><div class="notice-card" data-kds-id="c-mo-notice-card"><h4 data-kds-id="c-mo-notice-title">셀프개통 유의사항</h4><ul><li data-kds-id="c-mo-notice-1">셀프개통에 문제가 있는 경우 각 알뜰폰 사업자 고객센터를 통해 개통할 수 있어요.</li><li data-kds-id="c-mo-notice-2">Wi-Fi 환경에서 개통하는 것을 권장합니다.</li><li data-kds-id="c-mo-notice-3">미성년자는 셀프개통 대상에서 제외됩니다.</li><li data-kds-id="c-mo-notice-4">데이터 쉐어링 요금제는 셀프개통이 불가합니다.</li><li data-kds-id="c-mo-notice-5">단기간 다수의 회선을 개통하는 경우 셀프개통 제한이 될 수 있습니다.</li></ul></div></section>
+
+<nav class="bot-nav" data-kds-id="c-mo-bot-nav"><a class="" href="#" data-kds-id="c-mo-bot-1"><span data-kds-id="c-mo-bot-1-icon" style="width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;"><svg data-kds-icon="home" width="24" height="24"></svg></span><span data-kds-id="c-mo-bot-1-label">홈</span></a><a class="" href="#" data-kds-id="c-mo-bot-2"><span data-kds-id="c-mo-bot-2-icon" style="width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;"><svg data-kds-icon="document" width="24" height="24"></svg></span><span data-kds-id="c-mo-bot-2-label">상품</span></a><a class="active" href="#" data-kds-id="c-mo-bot-3"><span data-kds-id="c-mo-bot-3-icon" style="width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;"><svg data-kds-icon="smartphone" width="24" height="24"></svg></span><span data-kds-id="c-mo-bot-3-label">셀프개통</span></a><a class="" href="#" data-kds-id="c-mo-bot-4"><span data-kds-id="c-mo-bot-4-icon" style="width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;"><svg data-kds-icon="user" width="24" height="24"></svg></span><span data-kds-id="c-mo-bot-4-label">마이</span></a><a class="" href="#" data-kds-id="c-mo-bot-5"><span data-kds-id="c-mo-bot-5-icon" style="width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;"><svg data-kds-icon="menu" width="24" height="24"></svg></span><span data-kds-id="c-mo-bot-5-label">메뉴</span></a></nav>
+</body>
+</html>

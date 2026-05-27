@@ -1,0 +1,769 @@
+{
+  "title": "FAQ | 고객지원 | KT 마이알뜰폰",
+  "url": "https://ktmyr.com/fe/service/cctr/faqList.do",
+  "headings": [
+    {
+      "tag": "H1",
+      "text": ""
+    },
+    {
+      "tag": "H2",
+      "text": "FAQ"
+    },
+    {
+      "tag": "H3",
+      "text": "전체 (10건)"
+    }
+  ],
+  "tabs": [
+    {
+      "text": "마이알뜰폰",
+      "cls": "menu ",
+      "active": false
+    },
+    {
+      "text": "상품",
+      "cls": "menu ",
+      "active": false
+    },
+    {
+      "text": "유심/eSIM",
+      "cls": "menu ",
+      "active": false
+    },
+    {
+      "text": "이벤트",
+      "cls": "menu ",
+      "active": false
+    },
+    {
+      "text": "고객지원",
+      "cls": "menu active",
+      "active": true
+    },
+    {
+      "text": "서비스",
+      "cls": "menu ",
+      "active": false
+    },
+    {
+      "text": "회선/계정",
+      "cls": "depth02 hasThirdMenu",
+      "active": false
+    },
+    {
+      "text": "요금",
+      "cls": "depth02 hasThirdMenu",
+      "active": false
+    },
+    {
+      "text": "회선",
+      "cls": "depth02 hasThirdMenu",
+      "active": false
+    },
+    {
+      "text": "분실/일시정지",
+      "cls": "depth02 hasThirdMenu",
+      "active": false
+    },
+    {
+      "text": "데이터 쉐어링",
+      "cls": "depth02 hasThirdMenu",
+      "active": false
+    },
+    {
+      "text": "추천서비스",
+      "cls": "depth02 hasThirdMenu",
+      "active": false
+    },
+    {
+      "text": "유심구매",
+      "cls": "depth02 hasThirdMenu",
+      "active": false
+    },
+    {
+      "text": "셀프개통",
+      "cls": "depth02 hasThirdMenu",
+      "active": false
+    },
+    {
+      "text": "전체",
+      "cls": "tabButton",
+      "active": true
+    },
+    {
+      "text": "TOP10",
+      "cls": "tabButton",
+      "active": true
+    },
+    {
+      "text": "유심",
+      "cls": "tabButton",
+      "active": true
+    },
+    {
+      "text": "단말기",
+      "cls": "tabButton",
+      "active": true
+    },
+    {
+      "text": "로밍",
+      "cls": "tabButton",
+      "active": true
+    },
+    {
+      "text": "소액결제",
+      "cls": "tabButton",
+      "active": true
+    },
+    {
+      "text": "요금제",
+      "cls": "tabButton",
+      "active": true
+    },
+    {
+      "text": "부가서비스",
+      "cls": "tabButton",
+      "active": true
+    },
+    {
+      "text": "가입/변경/해지",
+      "cls": "tabButton noneBorderB",
+      "active": true
+    },
+    {
+      "text": "셀프개통",
+      "cls": "tabButton noneBorderB",
+      "active": true
+    },
+    {
+      "text": "요금/납부",
+      "cls": "tabButton noneBorderB",
+      "active": true
+    },
+    {
+      "text": "기타",
+      "cls": "tabButton noneBorderB",
+      "active": true
+    }
+  ],
+  "searchInputs": [
+    {
+      "placeholder": "검색어를 입력해주세요",
+      "name": "k",
+      "id": "total-search-header",
+      "value": "",
+      "cls": "ui-autocomplete-input"
+    },
+    {
+      "placeholder": "검색어를 입력해주세요",
+      "name": "k",
+      "id": "total-search-field",
+      "value": "",
+      "cls": "ui-autocomplete-input"
+    },
+    {
+      "placeholder": "",
+      "name": "",
+      "id": "mbrIdCheck",
+      "value": "",
+      "cls": ""
+    },
+    {
+      "placeholder": "검색어를 입력해주세요",
+      "name": "searchValue",
+      "id": "searchValue",
+      "value": "",
+      "cls": ""
+    }
+  ],
+  "buttons": [
+    {
+      "text": "본문 바로가기",
+      "cls": "",
+      "type": ""
+    },
+    {
+      "text": "주메뉴 바로 가기",
+      "cls": "",
+      "type": ""
+    },
+    {
+      "text": "푸터 바로가기",
+      "cls": "",
+      "type": ""
+    },
+    {
+      "text": "검색창 열기",
+      "cls": "btnSearchOpen",
+      "type": "button"
+    },
+    {
+      "text": "검색어 지우기",
+      "cls": "btnRemove hide",
+      "type": "button"
+    },
+    {
+      "text": "검색하기",
+      "cls": "btnSearch",
+      "type": "button"
+    },
+    {
+      "text": "검색창 닫기",
+      "cls": "btnSearchClose",
+      "type": "button"
+    },
+    {
+      "text": "메뉴 열기",
+      "cls": "btnMenuOpen",
+      "type": "button"
+    },
+    {
+      "text": "메뉴 닫기",
+      "cls": "btnMenuClose",
+      "type": "button"
+    },
+    {
+      "text": "로그인하고 내 알뜰폰 정보, 쉽게 확인해보세요.",
+      "cls": "btn btnWhite iconBgLink",
+      "type": ""
+    },
+    {
+      "text": "상세 요금 정보 보기",
+      "cls": "summaryBtn",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "moDepth01",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "openDepth03",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "openDepth03",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "openDepth03",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "openDepth03",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "openDepth03",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "moDepth01",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "openDepth03",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "moDepth01",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "openDepth03",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "openDepth03",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "moDepth01",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "moDepth01",
+      "type": "button"
+    },
+    {
+      "text": "하위 메뉴",
+      "cls": "moDepth01",
+      "type": "button"
+    },
+    {
+      "text": "로그아웃",
+      "cls": "btnLogout iconLogout pcType",
+      "type": "button"
+    },
+    {
+      "text": "검색창 열기",
+      "cls": "btnSearchOpen",
+      "type": "button"
+    },
+    {
+      "text": "검색어 지우기",
+      "cls": "btnRemove hide",
+      "type": "button"
+    },
+    {
+      "text": "검색하기",
+      "cls": "btnSearch",
+      "type": "button"
+    },
+    {
+      "text": "검색창 닫기",
+      "cls": "btnSearchClose",
+      "type": "button"
+    },
+    {
+      "text": "마이알뜰폰",
+      "cls": "menu ",
+      "type": "button"
+    },
+    {
+      "text": "상품",
+      "cls": "menu ",
+      "type": "button"
+    },
+    {
+      "text": "유심/eSIM",
+      "cls": "menu ",
+      "type": "button"
+    },
+    {
+      "text": "이벤트",
+      "cls": "menu ",
+      "type": "button"
+    },
+    {
+      "text": "고객지원",
+      "cls": "menu active",
+      "type": "button"
+    },
+    {
+      "text": "서비스",
+      "cls": "menu ",
+      "type": "button"
+    },
+    {
+      "text": "이전 페이지로 돌아가기",
+      "cls": "btnGoBack",
+      "type": "button"
+    },
+    {
+      "text": "Close",
+      "cls": "btnClose",
+      "type": "button"
+    },
+    {
+      "text": "Close",
+      "cls": "btnClose",
+      "type": "button"
+    },
+    {
+      "text": "Close",
+      "cls": "btnClose",
+      "type": "button"
+    },
+    {
+      "text": "닫기",
+      "cls": "btnClose",
+      "type": "button"
+    },
+    {
+      "text": "확인",
+      "cls": "btn btnDim",
+      "type": "button"
+    },
+    {
+      "text": "Close",
+      "cls": "btnClose",
+      "type": "button"
+    },
+    {
+      "text": "PASS 인증",
+      "cls": "btnCertifyPass",
+      "type": "button"
+    },
+    {
+      "text": "신용카드 인증",
+      "cls": "btnCertifyCard",
+      "type": "button"
+    },
+    {
+      "text": "Close",
+      "cls": "btnClose",
+      "type": "button"
+    },
+    {
+      "text": "PASS 인증",
+      "cls": "btnCertifyPass",
+      "type": "button"
+    },
+    {
+      "text": "신용카드 인증",
+      "cls": "btnCertifyCard",
+      "type": "button"
+    },
+    {
+      "text": "오늘 하루 그만보기",
+      "cls": "btn",
+      "type": "button"
+    },
+    {
+      "text": "닫기",
+      "cls": "btn btnPrimary",
+      "type": "button"
+    }
+  ],
+  "faqItems": [
+    {
+      "text": "보안해제 정보",
+      "cls": ""
+    },
+    {
+      "text": "유지시간",
+      "cls": ""
+    },
+    {
+      "text": "본인인증",
+      "cls": ""
+    },
+    {
+      "text": "보안해제 정보",
+      "cls": ""
+    },
+    {
+      "text": "유지시간",
+      "cls": ""
+    },
+    {
+      "text": "본인인증",
+      "cls": ""
+    }
+  ],
+  "lists": [
+    {
+      "cls": "infoUnit",
+      "dts": [
+        "보안해제 정보"
+      ],
+      "dds": [
+        "*로 표시된 이름, 전화번호, 아이디, 이메일, 주소"
+      ]
+    },
+    {
+      "cls": "infoUnit",
+      "dts": [
+        "유지시간"
+      ],
+      "dds": [
+        "본인 인증 1회 시, 10분 동안 유지"
+      ]
+    },
+    {
+      "cls": "infoUnit",
+      "dts": [
+        "본인인증"
+      ],
+      "dds": [
+        "본인인증 방법을 선택해주세요.\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\tPASS 인증\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t신용카드 인증\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t본인인증 시 제공되는 정보는 해당 인증기관에"
+      ]
+    },
+    {
+      "cls": "infoUnit",
+      "dts": [
+        "보안해제 정보"
+      ],
+      "dds": [
+        "*로 표시된 이름, 전화번호, 아이디, 이메일, 주소"
+      ]
+    },
+    {
+      "cls": "infoUnit",
+      "dts": [
+        "유지시간"
+      ],
+      "dds": [
+        "본인 인증 1회 시, 10분 동안 유지"
+      ]
+    },
+    {
+      "cls": "infoUnit",
+      "dts": [
+        "본인인증"
+      ],
+      "dds": [
+        "본인인증 방법을 선택해주세요.\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\tPASS 인증\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t신용카드 인증\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t본인인증 시 제공되는 정보는 해당 인증기관에"
+      ]
+    }
+  ],
+  "bodyClasses": "",
+  "bodyText": "본문 바로가기 주메뉴 바로 가기 푸터 바로가기 마이알뜰폰 상품 유심/eSIM 이벤트 고객지원 서비스 즐겨찾는 메뉴 내 회선 정보 사용량 조회 요금 조회 요금제/부가서비스 통합 검색 검색창 열기 FAQ 홈 고객지원 FAQ FAQ 검색 검색어 입력 검색하기 전체 TOP10 유심 단말기 로밍 소액결제 요금제 부가서비스 가입/변경/해지 셀프개통 요금/납부 기타 전",
+  "counts": [
+    "통합 검색\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t검색창 열기\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t검색어 지우기\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t검색하기\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t인기 검색어\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t무한\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t무제한\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t통신사\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t통신\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t이벤트\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t회선\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t알뜰폰\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t모바일\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t데이터\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\t검색창 닫기",
+    "통합 검색\n검색창 열기"
+  ],
+  "sampleColors": {
+    "h1": {
+      "color": "rgb(0, 0, 0)",
+      "background": "rgba(0, 0, 0, 0)",
+      "fontSize": "10px",
+      "fontWeight": "400",
+      "borderColor": "rgb(0, 0, 0)",
+      "borderRadius": "0px",
+      "padding": "0px"
+    },
+    "headerLogo": {
+      "color": "rgb(0, 0, 0)",
+      "background": "rgba(0, 0, 0, 0)",
+      "fontSize": "10px",
+      "fontWeight": "400",
+      "borderColor": "rgb(0, 0, 0)",
+      "borderRadius": "0px",
+      "padding": "0px"
+    },
+    "searchBtn": {
+      "color": "rgb(0, 0, 0)",
+      "background": "rgba(0, 0, 0, 0)",
+      "fontSize": "10px",
+      "fontWeight": "400",
+      "borderColor": "rgb(0, 0, 0)",
+      "borderRadius": "0px",
+      "padding": "0px"
+    },
+    "activeTab": {
+      "color": "rgb(0, 0, 0)",
+      "background": "rgba(0, 0, 0, 0)",
+      "fontSize": "15px",
+      "fontWeight": "700",
+      "borderColor": "rgb(0, 0, 0)",
+      "borderRadius": "0px",
+      "padding": "0px"
+    },
+    "firstFaqDt": {
+      "color": "rgb(0, 0, 0)",
+      "background": "rgba(0, 0, 0, 0)",
+      "fontSize": "13px",
+      "fontWeight": "700",
+      "borderColor": "rgb(0, 0, 0)",
+      "borderRadius": "0px",
+      "padding": "0px"
+    },
+    "firstFaqDd": {
+      "color": "rgb(0, 0, 0)",
+      "background": "rgba(0, 0, 0, 0)",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "borderColor": "rgb(0, 0, 0)",
+      "borderRadius": "0px",
+      "padding": "0px"
+    },
+    "mainBody": {
+      "color": "rgb(0, 0, 0)",
+      "background": "rgba(0, 0, 0, 0)",
+      "fontSize": "10px",
+      "fontWeight": "400",
+      "borderColor": "rgb(0, 0, 0)",
+      "borderRadius": "0px",
+      "padding": "0px"
+    }
+  },
+  "sidebar": [
+    {
+      "text": "마이알뜰폰",
+      "href": "https://ktmyr.com/fe/mypage/mypage/main/mypageMain.do"
+    },
+    {
+      "text": "마이알뜰폰 홈",
+      "href": "https://ktmyr.com/fe/mypage/mypage/main/mypageMain.do"
+    },
+    {
+      "text": "마이알뜰폰 홈",
+      "href": "https://ktmyr.com/fe/mypage/mypage/main/mypageMainIntroView.do"
+    },
+    {
+      "text": "회선/계정",
+      "href": "https://ktmyr.com/fe/mypage/cont/mypageContView.do"
+    },
+    {
+      "text": "내 회선 정보",
+      "href": "https://ktmyr.com/fe/mypage/cont/mypageContView.do"
+    },
+    {
+      "text": "회원 정보 수정",
+      "href": "https://ktmyr.com/fe/mypage/mypage/main/mypageMain.do?menuNo=F010102"
+    },
+    {
+      "text": "기기변경(eSim)",
+      "href": "https://ktmyr.com/fe/mypage/cont/accountESIMChangeView.do"
+    },
+    {
+      "text": "사용량 조회",
+      "href": "https://ktmyr.com/fe/mypage/used/mypageUsedView.do"
+    },
+    {
+      "text": "요금",
+      "href": "https://ktmyr.com/fe/mypage/mypage/pay/payment.do"
+    },
+    {
+      "text": "요금 조회",
+      "href": "https://ktmyr.com/fe/mypage/mypage/pay/payment.do"
+    },
+    {
+      "text": "명세서유형변경",
+      "href": "https://ktmyr.com/fe/mypage/mypage/pay/sheetMethChg.do"
+    },
+    {
+      "text": "납부방법변경",
+      "href": "https://ktmyr.com/fe/mypage/mypage/pay/payMethChg.do"
+    },
+    {
+      "text": "소액결제 내역",
+      "href": "https://ktmyr.com/fe/service/openLupin.do"
+    },
+    {
+      "text": "요금제/부가서비스",
+      "href": "https://ktmyr.com/fe/mypage/mypage/pplOptsvcView.do"
+    },
+    {
+      "text": "회선",
+      "href": "https://ktmyr.com/fe/mypage/mypage/circuitAthnList.do"
+    },
+    {
+      "text": "회선 관리",
+      "href": "https://ktmyr.com/fe/mypage/mypage/circuitAthnList.do"
+    },
+    {
+      "text": "회선 추가",
+      "href": "https://ktmyr.com/fe/mypage/mypage/circuitAthnAdd.do"
+    },
+    {
+      "text": "분실/일시정지",
+      "href": "https://ktmyr.com/fe/mypage/mypage/sos/sos.do"
+    },
+    {
+      "text": "분실/일시정지 관리",
+      "href": "https://ktmyr.com/fe/mypage/mypage/sos/sos.do"
+    },
+    {
+      "text": "분실신고",
+      "href": "https://ktmyr.com/fe/mypage/mypage/sos/loseDclaList.do"
+    },
+    {
+      "text": "일시정지",
+      "href": "https://ktmyr.com/fe/mypage/mypage/sos/tstopList.do"
+    },
+    {
+      "text": "데이터 쉐어링",
+      "href": "https://ktmyr.com/fe/mypage/mypage/shar/dataShar.do"
+    },
+    {
+      "text": "데이터쉐어링 결합",
+      "href": "https://ktmyr.com/fe/mypage/mypage/shar/dataShar.do"
+    },
+    {
+      "text": "개통신청조회",
+      "href": "https://ktmyr.com/fe/mypage/mypage/shar/dataSharApyList.do"
+    },
+    {
+      "text": "데이터 주고받기",
+      "href": "https://ktmyr.com/fe/mypage/mypage/exchange/exchangeMain.do"
+    },
+    {
+      "text": "선불 잔액 조회",
+      "href": "https://ktmyr.com/fe/mypage/mypage/piablnc/piablncMain.do"
+    },
+    {
+      "text": "쿠폰함",
+      "href": "https://ktmyr.com/fe/mypage/coupn/mypageCoupnView.do"
+    },
+    {
+      "text": "나의 후기",
+      "href": "https://ktmyr.com/fe/mypage/mypage/reviewList.do"
+    },
+    {
+      "text": "상품",
+      "href": "https://ktmyr.com/fe/mypage/ppl/pplList.do"
+    },
+    {
+      "text": "후불요금제",
+      "href": "https://ktmyr.com/fe/mypage/ppl/pplList.do"
+    },
+    {
+      "text": "선불요금제",
+      "href": "https://ktmyr.com/fe/mypage/ppl/piaPplList.do"
+    },
+    {
+      "text": "부가서비스",
+      "href": "https://ktmyr.com/fe/mypage/ppl/pplOptsvcList.do"
+    },
+    {
+      "text": "로밍서비스",
+      "href": "https://ktmyr.com/fe/mypage/ppl/pplOptsvcLoamingList.do"
+    },
+    {
+      "text": "추천서비스",
+      "href": "https://ktmyr.com/fe/mypage/ppl/rcmdSvc/oneStoreMain.do"
+    },
+    {
+      "text": "원스토어",
+      "href": "https://ktmyr.com/fe/mypage/ppl/rcmdSvc/oneStoreMain.do"
+    },
+    {
+      "text": "PASS",
+      "href": "https://ktmyr.com/fe/mypage/ppl/rcmdSvc/passMain.do"
+    },
+    {
+      "text": "휴대폰 결제",
+      "href": "https://ktmyr.com/fe/mypage/ppl/rcmdSvc/phoneSettlMain.do"
+    },
+    {
+      "text": "유심/eSIM",
+      "href": "https://ktmyr.com/fe/service/usim/dlvr/usimDlvrMain.do"
+    },
+    {
+      "text": "유심구매",
+      "href": "https://ktmyr.com/fe/service/usim/dlvr/usimDlvrMain.do"
+    },
+    {
+      "text": "바로배송유심 주문",
+      "href": "https://ktmyr.com/fe/service/usim/dlvr/usimDlvrMain.do"
+    }
+  ],
+  "footer": [
+    "마이알뜰폰",
+    "마이알뜰폰 홈",
+    "회선/계정",
+    "사용량 조회",
+    "요금",
+    "요금제/부가서비스",
+    "회선",
+    "분실/일시정지",
+    "데이터 쉐어링",
+    "데이터 주고받기",
+    "선불 잔액 조회",
+    "쿠폰함",
+    "나의 후기",
+    "상품",
+    "후불요금제",
+    "선불요금제",
+    "부가서비스",
+    "로밍서비스",
+    "추천서비스",
+    "유심/eSIM"
+  ]
+}

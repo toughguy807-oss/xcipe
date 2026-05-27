@@ -1,0 +1,33 @@
+{
+  "exportedAt": "2026-05-18T12:45:52.959Z",
+  "fileName": "Untitled",
+  "filteredFor": {
+    "nodeId": "18:2892",
+    "name": "Screen — Self-open Main (C, mobile)",
+    "kdsId": "screen-c-mobile"
+  },
+  "totalChanges": 1,
+  "changes": [
+    {
+      "timestamp": "09:45:48 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "stokeTopWeight",
+        "strokeRightWeight",
+        "strokeLeftWeight"
+      ],
+      "values": {
+        "strokeRightWeight": 0,
+        "strokeLeftWeight": 0
+      },
+      "detail": "속성 변경 · stokeTopWeight, strokeRightWeight: 0, strokeLeftWeight: 0",
+      "nodeId": "18:2924",
+      "nodeName": "Sub Tab - 셀프개통 (active)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile) > Sub Tab",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    }
+  ]
+}

@@ -53,6 +53,17 @@ router.post('/me/session', (req, res) => {
   }
 });
 
+// v29: POST /shutdown-self — 본인 워커 종료 신호 전송
+//   UI 의 "⏹ 워커 종료" 버튼이 호출. shutdown_requested_at 마킹 → 30초 내 claim 응답에서 처리
+router.post('/shutdown-self', (req, res) => {
+  try {
+    db.prepare(`UPDATE users SET shutdown_requested_at = datetime('now') WHERE id = ?`).run(req.workerUser.id);
+    res.json({ ok: true, message: '워커 종료 신호 전송됨. 약 15초 내 자동 종료됩니다.' });
+  } catch (e) {
+    res.status(500).json({ error: 'ESYS-WRK-090', message: 'shutdown 마킹 실패', detail: e.message });
+  }
+});
+
 // ── /jobs/claim — atomic claim ────────────────────────────────────────
 //   본인(user_id = req.workerUser.id) 또는 user_id IS NULL 인 pending step 가장 오래된 것
 //   동시에 여러 워커가 호출해도 SQLite immediate 트랜잭션으로 1건만 claim
@@ -70,6 +81,18 @@ router.post('/jobs/claim', (req, res) => {
   //   매 /jobs/claim 호출마다 users.last_polled_at 갱신
   try {
     db.prepare(`UPDATE users SET last_polled_at = datetime('now') WHERE id = ?`).run(userId);
+  } catch {}
+
+  // v29: shutdown 신호 확인 — UI 의 "워커 종료" 버튼이 마킹한 경우 30초 내에서 active
+  //   daemon 이 받으면 process.exit(2) → cmd wrapper 5회 재시작 후 자동 종료
+  try {
+    const sd = db.prepare(`SELECT shutdown_requested_at FROM users WHERE id = ?`).get(userId);
+    if (sd && sd.shutdown_requested_at) {
+      const reqTime = new Date(sd.shutdown_requested_at + 'Z').getTime();
+      if (!isNaN(reqTime) && reqTime > Date.now() - 30 * 1000) {
+        return res.json({ shutdown: true, message: '워커 종료 신호 수신' });
+      }
+    }
   } catch {}
 
   // atomic claim — better-sqlite3 는 동기라 db.transaction() 으로 묶기만 하면 race 없음

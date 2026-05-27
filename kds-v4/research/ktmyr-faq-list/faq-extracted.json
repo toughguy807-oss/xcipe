@@ -1,0 +1,292 @@
+{
+  "rows": [],
+  "categories": [],
+  "tabs": [
+    {
+      "text": "마이알뜰폰",
+      "cls": "menu ",
+      "active": false,
+      "style": {
+        "color": "rgb(100, 100, 100)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "rgb(100, 100, 100)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "15px",
+        "fontWeight": "700"
+      }
+    },
+    {
+      "text": "상품",
+      "cls": "menu ",
+      "active": false,
+      "style": {
+        "color": "rgb(100, 100, 100)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "rgb(100, 100, 100)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "15px",
+        "fontWeight": "700"
+      }
+    },
+    {
+      "text": "유심/eSIM",
+      "cls": "menu ",
+      "active": false,
+      "style": {
+        "color": "rgb(100, 100, 100)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "rgb(100, 100, 100)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "15px",
+        "fontWeight": "700"
+      }
+    },
+    {
+      "text": "이벤트",
+      "cls": "menu ",
+      "active": false,
+      "style": {
+        "color": "rgb(100, 100, 100)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "rgb(100, 100, 100)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "15px",
+        "fontWeight": "700"
+      }
+    },
+    {
+      "text": "고객지원",
+      "cls": "menu active",
+      "active": true,
+      "style": {
+        "color": "rgb(0, 0, 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "rgb(0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "15px",
+        "fontWeight": "700"
+      }
+    },
+    {
+      "text": "서비스",
+      "cls": "menu ",
+      "active": false,
+      "style": {
+        "color": "rgb(100, 100, 100)",
+        "background": "rgba(0, 0, 0, 0)",
+        "border": "rgb(100, 100, 100)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "15px",
+        "fontWeight": "700"
+      }
+    },
+    {
+      "text": "전체",
+      "cls": "tabButton",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(204, 204, 204) rgb(204, 204, 204) rgb(119, 119, 119)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "TOP10",
+      "cls": "tabButton",
+      "active": true,
+      "style": {
+        "color": "rgb(0, 0, 0)",
+        "background": "rgb(255, 255, 255)",
+        "border": "rgb(0, 0, 0) rgb(204, 204, 204) rgb(204, 204, 204) rgb(0, 0, 0)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "700"
+      }
+    },
+    {
+      "text": "유심",
+      "cls": "tabButton",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(204, 204, 204) rgb(204, 204, 204) rgb(119, 119, 119)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "단말기",
+      "cls": "tabButton",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(119, 119, 119) rgb(204, 204, 204)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "로밍",
+      "cls": "tabButton",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(204, 204, 204) rgb(204, 204, 204) rgb(119, 119, 119)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "소액결제",
+      "cls": "tabButton",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(204, 204, 204) rgb(204, 204, 204) rgb(119, 119, 119)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "요금제",
+      "cls": "tabButton",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(204, 204, 204) rgb(204, 204, 204) rgb(119, 119, 119)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "부가서비스",
+      "cls": "tabButton",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(119, 119, 119) rgb(204, 204, 204)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "가입/변경/해지",
+      "cls": "tabButton noneBorderB",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(204, 204, 204) rgb(119, 119, 119) rgb(119, 119, 119)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "셀프개통",
+      "cls": "tabButton noneBorderB",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(204, 204, 204) rgb(119, 119, 119) rgb(119, 119, 119)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "요금/납부",
+      "cls": "tabButton noneBorderB",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119) rgb(204, 204, 204) rgb(119, 119, 119) rgb(119, 119, 119)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    },
+    {
+      "text": "기타",
+      "cls": "tabButton noneBorderB",
+      "active": false,
+      "style": {
+        "color": "rgb(119, 119, 119)",
+        "background": "rgb(249, 249, 249)",
+        "border": "rgb(119, 119, 119)",
+        "borderRadius": "0px",
+        "padding": "0px",
+        "fontSize": "16px",
+        "fontWeight": "400"
+      }
+    }
+  ],
+  "topQuestions": [],
+  "searchBox": {
+    "placeholder": "검색어를 입력해주세요",
+    "style": {
+      "color": "rgb(51, 51, 51)",
+      "background": "rgb(255, 255, 255)",
+      "border": "rgb(153, 153, 153) 1px solid",
+      "height": "50px",
+      "fontSize": "16px"
+    },
+    "parentBg": "rgba(0, 0, 0, 0)"
+  },
+  "pageBg": "rgba(0, 0, 0, 0)",
+  "h2": {
+    "text": "FAQ",
+    "style": {
+      "color": "rgb(0, 0, 0)",
+      "fontSize": "18px",
+      "fontWeight": "700"
+    }
+  },
+  "countSection": {
+    "text": "전체 (10건)",
+    "color": "rgb(0, 0, 0)",
+    "fontSize": "24px"
+  },
+  "qRowStyle": {
+    "text": "보안해제 정보",
+    "color": "rgb(0, 0, 0)",
+    "background": "rgba(0, 0, 0, 0)",
+    "borderTop": "rgb(0, 0, 0) 0px",
+    "borderBottom": "rgb(0, 0, 0) 0px",
+    "padding": "0px"
+  }
+}

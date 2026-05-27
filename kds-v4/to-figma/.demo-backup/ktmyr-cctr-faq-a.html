@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — 시안 A (카테고리 4×3 grid 우선 + 컴팩트 accordion)</title>
+<style>
+:root{
+  /* color — 모두 KDS semantic light-default 매핑 */
+  --background-default:#ffffff;        /* background.default = static.white */
+  --surface-primary-01:#ffffff;        /* surface.primary-01 */
+  --surface-primary-02:#f8f9fa;        /* surface.primary-02 = gray.25 */
+  --fill-accent-primary:#007f7f;       /* fill.accent-primary = teal.500 (brand teal 시그니처, KDS Brand Color Case 1) */
+  --fill-primary:#191a1b;              /* fill.primary = gray.900 */
+  --fill-secondary-01:#e9eaee;         /* fill.secondary-01 = gray.100 */
+  --fill-disabled-01:#f3f4f6;          /* fill.disabled-01 = gray.50 */
+  --text-primary:#191a1b;              /* text.primary = gray.900 */
+  --text-secondary-01:#55585d;         /* text.secondary-01 = gray.600 */
+  --text-tertiary-01:#6f737b;          /* text.tertiary-01 = gray.500 */
+  --text-inverse:#ffffff;              /* text.inverse */
+  --text-feedback-info-01:#007f7f;     /* text.feedback-info-01 = teal.500 */
+  --icon-primary:#191a1b;              /* icon.primary */
+  --icon-secondary-01:#55585d;         /* icon.secondary-01 = gray.600 */
+  --icon-tertiary-01:#6f737b;          /* icon.tertiary-01 = gray.500 */
+  --icon-inverse:#ffffff;              /* icon.inverse */
+  --border-primary-01:#8b8f97;         /* border.primary-01 = gray.400 */
+  --border-secondary-01:#e9eaee;       /* border.secondary-01 = gray.100 */
+  --border-tertiary-01:#f3f4f6;        /* border.tertiary-01 = gray.50 */
+  --border-feedback-info:#00a39b;      /* border.feedback-info = teal.400 */
+  --tag-info-fill:#e1f5f5;             /* tag.status.fill.info = teal.100 */
+  --tag-info-text:#007f7f;             /* tag.status.text.info = teal.500 */
+  --tag-default-fill:#e9eaee;          /* tag.status.fill.default = gray.100 */
+  --tag-default-text:#55585d;          /* tag.status.text.default = gray.600 */
+
+  /* radius */
+  --radius-4:4px; --radius-8:8px; --radius-12:12px; --radius-16:16px; --radius-circle:999px;
+
+  /* spacing */
+  --space-2:2px; --space-4:4px; --space-8:8px; --space-12:12px;
+  --space-16:16px; --space-20:20px; --space-24:24px; --space-32:32px;
+  --space-40:40px; --space-48:48px;
+
+  --font-pretendard:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scrollbar-gutter:stable; }
+html,body{ margin:0; padding:0; background:var(--surface-primary-02); font-family:var(--font-pretendard); color:var(--text-primary); }
+*{ word-break:keep-all; overflow-wrap:break-word; }
+img{ max-width:100%; height:auto; display:block; }
+button{ background:none; border:0; padding:0; font:inherit; color:inherit; cursor:pointer; }
+a{ color:inherit; text-decoration:none; }
+
+.screen{
+  width:375px;
+  min-height:812px;
+  margin:0 auto;
+  background:var(--background-default);
+  display:flex; flex-direction:column;
+}
+
+/* TopNav — KDS top-navigation Default (height 52, sub-title type) */
+.top-nav{
+  height:52px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 var(--space-8);
+  background:var(--background-default);
+  border-bottom:1px solid var(--border-tertiary-01);
+}
+.top-nav-leading,
+.top-nav-trailing{
+  width:44px; height:44px;
+  padding:8px;                                     /* space-8 — figma frame 일치 */
+  display:flex; align-items:center; justify-content:center;
+}
+.top-nav-title{
+  flex:1;
+  font-size:17px; font-weight:600; line-height:148%;   /* label-1 */
+  color:var(--text-primary);
+  text-align:center;
+}
+
+/* Page Header — 시안 A 는 톤 절제 (베이스에 가깝게) */
+.page-header{
+  padding:24px 20px 16px;
+  display:flex; flex-direction:column; gap:4px;     /* space-4 */
+  background:var(--background-default);
+}
+.page-header-title{
+  font-size:24px; font-weight:700; line-height:148%;   /* heading-2 */
+  color:var(--text-primary);
+}
+.page-header-sub{
+  font-size:14px; font-weight:400; line-height:148%;   /* body-3 */
+  color:var(--text-tertiary-01);
+}
+
+/* Category Grid — 시안 A 핵심 변형 영역: 4×3 큰 카드 grid (페이지 헤더 직후, 검색 hero 없이 카테고리가 무게중심) */
+.category-section{
+  padding:8px 20px 24px;
+  background:var(--background-default);
+}
+.category-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.cat-cell{
+  width:77px; height:88px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px;
+  padding:12px 4px;
+  background:var(--fill-disabled-01);
+  border:1px solid var(--border-tertiary-01);
+  border-radius:var(--radius-12);
+  color:var(--text-secondary-01);
+}
+.cat-cell.is-active{
+  background:var(--fill-accent-primary);
+  border-color:var(--fill-accent-primary);
+  color:var(--text-inverse);
+}
+.cat-cell-icon{
+  width:24px; height:24px;
+  display:flex; align-items:center; justify-content:center;
+  color:currentColor;
+}
+.cat-cell-label{
+  font-size:12px; font-weight:600; line-height:148%;   /* caption */
+  color:currentColor;
+  text-align:center;
+}
+
+/* Result count header */
+.result-header{
+  padding:8px 20px 12px;
+  display:flex; align-items:baseline; gap:4px;     /* space-4 */
+  background:var(--background-default);
+  border-bottom:2px solid var(--fill-primary);
+  margin:0 20px;
+}
+.result-header-title{
+  font-size:18px; font-weight:700; line-height:148%;   /* title-2 */
+  color:var(--text-primary);
+}
+.result-header-count{
+  font-size:14px; font-weight:500; line-height:148%;   /* body-3 */
+  color:var(--text-tertiary-01);
+}
+
+/* FAQ List — accordion */
+.faq-list{
+  padding:0 20px;
+  background:var(--background-default);
+  display:flex; flex-direction:column;
+}
+.faq-item{
+  border-bottom:1px solid var(--border-tertiary-01);
+}
+.faq-item-row{
+  width:100%;
+  display:flex; align-items:flex-start; gap:8px;
+  padding:16px 0;
+  text-align:left;
+}
+.faq-item-q{
+  width:20px;
+  flex:0 0 20px;
+  font-size:20px; font-weight:700; line-height:148%;   /* title-1 */
+  color:var(--text-primary);
+}
+.faq-item-q.is-open{
+  color:var(--fill-accent-primary);
+}
+.faq-item-body{
+  flex:1;
+  display:flex; flex-direction:column; gap:4px;     /* space-4 */
+}
+.faq-item-meta{
+  display:flex; align-items:center; gap:4px;        /* space-4 */
+}
+.faq-tag{
+  height:20px;
+  padding:0 4px;                                       /* space-4 */
+  display:inline-flex; align-items:center;
+  font-size:11px; font-weight:600; line-height:1;     /* tag Medium 20 */
+  background:var(--tag-info-fill);
+  color:var(--tag-info-text);
+  border-radius:var(--radius-4);
+}
+.faq-item-text{
+  font-size:15px; font-weight:500; line-height:148%;   /* body-2 medium */
+  color:var(--text-primary);
+}
+.faq-item-text.is-open{
+  color:var(--fill-accent-primary);
+}
+.faq-item-chev{
+  width:24px; height:24px;
+  flex:0 0 24px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--icon-secondary-01);
+  margin-top:2px;
+}
+.faq-item-chev.is-open{
+  color:var(--fill-accent-primary);
+}
+
+/* Expanded answer */
+.faq-answer{
+  background:var(--surface-primary-02);
+  border-radius:var(--radius-8);
+  padding:16px;
+  display:flex; flex-direction:column; gap:12px;
+  margin:0 0 16px 28px;   /* Q 아이콘 폭(20) + gap(8) = 28 들여쓰기 */
+}
+.faq-answer-text{
+  font-size:14px; font-weight:400; line-height:170%;   /* body-3 본문 */
+  color:var(--text-primary);
+}
+.faq-answer-helpful{
+  display:flex; align-items:center; gap:8px;
+  padding-top:8px;
+  border-top:1px solid var(--border-tertiary-01);
+}
+.faq-answer-helpful-label{
+  font-size:12px; font-weight:500; line-height:148%;
+  color:var(--text-tertiary-01);
+}
+.helpful-btn{
+  height:24px;                                    /* button.XSmall 24 — KDS button 사이즈 토큰 */
+  padding:0 8px;                                  /* space-8 */
+  display:inline-flex; align-items:center; gap:4px;
+  border:1px solid var(--border-primary-01);
+  border-radius:var(--radius-circle);
+  background:var(--background-default);            /* tertiary-filled style */
+  font-size:12px; font-weight:500; line-height:148%; /* caption */
+  color:var(--text-primary);                       /* tertiary: text.primary */
+}
+.helpful-btn-icon{
+  width:14px; height:14px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* Pagination */
+.pagination{
+  display:flex; align-items:center; justify-content:center; gap:4px;
+  padding:24px 20px 16px;
+  background:var(--background-default);
+}
+.page-btn{
+  width:32px; height:32px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:500; line-height:148%;   /* label-3 */
+  color:var(--text-secondary-01);
+  border-radius:var(--radius-4);
+}
+.page-btn.is-current{
+  background:var(--fill-primary);
+  color:var(--text-inverse);
+  font-weight:700;
+}
+.page-btn-nav{
+  color:var(--icon-secondary-01);
+}
+
+/* Bottom help */
+.bottom-help{
+  margin:8px 20px 32px;
+  padding:20px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px;
+  background:var(--fill-disabled-01);
+  border-radius:var(--radius-12);
+}
+.bottom-help-body{
+  display:flex; flex-direction:column; gap:4px;
+}
+.bottom-help-title{
+  font-size:14px; font-weight:600; line-height:148%;   /* body-3 semibold */
+  color:var(--text-primary);
+}
+.bottom-help-sub{
+  font-size:12px; font-weight:400; line-height:148%;   /* caption */
+  color:var(--text-tertiary-01);
+}
+.bottom-help-cta{
+  height:44px;
+  padding:0 16px;
+  display:inline-flex; align-items:center; gap:4px;
+  background:var(--fill-primary);
+  color:var(--text-inverse);
+  border-radius:var(--radius-8);
+  font-size:13px; font-weight:600; line-height:148%;   /* label-3 */
+}
+.bottom-help-cta-icon{
+  width:16px; height:16px;
+  display:flex; align-items:center; justify-content:center;
+}
+</style>
+</head>
+<body>
+<main class="screen" data-kds-id="screen-cctr-faq-a">
+
+  <!-- TopNav (sub-title) -->
+  <header class="top-nav" data-kds-id="top-nav">
+    <button class="top-nav-leading" data-kds-id="top-nav-back" aria-label="뒤로가기">
+      <span data-kds-id="top-nav-back-icon-box">
+        <svg data-kds-icon="chevron-left" width="24" height="24"></svg>
+      </span>
+    </button>
+    <div class="top-nav-title" data-kds-id="top-nav-title">자주 묻는 질문</div>
+    <button class="top-nav-trailing" data-kds-id="top-nav-home" aria-label="홈">
+      <span data-kds-id="top-nav-home-icon-box">
+        <svg data-kds-icon="home" width="24" height="24"></svg>
+      </span>
+    </button>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header" data-kds-id="page-header">
+    <h1 class="page-header-title" data-kds-id="page-header-title">FAQ</h1>
+    <p class="page-header-sub" data-kds-id="page-header-sub">자주 묻는 질문을 카테고리별로 빠르게 찾아보세요.</p>
+  </section>
+
+  <!-- Category 4x3 grid (시안 A 핵심 변형, 검색 hero 없이 카테고리가 무게중심) -->
+  <section class="category-section" data-kds-id="category-section">
+    <div class="category-grid" data-kds-id="category-grid">
+      <!-- Row 1 -->
+      <button class="cat-cell" data-kds-id="cat-all">
+        <span class="cat-cell-icon" data-kds-id="cat-all-icon-box">
+          <svg data-kds-icon="menu" width="24" height="24"></svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-all-label">전체</span>
+      </button>
+      <button class="cat-cell is-active" data-kds-id="cat-top10">
+        <span class="cat-cell-icon" data-kds-id="cat-top10-icon-box">
+          <svg data-kds-icon="star-fill" width="24" height="24"></svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-top10-label">TOP10</span>
+      </button>
+      <button class="cat-cell" data-kds-id="cat-usim">
+        <span class="cat-cell-icon" data-kds-id="cat-usim-icon-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="3" width="14" height="18" rx="2"/>
+            <path d="M9 11h6"/>
+            <path d="M9 15h6"/>
+            <path d="M12 7v0"/>
+          </svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-usim-label">유심</span>
+      </button>
+      <button class="cat-cell" data-kds-id="cat-device">
+        <span class="cat-cell-icon" data-kds-id="cat-device-icon-box">
+          <svg data-kds-icon="smartphone" width="24" height="24"></svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-device-label">단말기</span>
+      </button>
+      <!-- Row 2 -->
+      <button class="cat-cell" data-kds-id="cat-roaming">
+        <span class="cat-cell-icon" data-kds-id="cat-roaming-icon-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M3 12h18"/>
+            <path d="M12 3a13 13 0 0 1 0 18"/>
+            <path d="M12 3a13 13 0 0 0 0 18"/>
+          </svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-roaming-label">로밍</span>
+      </button>
+      <button class="cat-cell" data-kds-id="cat-micropay">
+        <span class="cat-cell-icon" data-kds-id="cat-micropay-icon-box">
+          <svg data-kds-icon="credit-card" width="24" height="24"></svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-micropay-label">소액결제</span>
+      </button>
+      <button class="cat-cell" data-kds-id="cat-plan">
+        <span class="cat-cell-icon" data-kds-id="cat-plan-icon-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"/>
+            <path d="M8 8h6"/>
+            <path d="M8 12h8"/>
+            <path d="M8 16h5"/>
+          </svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-plan-label">요금제</span>
+      </button>
+      <button class="cat-cell" data-kds-id="cat-addon">
+        <span class="cat-cell-icon" data-kds-id="cat-addon-icon-box">
+          <svg data-kds-icon="gift" width="24" height="24"></svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-addon-label">부가서비스</span>
+      </button>
+      <!-- Row 3 -->
+      <button class="cat-cell" data-kds-id="cat-account">
+        <span class="cat-cell-icon" data-kds-id="cat-account-icon-box">
+          <svg data-kds-icon="pencil" width="24" height="24"></svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-account-label">가입/변경/해지</span>
+      </button>
+      <button class="cat-cell" data-kds-id="cat-selfopen">
+        <span class="cat-cell-icon" data-kds-id="cat-selfopen-icon-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v9"/>
+            <path d="M7.5 7a8 8 0 1 0 9 0"/>
+          </svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-selfopen-label">셀프개통</span>
+      </button>
+      <button class="cat-cell" data-kds-id="cat-billing">
+        <span class="cat-cell-icon" data-kds-id="cat-billing-icon-box">
+          <svg data-kds-icon="document" width="24" height="24"></svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-billing-label">요금/납부</span>
+      </button>
+      <button class="cat-cell" data-kds-id="cat-etc">
+        <span class="cat-cell-icon" data-kds-id="cat-etc-icon-box">
+          <svg data-kds-icon="dots-horizontal" width="24" height="24"></svg>
+        </span>
+        <span class="cat-cell-label" data-kds-id="cat-etc-label">기타</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Result Count Header -->
+  <section class="result-header" data-kds-id="result-header">
+    <h2 class="result-header-title" data-kds-id="result-header-title">TOP10</h2>
+    <span class="result-header-count" data-kds-id="result-header-count">10건</span>
+  </section>
+
+  <!-- FAQ List -->
+  <section class="faq-list" data-kds-id="faq-list">
+
+    <!-- FAQ 1 (collapsed) -->
+    <div class="faq-item" data-kds-id="faq-1">
+      <button class="faq-item-row" data-kds-id="faq-1-row">
+        <span class="faq-item-q" data-kds-id="faq-1-q">Q</span>
+        <span class="faq-item-body" data-kds-id="faq-1-body">
+          <span class="faq-item-meta" data-kds-id="faq-1-meta">
+            <span class="faq-tag" data-kds-id="faq-1-tag">셀프개통</span>
+          </span>
+          <span class="faq-item-text" data-kds-id="faq-1-text">셀프개통은 어떻게 하나요?</span>
+        </span>
+        <span class="faq-item-chev" data-kds-id="faq-1-chev-box">
+          <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+        </span>
+      </button>
+    </div>
+
+    <!-- FAQ 2 (collapsed) -->
+    <div class="faq-item" data-kds-id="faq-2">
+      <button class="faq-item-row" data-kds-id="faq-2-row">
+        <span class="faq-item-q" data-kds-id="faq-2-q">Q</span>
+        <span class="faq-item-body" data-kds-id="faq-2-body">
+          <span class="faq-item-meta" data-kds-id="faq-2-meta">
+            <span class="faq-tag" data-kds-id="faq-2-tag">유심</span>
+          </span>
+          <span class="faq-item-text" data-kds-id="faq-2-text">USIM 분실 시 재발급 방법이 궁금해요.</span>
+        </span>
+        <span class="faq-item-chev" data-kds-id="faq-2-chev-box">
+          <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+        </span>
+      </button>
+    </div>
+
+    <!-- FAQ 3 (OPEN — 시안 A 의 핵심 노출) -->
+    <div class="faq-item" data-kds-id="faq-3">
+      <button class="faq-item-row" data-kds-id="faq-3-row">
+        <span class="faq-item-q is-open" data-kds-id="faq-3-q">Q</span>
+        <span class="faq-item-body" data-kds-id="faq-3-body">
+          <span class="faq-item-meta" data-kds-id="faq-3-meta">
+            <span class="faq-tag" data-kds-id="faq-3-tag">유심</span>
+          </span>
+          <span class="faq-item-text is-open" data-kds-id="faq-3-text">eSIM 으로 변경 가능한가요?</span>
+        </span>
+        <span class="faq-item-chev is-open" data-kds-id="faq-3-chev-box">
+          <svg data-kds-icon="chevron-up" width="24" height="24"></svg>
+        </span>
+      </button>
+      <div class="faq-answer" data-kds-id="faq-3-answer">
+        <p class="faq-answer-text" data-kds-id="faq-3-answer-text">eSIM 지원 단말이라면 기존 물리 유심을 eSIM 으로 변경할 수 있어요. 마이페이지에서 'eSIM 전환 신청' 메뉴를 선택하시면 본인 인증 후 QR 코드로 바로 설치 가능합니다. 단말 호환 여부는 '단말기' 카테고리에서 먼저 확인해 주세요.</p>
+        <div class="faq-answer-helpful" data-kds-id="faq-3-helpful">
+          <span class="faq-answer-helpful-label" data-kds-id="faq-3-helpful-label">도움이 되었나요?</span>
+          <button class="helpful-btn" data-kds-id="faq-3-helpful-up">
+            <span class="helpful-btn-icon" data-kds-id="faq-3-helpful-up-icon-box">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 11v9"/>
+                <path d="M7 11l5-8a3 3 0 0 1 3 3v4h4a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 1H7"/>
+              </svg>
+            </span>
+            <span data-kds-id="faq-3-helpful-up-label">도움됐어요</span>
+          </button>
+          <button class="helpful-btn" data-kds-id="faq-3-helpful-down">
+            <span class="helpful-btn-icon" data-kds-id="faq-3-helpful-down-icon-box">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 13V4"/>
+                <path d="M17 13l-5 8a3 3 0 0 1-3-3v-4H5a2 2 0 0 1-2-2l2-7a2 2 0 0 1 2-1h10"/>
+              </svg>
+            </span>
+            <span data-kds-id="faq-3-helpful-down-label">아쉬워요</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ 4 (collapsed) -->
+    <div class="faq-item" data-kds-id="faq-4">
+      <button class="faq-item-row" data-kds-id="faq-4-row">
+        <span class="faq-item-q" data-kds-id="faq-4-q">Q</span>
+        <span class="faq-item-body" data-kds-id="faq-4-body">
+          <span class="faq-item-meta" data-kds-id="faq-4-meta">
+            <span class="faq-tag" data-kds-id="faq-4-tag">요금제</span>
+          </span>
+          <span class="faq-item-text" data-kds-id="faq-4-text">월 데이터 초과 시 어떻게 되나요?</span>
+        </span>
+        <span class="faq-item-chev" data-kds-id="faq-4-chev-box">
+          <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+        </span>
+      </button>
+    </div>
+
+    <!-- FAQ 5 (collapsed) -->
+    <div class="faq-item" data-kds-id="faq-5">
+      <button class="faq-item-row" data-kds-id="faq-5-row">
+        <span class="faq-item-q" data-kds-id="faq-5-q">Q</span>
+        <span class="faq-item-body" data-kds-id="faq-5-body">
+          <span class="faq-item-meta" data-kds-id="faq-5-meta">
+            <span class="faq-tag" data-kds-id="faq-5-tag">로밍</span>
+          </span>
+          <span class="faq-item-text" data-kds-id="faq-5-text">해외 로밍 가능한 국가가 어디인가요?</span>
+        </span>
+        <span class="faq-item-chev" data-kds-id="faq-5-chev-box">
+          <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+        </span>
+      </button>
+    </div>
+
+    <!-- FAQ 6 (collapsed) -->
+    <div class="faq-item" data-kds-id="faq-6">
+      <button class="faq-item-row" data-kds-id="faq-6-row">
+        <span class="faq-item-q" data-kds-id="faq-6-q">Q</span>
+        <span class="faq-item-body" data-kds-id="faq-6-body">
+          <span class="faq-item-meta" data-kds-id="faq-6-meta">
+            <span class="faq-tag" data-kds-id="faq-6-tag">부가서비스</span>
+          </span>
+          <span class="faq-item-text" data-kds-id="faq-6-text">부가서비스는 어떻게 가입·해지하나요?</span>
+        </span>
+        <span class="faq-item-chev" data-kds-id="faq-6-chev-box">
+          <svg data-kds-icon="chevron-down" width="24" height="24"></svg>
+        </span>
+      </button>
+    </div>
+
+  </section>
+
+  <!-- Pagination -->
+  <nav class="pagination" data-kds-id="pagination">
+    <button class="page-btn page-btn-nav" data-kds-id="page-prev" aria-label="이전">
+      <span data-kds-id="page-prev-icon-box">
+        <svg data-kds-icon="chevron-left" width="20" height="20"></svg>
+      </span>
+    </button>
+    <button class="page-btn is-current" data-kds-id="page-1">1</button>
+    <button class="page-btn" data-kds-id="page-2">2</button>
+    <button class="page-btn" data-kds-id="page-3">3</button>
+    <button class="page-btn" data-kds-id="page-4">4</button>
+    <button class="page-btn" data-kds-id="page-5">5</button>
+    <button class="page-btn page-btn-nav" data-kds-id="page-next" aria-label="다음">
+      <span data-kds-id="page-next-icon-box">
+        <svg data-kds-icon="chevron-right" width="20" height="20"></svg>
+      </span>
+    </button>
+  </nav>
+
+  <!-- Bottom help -->
+  <section class="bottom-help" data-kds-id="bottom-help">
+    <div class="bottom-help-body" data-kds-id="bottom-help-body">
+      <div class="bottom-help-title" data-kds-id="bottom-help-title">원하는 답을 찾지 못하셨나요?</div>
+      <div class="bottom-help-sub" data-kds-id="bottom-help-sub">상담사가 친절하게 도와드릴게요.</div>
+    </div>
+    <button class="bottom-help-cta" data-kds-id="bottom-help-cta">
+      <span class="bottom-help-cta-icon" data-kds-id="bottom-help-cta-icon-box">
+        <svg data-kds-icon="headset" width="16" height="16"></svg>
+      </span>
+      <span data-kds-id="bottom-help-cta-label">상담 연결</span>
+    </button>
+  </section>
+
+</main>
+</body>
+</html>

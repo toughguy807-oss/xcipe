@@ -1,0 +1,59 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:uxdesign.kt.com)",
+      "WebSearch",
+      "Bash(open:*)",
+      "Bash(xdg-open *)",
+      "Bash(kill:*)",
+      "Bash(kill *)",
+      "Bash(taskkill *)",
+      "Bash(lsof *)",
+      "Bash(uname)",
+      "Bash(netstat -ano)",
+      "Bash(node *)",
+      "Bash(curl -s http://localhost:3939/health)",
+      "Bash(curl -s http://localhost:3939/design)",
+      "Bash(curl -s http://localhost:3939/designs)",
+      "Bash(curl -s *)",
+      "Bash(curl -sL *)",
+      "Bash(curl -sI *)",
+      "Bash(curl -sLf *)",
+      "Bash(curl -sfL *)",
+      "Skill(update-config)",
+      "Bash(findstr :3939)",
+      "Bash(findstr LISTENING)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "U=$(uname 2>/dev/null); if [ \"$U\" = \"Darwin\" ] || [ \"$U\" = \"Linux\" ]; then L=$(lsof -ti :3939 2>/dev/null | head -1); KILL_HINT=\"kill -9 $L\"; else L=$(netstat -ano | grep ':3939' | grep 'LISTENING' | awk '{print $5}' | head -1); KILL_HINT=\"taskkill //F //PID $L\"; fi; if [ -n \"$L\" ]; then O=$(cat .bridge.pid 2>/dev/null); if [ \"$O\" = \"$L\" ]; then exit 0; fi; printf '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"포트 3939에 브릿지 서버(또는 다른 프로세스)가 이미 떠 있습니다 (PID=%s). 자동으로 건드리지 않았습니다. 사용자에게 \\\"기존 서버를 그대로 쓸까요, 종료하고 새로 띄울까요?\\\" 라고 먼저 물어봐 주세요. 교체 선택 시: %s 후 node bridge-server.js > logs/bridge.log 2>&1 & 로 재기동.\"}}\\n' \"$L\" \"$KILL_HINT\"; exit 0; fi; mkdir -p logs; if [ ! -d node_modules/chokidar ]; then npm install > logs/npm-install.log 2>&1; fi; node bridge-server.js > logs/bridge.log 2>&1 < /dev/null & P=$!; echo \"$P\" > .bridge.pid; disown 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "( sleep 2 && curl -sf http://localhost:3939/health > /dev/null 2>&1 && ( U=$(uname 2>/dev/null); if [ \"$U\" = \"Darwin\" ]; then open \"http://localhost:3939/preview\"; elif [ \"$U\" = \"Linux\" ]; then xdg-open \"http://localhost:3939/preview\"; else cmd //c start \"\" \"http://localhost:3939/preview\"; fi ) ) >/dev/null 2>&1 & disown 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f .bridge.pid ]; then P=$(cat .bridge.pid); if [ -n \"$P\" ]; then U=$(uname 2>/dev/null); if [ \"$U\" = \"Darwin\" ] || [ \"$U\" = \"Linux\" ]; then kill -9 \"$P\" 2>/dev/null; else taskkill //F //PID \"$P\" 2>/dev/null; fi; fi; rm -f .bridge.pid; fi; true"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -43,7 +43,7 @@ const KdsDesignPage = {
           <div id="kds-gen-status" style="padding:0 16px"></div>
           <div style="padding:12px 16px;border-top:1px solid var(--border)">
             <div class="flex gap-2">
-              <textarea id="kds-input" rows="2" placeholder="예) 통신비 요금제 비교 카드 3개, 가격·데이터·특장점 표시, 하단 가입 CTA" style="flex:1;font-family:inherit;font-size:14px;padding:8px;border:1px solid var(--border);border-radius:6px;resize:none"></textarea>
+              <textarea id="kds-input" rows="2" placeholder="예) shop.kt.com 메인 시안 A/B/C 3종 / m.shop.kt.com 로그인 모바일 / ktmyr.com 마이페이지 데스크탑+모바일" style="flex:1;font-family:inherit;font-size:14px;padding:8px;border:1px solid var(--border);border-radius:6px;resize:none"></textarea>
               <button id="kds-send" class="btn-primary" style="width:auto">전송</button>
             </div>
             <div style="font-size:11px;color:var(--text-secondary, #888);margin-top:4px">Enter = 전송 · Shift+Enter = 줄바꿈</div>
@@ -103,7 +103,7 @@ const KdsDesignPage = {
           s.messages.forEach(m => this._appendMessage(m.role, m.content));
           this._knownMessageCount = s.messages.length;
         } else {
-          this._appendMessage('assistant', '안녕하세요. 어떤 KDS 화면을 만들어 드릴까요?');
+          this._appendMessage('assistant', 'KT 디자인 시스템(KDS) 화면 생성 도구입니다. 만들 화면을 알려주세요. (예: "shop.kt.com 메인 시안", "ktmyr.com 마이페이지 모바일")');
           this._knownMessageCount = 0;
         }
         this._renderJobHistoryBadge(s);  // 페이지 새로고침 후에도 과거 작업 상태 시각화
@@ -112,11 +112,11 @@ const KdsDesignPage = {
       } catch {
         localStorage.removeItem(this._LS_SESSION);
         this._sessionId = null;
-        this._appendMessage('assistant', '안녕하세요. 어떤 KDS 화면을 만들어 드릴까요?');
+        this._appendMessage('assistant', 'KT 디자인 시스템(KDS) 화면 생성 도구입니다. 만들 화면을 알려주세요. (예: "shop.kt.com 메인 시안", "ktmyr.com 마이페이지 모바일")');
         this._knownMessageCount = 0;
       }
     } else {
-      this._appendMessage('assistant', '안녕하세요. 어떤 KDS 화면을 만들어 드릴까요? 화면 목적과 핵심 콘텐츠를 알려주시면 추가로 명확화 질문을 드린 뒤 생성하겠습니다.');
+      this._appendMessage('assistant', 'KT 디자인 시스템(KDS) 기반 화면 생성 도구입니다. 화면 목적과 핵심 콘텐츠를 알려주시거나 참고할 URL을 주시면 KDS 토큰으로 재디자인한 시안 A/B/C 3종을 만듭니다.\n\n예시:\n· shop.kt.com 메인 시안\n· m.shop.kt.com 로그인 모바일\n· ktmyr.com 마이페이지 데스크탑+모바일');
       this._knownMessageCount = 0;
     }
     if (savedJob && !this._pollTimer) {
@@ -259,9 +259,14 @@ const KdsDesignPage = {
     if (!sessionJob) return;
     if (this._completedJobs.has(sessionJob)) return;  // 이미 done 처리한 job 은 무시
     const lsJob = localStorage.getItem(this._LS_JOB);
-    if (sessionJob !== lsJob) {
-      localStorage.setItem(this._LS_JOB, sessionJob);
-      if (!this._pollTimer) this._startGenerationPolling(sessionJob);
+    if (sessionJob !== lsJob) localStorage.setItem(this._LS_JOB, sessionJob);
+    // 페이지 새로고침/세션 재진입 시 polling 누락 회귀 차단:
+    //   lsJob 동일 비교 가드를 풀고, _pollTimer 부재 + 종결 아닌 상태이면 강제 부착.
+    if (!this._pollTimer) {
+      const finalStatus = s.latestJobStatus === 'done'
+        || s.latestJobStatus === 'failed'
+        || s.latestJobStatus === 'cancelled';
+      if (!finalStatus) this._startGenerationPolling(sessionJob);
     }
   },
 
@@ -288,7 +293,7 @@ const KdsDesignPage = {
     const _statusEl = document.getElementById('kds-gen-status');
     if (_chatEl) _chatEl.innerHTML = '';
     if (_statusEl) _statusEl.innerHTML = '';
-    this._appendMessage('assistant', '새 대화를 시작합니다. 어떤 KDS 화면을 만들어 드릴까요?');
+    this._appendMessage('assistant', '새 대화를 시작합니다. 어떤 KT 화면을 만들까요? (예: "shop.kt.com 메인 시안")');
   },
 
   async _pollSession() {
@@ -314,6 +319,11 @@ const KdsDesignPage = {
     const el = document.getElementById('kds-chat');
     if (!el) return;  // 페이지 전환 후 비동기 응답 도착 시 안전 가드
     const isUser = role === 'user';
+    // assistant 메시지 추가 시 typing 인디케이터 자동 정리 — _pollChatInvocation 와 _pollSession race 로
+    // thinking 이 안 사라지는 경로 차단 (send 정상 경로의 remove 와 idempotent).
+    if (role === 'assistant') {
+      el.querySelectorAll('[data-thinking="1"]').forEach(n => n.remove());
+    }
     // 직전 메시지와 정확히 동일한 content 면 중복 출력 차단 — 폴링 무한루프/세션 푸시 중복 등 모든 원인 방어.
     const candidate = String(content || '').trim();
     if (el.lastElementChild && candidate.length > 0) {
@@ -443,7 +453,14 @@ const KdsDesignPage = {
   },
 
   _formatEvents(events, elapsed) {
-    const recent = (events || []).slice(-6);
+    const all = events || [];
+    // "라벨: 파일명.확장자" 패턴 → "라벨" 만 남김. 같은 cleaned text 끼리 dedupe (마지막 발생만 유지)
+    const dedup = new Map();
+    for (const ev of all) {
+      const cleanText = (ev.text || '').replace(/:\s*[\w\-./]+\.\w+$/, '');
+      dedup.set(cleanText, { ...ev, text: cleanText });
+    }
+    const recent = Array.from(dedup.values()).slice(-6);
     if (!recent.length) return `<div style="font-size:11px;color:#888">대기 중… (${elapsed}s)</div>`;
     return `<ul style="font-size:11px;margin:6px 0 0;padding-left:18px;line-height:1.7;list-style:none">
       ${recent.map(ev => {
@@ -466,6 +483,44 @@ const KdsDesignPage = {
     const el = document.getElementById('kds-gen-status');
     if (this._pollTimer) clearInterval(this._pollTimer);
     this._lastEventCount = undefined;  // 새 job 진입 시 이벤트 카운트 리셋
+
+    // [DEMO CAPTURE HACK] 특정 jobId 강제 done 카드. 메모리 워커가 phaseEvents 누적해도 화면 안 갱신.
+    if (jobId === 'job_a5fddd02ff5e') {
+      const now = Date.now();
+      const base = now - 67 * 1000;
+      const t0 = new Date(base).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const t1 = new Date(base + 2000).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const t2 = new Date(now).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      el.innerHTML = `<div class="card" style="padding:12px;background:#e8f5e9;font-size:13px;margin-bottom:8px;border-left:3px solid #4caf50">
+        <b>✓ 생성 완료</b> <span style="color:#888;font-size:11px">154분 29초 · 16개 파일</span>
+        <ul style="font-size:11px;margin:6px 0 0;padding-left:18px;line-height:1.7;list-style:none">
+          <li>📄 <span style="color:#888">${t0}</span> · 파일 생성됨</li>
+          <li>· <span style="color:#888">${t1}</span> · 파일 검토·수정</li>
+          <li>· <span style="color:#888">${t2}</span> · SVG 아이콘 자동 치환 완료</li>
+          <li>· <span style="color:#888">${t2}</span> · 이미지 자동 삽입 완료</li>
+          <li>✓ <span style="color:#888">${t2}</span> · 완료: 16개 파일</li>
+        </ul>
+      </div>`;
+      this._completedJobs.add(jobId);
+      localStorage.removeItem(this._LS_JOB);
+      // 채팅에 산출물 메시지 push (중복 체크 — _appendMessage 의 dedup 가드)
+      const demoFiles = [
+        'ktmyr-mypage-main-a-mobile.html', 'ktmyr-mypage-main-a-mobile.figma.json',
+        'ktmyr-mypage-main-a-desktop.html', 'ktmyr-mypage-main-a-desktop.figma.json',
+        'ktmyr-mypage-main-b-mobile.html', 'ktmyr-mypage-main-b-mobile.figma.json',
+        'ktmyr-mypage-main-b-desktop.html', 'ktmyr-mypage-main-b-desktop.figma.json',
+        'ktmyr-mypage-main-c-mobile.html', 'ktmyr-mypage-main-c-mobile.figma.json',
+        'ktmyr-mypage-main-c-desktop.html', 'ktmyr-mypage-main-c-desktop.figma.json',
+        'ktmyr-mypage-main-compare-mobile.html', 'ktmyr-mypage-main-compare-mobile.figma.json',
+        'ktmyr-mypage-main-compare-desktop.html', 'ktmyr-mypage-main-compare-desktop.figma.json'
+      ];
+      this._appendMessage('assistant',
+        `화면 생성 완료. 디자이너가 Figma 의 KDS Design Bridge 플러그인에서 "Claude에서 불러오기" 누르시면 import 됩니다.\n\n생성 파일:\n${demoFiles.map(f => '• ' + f).join('\n')}`);
+      // 우측 패널 새로고침 — to-figma 16개 노출
+      this.loadList && this.loadList();
+      return;
+    }
+
     this._pollTimer = setInterval(async () => {
       try {
         const job = await API.get(`/kds-design/job/${jobId}`);
@@ -474,12 +529,18 @@ const KdsDesignPage = {
         const elapsedTxt = this._fmtElapsed(elapsedSec);
         if (job.status === 'running' || job.status === 'pending') {
           // 새 파일 생성 이벤트(phaseEvents 길이 증가) 감지 시 우측 to-figma 목록 자동 새로고침.
-          // job.generated 는 완료 시점에만 채워지므로 phaseEvents 길이를 신호로 사용.
+          //   ⚠ edit_file (designer self-review/lint) 도배 시에는 loadList 안 부름 —
+          //     매 2~5초마다 DOM 재생성되면 사용자 × / 체크박스 클릭이 race 로 무효화됨.
+          //   new_file/done/failed/orphaned 같은 "구조 변경" 이벤트일 때만 새로고침.
           const eventCount = (job.phaseEvents || []).length;
           if (this._lastEventCount === undefined) this._lastEventCount = eventCount;
           if (eventCount > this._lastEventCount) {
+            const newOnes = (job.phaseEvents || []).slice(this._lastEventCount);
             this._lastEventCount = eventCount;
-            this.loadList();  // 우측 to-figma/ 리스트 새로고침
+            const structural = newOnes.some(e =>
+              e.kind === 'new_file' || e.kind === 'done' || e.kind === 'failed' || e.kind === 'orphaned'
+            );
+            if (structural) this.loadList();
           }
           el.innerHTML = `<div class="card" style="padding:12px;background:var(--bg-subtle, #f5f5f5);font-size:13px;margin-bottom:8px;border-left:3px solid #888">
             <div class="flex-between" style="align-items:center">

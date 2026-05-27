@@ -1,0 +1,210 @@
+{
+  "exportedAt": "2026-05-18T13:00:58.568Z",
+  "fileName": "Untitled",
+  "filteredFor": null,
+  "totalChanges": 11,
+  "changes": [
+    {
+      "timestamp": "10:00:55 PM",
+      "type": "DELETE",
+      "nodeId": "18:2944",
+      "nodeName": "(unknown)",
+      "nodeType": "(deleted)",
+      "detail": "요소 삭제됨"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "height"
+      ],
+      "values": {
+        "height": 312
+      },
+      "detail": "속성 변경 · height: 312",
+      "nodeId": "18:2931",
+      "nodeName": "Hero CTA Card",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile) > Hero CTA Wrap (C-1)",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "height"
+      ],
+      "values": {
+        "height": 344
+      },
+      "detail": "속성 변경 · height: 344",
+      "nodeId": "18:2930",
+      "nodeName": "Hero CTA Wrap (C-1)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile)",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "height"
+      ],
+      "values": {
+        "height": 3230
+      },
+      "detail": "속성 변경 · height: 3230",
+      "nodeId": "18:2892",
+      "nodeName": "Screen — Self-open Main (C, mobile)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,572]]",
+        "y": 572
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,572]], y: 572",
+      "nodeId": "18:2949",
+      "nodeName": "Precheck Wrap (C-2)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile)",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,826]]",
+        "y": 826
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,826]], y: 826",
+      "nodeId": "18:2965",
+      "nodeName": "FAQ Top Wrap (C-3)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile)",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,1046]]",
+        "y": 1046
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,1046]], y: 1046",
+      "nodeId": "18:2983",
+      "nodeName": "Guide Wrap (C-4 — Step 02 with Plan Integration)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile)",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,2372]]",
+        "y": 2372
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,2372]], y: 2372",
+      "nodeId": "18:3085",
+      "nodeName": "Helper Wrap (C-5)",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile)",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,2664]]",
+        "y": 2664
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,2664]], y: 2664",
+      "nodeId": "18:3113",
+      "nodeName": "Notice Wrap",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile)",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,0],[0,1,3002]]",
+        "y": 3002
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,0],[0,1,3002]], y: 3002",
+      "nodeId": "18:3128",
+      "nodeName": "Footer",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile)",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    },
+    {
+      "timestamp": "10:00:54 PM",
+      "type": "PROPERTY_CHANGE",
+      "properties": [
+        "relativeTransform",
+        "y"
+      ],
+      "values": {
+        "relativeTransform": "[[1,0,159.5],[0,1,3174]]",
+        "y": 3174
+      },
+      "detail": "속성 변경 · relativeTransform: [[1,0,159.5],[0,1,3174]], y: 3174",
+      "nodeId": "18:3138",
+      "nodeName": "Chat FAB",
+      "nodeType": "FRAME",
+      "parentPath": "Page 1 > Screen — Self-open Main (C, mobile)",
+      "screenNodeId": "18:2892",
+      "screenName": "Screen — Self-open Main (C, mobile)",
+      "screenKdsId": "screen-c-mobile"
+    }
+  ]
+}

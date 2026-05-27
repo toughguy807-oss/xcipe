@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "name": "마이페이지 메인 — 시안 C 모바일 (큐레이션 챗봇 hero 우선)",
+  "root": {
+    "type": "FRAME",
+    "name": "Screen — mypage-main C mobile",
+    "kdsId": "screen-mypage-main-c-mobile",
+    "width": 375,
+    "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 1 }],
+    "clipsContent": false,
+    "layout": {
+      "mode": "VERTICAL",
+      "paddingTop": 0, "paddingBottom": 80, "paddingLeft": 0, "paddingRight": 0,
+      "itemSpacing": 0, "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED",
+      "counterAxisAlign": "CENTER", "minHeight": 2200
+    },
+    "children": [
+      {
+        "type": "FRAME", "name": "Top Nav", "kdsId": "c-m-top-nav",
+        "width": 375, "height": 52,
+        "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 1 }],
+        "strokes": [{ "type": "SOLID", "color": "#f3f4f6", "opacity": 1 }],
+        "strokeWeight": 1, "strokeAlign": "INSIDE",
+        "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "SPACE_BETWEEN", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 16, "paddingRight": 8 },
+        "children": [
+          { "type": "FRAME", "name": "Logo", "kdsId": "c-m-logo", "width": 80, "height": 28, "fills": [], "spec": { "svg": "<svg data-kds-logo=\"kt-mvno\" width=\"80\" height=\"28\"></svg>" } },
+          { "type": "FRAME", "name": "Actions", "kdsId": "c-m-top-actions", "width": 88, "height": 44, "fills": [], "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "MAX", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "FRAME", "name": "Search Action", "kdsId": "c-m-search-action", "width": 44, "height": 44, "fills": [], "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "CENTER", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [ { "type": "FRAME", "name": "Icon", "kdsId": "c-m-search-action-icon", "width": 24, "height": 24, "fills": [], "spec": { "svg": "<svg data-kds-icon=\"search\" width=\"24\" height=\"24\"></svg>" } } ] },
+            { "type": "FRAME", "name": "Menu Action", "kdsId": "c-m-menu-action", "width": 44, "height": 44, "fills": [], "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "CENTER", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [ { "type": "FRAME", "name": "Icon", "kdsId": "c-m-menu-action-icon", "width": 24, "height": 24, "fills": [], "spec": { "svg": "<svg data-kds-icon=\"menu\" width=\"24\" height=\"24\"></svg>" } } ] }
+          ] }
+        ]
+      },
+      {
+        "type": "FRAME", "name": "Hero Chatbot (C 핵심 변형)", "kdsId": "c-m-hero-chatbot",
+        "width": 343,
+        "fills": [{ "type": "GRADIENT_LINEAR", "stops": [{ "position": 0, "color": "#6941ff" }, { "position": 1, "color": "#af99ff" }], "angle": 135 }],
+        "cornerRadius": 16,
+        "clipsContent": true,
+        "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "itemSpacing": 20, "paddingTop": 24, "paddingBottom": 24, "paddingLeft": 24, "paddingRight": 24 },
+        "children": [
+          { "type": "FRAME", "name": "Chatbot Tag", "kdsId": "c-m-chatbot-tag", "width": 96, "height": 22, "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 0.25 }], "cornerRadius": 999, "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "CENTER", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 8, "paddingRight": 8 }, "children": [
+            { "type": "TEXT", "name": "Tag Label", "kdsId": "c-m-chatbot-tag-label", "width": 80, "characters": "PLAN FINDER", "style": { "fontSize": 11, "fontWeight": 700, "lineHeight": 140, "color": "#ffffff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+          ] },
+          { "type": "FRAME", "name": "Chatbot Title", "kdsId": "c-m-chatbot-title-block", "width": 295, "fills": [], "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "itemSpacing": 6, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "TEXT", "name": "Title", "kdsId": "c-m-chatbot-title", "width": 295, "characters": "두 번 클릭으로\n내 요금제를 찾아보세요!", "style": { "fontSize": 24, "fontWeight": 700, "lineHeight": 130, "color": "#ffffff", "letterSpacing": -0.3 }, "textAutoResize": "HEIGHT" },
+            { "type": "TEXT", "name": "Sub", "kdsId": "c-m-chatbot-sub", "width": 295, "characters": "데이터 + 통화 두 가지만 선택하면 맞춤 추천", "style": { "fontSize": 13, "fontWeight": 400, "lineHeight": 148, "color": "#ffffff" }, "textAutoResize": "HEIGHT" }
+          ] },
+          { "type": "FRAME", "name": "Chatbot Progress Row", "kdsId": "c-m-chatbot-progress-row", "width": 295, "fills": [], "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "AUTO", "counterAxisAlign": "CENTER", "itemSpacing": 8, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "TEXT", "name": "Step Label", "kdsId": "c-m-chatbot-step", "width": 30, "characters": "1 / 2", "style": { "fontSize": 12, "fontWeight": 700, "lineHeight": 140, "color": "#ffffff" }, "textAutoResize": "HEIGHT" },
+            { "type": "FRAME", "name": "Progress Bar", "kdsId": "c-m-chatbot-progress-bar", "width": 257, "height": 4, "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 0.25 }], "cornerRadius": 999, "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "MIN", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+              { "type": "FRAME", "name": "Progress Fill", "kdsId": "c-m-chatbot-progress-fill", "width": 128, "height": 4, "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 1 }], "cornerRadius": 999 }
+            ] }
+          ] },
+          { "type": "TEXT", "name": "Chatbot Question", "kdsId": "c-m-chatbot-question", "width": 295, "characters": "한 달에 데이터를 얼마나 사용하시나요?", "style": { "fontSize": 16, "fontWeight": 600, "lineHeight": 140, "color": "#ffffff" }, "textAutoResize": "HEIGHT" },
+          { "type": "FRAME", "name": "Options Row 1", "kdsId": "c-m-chatbot-options-row1", "width": 295, "fills": [], "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "AUTO", "itemSpacing": 8, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "FRAME", "name": "Option 1", "kdsId": "c-m-chatbot-opt-1", "width": 143, "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 0.15 }], "strokes": [{ "type": "SOLID", "color": "#ffffff", "opacity": 0.3 }], "strokeWeight": 1, "strokeAlign": "INSIDE", "cornerRadius": 12, "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "counterAxisAlign": "CENTER", "itemSpacing": 4, "paddingTop": 12, "paddingBottom": 12, "paddingLeft": 8, "paddingRight": 8 }, "children": [
+              { "type": "TEXT", "name": "Label", "kdsId": "c-m-chatbot-opt-1-label", "width": 127, "characters": "2GB 이하", "style": { "fontSize": 13, "fontWeight": 700, "lineHeight": 140, "color": "#ffffff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" },
+              { "type": "TEXT", "name": "Desc", "kdsId": "c-m-chatbot-opt-1-desc", "width": 127, "characters": "데이터 잘 안 써요", "style": { "fontSize": 11, "fontWeight": 400, "lineHeight": 140, "color": "#ffffff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+            ] },
+            { "type": "FRAME", "name": "Option 2", "kdsId": "c-m-chatbot-opt-2", "width": 144, "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 0.15 }], "strokes": [{ "type": "SOLID", "color": "#ffffff", "opacity": 0.3 }], "strokeWeight": 1, "strokeAlign": "INSIDE", "cornerRadius": 12, "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "counterAxisAlign": "CENTER", "itemSpacing": 4, "paddingTop": 12, "paddingBottom": 12, "paddingLeft": 8, "paddingRight": 8 }, "children": [
+              { "type": "TEXT", "name": "Label", "kdsId": "c-m-chatbot-opt-2-label", "width": 128, "characters": "2~10GB", "style": { "fontSize": 13, "fontWeight": 700, "lineHeight": 140, "color": "#ffffff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" },
+              { "type": "TEXT", "name": "Desc", "kdsId": "c-m-chatbot-opt-2-desc", "width": 128, "characters": "웹 서핑·카톡만", "style": { "fontSize": 11, "fontWeight": 400, "lineHeight": 140, "color": "#ffffff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+            ] }
+          ] },
+          { "type": "FRAME", "name": "Options Row 2", "kdsId": "c-m-chatbot-options-row2", "width": 295, "fills": [], "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "AUTO", "itemSpacing": 8, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "FRAME", "name": "Option 3 Active", "kdsId": "c-m-chatbot-opt-3", "width": 143, "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 1 }], "cornerRadius": 12, "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "counterAxisAlign": "CENTER", "itemSpacing": 4, "paddingTop": 12, "paddingBottom": 12, "paddingLeft": 8, "paddingRight": 8 }, "children": [
+              { "type": "TEXT", "name": "Label", "kdsId": "c-m-chatbot-opt-3-label", "width": 127, "characters": "10~20GB", "style": { "fontSize": 13, "fontWeight": 700, "lineHeight": 140, "color": "#191a1b", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" },
+              { "type": "TEXT", "name": "Desc", "kdsId": "c-m-chatbot-opt-3-desc", "width": 127, "characters": "출근길에 음악", "style": { "fontSize": 11, "fontWeight": 400, "lineHeight": 140, "color": "#55585d", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+            ] },
+            { "type": "FRAME", "name": "Option 4", "kdsId": "c-m-chatbot-opt-4", "width": 144, "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 0.15 }], "strokes": [{ "type": "SOLID", "color": "#ffffff", "opacity": 0.3 }], "strokeWeight": 1, "strokeAlign": "INSIDE", "cornerRadius": 12, "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "counterAxisAlign": "CENTER", "itemSpacing": 4, "paddingTop": 12, "paddingBottom": 12, "paddingLeft": 8, "paddingRight": 8 }, "children": [
+              { "type": "TEXT", "name": "Label", "kdsId": "c-m-chatbot-opt-4-label", "width": 128, "characters": "100GB 이상", "style": { "fontSize": 13, "fontWeight": 700, "lineHeight": 140, "color": "#ffffff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" },
+              { "type": "TEXT", "name": "Desc", "kdsId": "c-m-chatbot-opt-4-desc", "width": 128, "characters": "맘껏 쓰고 싶어요", "style": { "fontSize": 11, "fontWeight": 400, "lineHeight": 140, "color": "#ffffff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+            ] }
+          ] },
+          { "type": "FRAME", "name": "Chatbot CTA", "kdsId": "c-m-chatbot-cta", "width": 295, "height": 48, "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 1 }], "cornerRadius": 8, "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "CENTER", "counterAxisAlign": "CENTER", "itemSpacing": 4, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "TEXT", "name": "Label", "kdsId": "c-m-chatbot-cta-label", "width": 140, "characters": "다음 단계 (통화)", "style": { "fontSize": 15, "fontWeight": 700, "lineHeight": 140, "color": "#6941ff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" },
+            { "type": "FRAME", "name": "Arrow", "kdsId": "c-m-chatbot-cta-arrow", "width": 16, "height": 16, "fills": [], "spec": { "svg": "<svg data-kds-icon=\"chevron-right\" width=\"16\" height=\"16\"></svg>" } }
+          ] }
+        ]
+      },
+      {
+        "type": "FRAME", "name": "Recommend Card", "kdsId": "c-m-recommend",
+        "width": 343,
+        "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 1 }],
+        "strokes": [{ "type": "SOLID", "color": "#e1d8ff", "opacity": 1 }],
+        "strokeWeight": 2, "strokeAlign": "INSIDE",
+        "cornerRadius": 16,
+        "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "itemSpacing": 16, "paddingTop": 20, "paddingBottom": 20, "paddingLeft": 20, "paddingRight": 20 },
+        "children": [
+          { "type": "FRAME", "name": "Recommend Tag", "kdsId": "c-m-recommend-tag", "width": 80, "height": 22, "fills": [{ "type": "SOLID", "color": "#f5f2ff", "opacity": 1 }], "cornerRadius": 999, "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "CENTER", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 8, "paddingRight": 8 }, "children": [
+            { "type": "TEXT", "name": "Label", "kdsId": "c-m-recommend-tag-label", "width": 64, "characters": "★ 추천 1순위", "style": { "fontSize": 11, "fontWeight": 700, "lineHeight": 140, "color": "#6941ff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+          ] },
+          { "type": "FRAME", "name": "Recommend Head", "kdsId": "c-m-recommend-head", "width": 303, "fills": [], "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "itemSpacing": 4, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "TEXT", "name": "Brand", "kdsId": "c-m-recommend-brand", "width": 303, "characters": "토스 마이알뜰", "style": { "fontSize": 11, "fontWeight": 600, "lineHeight": 140, "color": "#6f737b" }, "textAutoResize": "HEIGHT" },
+            { "type": "TEXT", "name": "Name", "kdsId": "c-m-recommend-name", "width": 303, "characters": "토스 마이알뜰 CU15GB+", "style": { "fontSize": 18, "fontWeight": 700, "lineHeight": 140, "color": "#191a1b" }, "textAutoResize": "HEIGHT" }
+          ] },
+          { "type": "TEXT", "name": "Recommend Price", "kdsId": "c-m-recommend-price", "width": 303, "characters": "월 18,000원", "style": { "fontSize": 22, "fontWeight": 700, "lineHeight": 120, "color": "#6941ff" }, "textAutoResize": "HEIGHT" },
+          { "type": "FRAME", "name": "Recommend CTA Row", "kdsId": "c-m-recommend-cta-row", "width": 303, "fills": [], "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "AUTO", "itemSpacing": 8, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "FRAME", "name": "Btn Detail", "kdsId": "c-m-recommend-btn-detail", "width": 147, "height": 48, "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 1 }], "strokes": [{ "type": "SOLID", "color": "#e9eaee", "opacity": 1 }], "strokeWeight": 1, "strokeAlign": "INSIDE", "cornerRadius": 8, "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "CENTER", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+              { "type": "TEXT", "name": "Label", "kdsId": "c-m-recommend-btn-detail-label", "width": 60, "characters": "상세보기", "style": { "fontSize": 14, "fontWeight": 700, "lineHeight": 140, "color": "#191a1b", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+            ] },
+            { "type": "FRAME", "name": "Btn Join", "kdsId": "c-m-recommend-btn-join", "width": 148, "height": 48, "fills": [{ "type": "SOLID", "color": "#6941ff", "opacity": 1 }], "cornerRadius": 8, "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "CENTER", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+              { "type": "TEXT", "name": "Label", "kdsId": "c-m-recommend-btn-join-label", "width": 60, "characters": "가입하기", "style": { "fontSize": 14, "fontWeight": 700, "lineHeight": 140, "color": "#ffffff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+            ] }
+          ] }
+        ]
+      },
+      {
+        "type": "FRAME", "name": "Bottom Nav", "kdsId": "c-m-bottom-nav",
+        "width": 375, "height": 56,
+        "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 1 }],
+        "strokes": [{ "type": "SOLID", "color": "#f3f4f6", "opacity": 1 }],
+        "strokeWeight": 1, "strokeAlign": "INSIDE",
+        "layout": { "mode": "HORIZONTAL", "primaryAxisSizing": "FIXED", "counterAxisSizing": "FIXED", "primaryAxisAlign": "SPACE_BETWEEN", "counterAxisAlign": "CENTER", "itemSpacing": 0, "paddingTop": 8, "paddingBottom": 8, "paddingLeft": 16, "paddingRight": 16 },
+        "children": [
+          { "type": "FRAME", "name": "BNav 1 Active", "kdsId": "c-m-bnav-1", "width": 60, "fills": [], "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "counterAxisAlign": "CENTER", "itemSpacing": 2, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "FRAME", "name": "Icon", "kdsId": "c-m-bnav-1-icon", "width": 22, "height": 22, "fills": [], "spec": { "svg": "<svg data-kds-icon=\"home\" width=\"22\" height=\"22\"></svg>" } },
+            { "type": "TEXT", "name": "Label", "kdsId": "c-m-bnav-1-label", "width": 60, "characters": "홈", "style": { "fontSize": 10, "fontWeight": 700, "lineHeight": 140, "color": "#6941ff", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+          ] },
+          { "type": "FRAME", "name": "BNav 2", "kdsId": "c-m-bnav-2", "width": 60, "fills": [], "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "counterAxisAlign": "CENTER", "itemSpacing": 2, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "FRAME", "name": "Icon", "kdsId": "c-m-bnav-2-icon", "width": 22, "height": 22, "fills": [], "spec": { "svg": "<svg data-kds-icon=\"star\" width=\"22\" height=\"22\"></svg>" } },
+            { "type": "TEXT", "name": "Label", "kdsId": "c-m-bnav-2-label", "width": 60, "characters": "요금제", "style": { "fontSize": 10, "fontWeight": 400, "lineHeight": 140, "color": "#6f737b", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+          ] },
+          { "type": "FRAME", "name": "BNav 3", "kdsId": "c-m-bnav-3", "width": 60, "fills": [], "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "counterAxisAlign": "CENTER", "itemSpacing": 2, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "FRAME", "name": "Icon", "kdsId": "c-m-bnav-3-icon", "width": 22, "height": 22, "fills": [], "spec": { "svg": "<svg data-kds-icon=\"gift\" width=\"22\" height=\"22\"></svg>" } },
+            { "type": "TEXT", "name": "Label", "kdsId": "c-m-bnav-3-label", "width": 60, "characters": "혜택", "style": { "fontSize": 10, "fontWeight": 400, "lineHeight": 140, "color": "#6f737b", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+          ] },
+          { "type": "FRAME", "name": "BNav 4", "kdsId": "c-m-bnav-4", "width": 60, "fills": [], "layout": { "mode": "VERTICAL", "primaryAxisSizing": "AUTO", "counterAxisSizing": "FIXED", "counterAxisAlign": "CENTER", "itemSpacing": 2, "paddingTop": 0, "paddingBottom": 0, "paddingLeft": 0, "paddingRight": 0 }, "children": [
+            { "type": "FRAME", "name": "Icon", "kdsId": "c-m-bnav-4-icon", "width": 22, "height": 22, "fills": [], "spec": { "svg": "<svg data-kds-icon=\"user\" width=\"22\" height=\"22\"></svg>" } },
+            { "type": "TEXT", "name": "Label", "kdsId": "c-m-bnav-4-label", "width": 60, "characters": "마이", "style": { "fontSize": 10, "fontWeight": 400, "lineHeight": 140, "color": "#6f737b", "textAlign": "CENTER" }, "textAutoResize": "HEIGHT" }
+          ] }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,4249 @@
+{
+  "version": 1,
+  "name": "C · 체크리스트 우선 (UX·구조) · mobile",
+  "root": {
+    "type": "FRAME",
+    "name": "C · 체크리스트 우선 (UX·구조)",
+    "kdsId": "screen-c-mo",
+    "fills": [
+      {
+        "type": "SOLID",
+        "color": "#ffffff"
+      }
+    ],
+    "width": 375,
+    "layout": {
+      "mode": "VERTICAL",
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "itemSpacing": 0,
+      "primaryAxisSizing": "AUTO",
+      "counterAxisSizing": "FIXED",
+      "primaryAxisAlign": "MIN",
+      "counterAxisAlign": "MIN",
+      "minHeight": 2400
+    },
+    "children": [
+      {
+        "type": "FRAME",
+        "name": "Top Navigation",
+        "kdsId": "c-mo-top-nav",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "strokes": [
+          {
+            "type": "SOLID",
+            "color": "#e9eaee"
+          }
+        ],
+        "strokeWeight": 1,
+        "strokeAlign": "INSIDE",
+        "width": 375,
+        "height": 52,
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "FIXED",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "SPACE_BETWEEN",
+          "counterAxisAlign": "CENTER"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Left",
+            "kdsId": "c-mo-top-nav-left",
+            "fills": [],
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 8,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Logo Box",
+                "kdsId": "c-mo-top-nav-logo",
+                "fills": [],
+                "width": 89,
+                "height": 32,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                }
+              },
+              {
+                "type": "SVG",
+                "name": "Icon",
+                "kdsId": "c-mo-top-nav-left-icon",
+                "width": 89,
+                "height": 32,
+                "svg": "<svg width=\"108\" height=\"38\" viewBox=\"0 0 108 38\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M15.3809 15.9501H18.2173V17.7494C18.2173 18.2107 17.9944 18.4414 17.5485 18.4414H15.3809V27.9901C15.3809 28.4514 15.1657 28.6821 14.7352 28.6821H12.5907V9.14515C12.5907 8.6838 12.8136 8.45312 13.2594 8.45312H15.3809V15.9501ZM9.59289 22.2937C9.59289 22.755 9.50065 23.0857 9.31617 23.2856C9.1317 23.4701 8.81654 23.5624 8.37072 23.5624H1.24523C0.799408 23.5624 0.47657 23.4701 0.276718 23.2856C0.0922394 23.0857 0 22.755 0 22.2937V11.4288C0 10.9675 0.0922394 10.6445 0.276718 10.46C0.47657 10.2601 0.799408 10.1601 1.24523 10.1601H9.59289V22.2937ZM3.34368 12.513C3.11308 12.513 2.95935 12.5515 2.88248 12.6284C2.82099 12.7052 2.79024 12.859 2.79024 13.0897V20.6328C2.79024 20.8635 2.82099 21.0173 2.88248 21.0942C2.95935 21.1711 3.11308 21.2095 3.34368 21.2095H6.24922C6.46444 21.2095 6.61049 21.1711 6.68735 21.0942C6.76422 21.0173 6.80265 20.8635 6.80265 20.6328V12.513H3.34368Z\" fill=\"#333333\"/>\n<path d=\"M35.9498 27.9901C35.9498 28.4514 35.7346 28.6821 35.3041 28.6821H33.1596V9.14515C33.1596 8.6838 33.3825 8.45312 33.8283 8.45312H35.9498V27.9901ZM24.9041 10.114C26.7643 10.114 28.1248 10.6445 28.9857 11.7057C29.862 12.7668 30.3001 14.4353 30.3001 16.7113C30.3001 19.0027 29.8697 20.6789 29.0088 21.7401C28.1479 22.7858 26.7797 23.3086 24.9041 23.3086C23.0286 23.3086 21.6604 22.7858 20.7995 21.7401C19.9386 20.6789 19.5081 19.0027 19.5081 16.7113C19.5081 14.4353 19.9386 12.7668 20.7995 11.7057C21.6758 10.6445 23.044 10.114 24.9041 10.114ZM24.9502 12.5822H24.858C23.9971 12.5822 23.3514 12.9129 22.921 13.5741C22.5059 14.22 22.2984 15.2658 22.2984 16.7113C22.2984 18.1723 22.5059 19.2257 22.921 19.8716C23.3514 20.5175 23.9971 20.8404 24.858 20.8404H24.9502C25.8111 20.8404 26.4491 20.5175 26.8642 19.8716C27.2947 19.2257 27.5099 18.1723 27.5099 16.7113C27.5099 15.2658 27.2947 14.22 26.8642 13.5741C26.4491 12.9129 25.8111 12.5822 24.9502 12.5822Z\" fill=\"#333333\"/>\n<path d=\"M105.879 9.94063C105.879 10.2078 105.785 10.4121 105.596 10.5535C105.424 10.6792 105.133 10.7657 104.725 10.8128C104.316 10.86 103.72 10.8835 102.934 10.8835H91.4618V9.16274C91.4618 8.707 91.6895 8.47913 92.1449 8.47913H103.052C104.34 8.47913 105.282 8.32984 105.879 8.03125V9.94063ZM105.172 19.6526C106.476 19.6526 107.418 19.5033 107.999 19.2047V21.1141C107.999 21.3812 107.905 21.5855 107.717 21.727C107.544 21.8684 107.253 21.9627 106.845 22.0098C106.437 22.057 105.848 22.0805 105.078 22.0805H89.3887V20.3597C89.3887 19.8883 89.6164 19.6526 90.0718 19.6526H97.257V17.8375H91.4146V16.1402C91.4146 15.6688 91.6424 15.4331 92.0978 15.4331H94.1238V12.3215C94.1238 11.8657 94.3515 11.6379 94.807 11.6379H96.9272V15.4331H100.461V12.3215C100.461 11.8657 100.689 11.6379 101.144 11.6379H103.264V15.4331H105.926V17.1539C105.926 17.6096 105.699 17.8375 105.243 17.8375H100.107V19.6526H105.172ZM102.911 27.1722C104.214 27.1722 105.157 27.0229 105.738 26.7244V28.6809C105.738 28.948 105.644 29.1523 105.455 29.2938C105.282 29.4352 104.992 29.5295 104.583 29.5766C104.175 29.6238 103.586 29.6474 102.817 29.6474H93.2286C92.7731 29.6474 92.4512 29.5452 92.2627 29.3409C92.0743 29.1523 91.98 28.8223 91.98 28.3509V23.9899C91.98 23.5342 92.1842 23.3063 92.5925 23.3063H94.8305V26.5829C94.8305 26.8344 94.8619 26.9915 94.9248 27.0544C95.0033 27.1329 95.1603 27.1722 95.3959 27.1722H102.911Z\" fill=\"#333333\"/>\n<path d=\"M84.3848 9.50036C84.3848 9.76777 84.2985 9.97225 84.1257 10.1138C83.953 10.2397 83.6703 10.3262 83.2776 10.3734C82.885 10.4205 82.3118 10.4441 81.5579 10.4441H80.2858C80.0659 10.4441 79.956 10.5621 79.956 10.7981V12.7564C79.956 12.9923 80.0659 13.1103 80.2858 13.1103H81.7464C83.0656 13.1103 83.9844 12.9687 84.5026 12.6856V14.4788C84.5026 14.8248 84.2906 15.0686 83.8666 15.2102C83.4582 15.3518 82.7201 15.4226 81.6521 15.4226H78.519C78.0635 15.4226 77.7415 15.3282 77.5531 15.1394C77.3646 14.9349 77.2704 14.6046 77.2704 14.1485V9.40598C77.2704 8.94983 77.3646 8.62737 77.5531 8.43861C77.7415 8.23413 78.0635 8.13189 78.519 8.13189H81.6757C82.9321 8.13189 83.8352 7.98246 84.3848 7.68359V9.50036ZM76.4223 9.7599C76.4223 10.2161 76.1946 10.4441 75.7391 10.4441H72.3939C72.1583 10.4441 72.0406 10.5621 72.0406 10.7981V12.7564C72.0406 12.9766 72.1583 13.0867 72.3939 13.0867C72.9593 13.1182 73.6111 13.1103 74.3492 13.0631C75.0874 13.0159 75.7705 12.9373 76.3988 12.8272L76.6343 14.4552C76.6657 14.6754 76.6186 14.8406 76.493 14.9507C76.383 15.0608 76.2024 15.1316 75.9512 15.163C75.3544 15.2731 74.5534 15.3518 73.5483 15.399C72.5431 15.4461 71.5615 15.4619 70.6035 15.4461C70.1481 15.4304 69.8261 15.3282 69.6377 15.1394C69.4492 14.9507 69.355 14.6203 69.355 14.1485V9.40598C69.355 8.94983 69.4492 8.62737 69.6377 8.43861C69.8261 8.23413 70.1402 8.13189 70.58 8.13189H76.4223V9.7599ZM86.1517 18.2775C86.1517 18.5449 86.0574 18.7494 85.869 18.8909C85.6962 19.0325 85.4057 19.1269 84.9973 19.1741C84.589 19.2212 84.0001 19.2448 83.2305 19.2448H67.541V17.546C67.541 17.0742 67.7687 16.8382 68.2242 16.8382H83.3247C84.6283 16.8382 85.5706 16.6888 86.1517 16.3899V18.2775ZM82.2882 20.6605C82.7437 20.6605 83.0656 20.7627 83.2541 20.9672C83.4425 21.156 83.5368 21.4863 83.5368 21.9582V25.0963C83.5368 25.5681 83.4425 25.9063 83.2541 26.1108C83.0656 26.3153 82.7437 26.4175 82.2882 26.4175H72.9358V27.4557C72.9358 27.6759 73.0535 27.786 73.2891 27.786H81.3695C82.6573 27.786 83.5917 27.6366 84.1728 27.3377V29.0837C84.1728 29.3511 84.0786 29.5556 83.8901 29.6972C83.7174 29.8387 83.4268 29.9331 83.0185 29.9803C82.6102 30.0275 82.0212 30.0511 81.2517 30.0511H71.3574C70.9019 30.0511 70.58 29.9488 70.3915 29.7443C70.203 29.5556 70.1088 29.2253 70.1088 28.7534V25.5681C70.1088 25.0963 70.203 24.7659 70.3915 24.5772C70.58 24.3727 70.9019 24.2704 71.3574 24.2704H80.7098V23.2795C80.7098 23.0435 80.592 22.9256 80.3565 22.9256H70.7684C70.313 22.9256 70.0853 22.6896 70.0853 22.2177V20.6605H82.2882Z\" fill=\"#333333\"/>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M63.6969 6.84422C64.7555 8.34322 64.7555 10.3155 64.7555 14.2601V23.6488C64.7555 27.5934 64.7555 29.5657 63.6969 31.0647C62.6383 32.5637 60.7796 33.2233 57.0621 34.5426L55.5016 35.0964C48.4787 37.5887 44.9673 38.8348 42.5218 37.1077C40.0762 35.3805 40.0762 31.6546 40.0762 24.2026V13.7063C40.0762 6.25435 40.0762 2.52837 42.5218 0.801245C44.9673 -0.925876 48.4788 0.320264 55.5016 2.81254L57.0621 3.36634C60.7796 4.68559 62.6383 5.34522 63.6969 6.84422ZM62.6739 12.1737H59.7773V7.74219H57.6108C57.1555 7.74219 56.9278 7.97791 56.9278 8.44935V18.8917H59.0944C59.5497 18.8917 59.7773 18.656 59.7773 18.1845V14.7195H61.991C62.4463 14.7195 62.6739 14.4838 62.6739 14.0123V12.1737ZM53.3012 9.84009C52.3592 8.96007 51.0012 8.52006 49.2271 8.52006C47.453 8.52006 46.0871 8.96793 45.1295 9.86366C44.1875 10.7437 43.7165 11.9694 43.7165 13.5409C43.7165 15.1438 44.1875 16.3852 45.1295 17.2652C46.0871 18.1295 47.453 18.5617 49.2271 18.5617C51.0012 18.5617 52.3592 18.1295 53.3012 17.2652C54.2589 16.3852 54.7377 15.1438 54.7377 13.5409C54.7377 11.9537 54.2589 10.7201 53.3012 9.84009ZM47.2254 11.5373C47.6807 11.0815 48.3322 10.8537 49.18 10.8537H49.2742C50.122 10.8537 50.7735 11.0815 51.2288 11.5373C51.6841 11.9773 51.9117 12.6451 51.9117 13.5409C51.9117 14.4366 51.6841 15.1123 51.2288 15.5681C50.7735 16.0081 50.122 16.2281 49.2742 16.2281H49.18C48.3322 16.2281 47.6807 16.0081 47.2254 15.5681C46.7701 15.1123 46.5424 14.4366 46.5424 13.5409C46.5424 12.6451 46.7701 11.9773 47.2254 11.5373ZM59.4712 20.306C59.2828 20.1174 58.9609 20.0232 58.5056 20.0232H46.6602V21.7203C46.6602 22.1918 46.8878 22.4275 47.3431 22.4275H56.5981C56.8179 22.4275 56.9278 22.5453 56.9278 22.7811V23.8654H48.0025C47.5472 23.8654 47.2254 23.9675 47.037 24.1718C46.8486 24.3604 46.7544 24.6904 46.7544 25.1618V28.6976C46.7544 29.1691 46.8486 29.4991 47.037 29.6876C47.2254 29.8919 47.5472 29.9941 48.0025 29.9941H57.4459C58.2152 29.9941 58.8039 29.9705 59.2121 29.9234C59.6203 29.8762 59.9108 29.7819 60.0835 29.6405C60.2719 29.4991 60.3661 29.2948 60.3661 29.0276V27.1419C59.7852 27.4404 58.851 27.5897 57.5637 27.5897H49.9336C49.7138 27.5897 49.6039 27.4719 49.6039 27.2362V26.1754H58.5056C58.9609 26.1754 59.2828 26.0733 59.4712 25.869C59.6753 25.6804 59.7773 25.3504 59.7773 24.879V21.296C59.7773 20.8246 59.6753 20.4946 59.4712 20.306Z\" fill=\"#499690\"/>\n</svg>"
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Right",
+            "kdsId": "c-mo-top-nav-right",
+            "fills": [],
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 16,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Box",
+                "kdsId": "c-mo-top-nav-search-box",
+                "fills": [],
+                "width": 24,
+                "height": 24,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "c-mo-top-nav-search-box-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"M16.5 16.5 L21 21\"/></svg>"
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Box",
+                "kdsId": "c-mo-top-nav-bell-box",
+                "fills": [],
+                "width": 24,
+                "height": 24,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "c-mo-top-nav-bell-box-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 8 a6 6 0 0 1 12 0 c0 7 3 9 3 9 H3 s3-2 3-9\"/><path d=\"M10 21 a2 2 0 0 0 4 0\"/></svg>"
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Box",
+                "kdsId": "c-mo-top-nav-menu-box",
+                "fills": [],
+                "width": 24,
+                "height": 24,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "c-mo-top-nav-menu-box-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M3 6 H21\"/><path d=\"M3 12 H21\"/><path d=\"M3 18 H21\"/></svg>"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Page Title",
+        "kdsId": "c-mo-page-title",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "width": 375,
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 20,
+          "paddingBottom": 12,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Title",
+            "kdsId": "c-mo-page-title-text",
+            "characters": "셀프개통 (USIM/eSIM)",
+            "fontSize": 22,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Bold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": -0.5,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "C · Hero Compact",
+        "kdsId": "c-mo-hero",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "width": 375,
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 16,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Eyebrow",
+            "kdsId": "c-mo-hero-eyebrow",
+            "characters": "STEP 0 / 6 — 사전 준비",
+            "fontSize": 12,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "SemiBold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": -0.2,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#007f7f"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          },
+          {
+            "type": "FRAME",
+            "name": "Spacer 8",
+            "kdsId": "c-mo-hero-sp1",
+            "fills": [],
+            "width": 1,
+            "height": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            }
+          },
+          {
+            "type": "TEXT",
+            "name": "T1",
+            "kdsId": "c-mo-hero-t1",
+            "characters": "준비물이 모두 갖춰지면",
+            "fontSize": 18,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Medium"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": -0.3,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#55585d"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          },
+          {
+            "type": "TEXT",
+            "name": "T2",
+            "kdsId": "c-mo-hero-t2",
+            "characters": "5분 안에 셀프개통할 수 있어요",
+            "fontSize": 22,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Bold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": -0.5,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          },
+          {
+            "type": "FRAME",
+            "name": "Spacer 12",
+            "kdsId": "c-mo-hero-sp2",
+            "fills": [],
+            "width": 1,
+            "height": 12,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            }
+          },
+          {
+            "type": "FRAME",
+            "name": "Progress",
+            "kdsId": "c-mo-hero-progress",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee"
+              }
+            ],
+            "cornerRadius": 999,
+            "width": 343,
+            "height": 6,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Fill",
+                "kdsId": "c-mo-hero-progress-fill",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#007f7f"
+                  }
+                ],
+                "cornerRadius": 999,
+                "width": 171,
+                "height": 6,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                }
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Spacer 8",
+            "kdsId": "c-mo-hero-sp3",
+            "fills": [],
+            "width": 1,
+            "height": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            }
+          },
+          {
+            "type": "TEXT",
+            "name": "Progress Label",
+            "kdsId": "c-mo-hero-progress-label",
+            "characters": "2 / 4 준비 완료",
+            "fontSize": 12,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Medium"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": -0.2,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#6f737b"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "C · Checklist",
+        "kdsId": "c-mo-checklist",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "width": 375,
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 16,
+          "paddingBottom": 20,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "itemSpacing": 8,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Check 1",
+            "kdsId": "c-mo-check-1",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e1f5f5"
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#007f7f"
+              }
+            ],
+            "strokeWeight": 2,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 12,
+              "paddingBottom": 12,
+              "paddingLeft": 12,
+              "paddingRight": 12,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Check Box",
+                "kdsId": "c-mo-check-1-box",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#007f7f"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#007f7f"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 6,
+                "width": 22,
+                "height": 22,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Box",
+                    "kdsId": "c-mo-check-1-icon",
+                    "fills": [],
+                    "width": 14,
+                    "height": 14,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "c-mo-check-1-icon-icon",
+                        "width": 14,
+                        "height": 14,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12 L10 17 L19 7\"/></svg>",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Body",
+                "kdsId": "c-mo-check-1-body",
+                "fills": [],
+                "layout": {
+                  "mode": "VERTICAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 2,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "layoutGrow": 1,
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Title",
+                    "kdsId": "c-mo-check-1-title",
+                    "characters": "유심 (USIM/eSIM)",
+                    "fontSize": 14,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 240,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Desc",
+                    "kdsId": "c-mo-check-1-desc",
+                    "characters": "바로배송 또는 편의점에서 구매",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Regular"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.2,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 240,
+                    "layoutAlign": "STRETCH"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Check 2",
+            "kdsId": "c-mo-check-2",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e1f5f5"
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#007f7f"
+              }
+            ],
+            "strokeWeight": 2,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 12,
+              "paddingBottom": 12,
+              "paddingLeft": 12,
+              "paddingRight": 12,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Check Box",
+                "kdsId": "c-mo-check-2-box",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#007f7f"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#007f7f"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 6,
+                "width": 22,
+                "height": 22,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Box",
+                    "kdsId": "c-mo-check-2-icon",
+                    "fills": [],
+                    "width": 14,
+                    "height": 14,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "c-mo-check-2-icon-icon",
+                        "width": 14,
+                        "height": 14,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12 L10 17 L19 7\"/></svg>",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff",
+                            "opacity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Body",
+                "kdsId": "c-mo-check-2-body",
+                "fills": [],
+                "layout": {
+                  "mode": "VERTICAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 2,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "layoutGrow": 1,
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Title",
+                    "kdsId": "c-mo-check-2-title",
+                    "characters": "본인 인증 수단",
+                    "fontSize": 14,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 240,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Desc",
+                    "kdsId": "c-mo-check-2-desc",
+                    "characters": "PASS 또는 신용카드 1개",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Regular"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.2,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 240,
+                    "layoutAlign": "STRETCH"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Check 3",
+            "kdsId": "c-mo-check-3",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff"
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee"
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 12,
+              "paddingBottom": 12,
+              "paddingLeft": 12,
+              "paddingRight": 12,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Check Box",
+                "kdsId": "c-mo-check-3-box",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#d5d8dd"
+                  }
+                ],
+                "strokeWeight": 2,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 6,
+                "width": 22,
+                "height": 22,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Box",
+                    "kdsId": "c-mo-check-3-icon",
+                    "fills": [],
+                    "width": 14,
+                    "height": 14,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Body",
+                "kdsId": "c-mo-check-3-body",
+                "fills": [],
+                "layout": {
+                  "mode": "VERTICAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 2,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "layoutGrow": 1,
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Title",
+                    "kdsId": "c-mo-check-3-title",
+                    "characters": "신분증",
+                    "fontSize": 14,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 240,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Desc",
+                    "kdsId": "c-mo-check-3-desc",
+                    "characters": "주민등록증 또는 운전면허증",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Regular"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.2,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 240,
+                    "layoutAlign": "STRETCH"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Check 4",
+            "kdsId": "c-mo-check-4",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff"
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#e9eaee"
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 12,
+              "paddingBottom": 12,
+              "paddingLeft": 12,
+              "paddingRight": 12,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Check Box",
+                "kdsId": "c-mo-check-4-box",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#d5d8dd"
+                  }
+                ],
+                "strokeWeight": 2,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 6,
+                "width": 22,
+                "height": 22,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Box",
+                    "kdsId": "c-mo-check-4-icon",
+                    "fills": [],
+                    "width": 14,
+                    "height": 14,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Body",
+                "kdsId": "c-mo-check-4-body",
+                "fills": [],
+                "layout": {
+                  "mode": "VERTICAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 2,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "layoutGrow": 1,
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Title",
+                    "kdsId": "c-mo-check-4-title",
+                    "characters": "납부 수단",
+                    "fontSize": 14,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 240,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Desc",
+                    "kdsId": "c-mo-check-4-desc",
+                    "characters": "신용·체크카드 또는 통장",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Regular"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.2,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 240,
+                    "layoutAlign": "STRETCH"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "C · CTA Block",
+        "kdsId": "c-mo-cta-block",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "width": 375,
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 8,
+          "paddingBottom": 24,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "itemSpacing": 8,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "CTA Disabled",
+            "kdsId": "c-mo-cta",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#adb1b9"
+              }
+            ],
+            "cornerRadius": 12,
+            "height": 56,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "CTA Label",
+                "kdsId": "c-mo-cta-text",
+                "characters": "준비물 2개 더 체크 후 가능",
+                "fontSize": 15,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "SemiBold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": -0.3,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 200
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "name": "Helper",
+            "kdsId": "c-mo-cta-helper",
+            "characters": "준비가 어렵다면 아래 ·유심이 없으신가요?· 카드를 확인하세요.",
+            "fontSize": 12,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Regular"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 155
+            },
+            "letterSpacing": -0.2,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#6f737b"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "USIM Entry",
+        "kdsId": "c-mo-usim",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#f8f9fa"
+          }
+        ],
+        "width": 375,
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 24,
+          "paddingBottom": 24,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Title",
+            "kdsId": "c-mo-usim-title",
+            "characters": "유심이 없으신가요?",
+            "fontSize": 18,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Bold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": -0.3,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          },
+          {
+            "type": "FRAME",
+            "name": "Spacer 4",
+            "kdsId": "c-mo-usim-sp1",
+            "fills": [],
+            "width": 1,
+            "height": 4,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            }
+          },
+          {
+            "type": "TEXT",
+            "name": "Desc",
+            "kdsId": "c-mo-usim-desc",
+            "characters": "셀프개통을 위해서는 유심이 필요해요. 빠르고 간편하게 구매하세요.",
+            "fontSize": 13,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Regular"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 155
+            },
+            "letterSpacing": -0.2,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#55585d"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          },
+          {
+            "type": "FRAME",
+            "name": "Spacer 16",
+            "kdsId": "c-mo-usim-sp2",
+            "fills": [],
+            "width": 1,
+            "height": 16,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            }
+          },
+          {
+            "type": "FRAME",
+            "name": "Row",
+            "kdsId": "c-mo-usim-row",
+            "fills": [],
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 12,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Card Delivery",
+                "kdsId": "c-mo-usim-dlv",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "VERTICAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "itemSpacing": 8,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "layoutGrow": 1,
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Box",
+                    "kdsId": "c-mo-usim-dlv-icon",
+                    "fills": [],
+                    "width": 32,
+                    "height": 32,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "c-mo-usim-dlv-icon-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 7 H14 V17 H3 z\"/><path d=\"M14 10 H17 L21 14 V17 H14\"/><circle cx=\"7\" cy=\"19\" r=\"1.5\"/><circle cx=\"17\" cy=\"19\" r=\"1.5\"/></svg>"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Eyebrow",
+                    "kdsId": "c-mo-usim-dlv-eyebrow",
+                    "characters": "2시간 내 도착하는",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Medium"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.2,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 133,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Title",
+                    "kdsId": "c-mo-usim-dlv-title",
+                    "characters": "바로배송유심",
+                    "fontSize": 15,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 133,
+                    "layoutAlign": "STRETCH"
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Card Store",
+                "kdsId": "c-mo-usim-store",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "VERTICAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "itemSpacing": 8,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "layoutGrow": 1,
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Box",
+                    "kdsId": "c-mo-usim-store-icon",
+                    "fills": [],
+                    "width": 32,
+                    "height": 32,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "c-mo-usim-store-icon-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22 c-4-5-7-8-7-12 a7 7 0 0 1 14 0 c0 4-3 7-7 12 z\"/><circle cx=\"12\" cy=\"10\" r=\"2.5\"/></svg>"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Eyebrow",
+                    "kdsId": "c-mo-usim-store-eyebrow",
+                    "characters": "내 근처 편의점에서",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Medium"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.2,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 133,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Title",
+                    "kdsId": "c-mo-usim-store-title",
+                    "characters": "바로유심 구매",
+                    "fontSize": 15,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 133,
+                    "layoutAlign": "STRETCH"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Guide Section",
+        "kdsId": "c-mo-guide",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "width": 375,
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 32,
+          "paddingBottom": 24,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Section Title",
+            "kdsId": "c-mo-guide-title",
+            "characters": "셀프개통, 5분 만에 끝내는 가이드",
+            "fontSize": 22,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Bold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": -0.5,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          },
+          {
+            "type": "FRAME",
+            "name": "Spacer 20",
+            "kdsId": "c-mo-guide-sp",
+            "fills": [],
+            "width": 1,
+            "height": 20,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            }
+          },
+          {
+            "type": "FRAME",
+            "name": "Step List",
+            "kdsId": "c-mo-guide-list",
+            "fills": [],
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 8,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Step 01",
+                "kdsId": "c-mo-step-01",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "layoutAlign": "STRETCH",
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Num Circle",
+                    "kdsId": "c-mo-step-01-num",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#007f7f"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "width": 36,
+                    "height": 36,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Num",
+                        "kdsId": "c-mo-step-01-num-text",
+                        "characters": "01",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 18
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Content",
+                    "kdsId": "c-mo-step-01-content",
+                    "fills": [],
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 2,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "layoutGrow": 1,
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Title",
+                        "kdsId": "c-mo-step-01-title",
+                        "characters": "사전 준비물",
+                        "fontSize": 15,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": -0.3,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Desc",
+                        "kdsId": "c-mo-step-01-desc",
+                        "characters": "유심·본인인증 수단·신분증·납부 수단을 미리 준비",
+                        "fontSize": 12,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Regular"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 155
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Step 02",
+                "kdsId": "c-mo-step-02",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "layoutAlign": "STRETCH",
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Num Circle",
+                    "kdsId": "c-mo-step-02-num",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#007f7f"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "width": 36,
+                    "height": 36,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Num",
+                        "kdsId": "c-mo-step-02-num-text",
+                        "characters": "02",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 18
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Content",
+                    "kdsId": "c-mo-step-02-content",
+                    "fills": [],
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 2,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "layoutGrow": 1,
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Title",
+                        "kdsId": "c-mo-step-02-title",
+                        "characters": "요금제·부가서비스",
+                        "fontSize": 15,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": -0.3,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Desc",
+                        "kdsId": "c-mo-step-02-desc",
+                        "characters": "나에게 맞는 요금제·부가서비스를 선택",
+                        "fontSize": 12,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Regular"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 155
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Step 03",
+                "kdsId": "c-mo-step-03",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "layoutAlign": "STRETCH",
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Num Circle",
+                    "kdsId": "c-mo-step-03-num",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#007f7f"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "width": 36,
+                    "height": 36,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Num",
+                        "kdsId": "c-mo-step-03-num-text",
+                        "characters": "03",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 18
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Content",
+                    "kdsId": "c-mo-step-03-content",
+                    "fills": [],
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 2,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "layoutGrow": 1,
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Title",
+                        "kdsId": "c-mo-step-03-title",
+                        "characters": "본인 인증",
+                        "fontSize": 15,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": -0.3,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Desc",
+                        "kdsId": "c-mo-step-03-desc",
+                        "characters": "PASS·신용카드 + 신분증 + 안면 인증",
+                        "fontSize": 12,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Regular"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 155
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Step 04",
+                "kdsId": "c-mo-step-04",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "layoutAlign": "STRETCH",
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Num Circle",
+                    "kdsId": "c-mo-step-04-num",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#007f7f"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "width": 36,
+                    "height": 36,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Num",
+                        "kdsId": "c-mo-step-04-num-text",
+                        "characters": "04",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 18
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Content",
+                    "kdsId": "c-mo-step-04-content",
+                    "fills": [],
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 2,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "layoutGrow": 1,
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Title",
+                        "kdsId": "c-mo-step-04-title",
+                        "characters": "신규/번호이동",
+                        "fontSize": 15,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": -0.3,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Desc",
+                        "kdsId": "c-mo-step-04-desc",
+                        "characters": "신규는 새 번호, 번이는 사용 중인 번호 확인",
+                        "fontSize": 12,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Regular"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 155
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Step 05",
+                "kdsId": "c-mo-step-05",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "layoutAlign": "STRETCH",
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Num Circle",
+                    "kdsId": "c-mo-step-05-num",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#007f7f"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "width": 36,
+                    "height": 36,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Num",
+                        "kdsId": "c-mo-step-05-num-text",
+                        "characters": "05",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 18
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Content",
+                    "kdsId": "c-mo-step-05-content",
+                    "fills": [],
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 2,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "layoutGrow": 1,
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Title",
+                        "kdsId": "c-mo-step-05-title",
+                        "characters": "유심 정보 확인",
+                        "fontSize": 15,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": -0.3,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Desc",
+                        "kdsId": "c-mo-step-05-desc",
+                        "characters": "USIM 또는 eSIM 정보를 입력해 개통 여부 확인",
+                        "fontSize": 12,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Regular"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 155
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Step 06",
+                "kdsId": "c-mo-step-06",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "itemSpacing": 12,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "layoutAlign": "STRETCH",
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Num Circle",
+                    "kdsId": "c-mo-step-06-num",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#007f7f"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "width": 36,
+                    "height": 36,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Num",
+                        "kdsId": "c-mo-step-06-num-text",
+                        "characters": "06",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 100
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 18
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Content",
+                    "kdsId": "c-mo-step-06-content",
+                    "fills": [],
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 2,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "layoutGrow": 1,
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Title",
+                        "kdsId": "c-mo-step-06-title",
+                        "characters": "납부 정보 입력",
+                        "fontSize": 15,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Bold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": -0.3,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#191a1b"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Desc",
+                        "kdsId": "c-mo-step-06-desc",
+                        "characters": "납부 유형과 명세서 수단을 선택",
+                        "fontSize": 12,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "Regular"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 155
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 263,
+                        "layoutAlign": "STRETCH"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Plan Section",
+        "kdsId": "c-mo-plan",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#f8f9fa"
+          }
+        ],
+        "width": 375,
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 24,
+          "paddingBottom": 24,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Head",
+            "kdsId": "c-mo-plan-head",
+            "fills": [],
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "SPACE_BETWEEN",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Title",
+                "kdsId": "c-mo-plan-title",
+                "characters": "추천 요금제",
+                "fontSize": 22,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Bold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": -0.5,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 200
+              },
+              {
+                "type": "TEXT",
+                "name": "See All",
+                "kdsId": "c-mo-plan-seeall",
+                "characters": "전체보기 >",
+                "fontSize": 14,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Medium"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": -0.3,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 80
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Spacer 20",
+            "kdsId": "c-mo-plan-sp",
+            "fills": [],
+            "width": 1,
+            "height": 20,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            }
+          },
+          {
+            "type": "FRAME",
+            "name": "Plan Row",
+            "kdsId": "c-mo-plan-row",
+            "fills": [],
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 16,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Plan Card 1",
+                "kdsId": "c-mo-plan-card-1",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#e9eaee"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 12,
+                "width": 220,
+                "layout": {
+                  "mode": "VERTICAL",
+                  "paddingTop": 20,
+                  "paddingBottom": 20,
+                  "paddingLeft": 20,
+                  "paddingRight": 20,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Pill",
+                    "kdsId": "c-mo-plan-1-pill",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e1f5f5"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 4,
+                      "paddingBottom": 4,
+                      "paddingLeft": 8,
+                      "paddingRight": 8,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Eyebrow",
+                        "kdsId": "c-mo-plan-1-eyebrow",
+                        "characters": "LTE 7GB+",
+                        "fontSize": 12,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "SemiBold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#007f7f"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 80
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Spacer 12",
+                    "kdsId": "c-mo-plan-1-sp1",
+                    "fills": [],
+                    "width": 1,
+                    "height": 12,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    }
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Title",
+                    "kdsId": "c-mo-plan-1-title",
+                    "characters": "LTE 데이터",
+                    "fontSize": 18,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 180,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Spacer 4",
+                    "kdsId": "c-mo-plan-1-sp2",
+                    "fills": [],
+                    "width": 1,
+                    "height": 4,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    }
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Desc",
+                    "kdsId": "c-mo-plan-1-desc",
+                    "characters": "데이터 7GB / 소진 후 3Mbps",
+                    "fontSize": 13,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Regular"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 180,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Spacer 16",
+                    "kdsId": "c-mo-plan-1-sp3",
+                    "fills": [],
+                    "width": 1,
+                    "height": 16,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    }
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Price",
+                    "kdsId": "c-mo-plan-1-price",
+                    "characters": "월 14,300원",
+                    "fontSize": 20,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.5,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#007f7f"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 180,
+                    "layoutAlign": "STRETCH"
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Plan Card 2",
+                "kdsId": "c-mo-plan-card-2",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#e9eaee"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 12,
+                "width": 220,
+                "layout": {
+                  "mode": "VERTICAL",
+                  "paddingTop": 20,
+                  "paddingBottom": 20,
+                  "paddingLeft": 20,
+                  "paddingRight": 20,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Pill",
+                    "kdsId": "c-mo-plan-2-pill",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e1f5f5"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 4,
+                      "paddingBottom": 4,
+                      "paddingLeft": 8,
+                      "paddingRight": 8,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "AUTO",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Eyebrow",
+                        "kdsId": "c-mo-plan-2-eyebrow",
+                        "characters": "5G 110GB",
+                        "fontSize": 12,
+                        "fontName": {
+                          "family": "Pretendard",
+                          "style": "SemiBold"
+                        },
+                        "lineHeight": {
+                          "unit": "PERCENT",
+                          "value": 148
+                        },
+                        "letterSpacing": -0.2,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#007f7f"
+                          }
+                        ],
+                        "textAutoResize": "HEIGHT",
+                        "width": 80
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Spacer 12",
+                    "kdsId": "c-mo-plan-2-sp1",
+                    "fills": [],
+                    "width": 1,
+                    "height": 12,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    }
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Title",
+                    "kdsId": "c-mo-plan-2-title",
+                    "characters": "5G 알뜰 무제한",
+                    "fontSize": 18,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 180,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Spacer 4",
+                    "kdsId": "c-mo-plan-2-sp2",
+                    "fills": [],
+                    "width": 1,
+                    "height": 4,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    }
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Desc",
+                    "kdsId": "c-mo-plan-2-desc",
+                    "characters": "5G 110GB / 소진 후 5Mbps",
+                    "fontSize": 13,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Regular"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 180,
+                    "layoutAlign": "STRETCH"
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Spacer 16",
+                    "kdsId": "c-mo-plan-2-sp3",
+                    "fills": [],
+                    "width": 1,
+                    "height": 16,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    }
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Price",
+                    "kdsId": "c-mo-plan-2-price",
+                    "characters": "월 38,500원",
+                    "fontSize": 20,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "Bold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.5,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#007f7f"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 180,
+                    "layoutAlign": "STRETCH"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "FAQ Section",
+        "kdsId": "c-mo-faq",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "width": 375,
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 32,
+          "paddingBottom": 40,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "FAQ Title",
+            "kdsId": "c-mo-faq-title",
+            "characters": "셀프개통 FAQ",
+            "fontSize": 22,
+            "fontName": {
+              "family": "Pretendard",
+              "style": "Bold"
+            },
+            "lineHeight": {
+              "unit": "PERCENT",
+              "value": 148
+            },
+            "letterSpacing": -0.5,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b"
+              }
+            ],
+            "textAutoResize": "HEIGHT",
+            "width": 343,
+            "layoutAlign": "STRETCH"
+          },
+          {
+            "type": "FRAME",
+            "name": "Spacer 20",
+            "kdsId": "c-mo-faq-sp1",
+            "fills": [],
+            "width": 1,
+            "height": 20,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            }
+          },
+          {
+            "type": "FRAME",
+            "name": "FAQ List",
+            "kdsId": "c-mo-faq-list",
+            "fills": [],
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 8,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "FAQ 1",
+                "kdsId": "c-mo-faq-1",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#e9eaee"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 8,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 20,
+                  "paddingRight": 20,
+                  "itemSpacing": 8,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "SPACE_BETWEEN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "layoutAlign": "STRETCH",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Q",
+                    "kdsId": "c-mo-faq-1-q",
+                    "characters": "Q. 셀프개통은 누가 이용할 수 있나요?",
+                    "fontSize": 14,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "SemiBold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 271,
+                    "layoutGrow": 1
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Box",
+                    "kdsId": "c-mo-faq-1-toggle",
+                    "fills": [],
+                    "width": 20,
+                    "height": 20,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "c-mo-faq-1-toggle-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 9 L12 15 L18 9\"/></svg>"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "FAQ 2",
+                "kdsId": "c-mo-faq-2",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#e9eaee"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 8,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 20,
+                  "paddingRight": 20,
+                  "itemSpacing": 8,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "SPACE_BETWEEN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "layoutAlign": "STRETCH",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Q",
+                    "kdsId": "c-mo-faq-2-q",
+                    "characters": "Q. eSIM 셀프개통도 가능한가요?",
+                    "fontSize": 14,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "SemiBold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 271,
+                    "layoutGrow": 1
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Box",
+                    "kdsId": "c-mo-faq-2-toggle",
+                    "fills": [],
+                    "width": 20,
+                    "height": 20,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "c-mo-faq-2-toggle-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 9 L12 15 L18 9\"/></svg>"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "FAQ 3",
+                "kdsId": "c-mo-faq-3",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#e9eaee"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 8,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "paddingLeft": 20,
+                  "paddingRight": 20,
+                  "itemSpacing": 8,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "SPACE_BETWEEN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "layoutAlign": "STRETCH",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Q",
+                    "kdsId": "c-mo-faq-3-q",
+                    "characters": "Q. 셀프개통 중 데이터가 끊기면 어떻게 하나요?",
+                    "fontSize": 14,
+                    "fontName": {
+                      "family": "Pretendard",
+                      "style": "SemiBold"
+                    },
+                    "lineHeight": {
+                      "unit": "PERCENT",
+                      "value": 148
+                    },
+                    "letterSpacing": -0.3,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "textAutoResize": "HEIGHT",
+                    "width": 271,
+                    "layoutGrow": 1
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Box",
+                    "kdsId": "c-mo-faq-3-toggle",
+                    "fills": [],
+                    "width": 20,
+                    "height": 20,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "itemSpacing": 0,
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Icon",
+                        "kdsId": "c-mo-faq-3-toggle-icon",
+                        "width": 20,
+                        "height": 20,
+                        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 9 L12 15 L18 9\"/></svg>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Spacer 32",
+            "kdsId": "c-mo-faq-sp2",
+            "fills": [],
+            "width": 1,
+            "height": 32,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 0,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            }
+          },
+          {
+            "type": "FRAME",
+            "name": "Notice Card",
+            "kdsId": "c-mo-notice-card",
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#f8f9fa"
+              }
+            ],
+            "cornerRadius": 8,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 20,
+              "paddingBottom": 20,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "itemSpacing": 8,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "layoutAlign": "STRETCH",
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Title",
+                "kdsId": "c-mo-notice-title",
+                "characters": "셀프개통 유의사항",
+                "fontSize": 14,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Bold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": -0.3,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 303,
+                "layoutAlign": "STRETCH"
+              },
+              {
+                "type": "FRAME",
+                "name": "Spacer 4",
+                "kdsId": "c-mo-notice-sp",
+                "fills": [],
+                "width": 1,
+                "height": 4,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                }
+              },
+              {
+                "type": "TEXT",
+                "name": "Notice 1",
+                "kdsId": "c-mo-notice-1",
+                "characters": "• 셀프개통에 문제가 있는 경우 각 알뜰폰 사업자 고객센터를 통해 개통할 수 있어요.",
+                "fontSize": 12,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 165
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 303,
+                "layoutAlign": "STRETCH"
+              },
+              {
+                "type": "TEXT",
+                "name": "Notice 2",
+                "kdsId": "c-mo-notice-2",
+                "characters": "• Wi-Fi 환경에서 개통하는 것을 권장합니다.",
+                "fontSize": 12,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 165
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 303,
+                "layoutAlign": "STRETCH"
+              },
+              {
+                "type": "TEXT",
+                "name": "Notice 3",
+                "kdsId": "c-mo-notice-3",
+                "characters": "• 미성년자는 셀프개통 대상에서 제외됩니다.",
+                "fontSize": 12,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 165
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 303,
+                "layoutAlign": "STRETCH"
+              },
+              {
+                "type": "TEXT",
+                "name": "Notice 4",
+                "kdsId": "c-mo-notice-4",
+                "characters": "• 데이터 쉐어링 요금제는 셀프개통이 불가합니다.",
+                "fontSize": 12,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 165
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 303,
+                "layoutAlign": "STRETCH"
+              },
+              {
+                "type": "TEXT",
+                "name": "Notice 5",
+                "kdsId": "c-mo-notice-5",
+                "characters": "• 단기간 다수의 회선을 개통하는 경우 셀프개통 제한이 될 수 있습니다.",
+                "fontSize": 12,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 165
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 303,
+                "layoutAlign": "STRETCH"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Bottom Navigation",
+        "kdsId": "c-mo-bot-nav",
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "strokes": [
+          {
+            "type": "SOLID",
+            "color": "#e9eaee"
+          }
+        ],
+        "strokeWeight": 1,
+        "strokeAlign": "INSIDE",
+        "width": 375,
+        "height": 56,
+        "layout": {
+          "mode": "HORIZONTAL",
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "itemSpacing": 0,
+          "primaryAxisSizing": "FIXED",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "SPACE_BETWEEN",
+          "counterAxisAlign": "CENTER"
+        },
+        "layoutAlign": "STRETCH",
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Nav 1",
+            "kdsId": "c-mo-bot-1",
+            "fills": [],
+            "height": 56,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 2,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutGrow": 1,
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Box",
+                "kdsId": "c-mo-bot-1-icon",
+                "fills": [],
+                "width": 24,
+                "height": 24,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "c-mo-bot-1-icon-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 12 L12 3 L21 12\"/><path d=\"M5 10 V21 H9 V14 H15 V21 H19 V10\"/></svg>"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "c-mo-bot-1-label",
+                "characters": "홈",
+                "fontSize": 10,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 60
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Nav 2",
+            "kdsId": "c-mo-bot-2",
+            "fills": [],
+            "height": 56,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 2,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutGrow": 1,
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Box",
+                "kdsId": "c-mo-bot-2-icon",
+                "fills": [],
+                "width": 24,
+                "height": 24,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "c-mo-bot-2-icon-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 3 H6 a2 2 0 0 0 -2 2 V19 a2 2 0 0 0 2 2 H18 a2 2 0 0 0 2 -2 V9 z\"/><polyline points=\"14 3 14 9 20 9\"/><line x1=\"8\" y1=\"13\" x2=\"16\" y2=\"13\"/><line x1=\"8\" y1=\"17\" x2=\"14\" y2=\"17\"/></svg>"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "c-mo-bot-2-label",
+                "characters": "상품",
+                "fontSize": 10,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 60
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Nav 3",
+            "kdsId": "c-mo-bot-3",
+            "fills": [],
+            "height": 56,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 2,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutGrow": 1,
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Box",
+                "kdsId": "c-mo-bot-3-icon",
+                "fills": [],
+                "width": 24,
+                "height": 24,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "c-mo-bot-3-icon-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"2\"/><line x1=\"10\" y1=\"5\" x2=\"14\" y2=\"5\"/><line x1=\"11\" y1=\"18.5\" x2=\"13\" y2=\"18.5\"/></svg>"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "c-mo-bot-3-label",
+                "characters": "셀프개통",
+                "fontSize": 10,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Bold"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#007f7f"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 60
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Nav 4",
+            "kdsId": "c-mo-bot-4",
+            "fills": [],
+            "height": 56,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 2,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutGrow": 1,
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Box",
+                "kdsId": "c-mo-bot-4-icon",
+                "fills": [],
+                "width": 24,
+                "height": 24,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "c-mo-bot-4-icon-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21 v-1 a8 8 0 0 1 16 0 v1\"/></svg>"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "c-mo-bot-4-label",
+                "characters": "마이",
+                "fontSize": 10,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 60
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Nav 5",
+            "kdsId": "c-mo-bot-5",
+            "fills": [],
+            "height": 56,
+            "layout": {
+              "mode": "VERTICAL",
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "itemSpacing": 2,
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER"
+            },
+            "layoutGrow": 1,
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Box",
+                "kdsId": "c-mo-bot-5-icon",
+                "fills": [],
+                "width": 24,
+                "height": 24,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "paddingTop": 0,
+                  "paddingBottom": 0,
+                  "paddingLeft": 0,
+                  "paddingRight": 0,
+                  "itemSpacing": 0,
+                  "primaryAxisSizing": "FIXED",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "CENTER",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Icon",
+                    "kdsId": "c-mo-bot-5-icon-icon",
+                    "width": 24,
+                    "height": 24,
+                    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M3 6 H21\"/><path d=\"M3 12 H21\"/><path d=\"M3 18 H21\"/></svg>"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "name": "Label",
+                "kdsId": "c-mo-bot-5-label",
+                "characters": "메뉴",
+                "fontSize": 10,
+                "fontName": {
+                  "family": "Pretendard",
+                  "style": "Regular"
+                },
+                "lineHeight": {
+                  "unit": "PERCENT",
+                  "value": 148
+                },
+                "letterSpacing": -0.2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#55585d"
+                  }
+                ],
+                "textAutoResize": "HEIGHT",
+                "width": 60
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

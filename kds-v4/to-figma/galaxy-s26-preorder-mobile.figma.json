@@ -1,0 +1,2020 @@
+{
+  "version": 1,
+  "name": "Galaxy S26 사전예약 (Mobile)",
+  "root": {
+    "type": "FRAME",
+    "name": "Galaxy S26 Preorder",
+    "kdsId": "screen-galaxy-s26-preorder",
+    "width": 375,
+    "fills": [
+      {
+        "type": "SOLID",
+        "color": "#ffffff"
+      }
+    ],
+    "clipsContent": false,
+    "layout": {
+      "mode": "VERTICAL",
+      "itemSpacing": 0,
+      "paddingTop": 0,
+      "paddingBottom": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "primaryAxisSizing": "AUTO",
+      "counterAxisSizing": "FIXED",
+      "minHeight": 812
+    },
+    "children": [
+      {
+        "type": "FRAME",
+        "name": "Top Nav",
+        "kdsId": "top-nav",
+        "width": 375,
+        "height": 52,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "strokes": [
+          {
+            "type": "SOLID",
+            "color": "#f3f4f6"
+          }
+        ],
+        "strokeWeight": 1,
+        "strokeAlign": "INSIDE",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "itemSpacing": 0,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "primaryAxisAlign": "SPACE_BETWEEN",
+          "counterAxisAlign": "CENTER",
+          "primaryAxisSizing": "FIXED",
+          "counterAxisSizing": "FIXED"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Nav Back Button",
+            "kdsId": "nav-back",
+            "width": 44,
+            "height": 44,
+            "fills": [],
+            "layout": {
+              "mode": "HORIZONTAL",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER",
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED"
+            },
+            "children": [
+              {
+                "type": "SVG",
+                "name": "Nav Back Icon",
+                "kdsId": "nav-back-icon",
+                "width": 24,
+                "height": 24,
+                "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M15 6l-6 6 6 6'/></svg>",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "name": "Nav Title",
+            "kdsId": "nav-title",
+            "characters": "사전예약",
+            "width": 100,
+            "textAutoResize": "HEIGHT",
+            "fontSize": 17,
+            "fontName": {
+              "family": "Inter",
+              "style": "SemiBold"
+            },
+            "lineHeight": 25,
+            "letterSpacing": -0.3,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b"
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Nav Share Button",
+            "kdsId": "nav-share",
+            "width": 44,
+            "height": 44,
+            "fills": [],
+            "layout": {
+              "mode": "HORIZONTAL",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER",
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED"
+            },
+            "children": [
+              {
+                "type": "SVG",
+                "name": "Nav Share Icon",
+                "kdsId": "nav-share-icon",
+                "width": 24,
+                "height": 24,
+                "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='18' cy='5' r='3'/><circle cx='6' cy='12' r='3'/><circle cx='18' cy='19' r='3'/><path d='M8.6 13.5l6.8 4M15.4 6.5l-6.8 4'/></svg>",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Hero",
+        "kdsId": "hero",
+        "width": 375,
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "angle": 180,
+            "gradientStops": [
+              {
+                "position": 0,
+                "color": "#131415"
+              },
+              {
+                "position": 1,
+                "color": "#191a1b"
+              }
+            ]
+          }
+        ],
+        "layout": {
+          "mode": "VERTICAL",
+          "itemSpacing": 16,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "paddingTop": 32,
+          "paddingBottom": 40,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED",
+          "primaryAxisAlign": "MIN",
+          "counterAxisAlign": "MIN"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Hero Eyebrow",
+            "kdsId": "hero-eyebrow",
+            "height": 24,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e0282f"
+              }
+            ],
+            "cornerRadius": 4,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "paddingLeft": 8,
+              "paddingRight": 8,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER",
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "Eyebrow Text",
+                "kdsId": "hero-eyebrow-text",
+                "characters": "NEW LAUNCH",
+                "width": 90,
+                "textAutoResize": "HEIGHT",
+                "fontSize": 12,
+                "fontName": {
+                  "family": "Inter",
+                  "style": "SemiBold"
+                },
+                "lineHeight": 18,
+                "letterSpacing": 0.4,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "name": "Hero Title",
+            "kdsId": "hero-title",
+            "characters": "Galaxy S26",
+            "width": 335,
+            "textAutoResize": "HEIGHT",
+            "fontSize": 36,
+            "fontName": {
+              "family": "Inter",
+              "style": "Bold"
+            },
+            "lineHeight": 47,
+            "letterSpacing": -0.8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff"
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "name": "Hero Sub",
+            "kdsId": "hero-sub",
+            "characters": "AI가 한층 더 가까워진다. 새로운 경험을 가장 먼저 만나보세요.",
+            "width": 335,
+            "textAutoResize": "HEIGHT",
+            "fontSize": 15,
+            "fontName": {
+              "family": "Inter",
+              "style": "Regular"
+            },
+            "lineHeight": 24,
+            "letterSpacing": -0.1,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff"
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Hero Visual",
+            "kdsId": "hero-visual",
+            "width": 335,
+            "height": 220,
+            "fills": [
+              {
+                "type": "GRADIENT_LINEAR",
+                "angle": 135,
+                "gradientStops": [
+                  {
+                    "position": 0,
+                    "color": "#232425"
+                  },
+                  {
+                    "position": 1,
+                    "color": "#131415"
+                  }
+                ]
+              }
+            ],
+            "cornerRadius": 16,
+            "clipsContent": true,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER",
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Phone Mock",
+                "kdsId": "hero-phone-mock",
+                "width": 132,
+                "height": 264,
+                "fills": [
+                  {
+                    "type": "GRADIENT_LINEAR",
+                    "angle": 160,
+                    "gradientStops": [
+                      {
+                        "position": 0,
+                        "color": "#3d3f43"
+                      },
+                      {
+                        "position": 0.7,
+                        "color": "#191a1b"
+                      }
+                    ]
+                  }
+                ],
+                "cornerRadius": 16,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#0000009A",
+                    "offset": {
+                      "x": 0,
+                      "y": 24
+                    },
+                    "radius": 48
+                  }
+                ],
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Phone Notch",
+                    "kdsId": "hero-phone-notch",
+                    "width": 60,
+                    "height": 12,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#131415"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED"
+                    },
+                    "x": 36,
+                    "y": 10
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Phone Label",
+                    "kdsId": "hero-phone-label",
+                    "characters": "S26",
+                    "width": 132,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 13,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "SemiBold"
+                    },
+                    "lineHeight": 18,
+                    "letterSpacing": 1.5,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#ffffff",
+                        "opacity": 0.5
+                      }
+                    ],
+                    "x": 0,
+                    "y": 232
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Period Section",
+        "kdsId": "period-section",
+        "width": 375,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 24,
+          "paddingBottom": 0,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "Period Card",
+            "kdsId": "period-card",
+            "width": 335,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffffff"
+              }
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "color": "#e0282f"
+              }
+            ],
+            "strokeWeight": 1,
+            "strokeAlign": "INSIDE",
+            "cornerRadius": 12,
+            "layout": {
+              "mode": "VERTICAL",
+              "itemSpacing": 12,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "paddingTop": 20,
+              "paddingBottom": 20,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "MIN",
+              "counterAxisAlign": "MIN"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Period Row",
+                "kdsId": "period-row",
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "itemSpacing": 8,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Period Badge",
+                    "kdsId": "period-badge",
+                    "height": 24,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e0282f"
+                      }
+                    ],
+                    "cornerRadius": 4,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "paddingLeft": 8,
+                      "paddingRight": 8,
+                      "paddingTop": 0,
+                      "paddingBottom": 0,
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER",
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "FIXED"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Badge Text",
+                        "kdsId": "period-badge-text",
+                        "characters": "PRE-ORDER",
+                        "width": 75,
+                        "textAutoResize": "HEIGHT",
+                        "fontSize": 12,
+                        "fontName": {
+                          "family": "Inter",
+                          "style": "SemiBold"
+                        },
+                        "lineHeight": 18,
+                        "letterSpacing": 0.4,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Period Label",
+                    "kdsId": "period-label",
+                    "characters": "사전예약 기간",
+                    "width": 110,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 13,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Medium"
+                    },
+                    "lineHeight": 19,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "name": "Period Date",
+                "kdsId": "period-date",
+                "characters": "2026.10.14(화) — 10.31(금)",
+                "width": 295,
+                "textAutoResize": "HEIGHT",
+                "fontSize": 22,
+                "fontName": {
+                  "family": "Inter",
+                  "style": "Bold"
+                },
+                "lineHeight": 33,
+                "letterSpacing": -0.4,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#191a1b"
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Period Meta",
+                "kdsId": "period-meta",
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "itemSpacing": 4,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "AUTO",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "CENTER"
+                },
+                "children": [
+                  {
+                    "type": "SVG",
+                    "name": "Meta Icon",
+                    "kdsId": "period-meta-icon",
+                    "width": 16,
+                    "height": 16,
+                    "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='9'/><path d='M12 7v5l3 2'/></svg>",
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e0282f"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Meta Text",
+                    "kdsId": "period-meta-text",
+                    "characters": "마감까지 17일 남음",
+                    "width": 250,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 13,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "SemiBold"
+                    },
+                    "lineHeight": 19,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e0282f"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Spec Section",
+        "kdsId": "spec-section",
+        "width": 375,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "layout": {
+          "mode": "VERTICAL",
+          "itemSpacing": 8,
+          "paddingTop": 32,
+          "paddingBottom": 0,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED"
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Spec Heading",
+            "kdsId": "spec-heading",
+            "characters": "Galaxy S26 하이라이트",
+            "width": 335,
+            "textAutoResize": "HEIGHT",
+            "fontSize": 22,
+            "fontName": {
+              "family": "Inter",
+              "style": "Bold"
+            },
+            "lineHeight": 33,
+            "letterSpacing": -0.4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b"
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "name": "Spec Sub",
+            "kdsId": "spec-sub",
+            "characters": "전작 대비 더 강력해진 AI와 카메라 성능을 만나보세요.",
+            "width": 335,
+            "textAutoResize": "HEIGHT",
+            "fontSize": 14,
+            "fontName": {
+              "family": "Inter",
+              "style": "Regular"
+            },
+            "lineHeight": 22,
+            "letterSpacing": -0.1,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#55585d"
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Spec Grid",
+            "kdsId": "spec-grid",
+            "width": 335,
+            "fills": [],
+            "layout": {
+              "mode": "HORIZONTAL",
+              "itemSpacing": 8,
+              "counterAxisSpacing": 8,
+              "layoutWrap": "WRAP",
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "AUTO"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Spec Card AI",
+                "kdsId": "spec-card-ai",
+                "width": 163.5,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "VERTICAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "minHeight": 116,
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Spec Card AI Icon Box",
+                    "kdsId": "spec-card-ai-icon-box",
+                    "width": 32,
+                    "height": 32,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "CENTER",
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Spec Card AI Icon",
+                        "kdsId": "spec-card-ai-icon",
+                        "width": 28,
+                        "height": 28,
+                        "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1'/><circle cx='12' cy='12' r='4'/></svg>",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e0282f"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Spec Card AI Title",
+                    "kdsId": "spec-card-ai-title",
+                    "characters": "갤럭시 AI 2.0",
+                    "width": 131,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 15,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "SemiBold"
+                    },
+                    "lineHeight": 22,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Spec Card AI Desc",
+                    "kdsId": "spec-card-ai-desc",
+                    "characters": "실시간 통역·요약·검색",
+                    "width": 131,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 13,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 20,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Spec Card Camera",
+                "kdsId": "spec-card-camera",
+                "width": 163.5,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "VERTICAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "minHeight": 116,
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Spec Card Camera Icon Box",
+                    "kdsId": "spec-card-camera-icon-box",
+                    "width": 32,
+                    "height": 32,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "CENTER",
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Spec Card Camera Icon",
+                        "kdsId": "spec-card-camera-icon",
+                        "width": 28,
+                        "height": 28,
+                        "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 8h3l2-3h6l2 3h3v11H4z'/><circle cx='12' cy='13' r='4'/></svg>",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e0282f"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Spec Card Camera Title",
+                    "kdsId": "spec-card-camera-title",
+                    "characters": "200MP 메인 카메라",
+                    "width": 131,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 15,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "SemiBold"
+                    },
+                    "lineHeight": 22,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Spec Card Camera Desc",
+                    "kdsId": "spec-card-camera-desc",
+                    "characters": "5배 광학·100배 디지털 줌",
+                    "width": 131,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 13,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 20,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Spec Card Battery",
+                "kdsId": "spec-card-battery",
+                "width": 163.5,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "VERTICAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "minHeight": 116,
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Spec Card Battery Icon Box",
+                    "kdsId": "spec-card-battery-icon-box",
+                    "width": 32,
+                    "height": 32,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "CENTER",
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Spec Card Battery Icon",
+                        "kdsId": "spec-card-battery-icon",
+                        "width": 28,
+                        "height": 28,
+                        "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='7' width='15' height='10' rx='2'/><path d='M21 11v2M9 9l-2 3h3l-2 3'/></svg>",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e0282f"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Spec Card Battery Title",
+                    "kdsId": "spec-card-battery-title",
+                    "characters": "5000mAh 배터리",
+                    "width": 131,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 15,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "SemiBold"
+                    },
+                    "lineHeight": 22,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Spec Card Battery Desc",
+                    "kdsId": "spec-card-battery-desc",
+                    "characters": "45W 초고속 충전",
+                    "width": 131,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 13,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 20,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Spec Card Display",
+                "kdsId": "spec-card-display",
+                "width": 163.5,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f8f9fa"
+                  }
+                ],
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "VERTICAL",
+                  "itemSpacing": 8,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "minHeight": 116,
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Spec Card Display Icon Box",
+                    "kdsId": "spec-card-display-icon-box",
+                    "width": 32,
+                    "height": 32,
+                    "fills": [],
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "CENTER",
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED"
+                    },
+                    "children": [
+                      {
+                        "type": "SVG",
+                        "name": "Spec Card Display Icon",
+                        "kdsId": "spec-card-display-icon",
+                        "width": 28,
+                        "height": 28,
+                        "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='6' y='3' width='12' height='18' rx='2'/><path d='M11 18h2'/></svg>",
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#e0282f"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Spec Card Display Title",
+                    "kdsId": "spec-card-display-title",
+                    "characters": "6.9인치 Dynamic AMOLED",
+                    "width": 131,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 15,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "SemiBold"
+                    },
+                    "lineHeight": 22,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Spec Card Display Desc",
+                    "kdsId": "spec-card-display-desc",
+                    "characters": "최대 2600nit 밝기",
+                    "width": 131,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 13,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 20,
+                    "letterSpacing": -0.1,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#55585d"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Benefit Section",
+        "kdsId": "benefit-section",
+        "width": 375,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "layout": {
+          "mode": "VERTICAL",
+          "itemSpacing": 8,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "paddingTop": 32,
+          "paddingBottom": 0,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED"
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Benefit Heading",
+            "kdsId": "benefit-heading",
+            "characters": "사전예약 혜택",
+            "width": 335,
+            "textAutoResize": "HEIGHT",
+            "fontSize": 22,
+            "fontName": {
+              "family": "Inter",
+              "style": "Bold"
+            },
+            "lineHeight": 33,
+            "letterSpacing": -0.4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#191a1b"
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "name": "Benefit Sub",
+            "kdsId": "benefit-sub",
+            "characters": "예약 고객님께만 드리는 특별한 3가지 혜택을 준비했습니다.",
+            "width": 335,
+            "textAutoResize": "HEIGHT",
+            "fontSize": 14,
+            "fontName": {
+              "family": "Inter",
+              "style": "Regular"
+            },
+            "lineHeight": 22,
+            "letterSpacing": -0.1,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#55585d"
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Benefit List",
+            "kdsId": "benefit-list",
+            "width": 335,
+            "fills": [],
+            "layout": {
+              "mode": "VERTICAL",
+              "itemSpacing": 8,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Benefit 1",
+                "kdsId": "benefit-1",
+                "width": 335,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f3f4f6"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "itemSpacing": 12,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "minHeight": 80,
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Benefit 1 Num",
+                    "kdsId": "benefit-1-num",
+                    "width": 28,
+                    "height": 28,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER",
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Num Text",
+                        "kdsId": "benefit-1-num-text",
+                        "characters": "1",
+                        "width": 20,
+                        "textAutoResize": "HEIGHT",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Inter",
+                          "style": "Bold"
+                        },
+                        "lineHeight": 19,
+                        "letterSpacing": 0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Benefit 1 Body",
+                    "kdsId": "benefit-1-body",
+                    "layoutGrow": 1,
+                    "width": 263,
+                    "fills": [],
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "itemSpacing": 4,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "Benefit 1 Title Row",
+                        "kdsId": "benefit-1-title-row",
+                        "fills": [],
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "itemSpacing": 4,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "AUTO",
+                          "primaryAxisAlign": "MIN",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "Benefit 1 Title",
+                            "kdsId": "benefit-1-title",
+                            "characters": "Galaxy Buds3 Pro 증정",
+                            "width": 220,
+                            "textAutoResize": "HEIGHT",
+                            "fontSize": 15,
+                            "fontName": {
+                              "family": "Inter",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": 22,
+                            "letterSpacing": -0.1,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#191a1b"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "FRAME",
+                            "name": "Benefit 1 Tag",
+                            "kdsId": "benefit-1-tag",
+                            "height": 20,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#fce9e9"
+                              }
+                            ],
+                            "cornerRadius": 4,
+                            "layout": {
+                              "mode": "HORIZONTAL",
+                              "paddingLeft": 4,
+                              "paddingRight": 4,
+                              "paddingTop": 0,
+                              "paddingBottom": 0,
+                              "primaryAxisAlign": "CENTER",
+                              "counterAxisAlign": "CENTER",
+                              "primaryAxisSizing": "AUTO",
+                              "counterAxisSizing": "FIXED"
+                            },
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "name": "Tag Text",
+                                "kdsId": "benefit-1-tag-text",
+                                "characters": "HOT",
+                                "width": 35,
+                                "textAutoResize": "HEIGHT",
+                                "fontSize": 11,
+                                "fontName": {
+                                  "family": "Inter",
+                                  "style": "SemiBold"
+                                },
+                                "lineHeight": 17,
+                                "letterSpacing": 0.2,
+                                "fills": [
+                                  {
+                                    "type": "SOLID",
+                                    "color": "#e0282f"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Benefit 1 Desc",
+                        "kdsId": "benefit-1-desc",
+                        "characters": "300,000원 상당 무선 이어버드 무료 증정",
+                        "width": 263,
+                        "textAutoResize": "HEIGHT",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Inter",
+                          "style": "Regular"
+                        },
+                        "lineHeight": 20,
+                        "letterSpacing": -0.1,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Benefit 2",
+                "kdsId": "benefit-2",
+                "width": 335,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f3f4f6"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "itemSpacing": 12,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "minHeight": 80
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Benefit 2 Num",
+                    "kdsId": "benefit-2-num",
+                    "width": 28,
+                    "height": 28,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER",
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Num Text",
+                        "kdsId": "benefit-2-num-text",
+                        "characters": "2",
+                        "width": 20,
+                        "textAutoResize": "HEIGHT",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Inter",
+                          "style": "Bold"
+                        },
+                        "lineHeight": 19,
+                        "letterSpacing": 0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Benefit 2 Body",
+                    "kdsId": "benefit-2-body",
+                    "layoutGrow": 1,
+                    "width": 263,
+                    "fills": [],
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "itemSpacing": 4,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "Benefit 2 Title Row",
+                        "kdsId": "benefit-2-title-row",
+                        "fills": [],
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "itemSpacing": 4,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "AUTO",
+                          "primaryAxisAlign": "MIN",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "Benefit 2 Title",
+                            "kdsId": "benefit-2-title",
+                            "characters": "최대 70만원 보상지원금",
+                            "width": 263,
+                            "textAutoResize": "HEIGHT",
+                            "fontSize": 15,
+                            "fontName": {
+                              "family": "Inter",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": 22,
+                            "letterSpacing": -0.1,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#191a1b"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Benefit 2 Desc",
+                        "kdsId": "benefit-2-desc",
+                        "characters": "기존 단말 반납 시 추가 지원금 차감 적용",
+                        "width": 263,
+                        "textAutoResize": "HEIGHT",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Inter",
+                          "style": "Regular"
+                        },
+                        "lineHeight": 20,
+                        "letterSpacing": -0.1,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Benefit 3",
+                "kdsId": "benefit-3",
+                "width": 335,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ],
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "color": "#f3f4f6"
+                  }
+                ],
+                "strokeWeight": 1,
+                "strokeAlign": "INSIDE",
+                "cornerRadius": 12,
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "itemSpacing": 12,
+                  "paddingLeft": 16,
+                  "paddingRight": 16,
+                  "paddingTop": 16,
+                  "paddingBottom": 16,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "minHeight": 80
+                },
+                "children": [
+                  {
+                    "type": "FRAME",
+                    "name": "Benefit 3 Num",
+                    "kdsId": "benefit-3-num",
+                    "width": 28,
+                    "height": 28,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#191a1b"
+                      }
+                    ],
+                    "cornerRadius": 999,
+                    "layout": {
+                      "mode": "HORIZONTAL",
+                      "primaryAxisAlign": "CENTER",
+                      "counterAxisAlign": "CENTER",
+                      "primaryAxisSizing": "FIXED",
+                      "counterAxisSizing": "FIXED"
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "name": "Num Text",
+                        "kdsId": "benefit-3-num-text",
+                        "characters": "3",
+                        "width": 20,
+                        "textAutoResize": "HEIGHT",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Inter",
+                          "style": "Bold"
+                        },
+                        "lineHeight": 19,
+                        "letterSpacing": 0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#ffffff"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "FRAME",
+                    "name": "Benefit 3 Body",
+                    "kdsId": "benefit-3-body",
+                    "layoutGrow": 1,
+                    "width": 263,
+                    "fills": [],
+                    "layout": {
+                      "mode": "VERTICAL",
+                      "itemSpacing": 4,
+                      "primaryAxisSizing": "AUTO",
+                      "counterAxisSizing": "FIXED",
+                      "primaryAxisAlign": "MIN",
+                      "counterAxisAlign": "MIN"
+                    },
+                    "children": [
+                      {
+                        "type": "FRAME",
+                        "name": "Benefit 3 Title Row",
+                        "kdsId": "benefit-3-title-row",
+                        "fills": [],
+                        "layout": {
+                          "mode": "HORIZONTAL",
+                          "itemSpacing": 4,
+                          "primaryAxisSizing": "AUTO",
+                          "counterAxisSizing": "AUTO",
+                          "primaryAxisAlign": "MIN",
+                          "counterAxisAlign": "CENTER"
+                        },
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "name": "Benefit 3 Title",
+                            "kdsId": "benefit-3-title",
+                            "characters": "출시일 당일 우선 배송",
+                            "width": 263,
+                            "textAutoResize": "HEIGHT",
+                            "fontSize": 15,
+                            "fontName": {
+                              "family": "Inter",
+                              "style": "SemiBold"
+                            },
+                            "lineHeight": 22,
+                            "letterSpacing": -0.1,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#191a1b"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "name": "Benefit 3 Desc",
+                        "kdsId": "benefit-3-desc",
+                        "characters": "10월 31일 정식 출시일에 가장 먼저 받아보세요",
+                        "width": 263,
+                        "textAutoResize": "HEIGHT",
+                        "fontSize": 13,
+                        "fontName": {
+                          "family": "Inter",
+                          "style": "Regular"
+                        },
+                        "lineHeight": 20,
+                        "letterSpacing": -0.1,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#55585d"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Notice Section",
+        "kdsId": "notice-section",
+        "width": 375,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "layout": {
+          "mode": "VERTICAL",
+          "itemSpacing": 8,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "paddingTop": 32,
+          "paddingBottom": 40,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED"
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Notice Title",
+            "kdsId": "notice-title",
+            "characters": "유의사항",
+            "width": 335,
+            "textAutoResize": "HEIGHT",
+            "fontSize": 13,
+            "fontName": {
+              "family": "Inter",
+              "style": "SemiBold"
+            },
+            "lineHeight": 19,
+            "letterSpacing": -0.1,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#55585d"
+              }
+            ]
+          },
+          {
+            "type": "FRAME",
+            "name": "Notice List",
+            "kdsId": "notice-list",
+            "width": 335,
+            "fills": [],
+            "layout": {
+              "mode": "VERTICAL",
+              "itemSpacing": 4,
+              "primaryAxisSizing": "AUTO",
+              "counterAxisSizing": "FIXED"
+            },
+            "children": [
+              {
+                "type": "FRAME",
+                "name": "Notice 1",
+                "kdsId": "notice-1",
+                "width": 335,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "itemSpacing": 4,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Notice 1 Dot",
+                    "kdsId": "notice-1-dot",
+                    "characters": "·",
+                    "width": 8,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 18,
+                    "letterSpacing": 0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#6f737b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Notice 1 Text",
+                    "kdsId": "notice-1-text",
+                    "characters": "사전예약은 KT shop 회원만 신청 가능하며 1인 1대로 제한됩니다.",
+                    "width": 319,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 18,
+                    "letterSpacing": 0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#6f737b"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Notice 2",
+                "kdsId": "notice-2",
+                "width": 335,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "itemSpacing": 4,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Notice 2 Dot",
+                    "kdsId": "notice-2-dot",
+                    "characters": "·",
+                    "width": 8,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 18,
+                    "letterSpacing": 0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#6f737b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Notice 2 Text",
+                    "kdsId": "notice-2-text",
+                    "characters": "혜택은 예약 완료 및 개통 완료 시 일괄 지급됩니다.",
+                    "width": 319,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 18,
+                    "letterSpacing": 0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#6f737b"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "FRAME",
+                "name": "Notice 3",
+                "kdsId": "notice-3",
+                "width": 335,
+                "fills": [],
+                "layout": {
+                  "mode": "HORIZONTAL",
+                  "itemSpacing": 4,
+                  "primaryAxisSizing": "AUTO",
+                  "counterAxisSizing": "FIXED",
+                  "primaryAxisAlign": "MIN",
+                  "counterAxisAlign": "MIN"
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "name": "Notice 3 Dot",
+                    "kdsId": "notice-3-dot",
+                    "characters": "·",
+                    "width": 8,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 18,
+                    "letterSpacing": 0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#6f737b"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "name": "Notice 3 Text",
+                    "kdsId": "notice-3-text",
+                    "characters": "예약 취소·변경은 마이페이지에서 직접 처리하실 수 있습니다.",
+                    "width": 319,
+                    "textAutoResize": "HEIGHT",
+                    "fontSize": 12,
+                    "fontName": {
+                      "family": "Inter",
+                      "style": "Regular"
+                    },
+                    "lineHeight": 18,
+                    "letterSpacing": 0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#6f737b"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Bottom CTA",
+        "kdsId": "bottom-cta",
+        "width": 375,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff"
+          }
+        ],
+        "strokes": [
+          {
+            "type": "SOLID",
+            "color": "#f3f4f6"
+          }
+        ],
+        "strokeWeight": 1,
+        "strokeAlign": "INSIDE",
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": "#1414140D",
+            "offset": {
+              "x": 0,
+              "y": -2
+            },
+            "radius": 4
+          }
+        ],
+        "layout": {
+          "mode": "VERTICAL",
+          "paddingTop": 12,
+          "paddingBottom": 20,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "primaryAxisSizing": "AUTO",
+          "counterAxisSizing": "FIXED"
+        },
+        "children": [
+          {
+            "type": "FRAME",
+            "name": "CTA Button",
+            "kdsId": "cta-button",
+            "width": 335,
+            "height": 56,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e0282f"
+              }
+            ],
+            "cornerRadius": 12,
+            "layout": {
+              "mode": "HORIZONTAL",
+              "itemSpacing": 4,
+              "primaryAxisAlign": "CENTER",
+              "counterAxisAlign": "CENTER",
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED"
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "name": "CTA Label",
+                "kdsId": "cta-button-label",
+                "characters": "사전예약 신청하기",
+                "width": 170,
+                "textAutoResize": "HEIGHT",
+                "fontSize": 17,
+                "fontName": {
+                  "family": "Inter",
+                  "style": "SemiBold"
+                },
+                "lineHeight": 25,
+                "letterSpacing": -0.3,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ]
+              },
+              {
+                "type": "SVG",
+                "name": "CTA Icon",
+                "kdsId": "cta-button-icon",
+                "width": 20,
+                "height": 20,
+                "svg": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 6l6 6-6 6'/></svg>",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

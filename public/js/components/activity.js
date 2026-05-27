@@ -80,12 +80,14 @@ const ActivityPage = {
     try {
       const facets = await API.get('/activity/facets?days=30');
       const eSel = document.getElementById('af-entity');
+      if (!eSel) return;  // await 도중 다른 페이지로 navigate 시 DOM 사라짐
       facets.entity_types.forEach(f => {
         const o = document.createElement('option');
         o.value = f.name; o.textContent = `${f.name} (${f.count})`;
         eSel.appendChild(o);
       });
       const aSel = document.getElementById('af-action');
+      if (!aSel) return;
       facets.actions.forEach(f => {
         const o = document.createElement('option');
         o.value = f.name; o.textContent = `${f.name} (${f.count})`;

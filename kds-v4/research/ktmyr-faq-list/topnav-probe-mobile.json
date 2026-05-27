@@ -1,0 +1,9 @@
+{
+  "activeText": "고객지원",
+  "activeCls": "menu active",
+  "activeStyle": {
+    "color": "rgb(0, 0, 0)",
+    "borderBottom": "rgb(0, 0, 0) 0px"
+  },
+  "activeAfter": "rgb(255, 87, 88)"
+}

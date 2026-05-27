@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이페이지 메인 — 시안 비교 (Desktop)</title>
+<style>
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scrollbar-gutter:stable; }
+body{ margin:0; padding:24px; background:#f8f9fa; color:#191a1b; font-family:'Pretendard','Noto Sans KR',-apple-system,sans-serif; }
+*{ word-break:keep-all; overflow-wrap:break-word; }
+
+h1{ font-size:22px; font-weight:700; letter-spacing:-0.3px; margin:0 0 8px; }
+.meta{ font-size:13px; color:#55585d; margin-bottom:24px; }
+
+.grid{ display:flex; flex-direction:column; gap:32px; margin-bottom:32px; max-width:1920px; margin-left:auto; margin-right:auto; }
+.col-head{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; padding:12px 0; }
+.col-letter{ width:32px; height:32px; border-radius:999px; background:#191a1b; color:#ffffff; font-weight:700; display:flex; align-items:center; justify-content:center; font-size:16px; }
+.col-title{ font-size:17px; font-weight:700; letter-spacing:-0.3px; line-height:140%; }
+.col-sub{ font-size:13px; color:#6f737b; line-height:1.5; }
+.col-sub strong{ color:#191a1b; font-weight:600; }
+.frame-wrap{ width:1920w; max-width:1920px; height:720px; border-radius:16px; box-shadow:0 8px 24px rgba(20,20,20,0.08); overflow:hidden; background:#ffffff; }
+.frame-wrap iframe{ width:1920px; height:100%; border:0; display:block; }
+
+.row-axis{ background:#ffffff; border-radius:12px; padding:24px; max-width:1920px; margin:0 auto; box-shadow:0 2px 8px rgba(20,20,20,0.04); }
+.row-axis table{ width:100%; border-collapse:collapse; font-size:14px; }
+.row-axis th,.row-axis td{ padding:14px; border-bottom:1px solid #e9eaee; text-align:left; vertical-align:top; }
+.row-axis th{ font-weight:700; color:#191a1b; background:#f8f9fa; width:160px; }
+.row-axis td strong{ color:#e0282f; }
+.row-axis caption{ text-align:left; font-size:15px; font-weight:700; margin-bottom:12px; padding:0; }
+</style>
+</head>
+<body>
+
+<h1>KT 마이알뜰폰 · 마이페이지 메인 — 시안 비교 (Desktop)</h1>
+<div class="meta">도메인: ktmyr.com · viewport: 1920 · 차별화 원칙: A=레이아웃 / B=톤 / C=UX·구조</div>
+
+<div class="grid">
+  <div>
+    <div class="col-head">
+      <span class="col-letter">A</span>
+      <div class="col-title">정보 풀 노출 + Quick Action 6그리드 (Desktop 3컬럼 카탈로그)</div>
+      <div class="col-sub">우선 축: 레이아웃<br><strong>Purple Primary · Hero+Login 좌우 분할 · Quick Action 6그리드 · 카탈로그 3컬럼</strong></div>
+    </div>
+    <div class="frame-wrap"><iframe src="ktmyr-mypage-main-a-desktop.html"></iframe></div>
+  </div>
+  <div>
+    <div class="col-head">
+      <span class="col-letter">B</span>
+      <div class="col-title">Teal Primary 차분·신뢰 톤</div>
+      <div class="col-sub">우선 축: 톤<br><strong>Teal Primary · 모노톤 카드 + outline 그래픽 + dark-teal hero (단색)</strong></div>
+    </div>
+    <div class="frame-wrap"><iframe src="ktmyr-mypage-main-b-desktop.html"></iframe></div>
+  </div>
+  <div>
+    <div class="col-head">
+      <span class="col-letter">C</span>
+      <div class="col-title">큐레이션 챗봇 hero 우선</div>
+      <div class="col-sub">우선 축: UX·구조<br><strong>Purple Primary · 큐레이션 챗봇 + 1순위 추천 카드 좌우 분할 · 가입 직접 진입</strong></div>
+    </div>
+    <div class="frame-wrap"><iframe src="ktmyr-mypage-main-c-desktop.html"></iframe></div>
+  </div>
+</div>
+
+<div class="row-axis">
+  <table>
+    <caption>차별화 축 비교 (베이스 = Purple Primary + 원본 정보 풀 노출 + 카탈로그형)</caption>
+    <thead>
+      <tr><th></th><th>A</th><th>B</th><th>C</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>우선 축</th><td>레이아웃</td><td>톤</td><td>UX·구조</td></tr>
+      <tr><th>컨셉 라벨</th><td>정보 풀 노출 + Quick Action 6그리드 (3컬럼 카탈로그)</td><td>Teal Primary 차분·신뢰 톤</td><td>큐레이션 챗봇 hero 우선</td></tr>
+      <tr><th>레이아웃</th><td><strong>변형 ↑</strong> Hero+Login 좌우 분할 · Quick Action 6그리드 · 카탈로그 3컬럼 · 부가서비스 4컬럼 · 셀프개통 4 step 가로</td><td>(A 와 유사) 베이스 레이아웃, Quick Action 4그리드만 차이</td><td>(A 와 유사) Hero 자리만 챗봇으로 교체, Quick Action 4그리드</td></tr>
+      <tr><th>톤</th><td>(C 와 유사) Purple Primary · 그라디언트 카드 다수 · 카드 안 가격 Purple 강조</td><td><strong>변형 ↑</strong> Teal Primary 단일 강조 · dark-teal hero 단색 · 일러스트·그라디언트 제거 · 모노톤 카드</td><td>(A 와 유사) Purple Primary · 그라디언트 챗봇 hero</td></tr>
+      <tr><th>UX 흐름</th><td>(B 와 유사) 정보 풀 노출 → 사용자가 카탈로그 탐색</td><td>(A 와 유사) 정보 풀 노출 → 사용자가 카탈로그 탐색</td><td><strong>변형 ↑</strong> 큐레이션 챗봇 5선택지 → 1순위 추천 카드 즉시 노출 → "가입하기" 직접 진입</td></tr>
+      <tr><th>사용한 KDS 컴포넌트</th><td>top-navigation, card, chip(quick), tab, button, indicator, divider, list</td><td>top-navigation, card(outline), tab, button, chip(quick), divider, list</td><td>top-navigation, card(curation), chip(option), indicator(progress), button, divider</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

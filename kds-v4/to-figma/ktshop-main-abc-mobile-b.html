@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KT 샵 메인 — 시안 B (톤)</title>
+<style>
+  /* === KDS Tokens === */
+  :root {
+    --background-default: #ffffff;
+    --surface-primary-01: #ffffff;
+    --surface-primary-02: #f8f9fa;
+    --fill-accent-primary: #e0282f;       /* fill.accent-primary = red.500 (KT Red 매핑) */
+    --fill-accent-primary-hover: #bb1b21; /* red.600 */
+    --fill-accent-light: #fce9e9;         /* red.100 */
+    --fill-primary: #191a1b;              /* gray.900 */
+    --fill-on-dark-inverse: #3d3f43;      /* fill.on-dark-inverse = gray.700 */
+    --text-primary: #191a1b;
+    --text-secondary-01: #55585d;
+    --text-tertiary-01: #6f737b;
+    --text-inverse: #ffffff;
+    --text-on-dark-inverse: #c7cad1;      /* gray.200 — 다크 surface 보조 텍스트 */
+    --text-feedback-critical: #e0282f;
+    --icon-primary: #191a1b;
+    --icon-secondary-01: #55585d;
+    --icon-inverse: #ffffff;
+    --border-secondary-01: #e9eaee;
+    --border-tertiary-01: #f3f4f6;
+    --tag-sale-fill: #fce9e9;
+    --tag-sale-text: #bb1b21;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-gutter: stable; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--surface-primary-02);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+  body, p, h1, h2, h3, h4, h5, h6, span, div, button, a, li, label, dt, dd {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  button { background: none; border: none; cursor: pointer; font: inherit; color: inherit; }
+  a { color: inherit; text-decoration: none; }
+
+  .screen {
+    width: 375px;
+    min-height: 812px;
+    background: var(--background-default);
+    margin: 0 auto;
+    display: flex; flex-direction: column;
+  }
+
+  /* === Top Navigation === */
+  .top-nav {
+    height: 52px;
+    padding: 0 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface-primary-01);
+    border-bottom: 1px solid var(--border-tertiary-01);
+  }
+  .top-nav-logo { display: flex; align-items: center; gap: 4px; }
+  .top-nav-logo-mark { width: 32px; height: 24px; color: var(--fill-accent-primary); }
+  .top-nav-logo-text {
+    font-size: 18px; font-weight: 700; letter-spacing: -0.3px;
+    color: var(--text-primary);
+  }
+  .top-nav-actions { display: flex; align-items: center; gap: 16px; }
+  .top-nav-icon { width: 24px; height: 24px; color: var(--icon-primary); display: inline-flex; align-items: center; justify-content: center; }
+  .top-nav-icon-badge { position: relative; }
+  .top-nav-icon-badge::after {
+    content: '';
+    position: absolute; top: -2px; right: -2px;
+    width: 8px; height: 8px;
+    background: var(--fill-accent-primary);
+    border-radius: 999px;
+    border: 1.5px solid var(--surface-primary-01);
+  }
+
+  /* === Search === */
+  .search-wrap { padding: 12px 16px; background: var(--surface-primary-01); }
+  .search-field {
+    height: 48px;
+    background: var(--surface-primary-02);
+    border-radius: 12px;
+    display: flex; align-items: center;
+    padding: 0 16px; gap: 8px;
+  }
+  .search-icon { width: 20px; height: 20px; color: var(--icon-secondary-01); flex: 0 0 20px; }
+  .search-placeholder {
+    flex: 1;
+    font-size: 15px; line-height: 1.48;
+    color: var(--text-tertiary-01);
+    letter-spacing: -0.3px;
+  }
+
+  /* === Hero (Dark + Big Type) === */
+  .hero-wrap { padding: 12px 16px 24px; background: var(--surface-primary-01); }
+  .hero-card {
+    background: var(--fill-primary);     /* gray.900 */
+    color: var(--text-inverse);
+    border-radius: 16px;                  /* radius.16 */
+    padding: 24px 20px;
+    display: flex; flex-direction: column; gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center;
+    padding: 4px 8px;
+    background: var(--fill-accent-primary);
+    color: var(--text-inverse);
+    border-radius: 4px;
+    font-size: 12px; font-weight: 700;       /* caption bold */
+    line-height: 1.48; letter-spacing: -0.2px;
+    width: fit-content;
+  }
+  .hero-title {
+    font-size: 32px;                       /* heading-1 */
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.6px;
+    color: var(--text-inverse);
+  }
+  .hero-title-accent {
+    color: var(--fill-accent-primary);     /* KT Red 강조 키워드 */
+  }
+  .hero-sub {
+    font-size: 16px;                       /* body-1 */
+    font-weight: 500;
+    line-height: 1.48;
+    letter-spacing: -0.3px;
+    color: var(--text-on-dark-inverse);
+  }
+  .hero-thumb {
+    width: 100%; aspect-ratio: 16 / 7;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(224,40,47,0.18) 100%);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 72px;
+    color: var(--text-inverse);
+  }
+  .hero-cta {
+    height: 48px;                          /* button Large */
+    padding: 0 20px;
+    border-radius: 8px;
+    background: var(--fill-accent-primary);
+    color: var(--text-inverse);
+    font-size: 15px;                       /* label-2 */
+    font-weight: 700; letter-spacing: -0.3px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+    width: 100%;
+  }
+  .hero-cta-icon { width: 20px; height: 20px; }
+
+  /* === Category Row (4분할) === */
+  .category-row {
+    padding: 8px 16px 24px;
+    background: var(--surface-primary-01);
+    display: flex; gap: 8px;
+  }
+  .category-cell {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 8px 0;
+  }
+  .category-icon-box {
+    width: 56px; height: 56px;            /* space-56 / button XLarge ref */
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .category-icon-box.accent {
+    background: var(--fill-accent-primary);
+    color: var(--icon-inverse);
+  }
+  .category-icon-box.neutral {
+    background: var(--surface-primary-02);
+    color: var(--icon-primary);
+  }
+  .category-icon-box svg { width: 24px; height: 24px; }
+  .category-label {
+    font-size: 13px;
+    font-weight: 700;                      /* B 톤: weight 700 강조 */
+    line-height: 1.48; letter-spacing: -0.2px;
+    color: var(--text-primary);
+  }
+
+  /* === Section Title (큰 타이포) === */
+  .section-head {
+    padding: 24px 16px 12px;
+    background: var(--surface-primary-01);
+    display: flex; align-items: flex-end; justify-content: space-between;
+  }
+  .section-title-block { display: flex; flex-direction: column; gap: 4px; }
+  .section-title {
+    font-size: 24px;                       /* heading-2 — B 톤 강조 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.4px;
+    color: var(--text-primary);
+  }
+  .section-title-accent { color: var(--fill-accent-primary); }
+  .section-sub {
+    font-size: 13px;
+    font-weight: 500; line-height: 1.48;
+    letter-spacing: -0.2px;
+    color: var(--text-tertiary-01);
+  }
+  .section-more {
+    font-size: 13px; font-weight: 700;
+    color: var(--text-feedback-critical);  /* B 톤: more 도 red */
+    display: inline-flex; align-items: center; gap: 2px;
+  }
+  .section-more-icon { width: 16px; height: 16px; }
+
+  /* === Hot Pick (Horizontal Carousel) === */
+  .hot-pick { padding: 0 0 24px; background: var(--surface-primary-01); }
+  .hot-pick-track {
+    display: flex; gap: 12px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 0 16px 8px;
+    scrollbar-width: none;
+  }
+  .hot-pick-track::-webkit-scrollbar { display: none; }
+  .pick-card {
+    flex: 0 0 168px;
+    background: var(--surface-primary-01);
+    border: 1px solid var(--border-secondary-01);
+    border-radius: 12px;
+    padding: 16px 12px;
+    scroll-snap-align: start;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .pick-thumb {
+    width: 100%; aspect-ratio: 1 / 1;
+    background: var(--surface-primary-02);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    color: var(--text-tertiary-01);
+  }
+  .pick-tag {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px;
+    background: var(--fill-accent-primary); /* B 톤: red filled tag */
+    color: var(--text-inverse);
+    border-radius: 4px;
+    font-size: 10px; font-weight: 700;
+    width: fit-content;
+  }
+  .pick-name {
+    font-size: 14px;                       /* body-3 — A 와 미세 차이 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.2px;
+    color: var(--text-primary);
+    min-height: 40px;
+  }
+  .pick-price-block { display: flex; flex-direction: column; gap: 2px; }
+  .pick-price-unit { font-size: 12px; font-weight: 500; color: var(--text-tertiary-01); letter-spacing: -0.2px; }
+  .pick-price {
+    font-size: 18px;                       /* title-2 — B 톤 큰 가격 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.3px;
+    color: var(--text-feedback-critical);  /* KT Red price */
+  }
+
+  /* === Plan Stack (큰 카드) === */
+  .plan-stack {
+    padding: 0 16px 24px;
+    background: var(--surface-primary-01);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .plan-card {
+    background: var(--surface-primary-01);
+    border: 1px solid var(--border-secondary-01);
+    border-radius: 16px;                   /* B 톤: 더 큰 radius */
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .plan-card.featured {
+    background: var(--fill-primary);
+    color: var(--text-inverse);
+    border-color: var(--fill-primary);
+  }
+  .plan-card-head { display: flex; align-items: center; justify-content: space-between; }
+  .plan-card-name {
+    font-size: 18px;                       /* title-2 — B 톤 큰 이름 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.3px;
+    color: inherit;
+  }
+  .plan-card-tag {
+    display: inline-flex; align-items: center;
+    padding: 4px 8px;
+    background: var(--fill-accent-primary);
+    color: var(--text-inverse);
+    border-radius: 4px;
+    font-size: 11px; font-weight: 700;
+  }
+  .plan-card-meta {
+    font-size: 14px; font-weight: 500;
+    line-height: 1.48; letter-spacing: -0.2px;
+    color: var(--text-on-dark-inverse);
+  }
+  .plan-card:not(.featured) .plan-card-meta { color: var(--text-secondary-01); }
+  .plan-card-price-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-top: 4px;
+  }
+  .plan-card-price {
+    font-size: 22px;                       /* heading-3 — B 톤 가장 큰 가격 */
+    font-weight: 700; line-height: 1.48;
+    letter-spacing: -0.4px;
+    color: var(--fill-accent-primary);
+  }
+  .plan-card.featured .plan-card-price { color: var(--fill-accent-primary); }
+  .plan-card-price-prefix { font-size: 13px; font-weight: 600; color: var(--text-tertiary-01); margin-right: 4px; }
+  .plan-card.featured .plan-card-price-prefix { color: var(--text-on-dark-inverse); }
+  .plan-card-cta {
+    height: 48px;                          /* B 톤: button Large 48 */
+    padding: 0 20px;
+    border-radius: 8px;
+    background: var(--fill-accent-primary);
+    color: var(--text-inverse);
+    font-size: 15px; font-weight: 700; letter-spacing: -0.3px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+    width: 100%;
+  }
+  .plan-card-cta-icon { width: 16px; height: 16px; }
+
+  /* === Bottom Navigation === */
+  .bottom-nav-spacer { height: 16px; background: var(--surface-primary-01); }
+  .bottom-nav {
+    height: 56px;
+    background: var(--surface-primary-01);
+    border-top: 1px solid var(--border-tertiary-01);
+    display: flex; align-items: stretch;
+    padding: 0 8px;
+  }
+  .bottom-nav-item {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px;
+    color: var(--text-tertiary-01);
+  }
+  .bottom-nav-item.active { color: var(--fill-accent-primary); }  /* B 톤: active = red */
+  .bottom-nav-icon { width: 24px; height: 24px; }
+  .bottom-nav-label { font-size: 10px; font-weight: 700; letter-spacing: -0.2px; }
+</style>
+</head>
+<body>
+
+<section class="screen" data-kds-id="screen-b">
+
+  <header class="top-nav" data-kds-id="b-top-nav">
+    <div class="top-nav-logo" data-kds-id="b-top-nav-logo">
+      <span class="top-nav-logo-mark" data-kds-id="b-top-nav-logo-mark">
+        <svg viewBox="0 0 32 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 0H32V4.5H19.5V24H12.5V4.5H0V0Z"/>
+        </svg>
+      </span>
+      <span class="top-nav-logo-text" data-kds-id="b-top-nav-logo-text">샵</span>
+    </div>
+    <div class="top-nav-actions" data-kds-id="b-top-nav-actions">
+      <span class="top-nav-icon top-nav-icon-badge" data-kds-id="b-top-nav-bell-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+        </svg>
+      </span>
+      <span class="top-nav-icon" data-kds-id="b-top-nav-cart-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1.5"/>
+          <circle cx="19" cy="21" r="1.5"/>
+          <path d="M3 4h2l2.6 12.3a2 2 0 0 0 2 1.7h8.8a2 2 0 0 0 2-1.6L22 7H6"/>
+        </svg>
+      </span>
+    </div>
+  </header>
+
+  <section class="search-wrap" data-kds-id="b-search-wrap">
+    <div class="search-field" data-kds-id="b-search-field">
+      <span class="search-icon" data-kds-id="b-search-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m20 20-3.5-3.5"/>
+        </svg>
+      </span>
+      <span class="search-placeholder" data-kds-id="b-search-placeholder">단말명·요금제를 검색하세요</span>
+    </div>
+  </section>
+
+  <!-- ===== Hero (Dark + Big) ===== -->
+  <section class="hero-wrap" data-kds-id="b-hero-wrap">
+    <div class="hero-card" data-kds-id="b-hero">
+      <span class="hero-eyebrow" data-kds-id="b-hero-eyebrow">단독 사전예약 1Day</span>
+      <h2 class="hero-title" data-kds-id="b-hero-title"><span class="hero-title-accent" data-kds-id="b-hero-title-accent">최대 50만원</span><br/>공시지원금 + 추가 7%</h2>
+      <p class="hero-sub" data-kds-id="b-hero-sub">Galaxy S26 Ultra · iPhone 16 Pro 즉시 사전예약</p>
+      <div class="hero-thumb" data-kds-id="b-hero-thumb">📱</div>
+      <button class="hero-cta" data-kds-id="b-hero-cta">
+        <span data-kds-id="b-hero-cta-text">지금 사전예약</span>
+        <span class="hero-cta-icon" data-kds-id="b-hero-cta-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 6 6 6-6 6"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== Category Row (4분할) ===== -->
+  <section class="category-row" data-kds-id="b-cat-row">
+    <div class="category-cell" data-kds-id="b-cat-phone">
+      <span class="category-icon-box accent" data-kds-id="b-cat-phone-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="7" y="2" width="10" height="20" rx="2"/>
+          <path d="M11 18h2"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="b-cat-phone-label">휴대폰</span>
+    </div>
+    <div class="category-cell" data-kds-id="b-cat-plan">
+      <span class="category-icon-box neutral" data-kds-id="b-cat-plan-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="6" width="18" height="14" rx="2"/>
+          <path d="M3 11h18M8 16h3"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="b-cat-plan-label">요금제</span>
+    </div>
+    <div class="category-cell" data-kds-id="b-cat-mvno">
+      <span class="category-icon-box neutral" data-kds-id="b-cat-mvno-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="b-cat-mvno-label">알뜰폰</span>
+    </div>
+    <div class="category-cell" data-kds-id="b-cat-event">
+      <span class="category-icon-box neutral" data-kds-id="b-cat-event-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 12V8H4v12h16v-4"/>
+          <path d="M20 12a2 2 0 1 0 0-4M20 12a2 2 0 1 1 0 4"/>
+        </svg>
+      </span>
+      <span class="category-label" data-kds-id="b-cat-event-label">이벤트</span>
+    </div>
+  </section>
+
+  <header class="section-head" data-kds-id="b-hot-head">
+    <div class="section-title-block" data-kds-id="b-hot-title-block">
+      <h3 class="section-title" data-kds-id="b-hot-title">베스트 <span class="section-title-accent" data-kds-id="b-hot-title-accent">단말 4종</span></h3>
+      <span class="section-sub" data-kds-id="b-hot-sub">이번 주 가장 많이 찾은</span>
+    </div>
+    <a class="section-more" data-kds-id="b-hot-more">
+      <span data-kds-id="b-hot-more-text">전체</span>
+      <span class="section-more-icon" data-kds-id="b-hot-more-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m9 6 6 6-6 6"/>
+        </svg>
+      </span>
+    </a>
+  </header>
+
+  <section class="hot-pick" data-kds-id="b-hot-pick">
+    <div class="hot-pick-track" data-kds-id="b-hot-pick-track">
+      <article class="pick-card" data-kds-id="b-pick-1">
+        <div class="pick-thumb" data-kds-id="b-pick-1-thumb">📱</div>
+        <span class="pick-tag" data-kds-id="b-pick-1-tag">SALE</span>
+        <span class="pick-name" data-kds-id="b-pick-1-name">Galaxy S26 Ultra</span>
+        <div class="pick-price-block" data-kds-id="b-pick-1-price-block">
+          <span class="pick-price-unit" data-kds-id="b-pick-1-price-unit">월</span>
+          <span class="pick-price" data-kds-id="b-pick-1-price">39,900원</span>
+        </div>
+      </article>
+      <article class="pick-card" data-kds-id="b-pick-2">
+        <div class="pick-thumb" data-kds-id="b-pick-2-thumb">📱</div>
+        <span class="pick-tag" data-kds-id="b-pick-2-tag">단독</span>
+        <span class="pick-name" data-kds-id="b-pick-2-name">iPhone 16 Pro</span>
+        <div class="pick-price-block" data-kds-id="b-pick-2-price-block">
+          <span class="pick-price-unit" data-kds-id="b-pick-2-price-unit">월</span>
+          <span class="pick-price" data-kds-id="b-pick-2-price">45,800원</span>
+        </div>
+      </article>
+      <article class="pick-card" data-kds-id="b-pick-3">
+        <div class="pick-thumb" data-kds-id="b-pick-3-thumb">📱</div>
+        <span class="pick-tag" data-kds-id="b-pick-3-tag">HOT</span>
+        <span class="pick-name" data-kds-id="b-pick-3-name">Galaxy Z Fold 6</span>
+        <div class="pick-price-block" data-kds-id="b-pick-3-price-block">
+          <span class="pick-price-unit" data-kds-id="b-pick-3-price-unit">월</span>
+          <span class="pick-price" data-kds-id="b-pick-3-price">62,400원</span>
+        </div>
+      </article>
+      <article class="pick-card" data-kds-id="b-pick-4">
+        <div class="pick-thumb" data-kds-id="b-pick-4-thumb">📱</div>
+        <span class="pick-tag" data-kds-id="b-pick-4-tag">NEW</span>
+        <span class="pick-name" data-kds-id="b-pick-4-name">Galaxy Z Flip 6</span>
+        <div class="pick-price-block" data-kds-id="b-pick-4-price-block">
+          <span class="pick-price-unit" data-kds-id="b-pick-4-price-unit">월</span>
+          <span class="pick-price" data-kds-id="b-pick-4-price">31,900원</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <header class="section-head" data-kds-id="b-plan-head">
+    <div class="section-title-block" data-kds-id="b-plan-title-block">
+      <h3 class="section-title" data-kds-id="b-plan-title"><span class="section-title-accent" data-kds-id="b-plan-title-accent">슈퍼플랜</span> 요금제</h3>
+      <span class="section-sub" data-kds-id="b-plan-sub">사용자 1순위 추천</span>
+    </div>
+  </header>
+
+  <section class="plan-stack" data-kds-id="b-plan-stack">
+    <article class="plan-card featured" data-kds-id="b-plan-1">
+      <div class="plan-card-head" data-kds-id="b-plan-1-head">
+        <span class="plan-card-name" data-kds-id="b-plan-1-name">5G 슈퍼플랜 베이직</span>
+        <span class="plan-card-tag" data-kds-id="b-plan-1-tag">최다 선택</span>
+      </div>
+      <span class="plan-card-meta" data-kds-id="b-plan-1-meta">데이터 110GB · 음성 무제한 · OTT 1종 포함</span>
+      <div class="plan-card-price-row" data-kds-id="b-plan-1-price-row">
+        <span class="plan-card-price" data-kds-id="b-plan-1-price"><span class="plan-card-price-prefix" data-kds-id="b-plan-1-price-prefix">월</span>69,000원</span>
+      </div>
+      <button class="plan-card-cta" data-kds-id="b-plan-1-cta">
+        <span data-kds-id="b-plan-1-cta-text">바로 신청하기</span>
+        <span class="plan-card-cta-icon" data-kds-id="b-plan-1-cta-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 6 6 6-6 6"/>
+          </svg>
+        </span>
+      </button>
+    </article>
+    <article class="plan-card" data-kds-id="b-plan-2">
+      <div class="plan-card-head" data-kds-id="b-plan-2-head">
+        <span class="plan-card-name" data-kds-id="b-plan-2-name">5G 세이브 30GB</span>
+        <span class="plan-card-tag" data-kds-id="b-plan-2-tag">알뜰</span>
+      </div>
+      <span class="plan-card-meta" data-kds-id="b-plan-2-meta">데이터 30GB · 음성 200분</span>
+      <div class="plan-card-price-row" data-kds-id="b-plan-2-price-row">
+        <span class="plan-card-price" data-kds-id="b-plan-2-price"><span class="plan-card-price-prefix" data-kds-id="b-plan-2-price-prefix">월</span>33,000원</span>
+      </div>
+    </article>
+  </section>
+
+  <div class="bottom-nav-spacer" data-kds-id="b-bottom-spacer"></div>
+
+  <nav class="bottom-nav" data-kds-id="b-bottom-nav">
+    <a class="bottom-nav-item active" data-kds-id="b-bnav-home">
+      <span class="bottom-nav-icon" data-kds-id="b-bnav-home-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="b-bnav-home-label">홈</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="b-bnav-cat">
+      <span class="bottom-nav-icon" data-kds-id="b-bnav-cat-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="b-bnav-cat-label">카테고리</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="b-bnav-search">
+      <span class="bottom-nav-icon" data-kds-id="b-bnav-search-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m20 20-3.5-3.5"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="b-bnav-search-label">검색</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="b-bnav-cart">
+      <span class="bottom-nav-icon" data-kds-id="b-bnav-cart-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="21" r="1.5"/>
+          <circle cx="19" cy="21" r="1.5"/>
+          <path d="M3 4h2l2.6 12.3a2 2 0 0 0 2 1.7h8.8a2 2 0 0 0 2-1.6L22 7H6"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="b-bnav-cart-label">장바구니</span>
+    </a>
+    <a class="bottom-nav-item" data-kds-id="b-bnav-my">
+      <span class="bottom-nav-icon" data-kds-id="b-bnav-my-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21a8 8 0 1 1 16 0"/>
+        </svg>
+      </span>
+      <span class="bottom-nav-label" data-kds-id="b-bnav-my-label">MY</span>
+    </a>
+  </nav>
+
+</section>
+
+</body>
+</html>

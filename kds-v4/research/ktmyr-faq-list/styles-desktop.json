@@ -1,0 +1,42 @@
+{
+  "h1": null,
+  "breadcrumb": {
+    "text": "홈\n고객지원\nFAQ",
+    "color": "rgb(0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px",
+    "fontSize": "10px",
+    "fontWeight": "400",
+    "width": "192.219px",
+    "height": "64px",
+    "cls": "breadcrumbContainer"
+  },
+  "searchBox": {
+    "text": "",
+    "color": "rgb(51, 51, 51)",
+    "bg": "rgb(255, 255, 255)",
+    "borderRadius": "0px",
+    "padding": "0px 100px 0px 0px",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "width": "700px",
+    "height": "49px",
+    "cls": ""
+  },
+  "faqCardSample": null,
+  "activeCell": null,
+  "mascot": {
+    "text": "",
+    "color": "rgb(0, 0, 0)",
+    "bg": "rgba(0, 0, 0, 0)",
+    "borderRadius": "0px",
+    "padding": "0px",
+    "fontSize": "10px",
+    "fontWeight": "400",
+    "width": "1436px",
+    "height": "100px",
+    "cls": "character01"
+  },
+  "sitemap": null
+}

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galaxy S26 사전예약</title>
+<style>
+:root {
+  --background-default: #ffffff;
+  --surface-primary-01: #ffffff;
+  --surface-primary-02: #f8f9fa;
+  --fill-accent-primary: #e0282f;
+  --fill-primary: #191a1b;
+  --text-primary: #191a1b;
+  --text-secondary-01: #55585d;
+  --text-tertiary-01: #6f737b;
+  --text-inverse: #ffffff;
+  --text-feedback-critical: #e0282f;
+  --icon-primary: #191a1b;
+  --border-tertiary-01: #f3f4f6;
+  --radius-4: 4px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-circle: 999px;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scrollbar-gutter: stable;
+}
+html, body {
+  font-family: Pretendard, -apple-system, system-ui, sans-serif;
+  background: var(--surface-primary-02);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+body, p, h1, h2, h3, h4, h5, h6, span, div, button, a, li, label, dt, dd {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.screen {
+  width: 375px;
+  margin: 0 auto;
+  min-height: 812px;
+  background: var(--surface-primary-01);
+  position: relative;
+  padding-bottom: 64px; /* space-64 */
+}
+.top-nav {
+  height: 52px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-primary-01);
+  border-bottom: 1px solid var(--border-tertiary-01);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--icon-primary);
+}
+.nav-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+.hero {
+  background: linear-gradient(180deg, #131415 0%, #191a1b 100%);
+  color: var(--text-inverse);
+  padding: 32px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  height: 24px;
+  padding: 0 8px;
+  background: var(--fill-accent-primary);
+  color: var(--text-inverse);
+  border-radius: var(--radius-4);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+.hero-title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 130%;
+  color: var(--text-inverse);
+  letter-spacing: -0.8px;
+}
+.hero-sub {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 158%;
+  color: rgba(255,255,255,0.75);
+}
+.hero-visual {
+  margin-top: 8px;
+  width: 100%;
+  aspect-ratio: 335 / 220;
+  border-radius: var(--radius-16);
+  background: radial-gradient(ellipse at 50% 40%, rgba(224,40,47,0.32) 0%, rgba(224,40,47,0) 60%), linear-gradient(135deg, #232425 0%, #131415 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.phone-mock {
+  width: 132px;
+  height: 264px;
+  border-radius: var(--radius-16);
+  background: linear-gradient(160deg, #3d3f43 0%, #191a1b 70%); /* gray.700 → gray.900 */
+  position: relative;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.6);
+}
+.phone-notch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 12px;
+  border-radius: var(--radius-circle);
+  background: #131415;
+}
+.phone-label {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.5);
+}
+.period-section {
+  padding: 24px 20px 0;
+  background: var(--surface-primary-01);
+}
+.period-card {
+  border: 1px solid var(--fill-accent-primary);
+  border-radius: var(--radius-12);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface-primary-01);
+}
+.period-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.period-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 8px;
+  background: var(--fill-accent-primary);
+  color: var(--text-inverse);
+  border-radius: var(--radius-4);
+  font-size: 12px;
+  font-weight: 600;
+}
+.period-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary-01);
+}
+.period-date {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 148%;
+  letter-spacing: -0.4px;
+}
+.period-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* space-4 */
+  color: var(--text-feedback-critical);
+  font-size: 13px;
+  font-weight: 600;
+}
+.spec-section {
+  padding: 32px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--surface-primary-01);
+}
+.section-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 148%;
+  letter-spacing: -0.4px;
+}
+.section-sub {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary-01);
+  line-height: 158%;
+}
+.spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.spec-card {
+  background: var(--surface-primary-02);
+  border-radius: var(--radius-12);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 116px;
+}
+.spec-icon-box {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-feedback-critical);
+}
+.spec-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 148%;
+}
+.spec-card-desc {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary-01);
+  line-height: 158%;
+  margin-top: 2px;
+}
+.benefit-section {
+  padding: 32px 20px 0;
+  background: var(--surface-primary-01);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.benefit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.benefit-card {
+  background: var(--surface-primary-01);
+  border: 1px solid var(--border-tertiary-01);
+  border-radius: var(--radius-12);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 80px;
+}
+.benefit-num {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-circle);
+  background: var(--fill-primary);
+  color: var(--text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.benefit-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.benefit-title-row {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* space-4 */
+}
+.benefit-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 148%;
+}
+.benefit-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 4px; /* space-4 */
+  background: #fce9e9; /* red.100 */
+  color: var(--text-feedback-critical);
+  border-radius: var(--radius-4);
+  font-size: 11px;
+  font-weight: 600;
+}
+.benefit-desc {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary-01);
+  line-height: 158%;
+}
+.notice-section {
+  padding: 32px 20px 40px;
+  background: var(--surface-primary-01);
+}
+.notice-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary-01);
+  margin-bottom: 8px;
+}
+.notice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.notice-item {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-tertiary-01);
+  line-height: 148%;
+  display: flex;
+  gap: 4px;
+}
+.notice-dot {
+  flex-shrink: 0;
+}
+.bottom-cta {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 375px;
+  padding: 12px 20px 20px;
+  background: var(--surface-primary-01);
+  border-top: 1px solid var(--border-tertiary-01);
+  box-shadow: 0 -2px 4px rgba(20,20,20,0.05);
+}
+.cta-button {
+  width: 100%;
+  height: 56px; /* button XLarge */
+  border-radius: var(--radius-12);
+  background: var(--fill-accent-primary);
+  color: var(--text-inverse);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px; /* space-4 */
+}
+</style>
+</head>
+<body>
+<div class="screen" data-kds-id="screen-galaxy-s26-preorder">
+  <header class="top-nav" data-kds-id="top-nav">
+    <button class="nav-btn" data-kds-id="nav-back" aria-label="back">
+      <svg data-kds-id="nav-back-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <span class="nav-title" data-kds-id="nav-title">사전예약</span>
+    <button class="nav-btn" data-kds-id="nav-share" aria-label="share">
+      <svg data-kds-id="nav-share-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+    </button>
+  </header>
+
+  <section class="hero" data-kds-id="hero">
+    <span class="hero-eyebrow" data-kds-id="hero-eyebrow">NEW LAUNCH</span>
+    <h1 class="hero-title" data-kds-id="hero-title">Galaxy S26</h1>
+    <p class="hero-sub" data-kds-id="hero-sub">AI가 한층 더 가까워진다. 새로운 경험을 가장 먼저 만나보세요.</p>
+    <div class="hero-visual" data-kds-id="hero-visual">
+      <div class="phone-mock" data-kds-id="hero-phone-mock">
+        <div class="phone-notch" data-kds-id="hero-phone-notch"></div>
+        <div class="phone-label" data-kds-id="hero-phone-label">S26</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="period-section" data-kds-id="period-section">
+    <div class="period-card" data-kds-id="period-card">
+      <div class="period-row" data-kds-id="period-row">
+        <span class="period-badge" data-kds-id="period-badge">PRE-ORDER</span>
+        <span class="period-label" data-kds-id="period-label">사전예약 기간</span>
+      </div>
+      <span class="period-date" data-kds-id="period-date">2026.10.14(화) — 10.31(금)</span>
+      <div class="period-meta" data-kds-id="period-meta">
+        <svg data-kds-id="period-meta-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span data-kds-id="period-meta-text">마감까지 17일 남음</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec-section" data-kds-id="spec-section">
+    <h2 class="section-heading" data-kds-id="spec-heading">Galaxy S26 하이라이트</h2>
+    <p class="section-sub" data-kds-id="spec-sub">전작 대비 더 강력해진 AI와 카메라 성능을 만나보세요.</p>
+    <div class="spec-grid" data-kds-id="spec-grid">
+      <div class="spec-card" data-kds-id="spec-card-ai">
+        <span class="spec-icon-box" data-kds-id="spec-card-ai-icon-box">
+          <svg data-kds-id="spec-card-ai-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="4"/></svg>
+        </span>
+        <span class="spec-card-title" data-kds-id="spec-card-ai-title">갤럭시 AI 2.0</span>
+        <span class="spec-card-desc" data-kds-id="spec-card-ai-desc">실시간 통역·요약·검색</span>
+      </div>
+      <div class="spec-card" data-kds-id="spec-card-camera">
+        <span class="spec-icon-box" data-kds-id="spec-card-camera-icon-box">
+          <svg data-kds-id="spec-card-camera-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="4"/></svg>
+        </span>
+        <span class="spec-card-title" data-kds-id="spec-card-camera-title">200MP 메인 카메라</span>
+        <span class="spec-card-desc" data-kds-id="spec-card-camera-desc">5배 광학·100배 디지털 줌</span>
+      </div>
+      <div class="spec-card" data-kds-id="spec-card-battery">
+        <span class="spec-icon-box" data-kds-id="spec-card-battery-icon-box">
+          <svg data-kds-id="spec-card-battery-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="15" height="10" rx="2"/><path d="M21 11v2M9 9l-2 3h3l-2 3"/></svg>
+        </span>
+        <span class="spec-card-title" data-kds-id="spec-card-battery-title">5000mAh 배터리</span>
+        <span class="spec-card-desc" data-kds-id="spec-card-battery-desc">45W 초고속 충전</span>
+      </div>
+      <div class="spec-card" data-kds-id="spec-card-display">
+        <span class="spec-icon-box" data-kds-id="spec-card-display-icon-box">
+          <svg data-kds-id="spec-card-display-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M11 18h2"/></svg>
+        </span>
+        <span class="spec-card-title" data-kds-id="spec-card-display-title">6.9인치 Dynamic AMOLED</span>
+        <span class="spec-card-desc" data-kds-id="spec-card-display-desc">최대 2600nit 밝기</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="benefit-section" data-kds-id="benefit-section">
+    <h2 class="section-heading" data-kds-id="benefit-heading">사전예약 혜택</h2>
+    <p class="section-sub" data-kds-id="benefit-sub">예약 고객님께만 드리는 특별한 3가지 혜택을 준비했습니다.</p>
+    <div class="benefit-list" data-kds-id="benefit-list">
+      <div class="benefit-card" data-kds-id="benefit-1">
+        <span class="benefit-num" data-kds-id="benefit-1-num">1</span>
+        <div class="benefit-body" data-kds-id="benefit-1-body">
+          <div class="benefit-title-row" data-kds-id="benefit-1-title-row">
+            <span class="benefit-title" data-kds-id="benefit-1-title">Galaxy Buds3 Pro 증정</span>
+            <span class="benefit-tag" data-kds-id="benefit-1-tag">HOT</span>
+          </div>
+          <span class="benefit-desc" data-kds-id="benefit-1-desc">300,000원 상당 무선 이어버드 무료 증정</span>
+        </div>
+      </div>
+      <div class="benefit-card" data-kds-id="benefit-2">
+        <span class="benefit-num" data-kds-id="benefit-2-num">2</span>
+        <div class="benefit-body" data-kds-id="benefit-2-body">
+          <div class="benefit-title-row" data-kds-id="benefit-2-title-row">
+            <span class="benefit-title" data-kds-id="benefit-2-title">최대 70만원 보상지원금</span>
+          </div>
+          <span class="benefit-desc" data-kds-id="benefit-2-desc">기존 단말 반납 시 추가 지원금 차감 적용</span>
+        </div>
+      </div>
+      <div class="benefit-card" data-kds-id="benefit-3">
+        <span class="benefit-num" data-kds-id="benefit-3-num">3</span>
+        <div class="benefit-body" data-kds-id="benefit-3-body">
+          <div class="benefit-title-row" data-kds-id="benefit-3-title-row">
+            <span class="benefit-title" data-kds-id="benefit-3-title">출시일 당일 우선 배송</span>
+          </div>
+          <span class="benefit-desc" data-kds-id="benefit-3-desc">10월 31일 정식 출시일에 가장 먼저 받아보세요</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="notice-section" data-kds-id="notice-section">
+    <div class="notice-title" data-kds-id="notice-title">유의사항</div>
+    <div class="notice-list" data-kds-id="notice-list">
+      <div class="notice-item" data-kds-id="notice-1"><span class="notice-dot">·</span><span>사전예약은 KT shop 회원만 신청 가능하며 1인 1대로 제한됩니다.</span></div>
+      <div class="notice-item" data-kds-id="notice-2"><span class="notice-dot">·</span><span>혜택은 예약 완료 및 개통 완료 시 일괄 지급됩니다.</span></div>
+      <div class="notice-item" data-kds-id="notice-3"><span class="notice-dot">·</span><span>예약 취소·변경은 마이페이지에서 직접 처리하실 수 있습니다.</span></div>
+    </div>
+  </section>
+
+  <div class="bottom-cta" data-kds-id="bottom-cta">
+    <button class="cta-button" data-kds-id="cta-button">
+      <span data-kds-id="cta-button-label">사전예약 신청하기</span>
+      <svg data-kds-id="cta-button-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+</body>
+</html>
