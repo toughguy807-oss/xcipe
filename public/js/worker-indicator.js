@@ -12,7 +12,8 @@
     if (document.getElementById('xcipe-worker-indicator')) return;
     const widget = document.createElement('div');
     widget.id = 'xcipe-worker-indicator';
-    widget.style.cssText = 'position:fixed;top:12px;right:16px;z-index:9998;display:none;align-items:center;gap:8px;background:#fff;border:1px solid #e0e0e0;border-radius:20px;padding:6px 12px;font-size:13px;font-family:system-ui,-apple-system,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.08);cursor:pointer;user-select:none';
+    // v28.1: 초기부터 display:flex — 로그인 전에도 보이도록 (이전: 안 보이는 게 디폴트 → 사용자 혼란)
+    widget.style.cssText = 'position:fixed;top:12px;right:16px;z-index:9998;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e0e0e0;border-radius:20px;padding:6px 12px;font-size:13px;font-family:system-ui,-apple-system,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.08);cursor:pointer;user-select:none';
     widget.title = '워커 상태 (클릭: 설정 가이드)';
     widget.innerHTML = '<span id="xcipe-worker-dot" style="width:9px;height:9px;border-radius:50%;background:#aaa;display:inline-block"></span><span id="xcipe-worker-label">워커 확인 중…</span><a id="xcipe-worker-download-quick" href="#" style="margin-left:6px;font-size:11px;color:#0066cc;text-decoration:none" title="워커 다운로드">📥</a>';
     widget.addEventListener('click', (e) => {
@@ -69,15 +70,16 @@
   async function check() {
     ensureUI();
     if (!window.API || !API.getToken || !API.getToken()) {
-      // 로그인 전 — 위젯 숨김 + polling 잠시 대기 (token 생기면 다음 사이클부터 표시)
-      hideIndicator();
+      // v28.1: 로그인 전 — "로그인 필요" 표시 (이전: hideIndicator 로 숨겨 사용자 혼란)
+      setIndicator('down', '로그인 필요');
       return;
     }
     let ob;
     try {
       ob = await API.get('/dashboard/onboarding');
     } catch (e) {
-      // 401/네트워크 에러 — 무시 (다음 사이클)
+      // 401/네트워크 에러 — 표시는 유지 (디버깅 가능)
+      setIndicator('down', 'API 응답 실패');
       return;
     }
     let state, label;
