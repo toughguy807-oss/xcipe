@@ -88,7 +88,45 @@ function ensureInitialAdmin() {
   }
 }
 
+// v28: env 기반 multi-admin seed (idempotent upsert)
+//   Railway Variables 등에 다음 추가 시 부팅마다 자동 보장:
+//     ADMIN_SEED_EMAILS=admin@eluocnc.com,foo@eluocnc.com   (콤마 구분)
+//     ADMIN_SEED_PASSWORD=admin1234                          (생략 시 'admin1234')
+//   - 있으면 비번 갱신 + role=admin 보장, 없으면 신규 생성
+//   - ensureInitialAdmin 과 독립 (첫 부팅용은 그대로 유지)
+//   - 평문 비번 노출 주의: Railway env는 secret 처리되나 첫 로그인 후 변경 권장
+function ensureSeedAdmins() {
+  const raw = (process.env.ADMIN_SEED_EMAILS || '').trim();
+  if (!raw) return;
+  const emails = raw.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+  if (emails.length === 0) return;
+  const password = process.env.ADMIN_SEED_PASSWORD || 'admin1234';
+  const hash = hashPassword(password);
+  const results = { created: [], updated: [], failed: [] };
+  for (const email of emails) {
+    try {
+      const existing = db.prepare('SELECT id, role FROM users WHERE email = ? AND deleted_at IS NULL').get(email);
+      if (existing) {
+        db.prepare('UPDATE users SET password_hash = ?, role = ? WHERE id = ?').run(hash, 'admin', existing.id);
+        results.updated.push(`${email}(id=${existing.id})`);
+      } else {
+        const name = email.split('@')[0];
+        const r = db.prepare('INSERT INTO users (email, name, password_hash, role) VALUES (?, ?, ?, ?)').run(email, name, hash, 'admin');
+        results.created.push(`${email}(id=${r.lastInsertRowid})`);
+      }
+    } catch (err) {
+      results.failed.push(`${email}: ${err.message}`);
+    }
+  }
+  if (results.created.length) console.log(`[ESYS] Seed admins created: ${results.created.join(', ')}`);
+  if (results.updated.length) console.log(`[ESYS] Seed admins updated: ${results.updated.join(', ')}`);
+  if (results.failed.length)  console.warn(`[ESYS] Seed admins failed: ${results.failed.join(' | ')}`);
+  if (!process.env.ADMIN_SEED_PASSWORD) {
+    console.warn('[ESYS] ⚠️  ADMIN_SEED_PASSWORD 미설정 — 기본 비밀번호 사용 중. 첫 로그인 후 변경 권장.');
+  }
+}
+
 module.exports = {
   hashPassword, comparePassword, generateToken, verifyToken,
-  authMiddleware, requireRole, ensureInitialAdmin
+  authMiddleware, requireRole, ensureInitialAdmin, ensureSeedAdmins
 };

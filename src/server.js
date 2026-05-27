@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { ensureInitialAdmin, authMiddleware } = require('./auth');
+const { ensureInitialAdmin, ensureSeedAdmins, authMiddleware } = require('./auth');
 const { assertProjectAccess } = require('./middleware/project-access');
 const { securityHeaders, rateLimit } = require('./middleware/security');
 
@@ -148,6 +148,7 @@ app.use((err, req, res, next) => {
 
 // Start
 ensureInitialAdmin();
+ensureSeedAdmins();
 
 // F2: FTS5 색인 백필 — 미색인 artifact만 처리, 실패는 흡수
 //   대량 (수천건) 환경에서도 1회성이며 색인 후엔 INSERT 시점에 실시간 갱신
